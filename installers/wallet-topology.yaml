@@ -1,0 +1,4 @@
+wallet:
+  relays: [[{"host": "relays.lux-mainnet.luxct.io"}]]
+  valency: 1
+  fallbacks: 7

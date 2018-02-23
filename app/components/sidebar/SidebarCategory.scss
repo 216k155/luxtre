@@ -1,0 +1,47 @@
+@import '../../themes/mixins/buttons';
+@import './sidebarConfig';
+
+.component {
+  @include button;
+  align-items: center;
+  background-color: var(--theme-sidebar-background-color);
+  color: var(--theme-sidebar-category-text-color);
+  display: flex;
+  height: $sidebar-button-height;
+  width: 100%;
+
+  &:hover {
+    background-color: var(--theme-sidebar-category-background-color-hover);
+  }
+}
+
+.active {
+  background-color: var(--theme-sidebar-category-background-color-active);
+
+  &:hover {
+    background-color: var(--theme-sidebar-category-background-color-active);
+    cursor: default;
+  }
+}
+
+.icon {
+  flex-shrink: 0;
+  margin: 0 30px;
+  & > svg {
+    width: 24px;
+    height: 24px;
+
+    & > g > path {
+      fill: var(--theme-icon-sidebar-color);
+    }
+    // ada.svg icon need stroke attribute
+    & > g > g {
+      stroke: var(--theme-icon-sidebar-color);
+    }
+  }
+}
+
+.label {
+  font-family: var(--font-regular);
+  font-size: 18px;
+}
