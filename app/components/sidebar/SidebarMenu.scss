@@ -1,0 +1,14 @@
+@import './sidebarConfig';
+
+.component {
+  background-color: var(--theme-sidebar-menu-background-color);
+  display: none;
+  height: 100%;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.visible {
+  display: block;
+}

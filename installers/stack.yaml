@@ -1,0 +1,11 @@
+flags: {}
+
+extra-package-dbs: []
+
+packages:
+  - location: .
+
+resolver: lts-9.0
+
+nix:
+    packages: [gmp,git]

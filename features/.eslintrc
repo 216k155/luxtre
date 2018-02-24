@@ -1,0 +1,19 @@
+{
+  "rules": {
+    "func-names": 0,
+    "max-len": 0,
+    "new-cap": [2, {
+      "capIsNewExceptions": [
+        "AfterAll",
+        "BeforeAll",
+        "Before",
+        "Given",
+        "When",
+        "Then"
+      ]
+    }]
+  },
+  "globals": {
+    "daedalus": true
+  }
+}
