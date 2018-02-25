@@ -64,6 +64,8 @@ const ca = remote.getGlobal('ca');
 // export const LUX_API_HOST = 'ec2-52-30-28-57.eu-west-1.compute.amazonaws.com';
 export const LUX_API_HOST = 'localhost';
 export const LUX_API_PORT = 9888;
+export const LUX_API_USER = 'rpcuser';
+export const LUX_API_PWD = 'rpcpwd';
 
 // LUX specific Request / Response params
 export type ImportWalletResponse = Wallet;
@@ -96,11 +98,17 @@ export default class LuxApi {
   async getSyncProgress(): Promise<GetSyncProgressResponse> {
     Logger.debug('LuxApi::getSyncProgress called');
     try {
-      const response: LuxSyncProgress = await getLuxSyncProgress({ ca });
-      Logger.debug('LuxApi::getSyncProgress success: ' + stringifyData(response));
+      const response: LuxInfo = await getLuxInfo();
+      Logger.debug('LuxApi::getLuxInfo success: ' + stringifyData(response));
+      const peerInfos: LuxPeerInfos = await getLuxPeerInfo();
+      Logger.debug('LuxApi::getLuxPeerInfo success: ' + stringifyData(peerInfos));
+      var totalBlocks = peerInfos.sort(function(a, b){
+        return b.startingheight - a.startingheight;
+      })[0].startingheight;
+
       return {
-        localDifficulty: response ? parseInt(response.currentBlock, 16) : 100,
-        networkDifficulty: response ? parseInt(response.highestBlock, 16) : 100,
+        localDifficulty: response ? response.blocks : 100,
+        networkDifficulty: peerInfos ? totalBlocks : 100,
       };
     } catch (error) {
       Logger.error('LuxApi::getSyncProgress error: ' + stringifyError(error));
