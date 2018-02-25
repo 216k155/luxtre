@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { ThemeProvider } from 'react-css-themr';
 import { IntlProvider } from 'react-intl';
 import AboutPage from './containers/static/AboutPage';
-import { daedalusTheme } from './themes/daedalus';
+import { luxcoreTheme } from './themes/luxcore';
 import translations from './i18n/translations';
 import type { StoresMap } from './stores/index';
 import ThemeManager from './ThemeManager';
@@ -17,12 +17,12 @@ export default class About extends Component<Props> {
     const { stores } = this.props;
     const locale = stores.profile.currentLocale;
     const currentTheme = stores.profile.currentTheme;
-    const theme = require(`./themes/daedalus/${currentTheme}.js`); // eslint-disable-line
+    const theme = require(`./themes/luxcore/${currentTheme}.js`); // eslint-disable-line
 
     return (
       <div>
         <ThemeManager variables={theme} />
-        <ThemeProvider theme={daedalusTheme}>
+        <ThemeProvider theme={luxcoreTheme}>
           <IntlProvider {...{ locale, key: locale, messages: translations[locale] }}>
             <AboutPage />
           </IntlProvider>

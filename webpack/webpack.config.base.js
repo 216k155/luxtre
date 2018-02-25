@@ -54,7 +54,7 @@ module.exports = validate({
       'process.env.API': JSON.stringify(process.env.API || 'ada'),
       'process.env.NETWORK': JSON.stringify(process.env.NETWORK || 'development'),
       'process.env.MOBX_DEV_TOOLS': process.env.MOBX_DEV_TOOLS || 0,
-      'process.env.DAEDALUS_VERSION': JSON.stringify(process.env.DAEDALUS_VERSION || 'dev')
+      'process.env.LUXCORE_VERSION': JSON.stringify(process.env.LUXCORE_VERSION || 'dev')
     }),
   ],
 

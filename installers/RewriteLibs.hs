@@ -28,10 +28,10 @@ systemLibs = ["libSystem.B.dylib"]
 
 main :: IO ()
 main = do
-  --print "------- cardano-launcher"
-  --files <- chain "./temp" ["./temp/cardano-launcher"]
-  --print "------- cardano-node"
-  --files <- chain "./temp" ["./temp/cardano-node"]
+  --print "------- luxcoin-launcher"
+  --files <- chain "./temp" ["./temp/luxcoin-launcher"]
+  --print "------- luxcoin-node"
+  --files <- chain "./temp" ["./temp/luxcoin-node"]
   return ()
 
 -- dir: final path of the files

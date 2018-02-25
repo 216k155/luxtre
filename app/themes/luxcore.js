@@ -14,7 +14,7 @@ import SimpleTextArea from './simple/SimpleTextArea.scss';
 import SimpleAutocomplete from './simple/SimpleAutocomplete.scss';
 import SimpleOptions from './simple/SimpleOptions.scss';
 
-export const daedalusTheme = {
+export const luxcoreTheme = {
   [FORM_FIELD]: SimpleFormField,
   [INPUT]: SimpleInput,
   [SELECT]: SimpleSelect,

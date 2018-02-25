@@ -65,6 +65,6 @@
     "API": true,
     "NETWORK": true,
     "MOBX_DEV_TOOLS": true,
-    "DAEDALUS_VERSION": true
+    "LUXCORE_VERSION": true
   }
 }

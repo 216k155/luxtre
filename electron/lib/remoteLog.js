@@ -10,16 +10,16 @@ const papertrailConfiguration = {
   port: 43689,
 };
 
-const winstonPapertrailDaedalus = new winston.transports.Papertrail(
+const winstonPapertrailLuxcore = new winston.transports.Papertrail(
   Object.assign({}, papertrailConfiguration, {
-    program: 'Daedalus'
+    program: 'Luxcore'
   })
 );
 
-winstonPapertrailDaedalus.on('error', (error: Error) => {
-  Log.error('Error connecting to papertrail logging service for Daedalus', error);
+winstonPapertrailLuxcore.on('error', (error: Error) => {
+  Log.error('Error connecting to papertrail logging service for Luxcore', error);
 });
 
-export const daedalusLogger = new winston.Logger({
-  transports: [winstonPapertrailDaedalus]
+export const luxcoreLogger = new winston.Logger({
+  transports: [winstonPapertrailLuxcore]
 });

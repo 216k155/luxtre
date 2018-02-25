@@ -21,7 +21,7 @@ export const changeLuxAccountPassphrase = (
     ca,
   }, {
     jsonrpc: '2.0',
-    method: 'daedalus_changePassphrase',
+    method: 'luxcore_changePassphrase',
     params: [
       walletId,
       oldPassword || '',

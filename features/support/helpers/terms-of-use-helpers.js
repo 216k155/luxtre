@@ -7,7 +7,7 @@ const termsOfUse = {
   acceptTerms: async (client) => {
     await termsOfUse.waitForVisible(client);
     await client.execute(() => {
-      daedalus.actions.profile.acceptTermsOfUse.trigger();
+      luxcore.actions.profile.acceptTermsOfUse.trigger();
     });
     await termsOfUse.waitForVisible(client, { isHidden: true });
   }

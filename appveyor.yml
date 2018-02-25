@@ -15,7 +15,7 @@ environment:
 build: off
 
 cache:
-  - C:\sr -> installers/cardano-installer.cabal
+  - C:\sr -> installers/luxcoin-installer.cabal
   - C:\sr -> installers/stack.yaml
 
 install:
@@ -26,10 +26,10 @@ test_script:
   - scripts\build-installer-win64.bat %APPVEYOR_BUILD_VERSION% master
 
 artifacts:
-  - path: release\win32-x64\Daedalus-win32-x64
-    name: Daedalus Electron application
+  - path: release\win32-x64\Luxcore-win32-x64
+    name: Luxcore Electron application
     type: zip
-  - path: installers\daedalus-win64-*-installer.exe
-    name: Daedalus Win64 Installer
-  - path: node_modules\daedalus-client-api\build-id
-    name: cardano-sl-build-id
+  - path: installers\luxcore-win64-*-installer.exe
+    name: Luxcore Win64 Installer
+  - path: node_modules\luxcore-client-api\build-id
+    name: luxcoin-sl-build-id

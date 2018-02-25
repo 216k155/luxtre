@@ -56,7 +56,7 @@
 
 10. ## 第10条 知的財産権
 
-Input Output HK Limited、IOHK、Daedalus（ダイダロス）、Daedalus Cryptocurrency Wallet（ダイダロス仮想通貨ウォレット）、Daedalus Wallet（ダイダロス・ウォレット）、Daedalus App（ダイダロス・アプリケーション）を含む（ただしこれらに限定されない）当社のブランド、ロゴ、および商標のすべて、ならびに、それらのブランド、ロゴ、および商標の派生語のすべてに付随する権利、権原および権益はすべて、当社が保持するものです。
+Input Output HK Limited、IOHK、Luxcore（ダイダロス）、Luxcore Cryptocurrency Wallet（ダイダロス仮想通貨ウォレット）、Luxcore Wallet（ダイダロス・ウォレット）、Luxcore App（ダイダロス・アプリケーション）を含む（ただしこれらに限定されない）当社のブランド、ロゴ、および商標のすべて、ならびに、それらのブランド、ロゴ、および商標の派生語のすべてに付随する権利、権原および権益はすべて、当社が保持するものです。
 
 11. ## 第11条 ADAの換金
 

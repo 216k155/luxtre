@@ -44,16 +44,16 @@ Given(/^I have a wallet with funds and password$/, async function () {
 Given(/^I have the following wallets:$/, async function (table) {
   const result = await this.client.executeAsync((wallets, done) => {
     window.Promise.all(wallets.map((wallet) => (
-      daedalus.api.ada.createWallet({
+      luxcore.api.ada.createWallet({
         name: wallet.name,
-        mnemonic: daedalus.utils.crypto.generateMnemonic(),
+        mnemonic: luxcore.utils.crypto.generateMnemonic(),
         password: wallet.password || null,
       })
     )))
     .then(() => (
-      daedalus.stores.ada.wallets.walletsRequest.execute()
+      luxcore.stores.ada.wallets.walletsRequest.execute()
         .then((storeWallets) => (
-          daedalus.stores.ada.wallets.refreshWalletsData()
+          luxcore.stores.ada.wallets.refreshWalletsData()
             .then(() => done(storeWallets))
             .catch((error) => done(error))
         ))
@@ -97,7 +97,7 @@ Given(/^I dont see the create wallet dialog(?: anymore)?$/, function () {
 Given(/^the active wallet is "([^"]*)"$/, function (walletName) {
   const wallet = getWalletByName.call(this, walletName);
   this.client.execute(walletId => {
-    daedalus.actions.setActiveWallet.trigger({ walletId });
+    luxcore.actions.setActiveWallet.trigger({ walletId });
   }, wallet.id);
 });
 
@@ -165,7 +165,7 @@ When(/^I fill out the send form with a transaction to "([^"]*)" wallet:$/, async
   const values = table.hashes()[0];
   const walletId = this.wallets.find((w) => w.name === walletName).id;
   const walletAddress = await this.client.executeAsync((id, done) => {
-    daedalus.api.ada.getAddresses({ walletId: id })
+    luxcore.api.ada.getAddresses({ walletId: id })
       .then((response) => (
         done(response.addresses[0].id)
       ))
@@ -365,7 +365,7 @@ Then(/^I should not see the restore status notification once restore is finished
 
 Then(/^I should have newly created "([^"]*)" wallet loaded$/, async function (walletName) {
   const result = await this.client.executeAsync((done) => {
-    daedalus.stores.ada.wallets.walletsRequest.execute()
+    luxcore.stores.ada.wallets.walletsRequest.execute()
       .then(done)
       .catch((error) => done(error));
   });

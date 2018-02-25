@@ -5,11 +5,11 @@ Given(/^the sidebar submenu is (hidden|visible)/, async function (state) {
   const isVisible = state === 'visible';
   await this.client.waitForVisible('.Sidebar_component');
   await this.client.executeAsync((visible, done) => {
-    const { isShowingSubMenus } = daedalus.stores.sidebar;
+    const { isShowingSubMenus } = luxcore.stores.sidebar;
     let sidebarWillAnimate = false;
     if (isShowingSubMenus !== visible) {
       sidebarWillAnimate = true;
-      daedalus.actions.sidebar.toggleSubMenus.trigger();
+      luxcore.actions.sidebar.toggleSubMenus.trigger();
     }
     if (sidebarWillAnimate) {
       // Wait until the sidebar transition is finished -> otherwise webdriver click error!

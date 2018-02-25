@@ -1,6 +1,6 @@
 # Terms of Service Agreement
 
-THIS TERMS OF SERVICE AGREEMENT (&quot;Agreement&quot;) is made between Input Output HK Limited (&quot;Company&quot;) and any person (&quot;User&quot;) who completes the process to download, utilize, or operate any software, data processing service, application, communication service, or other content created or offered by Company, including, but not limited to, the Daedalus Cryptocurrency Wallet application (&quot;Software&quot;). Company and User are collectively referred to as the &quot;parties.&quot;
+THIS TERMS OF SERVICE AGREEMENT (&quot;Agreement&quot;) is made between Input Output HK Limited (&quot;Company&quot;) and any person (&quot;User&quot;) who completes the process to download, utilize, or operate any software, data processing service, application, communication service, or other content created or offered by Company, including, but not limited to, the Luxcore Cryptocurrency Wallet application (&quot;Software&quot;). Company and User are collectively referred to as the &quot;parties.&quot;
 
 BY CLICKING THE ACCEPTANCE BUTTON OR ACCESSING, USING OR INSTALLING ANY PART OF THE SOFTWARE, USER EXPRESSLY AGREES TO AND CONSENTS TO BE BOUND BY ALL OF THE TERMS OF THIS AGREEMENT. IF USER DOES NOT AGREE TO ALL OF THE TERMS OF THIS AGREEMENT, THE USER IS NOT AUTHORIZED TO ACCESS, USE OR INSTALL ANY PART OF THE SOFTWARE.
 
@@ -56,7 +56,7 @@ User agrees to indemnify, hold harmless and defend Company, its shareholders, di
 
 10. ## 10. Intellectual Property
 
-The Company retains all right, title, and interest in and to all of the Company&#39;s brands, logos, and trademarks, including, but not limited to, Input Output HK Limited, IOHK, Daedalus, Daedalus Cryptocurrency Wallet, Daedalus Wallet, Daedalus App, and variations of the wording of the aforementioned brands, logos, and trademarks.
+The Company retains all right, title, and interest in and to all of the Company&#39;s brands, logos, and trademarks, including, but not limited to, Input Output HK Limited, IOHK, Luxcore, Luxcore Cryptocurrency Wallet, Luxcore Wallet, Luxcore App, and variations of the wording of the aforementioned brands, logos, and trademarks.
 
 11. ## 11. ADA Redemption
 
@@ -72,15 +72,15 @@ c) User may redeem User&#39;s ADA by (i) entering the shielded vending key from 
 
 User acknowledges that IOHK shall not be responsible for transferring, safeguarding, or maintaining private keys and/or User&#39;s ADA or any other cryptocurrency. If User and/or any co-signing authorities lose, mishandle, or have stolen associated private keys, or if User&#39;s cosigners refuse to provide requisite authority, User acknowledges that User may not be able to recover User&#39;s ADA or any other cryptocurrency, and that the Company shall not be responsible for such loss.
 
-User acknowledges and agrees that ADA or any other cryptocurrency transactions facilitated by Daedalus and/or the Company may be delayed, and that the Company shall not be responsible for any associated loss.
+User acknowledges and agrees that ADA or any other cryptocurrency transactions facilitated by Luxcore and/or the Company may be delayed, and that the Company shall not be responsible for any associated loss.
 
-User acknowledges and agrees that the Company shall not be responsible for any aspect of the information, content, or services contained in any third-party materials or on any third party sites accessible or linked to Daedalus and/or the Company.
+User acknowledges and agrees that the Company shall not be responsible for any aspect of the information, content, or services contained in any third-party materials or on any third party sites accessible or linked to Luxcore and/or the Company.
 
-User agrees that User should never share User&#39;s certificate with any natural or legal person, including the Company, Cardano Foundation, Attain Corporation, or any other entity. Further, User acknowledges that sharing User&#39;s certificate may result in loss of User&#39;s ADA or any other cryptocurrency, and User agrees that the Company shall not be responsible for such loss.
+User agrees that User should never share User&#39;s certificate with any natural or legal person, including the Company, Luxcoin Foundation, Attain Corporation, or any other entity. Further, User acknowledges that sharing User&#39;s certificate may result in loss of User&#39;s ADA or any other cryptocurrency, and User agrees that the Company shall not be responsible for such loss.
 
 User acknowledges and agrees that by redeeming ADA in the testnet User redeems test-ADA only, and that in order to redeem actual ADA, User must repeat the procedure in the mainnet, once released.
 
-By using Daedalus, User acknowledges and agrees: (i) that the Company is not responsible for operation of the underlying protocols and that the Company makes no guarantee of their functionality, security, or availability; and (ii) that the underlying protocols are subject to sudden changes in operating rules (&quot;forks&quot;), and that such forks may materially affect the value, and/or function of the ADA or any other cryptocurrency that User stores on Daedalus. In the event of a fork, User agrees that the Company may temporarily suspend Daedalus operations (with or without notice to User) and that the Company may, in its sole discretion, (a) configure or reconfigure its systems or (b) decide not to support (or cease supporting) the forked protocol entirely, provided, however, that User will have an opportunity to withdraw funds from Daedalus. User acknowledges and agrees that the Company assumes absolutely no responsibility whatsoever in respect of an unsupported branch of a forked protocol.
+By using Luxcore, User acknowledges and agrees: (i) that the Company is not responsible for operation of the underlying protocols and that the Company makes no guarantee of their functionality, security, or availability; and (ii) that the underlying protocols are subject to sudden changes in operating rules (&quot;forks&quot;), and that such forks may materially affect the value, and/or function of the ADA or any other cryptocurrency that User stores on Luxcore. In the event of a fork, User agrees that the Company may temporarily suspend Luxcore operations (with or without notice to User) and that the Company may, in its sole discretion, (a) configure or reconfigure its systems or (b) decide not to support (or cease supporting) the forked protocol entirely, provided, however, that User will have an opportunity to withdraw funds from Luxcore. User acknowledges and agrees that the Company assumes absolutely no responsibility whatsoever in respect of an unsupported branch of a forked protocol.
 
 13. ## 13. Miscellaneous
 
