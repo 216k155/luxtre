@@ -14,7 +14,7 @@ Given(/^I am on the "Send logs choice" screen$/, function () {
 
 Given(/^I didnt choose send logs option$/, async function () {
   await this.client.execute(() => {
-    lux.reset();
+    luxcore.reset();
   });
 });
 
@@ -28,7 +28,7 @@ Then(/^I should not see the "Send logs choice" screen anymore$/, function () {
 
 Then(/^I should have "Send logs" accepted$/, async function () {
   const result = await this.client.executeAsync((done) => {
-    lux.stores.profile.getSendLogsChoiceRequest.execute()
+    luxcore.stores.profile.getSendLogsChoiceRequest.execute()
       .then(done)
       .catch((error) => done(error));
   });

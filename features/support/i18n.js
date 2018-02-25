@@ -5,8 +5,8 @@ defineSupportCode(({ Before }) => {
     this.intl = async (translationId, translationValues = {}) => {
       const translation = await this.client.execute((id, values) => {
         const IntlProvider = require('react-intl').IntlProvider; // eslint-disable-line
-        const locale = lux.stores.profile.currentLocale;
-        const messages = lux.translations;
+        const locale = luxcore.stores.profile.currentLocale;
+        const messages = luxcore.translations;
         const intlProvider = new IntlProvider({ locale, messages: messages[locale] }, {});
         return intlProvider.getChildContext().intl.formatMessage({ id }, values);
       }, translationId, translationValues);

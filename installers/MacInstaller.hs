@@ -20,20 +20,20 @@ import           RewriteLibs          (chain)
 
 main :: IO ()
 main = do
-  version <- fromMaybe "dev" <$> lookupEnv "LUX_VERSION"
+  version <- fromMaybe "dev" <$> lookupEnv "LUXCORE_VERSION"
 
-  let appRoot = "../release/darwin-x64/Lux-darwin-x64/Lux.app"
+  let appRoot = "../release/darwin-x64/Luxcore-darwin-x64/Luxcore.app"
       dir     = appRoot <> "/Contents/MacOS"
       -- resDir  = appRoot <> "/Contents/Resources"
-      pkg     = "dist/Lux-installer-" <> version <> ".pkg"
+      pkg     = "dist/Luxcore-installer-" <> version <> ".pkg"
   createDirectoryIfMissing False "dist"
 
   echo "Creating icons ..."
   procs "iconutil" ["--convert", "icns", "--output", T.pack dir <> "/../Resources/electron.icns", "icons/electron.iconset"] mempty
 
   echo "Preparing files ..."
-  copyFile "lux-launcher" (dir <> "/lux-launcher")
-  copyFile "lux-node" (dir <> "/lux-node")
+  copyFile "luxcoin-launcher" (dir <> "/luxcoin-launcher")
+  copyFile "luxcoin-node" (dir <> "/luxcoin-node")
   copyFile "wallet-topology.yaml" (dir <> "/wallet-topology.yaml")
   copyFile "configuration.yaml" (dir <> "/configuration.yaml")
   genesisFiles <- glob "*genesis*.json"
@@ -45,27 +45,27 @@ main = do
   copyFile "client.conf" (dir <> "/client.conf")
 
   -- Rewrite libs paths and bundle them
-  _ <- chain dir $ fmap T.pack [dir <> "/lux-launcher", dir <> "/lux-node"]
+  _ <- chain dir $ fmap T.pack [dir <> "/luxcoin-launcher", dir <> "/luxcoin-node"]
 
   -- Prepare launcher
   de <- doesFileExist (dir <> "/Frontend")
-  unless de $ renameFile (dir <> "/Lux") (dir <> "/Frontend")
+  unless de $ renameFile (dir <> "/Luxcore") (dir <> "/Frontend")
   run "chmod" ["+x", T.pack (dir <> "/Frontend")]
-  writeFile (dir <> "/Lux") $ unlines
+  writeFile (dir <> "/Luxcore") $ unlines
     [ "#!/usr/bin/env bash"
     , "cd \"$(dirname $0)\""
-    , "mkdir -p \"$HOME/Library/Application Support/Lux/Secrets-1.0\""
-    , "mkdir -p \"$HOME/Library/Application Support/Lux/Logs/pub\""
+    , "mkdir -p \"$HOME/Library/Application Support/Luxcore/Secrets-1.0\""
+    , "mkdir -p \"$HOME/Library/Application Support/Luxcore/Logs/pub\""
     , doLauncher
     ]
-  run "chmod" ["+x", T.pack (dir <> "/Lux")]
+  run "chmod" ["+x", T.pack (dir <> "/Luxcore")]
 
   let pkgargs =
        [ "--identifier"
-       , "org.lux.pkg"
+       , "org.luxcore.pkg"
        , "--scripts", "data/scripts"
        , "--component"
-       , "../release/darwin-x64/Lux-darwin-x64/Lux.app"
+       , "../release/darwin-x64/Luxcore-darwin-x64/Luxcore.app"
        , "--install-location"
        , "/Applications"
        , "dist/temp.pkg"
@@ -101,10 +101,10 @@ main = do
   echo $ "Generated " <> unsafeTextToLine (T.pack pkg)
 
 doLauncher :: String
-doLauncher = "./lux-launcher " <> (launcherArgs $ Launcher
-  { nodePath = "./lux-node"
+doLauncher = "./luxcoin-launcher " <> (launcherArgs $ Launcher
+  { nodePath = "./luxcoin-node"
   , walletPath = "./Frontend"
-  , nodeLogPath = appdata <> "Logs/lux-node.log"
+  , nodeLogPath = appdata <> "Logs/luxcoin-node.log"
   , launcherLogPath = appdata <> "Logs/pub/"
   , windowsInstallerPath = Nothing
   , runtimePath = appdata
@@ -116,7 +116,7 @@ doLauncher = "./lux-launcher " <> (launcherArgs $ Launcher
         }
   })
     where
-      appdata = "$HOME/Library/Application Support/Lux/"
+      appdata = "$HOME/Library/Application Support/Luxcore/"
 
 run :: T.Text -> [T.Text] -> IO ()
 run cmd args = do

@@ -28,10 +28,10 @@ systemLibs = ["libSystem.B.dylib"]
 
 main :: IO ()
 main = do
-  --print "------- lux-launcher"
-  --files <- chain "./temp" ["./temp/lux-launcher"]
-  --print "------- lux-node"
-  --files <- chain "./temp" ["./temp/lux-node"]
+  --print "------- luxcoin-launcher"
+  --files <- chain "./temp" ["./temp/luxcoin-launcher"]
+  --print "------- luxcoin-node"
+  --files <- chain "./temp" ["./temp/luxcoin-node"]
   return ()
 
 -- dir: final path of the files

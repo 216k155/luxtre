@@ -10,7 +10,7 @@ Given(/^I have selected English language$/, async function () {
 
 Given(/^I dont have a language set$/, async function () {
   await this.client.execute(() => {
-    lux.reset();
+    luxcore.reset();
   });
 });
 
@@ -36,7 +36,7 @@ Then(/^I should not see the language selection screen anymore$/, function () {
 
 Then(/^I should have Japanese language set$/, async function () {
   const result = await this.client.executeAsync((done) => {
-    lux.stores.profile.getProfileLocaleRequest.execute()
+    luxcore.stores.profile.getProfileLocaleRequest.execute()
       .then(done)
       .catch((error) => done(error));
   });

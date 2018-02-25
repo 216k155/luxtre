@@ -13,7 +13,7 @@ Given(/^I made the following transactions with my wallet:$/, async function (tab
   }));
   const result = await this.client.execute((transactions) => (
     transactions.map((t) => {
-      const transaction = lux.api.repository.generateTransaction(t, t);
+      const transaction = luxcore.api.repository.generateTransaction(t, t);
       transaction.date = transaction.date.toUTCString();
       return transaction;
     })
@@ -43,7 +43,7 @@ Then(/^I should only see the following transactions:$/, async function (table) {
 });
 
 Then(/^I should see the transactions grouped by their date$/, async function () {
-  // TODO: this is not testing for correct nesting into groups etc. (could be done with XPATH)
+  // TODO: this is not testing for correct nesting into groups lux. (could be done with XPATH)
   const sortedTransactions = this.transactions.sort((a, b) => new Date(a.date) < new Date(b.date));
   const visibleGroupDates = await this.client.getText('.WalletTransactionsList_groupDate');
   const visibleTransactionTitles = await this.client.getText('.Transaction_title');
