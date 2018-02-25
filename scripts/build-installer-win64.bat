@@ -4,30 +4,30 @@ rem   2. 7zip    ('7z'  binary in PATH)
 rem
 rem   installer dev mode:  set SKIP_TO_FRONTEND/SKIP_TO_INSTALLER
 
-set MIN_LUX_BYTES=50000000
+set MIN_LUXCOIN_BYTES=50000000
 set LIBRESSL_VERSION=2.5.3
 set CURL_VERSION=7.54.0
-set LUX_BRANCH_DEFAULT=lux-sl-1.0
-set LUX_VERSION_DEFAULT=local-dev-build-%LUX_BRANCH_DEFAULT%
+set LUXCOIN_BRANCH_DEFAULT=luxcoin-sl-1.0
+set LUXCORE_VERSION_DEFAULT=local-dev-build-%LUXCOIN_BRANCH_DEFAULT%
 
-set LUX_VERSION=%1
-@if [%LUX_VERSION%]==[] (@echo WARNING: LUX_VERSION [argument #1] was not provided, defaulting to %LUX_VERSION_DEFAULT%
-    set LUX_VERSION=%LUX_VERSION_DEFAULT%);
-set LUX_BRANCH=%2
-@if [%LUX_BRANCH%]==[]   (@echo WARNING: LUX_BRANCH [argument #2] was not provided, defaulting to %LUX_BRANCH_DEFAULT%
-    set LUX_BRANCH=%LUX_BRANCH_DEFAULT%);
+set LUXCORE_VERSION=%1
+@if [%LUXCORE_VERSION%]==[] (@echo WARNING: LUXCORE_VERSION [argument #1] was not provided, defaulting to %LUXCORE_VERSION_DEFAULT%
+    set LUXCORE_VERSION=%LUXCORE_VERSION_DEFAULT%);
+set LUXCOIN_BRANCH=%2
+@if [%LUXCOIN_BRANCH%]==[]   (@echo WARNING: LUXCOIN_BRANCH [argument #2] was not provided, defaulting to %LUXCOIN_BRANCH_DEFAULT%
+    set LUXCOIN_BRANCH=%LUXCOIN_BRANCH_DEFAULT%);
 
 set CURL_URL=https://bintray.com/artifact/download/vszakats/generic/curl-%CURL_VERSION%-win64-mingw.7z
 set CURL_BIN=curl-%CURL_VERSION%-win64-mingw\bin
 set NSISVER=3.02.1
 set NSIS_URL=https://downloads.sourceforge.net/project/nsis/NSIS%%203/%NSISVER%/nsis-%NSISVER%-setup.exe
 set NSIS_PATCH_URL=https://downloads.sourceforge.net/project/nsis/NSIS%%203/%NSISVER%/nsis-%NSISVER%-strlen_8192.zip
-set LUX_URL=https://ci.appveyor.com/api/projects/jagajaga/lux-sl/artifacts/LuxSL.zip?branch=%LUX_BRANCH%
+set LUXCOIN_URL=https://ci.appveyor.com/api/projects/jagajaga/luxcoin-sl/artifacts/LuxcoinSL.zip?branch=%LUXCOIN_BRANCH%
 set LIBRESSL_URL=https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-%LIBRESSL_VERSION%-windows.zip
-set DLLS_URL=https://s3.eu-central-1.amazonaws.com/lux-ci-binaries/DLLs.zip
+set DLLS_URL=https://s3.eu-central-1.amazonaws.com/luxcore-ci-binaries/DLLs.zip
 
-@echo Building Lux version:  %LUX_VERSION%
-@echo ..with Lux branch:      %LUX_BRANCH%
+@echo Building Luxcore version:  %LUXCORE_VERSION%
+@echo ..with Luxcoin branch:      %LUXCOIN_BRANCH%
 @echo ..with LibreSSL version:    %LIBRESSL_VERSION%
 @echo .
 
@@ -68,38 +68,38 @@ call npm install
 @if %errorlevel% neq 0 (@echo FAILED: npm install
     exit /b 1)
 
-@echo Obtaining Lux from branch %LUX_BRANCH%
-rmdir /s/q node_modules\lux-client-api 2>nul
-mkdir      node_modules\lux-client-api
+@echo Obtaining Luxcoin from branch %LUXCOIN_BRANCH%
+rmdir /s/q node_modules\luxcore-client-api 2>nul
+mkdir      node_modules\luxcore-client-api
 
-pushd node_modules\lux-client-api
-    del /f LuxSL.zip 2>nul
-    ..\..\curl --location %LUX_URL% -o LuxSL.zip
-    @if %errorlevel% neq 0 (@echo FAILED: couldn't obtain the lux-sl package
+pushd node_modules\luxcore-client-api
+    del /f LuxcoinSL.zip 2>nul
+    ..\..\curl --location %LUXCOIN_URL% -o LuxcoinSL.zip
+    @if %errorlevel% neq 0 (@echo FAILED: couldn't obtain the luxcoin-sl package
 	popd & exit /b 1)
-    @for /F "usebackq" %%A in ('LuxSL.zip') do set size=%%~zA
-    if %size% lss %MIN_LUX_BYTES% (@echo FAILED: LuxSL.zip is too small: threshold=%MIN_LUX_BYTES%, actual=%size% bytes
+    @for /F "usebackq" %%A in ('LuxcoinSL.zip') do set size=%%~zA
+    if %size% lss %MIN_LUXCOIN_BYTES% (@echo FAILED: LuxcoinSL.zip is too small: threshold=%MIN_LUXCOIN_BYTES%, actual=%size% bytes
         popd & exit /b 1)
 
-    7z x LuxSL.zip -y
-    @if %errorlevel% neq 0 (@echo FAILED: 7z x LuxSL.zip -y
+    7z x LuxcoinSL.zip -y
+    @if %errorlevel% neq 0 (@echo FAILED: 7z x LuxcoinSL.zip -y
 	popd & exit /b 1)
-    del LuxSL.zip
+    del LuxcoinSL.zip
 popd
 
-@echo lux-sl build-id:
-type node_modules\lux-client-api\build-id
-@echo lux-sl commit-id:
-type node_modules\lux-client-api\commit-id
-@echo lux-sl ci-url:
-type node_modules\lux-client-api\ci-url
+@echo luxcoin-sl build-id:
+type node_modules\luxcore-client-api\build-id
+@echo luxcoin-sl commit-id:
+type node_modules\luxcore-client-api\commit-id
+@echo luxcoin-sl ci-url:
+type node_modules\luxcore-client-api\ci-url
 
-move   node_modules\lux-client-api\log-config-prod.yaml installers\log-config-prod.yaml
-move   node_modules\lux-client-api\lux-node.exe     installers\
-move   node_modules\lux-client-api\lux-launcher.exe installers\
-move   node_modules\lux-client-api\configuration.yaml installers\
-move   node_modules\lux-client-api\*genesis*.json installers\
-del /f node_modules\lux-client-api\*.exe
+move   node_modules\luxcore-client-api\log-config-prod.yaml installers\log-config-prod.yaml
+move   node_modules\luxcore-client-api\luxcoin-node.exe     installers\
+move   node_modules\luxcore-client-api\luxcoin-launcher.exe installers\
+move   node_modules\luxcore-client-api\configuration.yaml installers\
+move   node_modules\luxcore-client-api\*genesis*.json installers\
+del /f node_modules\luxcore-client-api\*.exe
 
 :build_frontend
 @echo Packaging frontend
@@ -136,7 +136,7 @@ pushd installers
     mkdir      DLLs
     pushd      DLLs
         ..\..\curl --location %DLLS_URL% -o DLLs.zip
-        @if %errorlevel% neq 0 (@echo FAILED: couldn't obtain LuxSL DLL package
+        @if %errorlevel% neq 0 (@echo FAILED: couldn't obtain LuxcoinSL DLL package
 		exit /b 1)
         7z x DLLs.zip
         @if %errorlevel% neq 0 (@echo FAILED: 7z x DLLs.zip
@@ -159,4 +159,4 @@ pushd installers
 @echo SUCCESS: call stack --no-terminal build -j 2 --exec make-installer
 popd
 
-@dir /b/s installers\lux*
+@dir /b/s installers\luxcore*

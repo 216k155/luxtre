@@ -11,9 +11,9 @@ usage() {
     test -z "$1" || { echo "ERROR: $*" >&2; echo >&2; }
     cat >&2 <<EOF
   Usage:
-    $0 LUX-VERSION LUX-BRANCH OPTIONS*
+    $0 LUXCORE-VERSION LUXCOIN-BRANCH OPTIONS*
 
-  Build a Lux installer.
+  Build a Luxcore installer.
 
   Options:
     --fast-impure             Fast, impure, incremental build
@@ -55,8 +55,8 @@ travis_pr=true
 upload_s3=
 test_install=
 
-lux_version="$1"; arg2nz "lux version" $1; shift
-lux_branch="$(printf '%s' "$1" | tr '/' '-')"; arg2nz "Lux SL branch to build Lux with" $1; shift
+luxcore_version="$1"; arg2nz "luxcore version" $1; shift
+luxcoin_branch="$(printf '%s' "$1" | tr '/' '-')"; arg2nz "Luxcoin SL branch to build Luxcore with" $1; shift
 
 case "$(uname -s)" in
         Darwin ) OS_NAME=darwin; os=osx;   key=macos-3.p12;;
@@ -94,36 +94,36 @@ fi
 mkdir -p ~/.local/bin
 
 export PATH=$HOME/.local/bin:$PATH
-export LUX_VERSION=${lux_version}.${build_id}
+export LUXCORE_VERSION=${luxcore_version}.${build_id}
 if [ -n "${NIX_SSL_CERT_FILE-}" ]; then export SSL_CERT_FILE=$NIX_SSL_CERT_FILE; fi
 
-LUX_BUILD_UID="${OS_NAME}-${lux_branch//\//-}"
-ARTIFACT_BUCKET=ci-output-sink        # ex- lux-sl-travis
-LUX_ARTIFACT=lux-binaries     # ex- lux-bridge
-LUX_ARTIFACT_FULL_NAME=${LUX_ARTIFACT}-${LUX_BUILD_UID}
+LUXCOIN_BUILD_UID="${OS_NAME}-${luxcoin_branch//\//-}"
+ARTIFACT_BUCKET=ci-output-sink        # ex- luxcoin-sl-travis
+LUXCOIN_ARTIFACT=luxcoin-binaries     # ex- luxcore-bridge
+LUXCOIN_ARTIFACT_FULL_NAME=${LUXCOIN_ARTIFACT}-${LUXCOIN_BUILD_UID}
 
-test -d node_modules/lux-client-api/ -a -n "${fast_impure}" || {
-        retry 5 curl -o ${LUX_ARTIFACT_FULL_NAME}.tar.xz \
-              "https://s3.eu-west-1.amazonaws.com/${ARTIFACT_BUCKET}/lux-sl/${LUX_ARTIFACT_FULL_NAME}.tar.xz"
-        mkdir -p node_modules/lux-client-api/
-        du -sh  ${LUX_ARTIFACT_FULL_NAME}.tar.xz
-        tar xJf ${LUX_ARTIFACT_FULL_NAME}.tar.xz --strip-components=1 -C node_modules/lux-client-api/
-        rm      ${LUX_ARTIFACT_FULL_NAME}.tar.xz
-        echo "lux-sl build id is $(cat node_modules/lux-client-api/build-id)"
-        if [ -f node_modules/lux-client-api/commit-id ]; then echo "lux-sl revision is $(cat node_modules/lux-client-api/commit-id)"; fi
-        if [ -f node_modules/lux-client-api/ci-url ]; then echo "lux-sl ci-url is $(cat node_modules/lux-client-api/ci-url)"; fi
-        pushd node_modules/lux-client-api
-              mv log-config-prod.yaml lux-node lux-launcher configuration.yaml *genesis*.json ../../installers
+test -d node_modules/luxcore-client-api/ -a -n "${fast_impure}" || {
+        retry 5 curl -o ${LUXCOIN_ARTIFACT_FULL_NAME}.tar.xz \
+              "https://s3.eu-west-1.amazonaws.com/${ARTIFACT_BUCKET}/luxcoin-sl/${LUXCOIN_ARTIFACT_FULL_NAME}.tar.xz"
+        mkdir -p node_modules/luxcore-client-api/
+        du -sh  ${LUXCOIN_ARTIFACT_FULL_NAME}.tar.xz
+        tar xJf ${LUXCOIN_ARTIFACT_FULL_NAME}.tar.xz --strip-components=1 -C node_modules/luxcore-client-api/
+        rm      ${LUXCOIN_ARTIFACT_FULL_NAME}.tar.xz
+        echo "luxcoin-sl build id is $(cat node_modules/luxcore-client-api/build-id)"
+        if [ -f node_modules/luxcore-client-api/commit-id ]; then echo "luxcoin-sl revision is $(cat node_modules/luxcore-client-api/commit-id)"; fi
+        if [ -f node_modules/luxcore-client-api/ci-url ]; then echo "luxcoin-sl ci-url is $(cat node_modules/luxcore-client-api/ci-url)"; fi
+        pushd node_modules/luxcore-client-api
+              mv log-config-prod.yaml luxcoin-node luxcoin-launcher configuration.yaml *genesis*.json ../../installers
         popd
-        chmod +w installers/lux-{node,launcher}
-        strip installers/lux-{node,launcher}
-        rm -f node_modules/lux-client-api/lux-*
+        chmod +w installers/luxcoin-{node,launcher}
+        strip installers/luxcoin-{node,launcher}
+        rm -f node_modules/luxcore-client-api/luxcoin-*
 }
 
 test "$(find node_modules/ | wc -l)" -gt 100 -a -n "${fast_impure}" ||
         nix-shell --run "npm install"
 
-test -d "release/darwin-x64/Lux-darwin-x64" -a -n "${fast_impure}" || {
+test -d "release/darwin-x64/Luxcore-darwin-x64" -a -n "${fast_impure}" || {
         nix-shell --run "npm run package -- --icon installers/icons/256x256.png"
         echo "Size of Electron app is $(du -sh release)"
 }
@@ -134,19 +134,19 @@ test -n "$(which stack)"     -a -n "${fast_impure}" ||
 
 cd installers
     if test "${travis_pr}" = "false" -a "${os}" != "linux" # No Linux keys yet.
-    then retry 5 nix-shell -p awscli --run "aws s3 cp --region eu-central-1 s3://luxct-private/${key} macos.p12"
+    then retry 5 nix-shell -p awscli --run "aws s3 cp --region eu-central-1 s3://iohk-private/${key} macos.p12"
     fi
     retry 5 $(nix-build -j 2)/bin/make-installer
     mkdir -p dist
     if test -n "${upload_s3}"
     then
             echo "$0: --upload-s3 passed, will upload the installer to S3";
-            retry 5 nix-shell -p awscli --run "aws s3 cp 'dist/Lux-installer-${LUX_VERSION}.pkg' s3://lux-internal/ --acl public-read"
+            retry 5 nix-shell -p awscli --run "aws s3 cp 'dist/Luxcore-installer-${LUXCORE_VERSION}.pkg' s3://luxcore-internal/ --acl public-read"
     fi
     if test -n "${test_install}"
     then echo "$0:  --test-install passed, will test the installer for installability";
          case ${os} in
-                 osx )   sudo installer -dumplog -verbose -target / -pkg "dist/Lux-installer-${LUX_VERSION}.pkg";;
+                 osx )   sudo installer -dumplog -verbose -target / -pkg "dist/Luxcore-installer-${LUXCORE_VERSION}.pkg";;
                  linux ) echo "WARNING: installation testing not implemented on Linux" >&2;; esac; fi
 cd ..
 

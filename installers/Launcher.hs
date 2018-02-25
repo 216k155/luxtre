@@ -53,7 +53,7 @@ launcherArgs Launcher{..} = unwords $
               , "--update-archive ", quote updArchivePath
               ]
       configurationArgs | os == "mingw32" =
-                          [ "--configuration-file", quote "%LUX_DIR%\\configuration.yaml"
+                          [ "--configuration-file", quote "%LUXCORE_DIR%\\configuration.yaml"
                           , "--configuration-key",  quote "mainnet_wallet_win64"
                           ]
                         | otherwise =
@@ -62,14 +62,14 @@ launcherArgs Launcher{..} = unwords $
                          ]
       nodeDbPath = runtimePath <> "DB-" <> version
       nodeArgs = [
-        "--report-server", "http://report-server.lux-mainnet.luxct.io:8080",
+        "--report-server", "http://report-server.luxcoin-mainnet.iohk.io:8080",
         "--log-config", "log-config-prod.yaml",
         "--update-latest-path", quote (updArchivePath updater),
         "--keyfile", quote (runtimePath <> "Secrets-" <> version <> (pathSeparator : "secret.key")),
         "--logs-prefix", quote (runtimePath <> "Logs"),
         "--db-path", quote nodeDbPath,
         "--wallet-db-path", quote (runtimePath <> "Wallet-" <> version),
-        "--update-server", "http://update.lux-mainnet.luxct.io",
+        "--update-server", "http://update.luxcoin-mainnet.iohk.io",
         "--update-with-package",
         "--no-ntp",
         "--tlscert", quote (tlsBase <> "server" <> (pathSeparator : "server.crt")),
@@ -80,12 +80,12 @@ launcherArgs Launcher{..} = unwords $
       batchCmdNewline | os == "mingw32" = "^\r\n"
                       | otherwise = mempty
       configFiles     | os == "mingw32" =
-                        [ "--topology",           quote "%LUX_DIR%\\wallet-topology.yaml"
+                        [ "--topology",           quote "%LUXCORE_DIR%\\wallet-topology.yaml"
                         ]
                       | otherwise =
                         [ "--topology",           quote "./wallet-topology.yaml"
                         ]
-      tlsBase         | os == "mingw32" = "%LUX_DIR%\\"   <> "tls" <> (pathSeparator : [])
+      tlsBase         | os == "mingw32" = "%LUXCORE_DIR%\\"   <> "tls" <> (pathSeparator : [])
                       | otherwise       = "./"                 <> "tls" <> (pathSeparator : [])
 
 quote :: String -> String

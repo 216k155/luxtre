@@ -7,8 +7,8 @@ dst_root="$2"
 dst_mount="$3"
 sys_root="$4"
 
-./dockutil --add "${dst_root}/Lux.app" --allhomes
+./dockutil --add "${dst_root}/Luxcore.app" --allhomes
 
-cd "${dst_root}/Lux.app/Contents/MacOS/"
+cd "${dst_root}/Luxcore.app/Contents/MacOS/"
 
 bash ./build-certificates-unix.sh
