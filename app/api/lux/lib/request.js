@@ -4,9 +4,8 @@ import https from 'https';
 export type RequestOptions = {
   hostname: string,
   method: string,
-  path: string,
   port: number,
-  ca: string,
+  auth: string,
   headers?: {
     'Content-Type': string,
     'Content-Length': number,
