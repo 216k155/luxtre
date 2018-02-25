@@ -3,6 +3,8 @@ import BigNumber from 'bignumber.js';
 import { remote } from 'electron';
 import { isAddress } from 'web3-utils/src/utils';
 import { getLuxSyncProgress } from './getLuxSyncProgress';
+import { getLuxInfo } from './getLuxInfo';
+import { getLuxPeerInfo } from './getLuxPeerInfo';
 import { Logger, stringifyData, stringifyError } from '../../utils/logging';
 import {
   GenericApiError, IncorrectWalletPasswordError,
@@ -99,9 +101,9 @@ export default class LuxApi {
     Logger.debug('LuxApi::getSyncProgress called');
     try {
       const response: LuxInfo = await getLuxInfo();
-      Logger.debug('LuxApi::getLuxInfo success: ' + stringifyData(response));
+      Logger.info('LuxApi::getLuxInfo success: ' + stringifyData(response));
       const peerInfos: LuxPeerInfos = await getLuxPeerInfo();
-      Logger.debug('LuxApi::getLuxPeerInfo success: ' + stringifyData(peerInfos));
+      Logger.info('LuxApi::getLuxPeerInfo success: ' + stringifyData(peerInfos));
       var totalBlocks = peerInfos.sort(function(a, b){
         return b.startingheight - a.startingheight;
       })[0].startingheight;

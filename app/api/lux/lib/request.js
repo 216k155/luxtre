@@ -1,5 +1,5 @@
 // @flow
-import https from 'https';
+import https from 'http';
 
 export type RequestOptions = {
   hostname: string,
