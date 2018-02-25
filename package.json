@@ -1,6 +1,6 @@
 {
-  "name": "lux",
-  "productName": "Lux",
+  "name": "daedalus",
+  "productName": "Daedalus",
   "version": "0.8.0",
   "description": "Cryptocurrency Wallet",
   "main": "./dist/main.js",
