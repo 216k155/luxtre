@@ -51,7 +51,7 @@ module.exports = validate({
 
   plugins: [
     new webpack.DefinePlugin({
-      'process.env.API': JSON.stringify(process.env.API || 'ada'),
+      'process.env.API': JSON.stringify(process.env.API || 'lux'),
       'process.env.NETWORK': JSON.stringify(process.env.NETWORK || 'development'),
       'process.env.MOBX_DEV_TOOLS': process.env.MOBX_DEV_TOOLS || 0,
       'process.env.LUXCORE_VERSION': JSON.stringify(process.env.LUXCORE_VERSION || 'dev')

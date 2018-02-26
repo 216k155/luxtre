@@ -24,10 +24,10 @@ storiesOf('SidebarWalletsMenu', module)
   .add('with items', () => (
     <SidebarWalletsMenu
       wallets={[
-        { id: '1', title: 'Main wallet', info: 'ADA' },
+        { id: '1', title: 'Main wallet', info: 'LUX' },
         { id: '2', title: 'House rent', info: '274912874,35 ADA' },
         { id: '3', title: 'Mining', info: '0,0004924712 BTC' },
-        { id: '4', title: 'Shopping wallet', info: 'ADA' },
+        { id: '4', title: 'Shopping wallet', info: 'LUX' },
       ]}
       isActiveWallet={(id) => id === '2'}
       onWalletItemClick={action('walletItemClick')}
