@@ -1,29 +1,27 @@
 // @flow
 import { request } from './lib/request';
-import { LUX_API_HOST, LUX_API_PORT } from './index';
+import { LUX_API_HOST, LUX_API_PORT, LUX_API_USER, LUX_API_PWD } from './index';
 import type { LuxWalletBalance } from './types';
 
 export type GetLuxAccountBalanceParams = {
-  ca: string,
   walletId: string,
-  status: 'latest' | 'earliest' | 'pending',
+  confirmations: number,
 };
 
 export const getLuxAccountBalance = (
-  { ca, walletId, status }: GetLuxAccountBalanceParams
+  { walletId, confirmations }: GetLuxAccountBalanceParams
 ): Promise<LuxWalletBalance> => (
   request({
     hostname: LUX_API_HOST,
     method: 'POST',
-    path: '/',
     port: LUX_API_PORT,
-    ca,
+    auth: LUX_API_USER + ':' + LUX_API_PWD
   }, {
     jsonrpc: '2.0',
-    method: 'getBalance',
+    method: 'getbalance',
     params: [
       walletId,
-      status
+      confirmations
     ]
   })
 );
