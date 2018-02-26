@@ -14,12 +14,12 @@ import styles from './AdaRedemptionDisclaimer.scss';
 const messages = defineMessages({
   disclaimerTitle: {
     id: 'wallet.redeem.disclaimerOverlay.title',
-    defaultMessage: '!!!Lux Redemption Disclamer',
+    defaultMessage: '!!!Luxcore Redemption Disclamer',
     description: 'Title of "Redemption disclaimer" on Ada redemption page.'
   },
   disclaimerText: {
     id: 'wallet.redeem.disclaimerOverlay.disclaimerText',
-    defaultMessage: '!!!ATTENTION: Redeeming on the Lux Test-net will validate that your certificate or redemption key is correct and will allow you to redeem TEST-ADA for testing purposes only. KEEP your certificate or redemption key safe and secure. You will need to redeem again when Lux SL launches the mainnet. TEST-ADA holds no value and cannot be exchanged.',
+    defaultMessage: '!!!ATTENTION: Redeeming on the Luxcoin Test-net will validate that your certificate or redemption key is correct and will allow you to redeem TEST-ADA for testing purposes only. KEEP your certificate or redemption key safe and secure. You will need to redeem again when Luxcoin SL launches the mainnet. TEST-ADA holds no value and cannot be exchanged.',
     description: 'Disclaimer text for "Redemption disclaimer" on Ada redemption page.'
   },
   checkboxLabel: {

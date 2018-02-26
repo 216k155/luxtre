@@ -11,29 +11,29 @@ import arrowIcon from '../../assets/images/arrow.inline.svg';
 
 const messages = defineMessages({
   acceptLabel: {
-    id: 'lux.node.update.notification.accept.button.label',
+    id: 'luxcoin.node.update.notification.accept.button.label',
     defaultMessage: '!!!Update and restart',
-    description: 'Label "Update and restart" on the Lux node update notification.'
+    description: 'Label "Update and restart" on the Luxcoin node update notification.'
   },
   denyLabel: {
-    id: 'lux.node.update.notification.postpone.button.label',
+    id: 'luxcoin.node.update.notification.postpone.button.label',
     defaultMessage: '!!!Postpone until restart',
-    description: 'Label "Postpone until restart" on the Lux node update notification.'
+    description: 'Label "Postpone until restart" on the Luxcoin node update notification.'
   },
   titleWithVersion: {
-    id: 'lux.node.update.notification.titleWithVersion',
-    defaultMessage: '!!!Lux-Core update v{version} is available',
-    description: 'Lux-Core update notification with version.'
+    id: 'luxcoin.node.update.notification.titleWithVersion',
+    defaultMessage: '!!!Luxcoin-Core update v{version} is available',
+    description: 'Luxcoin-Core update notification with version.'
   },
   titleWithoutVersion: {
-    id: 'lux.node.update.notification.titleWithoutVersion',
-    defaultMessage: '!!!Lux-Core update is available',
-    description: 'Lux-Core update notification without version.'
+    id: 'luxcoin.node.update.notification.titleWithoutVersion',
+    defaultMessage: '!!!Luxcoin-Core update is available',
+    description: 'Luxcoin-Core update notification without version.'
   },
   updateMessage: {
-    id: 'lux.node.update.notification.message',
-    defaultMessage: '!!!Lux and Lux node update is available. Would you like to install the update?',
-    description: 'Message shown when there is a Lux and Lux node update available.'
+    id: 'luxcoin.node.update.notification.message',
+    defaultMessage: '!!!Luxcore and Luxcoin node update is available. Would you like to install the update?',
+    description: 'Message shown when there is a Luxcore and Luxcoin node update available.'
   },
 });
 

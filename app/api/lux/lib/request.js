@@ -1,5 +1,5 @@
 // @flow
-import https from 'https';
+import https from 'http';
 
 export type RequestOptions = {
   hostname: string,
@@ -26,7 +26,7 @@ function typedRequest<Response>(
     });
     const httpsRequest = https.request(options, (response) => {
       let body = '';
-      // Cardano-sl returns chunked requests, so we need to concat them
+      // Luxcoin-sl returns chunked requests, so we need to concat them
       response.on('data', (chunk) => (body += chunk));
       // Reject errors
       response.on('error', (error) => reject(error));

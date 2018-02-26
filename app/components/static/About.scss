@@ -10,22 +10,22 @@
     display: flex;
     padding-bottom: 20px;
 
-    .luxIcon {
+    .luxcoreIcon {
       svg {
         height: 58px;
         width: 74px;
         path {
-          fill: var(--theme-about-window-lux-icon-color);
+          fill: var(--theme-about-window-luxcore-icon-color);
         }
       }
     }
 
-    .luxTitleVersion {
+    .luxcoreTitleVersion {
       color: var(--theme-about-window-title-varsion-color);
       flex: 1;
       margin-left: 30px;
 
-      .luxTitle {
+      .luxcoreTitle {
         font-family: 'Montserrat-Medium';
         font-size: 24px;
         letter-spacing: 6px;
@@ -34,7 +34,7 @@
         -webkit-text-stroke: 0.5px var(--theme-about-window-title-stroke-color);
       }
 
-      .luxVersion {
+      .luxcoreVersion {
         font-family: var(--font-regular);
         font-size: 16px;
         font-weight: 300;
@@ -43,13 +43,13 @@
       }
     }
 
-    .luxIcon {
+    .luxcoinIcon {
       margin-top: 7.5px;
       svg {
         height: 43px;
         width: 47px;
         path {
-          fill: var(--theme-about-window-lux-icon-color);
+          fill: var(--theme-about-window-luxcoin-icon-color);
         }
       }
     }
@@ -70,7 +70,7 @@
       margin-bottom: 3px;
     }
 
-    .contentLux {
+    .contentLuxcore {
       margin-bottom: 12px;
     }
   }

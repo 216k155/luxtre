@@ -7,7 +7,7 @@ const sendLogsChoice = {
   agree: async (client) => {
     await sendLogsChoice.waitForVisible(client);
     await client.execute(() => {
-      lux.actions.profile.setSendLogsChoice.trigger({ sendLogs: true });
+      luxcore.actions.profile.setSendLogsChoice.trigger({ sendLogs: true });
     });
     await sendLogsChoice.waitForVisible(client, { isHidden: true });
   }

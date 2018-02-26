@@ -9,9 +9,9 @@ import UiDialogsStore from './UiDialogsStore';
 import UiNotificationsStore from './UiNotificationsStore';
 import NetworkStatusStore from './NetworkStatusStore';
 import setupAdaStores from './ada/index';
-import setupEtcStores from './etc/index';
+import setupLuxStores from './lux/index';
 import type { AdaStoresMap } from './ada/index';
-import type { EtcStoresMap } from './etc/index';
+import type { LuxStoresMap } from './lux/index';
 import environment from '../environment';
 
 export const storeClasses = {
@@ -36,7 +36,7 @@ export type StoresMap = {
   uiNotifications: UiNotificationsStore,
   networkStatus: NetworkStatusStore,
   ada: AdaStoresMap,
-  etc: EtcStoresMap,
+  lux: LuxStoresMap,
 };
 
 // Constant that does never change during lifetime
@@ -51,7 +51,7 @@ const stores = observable({
   uiNotifications: null,
   networkStatus: null,
   ada: null,
-  etc: null,
+  lux: null,
 });
 
 // Set up and return the stores for this app -> also used to reset all stores to defaults
@@ -66,7 +66,7 @@ export default action((api, actions, router): StoresMap => {
 
   // Add currency specific stores
   if (environment.API === 'ada') stores.ada = setupAdaStores(stores, api, actions);
-  if (environment.API === 'etc') stores.etc = setupEtcStores(stores, api, actions);
+  if (environment.API === 'lux') stores.lux = setupLuxStores(stores, api, actions);
 
   return stores;
 });

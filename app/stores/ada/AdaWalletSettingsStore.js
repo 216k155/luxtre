@@ -7,7 +7,7 @@ import type { WalletExportToFileParams } from '../../actions/ada/wallet-settings
 import type { ExportWalletToFileResponse } from '../../api/ada/index';
 import type { UpdateWalletPasswordResponse, UpdateWalletResponse } from '../../api/common';
 
-export default class EtcWalletSettingsStore extends WalletSettingsStore {
+export default class LuxWalletSettingsStore extends WalletSettingsStore {
 
   /* eslint-disable max-len */
   @observable updateWalletRequest: Request<UpdateWalletResponse> = new Request(this.api.ada.updateWallet);

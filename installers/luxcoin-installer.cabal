@@ -1,11 +1,11 @@
-name:                lux-installer
+name:                luxcoin-installer
 version:             0.1.0.0
-synopsis:            Lux Installer
+synopsis:            Luxcoin Installer
 description:         Please see README.md
 license:             MIT
 author:              Serokell
 maintainer:          Serokell <hi@serokell.io>
-copyright:           2016 LUXCT
+copyright:           2016 IOHK
 build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10

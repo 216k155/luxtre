@@ -2,7 +2,7 @@
 , stdenv, temporary, text, turtle
 }:
 mkDerivation {
-  pname = "cardano-installer";
+  pname = "luxcoin-installer";
   version = "0.1.0.0";
   src = ./.;
   isLibrary = false;
@@ -10,6 +10,6 @@ mkDerivation {
   executableHaskellDepends = [
     base directory filepath Glob megaparsec nsis temporary text turtle
   ];
-  description = "Cardano Installer";
+  description = "Luxcoin Installer";
   license = stdenv.lib.licenses.mit;
 }

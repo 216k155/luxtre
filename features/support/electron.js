@@ -31,7 +31,7 @@ defineSupportCode(({ AfterAll, BeforeAll, Before, setDefaultTimeout }) => {
 
   // And tear it down after all features
   AfterAll(() => {
-    // Since we can have multiple instances of Lux running,
+    // Since we can have multiple instances of Luxcore running,
     // it is easier to keep them open after running tests locally.
     // TODO: this must be improved for CI testing though (i guess).
     // return context.app.stop();
@@ -54,9 +54,9 @@ defineSupportCode(({ AfterAll, BeforeAll, Before, setDefaultTimeout }) => {
     // Reset backend
     await this.client.executeAsync((done) => {
       const resetBackend = () => {
-        if (lux.stores.networkStatus.isConnected) {
-          lux.api.ada.testReset()
-            .then(() => lux.api.localStorage.reset())
+        if (luxcore.stores.networkStatus.isConnected) {
+          luxcore.api.ada.testReset()
+            .then(() => luxcore.api.localStorage.reset())
             .then(done)
             .catch((error) => done(error));
         } else {
@@ -72,7 +72,7 @@ defineSupportCode(({ AfterAll, BeforeAll, Before, setDefaultTimeout }) => {
     // Ensure that frontend is synced and ready before test case
     await this.client.executeAsync((done) => {
       const waitUntilSyncedAndReady = () => {
-        if (lux.stores.networkStatus.isSynced) {
+        if (luxcore.stores.networkStatus.isSynced) {
           done();
         } else {
           setTimeout(waitUntilSyncedAndReady, 50);

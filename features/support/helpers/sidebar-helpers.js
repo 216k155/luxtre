@@ -3,7 +3,7 @@ import { waitAndClick } from './shared-helpers';
 export default {
   activateCategory: async (client, { category }) => {
     await client.execute((cat) => {
-      lux.actions.sidebar.activateSidebarCategory.trigger({
+      luxcore.actions.sidebar.activateSidebarCategory.trigger({
         category: cat,
         showSubMenu: true,
       });

@@ -37,7 +37,7 @@ export const waitUntilWalletIsLoaded = async function (walletName) {
   const context = this;
   await context.client.waitUntil(async () => {
     const result = await context.client.execute((name) => (
-      lux.stores.ada.wallets.getWalletByName(name)
+      luxcore.stores.ada.wallets.getWalletByName(name)
     ), walletName);
     if (result.value) {
       wallet = result.value;
@@ -59,9 +59,9 @@ export const addOrSetWalletsForScenario = function (wallet) {
 
 export const importWalletWithFunds = async (client, { keyFilePath, password }) => (
   await client.executeAsync((filePath, walletPassword, done) => {
-    lux.api.ada.importWalletFromKey({ filePath, walletPassword })
+    luxcore.api.ada.importWalletFromKey({ filePath, walletPassword })
       .then(() => (
-        lux.stores.ada.wallets.refreshWalletsData()
+        luxcore.stores.ada.wallets.refreshWalletsData()
           .then(done)
           .catch((error) => done(error))
       ))

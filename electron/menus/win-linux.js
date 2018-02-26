@@ -1,6 +1,6 @@
 export default (app, window, openAbout) => (
   [{
-    label: '&Lux',
+    label: '&Luxcore',
     submenu: [{
       label: '&About',
       click() {

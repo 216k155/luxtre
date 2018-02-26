@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
 import styles from './DisplaySettings.scss';
 import themeLightBluePreview from '../../../assets/images/themes/light-blue.png';
-import themeLuxPreview from '../../../assets/images/themes/lux.png';
+import themeLuxcoinPreview from '../../../assets/images/themes/luxcoin.png';
 import themeDarkBluePreview from '../../../assets/images/themes/dark-blue.png';
 import { THEMES } from '../../../themes/index';
 
@@ -20,10 +20,10 @@ const messages = defineMessages({
     defaultMessage: '!!!Light blue',
     description: 'Name of the "Light blue" theme on the display settings page.',
   },
-  themeLux: {
-    id: 'settings.display.themeNames.lux',
-    defaultMessage: '!!!Lux',
-    description: 'Name of the "Lux" theme on the display settings page.',
+  themeLuxcoin: {
+    id: 'settings.display.themeNames.luxcoin',
+    defaultMessage: '!!!Luxcoin',
+    description: 'Name of the "Luxcoin" theme on the display settings page.',
   },
   themeDarkBlue: {
     id: 'settings.display.themeNames.darkBlue',
@@ -53,8 +53,8 @@ export default class DisplaySettings extends Component<Props> {
       styles.themeImageWrapper,
     ]);
 
-    const themeLuxClasses = classnames([
-      theme === THEMES.LUX ? styles.active : styles.inactive,
+    const themeLuxcoinClasses = classnames([
+      theme === THEMES.LUXCOIN ? styles.active : styles.inactive,
       styles.themeImageWrapper,
     ]);
 
@@ -81,11 +81,11 @@ export default class DisplaySettings extends Component<Props> {
           </button>
 
           <button
-            className={themeLuxClasses}
-            onClick={selectTheme.bind(this, { theme: THEMES.LUX })}
+            className={themeLuxcoinClasses}
+            onClick={selectTheme.bind(this, { theme: THEMES.LUXCOIN })}
           >
-            <img src={themeLuxPreview} role="presentation" />
-            <span>{intl.formatMessage(messages.themeLux)}</span>
+            <img src={themeLuxcoinPreview} role="presentation" />
+            <span>{intl.formatMessage(messages.themeLuxcoin)}</span>
           </button>
 
           <button

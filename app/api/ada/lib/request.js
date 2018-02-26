@@ -65,7 +65,7 @@ function typedRequest<Response>(
     }
     httpsRequest.on('response', (response) => {
       let body = '';
-      // Lux-sl returns chunked requests, so we need to concat them
+      // Luxcoin-sl returns chunked requests, so we need to concat them
       response.on('data', (chunk) => (body += chunk));
       // Reject errors
       response.on('error', (error) => reject(error));

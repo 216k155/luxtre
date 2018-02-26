@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import styles from './Transaction.scss';
 import TransactionTypeIcon from './TransactionTypeIcon';
 import adaSymbol from '../../../assets/images/ada-symbol.inline.svg';
-import etcSymbol from '../../../assets/images/etc-symbol.inline.svg';
+import luxSymbol from '../../../assets/images/lux-symbol.inline.svg';
 import WalletTransaction, { transactionStates, transactionTypes } from '../../../domain/WalletTransaction';
 import { assuranceLevels } from '../../../config/transactionAssuranceConfig';
 import { environmentSpecificMessages } from '../../../i18n/global-messages';
@@ -169,7 +169,7 @@ export default class Transaction extends Component<Props, State> {
 
     const status = intl.formatMessage(assuranceLevelTranslations[assuranceLevel]);
     const currency = intl.formatMessage(environmentSpecificMessages[environment.API].currency);
-    const symbol = environment.isAdaApi() ? adaSymbol : etcSymbol;
+    const symbol = environment.isAdaApi() ? adaSymbol : luxSymbol;
 
     return (
       <div className={componentStyles}>
@@ -232,7 +232,7 @@ export default class Transaction extends Component<Props, State> {
             <div>
               <h2>
                 {intl.formatMessage(messages[
-                  environment.isEtcApi() ? 'fromAddress' : 'fromAddresses'
+                  environment.isLuxApi() ? 'fromAddress' : 'fromAddresses'
                 ])}
               </h2>
               {data.addresses.from.map((address, addressIndex) => (
@@ -240,7 +240,7 @@ export default class Transaction extends Component<Props, State> {
               ))}
               <h2>
                 {intl.formatMessage(messages[
-                  environment.isEtcApi() ? 'toAddress' : 'toAddresses'
+                  environment.isLuxApi() ? 'toAddress' : 'toAddresses'
                 ])}
               </h2>
               {data.addresses.to.map((address, addressIndex) => (
@@ -259,12 +259,12 @@ export default class Transaction extends Component<Props, State> {
                 </div>
               ) : null}
 
-              {environment.isEtcApi() ? (
+              {environment.isLuxApi() ? (
                 <div className={styles.row}>
                   <h2>{intl.formatMessage(messages.transactionAmount)}</h2>
                   <span>
                     {
-                      // show currency and use long format (e.g. in ETC show all decimal places)
+                      // show currency and use long format (e.g. in LUX show all decimal places)
                       formattedWalletAmount(data.amount, true, true)
                     }
                   </span>
