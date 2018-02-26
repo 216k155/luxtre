@@ -5,7 +5,6 @@ import { LUX_API_HOST, LUX_API_PORT } from './index';
 import type { LuxTransactions } from './types';
 
 export type GetLuxTransactionsParams = {
-  ca: string,
   walletId: string,
   fromBlock: number,
   toBlock: number,
@@ -21,21 +20,20 @@ export type GetLuxTransactionsParams = {
  * @returns {*}
  */
 export const getLuxTransactions = (
-  { ca, walletId, fromBlock, toBlock }: GetLuxTransactionsParams
+  { walletId, fromBlock, toBlock }: GetLuxTransactionsParams
 ): Promise<LuxTransactions> => (
   request({
     hostname: LUX_API_HOST,
     method: 'POST',
-    path: '/',
     port: LUX_API_PORT,
-    ca,
+    auth: LUX_API_USER + ':' + LUX_API_PWD
   }, {
     jsonrpc: '2.0',
-    method: 'listTransaction',
+    method: 'listtransactions',
     params: [
       walletId,
+      new (BigNumber(toBlock) - BigNumber(fromBlock)).toString(16),
       new BigNumber(fromBlock).toString(16),
-      new BigNumber(toBlock).toString(16),
     ],
   })
 );

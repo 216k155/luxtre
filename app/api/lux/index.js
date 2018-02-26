@@ -169,7 +169,6 @@ export default class LuxApi {
       const walletId = request.walletId;
       const mostRecentBlockNumber: LuxBlockNumber = await getLuxBlockNumber({ ca });
       const transactions: LuxTransactions = await getLuxTransactions({
-        ca,
         walletId,
         fromBlock: Math.max(mostRecentBlockNumber - 10000, 0),
         toBlock: mostRecentBlockNumber,
@@ -255,7 +254,7 @@ export default class LuxApi {
       const senderAccount = params.from;
       const { from, to, value, password } = params;
       const txHash: LuxTxHash = await sendLuxTransaction({
-        ca, from, to, value, password, gasPrice: LUX_DEFAULT_GAS_PRICE,
+        to, value,
       });
       Logger.debug('LuxApi::createTransaction success: ' + stringifyData(txHash));
       return _createTransaction(senderAccount, txHash);
@@ -406,7 +405,7 @@ const _createWalletTransactionFromServerData = async (
 
 const _createTransaction = async (senderAccount: LuxWalletId, txHash: LuxTxHash) => {
   const txData: LuxTransaction = await getLuxTransactionByHash({
-    ca, txHash,
+    txHash,
   });
   const type = senderAccount === txData.from ? transactionTypes.EXPEND : transactionTypes.INCOME;
   return _createWalletTransactionFromServerData(type, txData);
