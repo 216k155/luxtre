@@ -19,7 +19,7 @@ export const Logger = {
   },
 
   warn: (data: string) => {
-    Log.warn(data);
+    Log.info(data);
   },
 
   sendToRemote: (type: string, data: string) => {
