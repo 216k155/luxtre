@@ -171,7 +171,7 @@ export default class NetworkStatusStore extends Store {
       this._startupStage = STARTUP_STAGES.LOADING;
     }
     // TODO: introduce smarter way to bootsrap initial screens
-    if (this.isConnected && this.isSynced && wallets.hasLoadedWallets) {
+    if (this.isConnected && this.isSynced/* && wallets.hasLoadedWallets*/) {
       if (this._startupStage === STARTUP_STAGES.LOADING) {
         Logger.info(`========== Loaded after ${this._getStartupTimeDelta()} milliseconds ==========`);
         this._startupStage = STARTUP_STAGES.RUNNING;
