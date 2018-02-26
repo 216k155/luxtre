@@ -11,9 +11,9 @@ usage() {
     test -z "$1" || { echo "ERROR: $*" >&2; echo >&2; }
     cat >&2 <<EOF
   Usage:
-    $0 DAEDALUS-VERSION CARDANO-BRANCH OPTIONS*
+    $0 LUXCORE-VERSION LUXCOIN-BRANCH OPTIONS*
 
-  Build a Daedalus installer.
+  Build a Luxcore installer.
 
   Options:
     --fast-impure             Fast, impure, incremental build
@@ -55,8 +55,8 @@ travis_pr=true
 upload_s3=
 test_install=
 
-daedalus_version="$1"; arg2nz "daedalus version" $1; shift
-cardano_branch="$(printf '%s' "$1" | tr '/' '-')"; arg2nz "Cardano SL branch to build Daedalus with" $1; shift
+luxcore_version="$1"; arg2nz "luxcore version" $1; shift
+luxcoin_branch="$(printf '%s' "$1" | tr '/' '-')"; arg2nz "Luxcoin SL branch to build Luxcore with" $1; shift
 
 case "$(uname -s)" in
         Darwin ) OS_NAME=darwin; os=osx;   key=macos-3.p12;;
@@ -94,36 +94,36 @@ fi
 mkdir -p ~/.local/bin
 
 export PATH=$HOME/.local/bin:$PATH
-export DAEDALUS_VERSION=${daedalus_version}.${build_id}
+export LUXCORE_VERSION=${luxcore_version}.${build_id}
 if [ -n "${NIX_SSL_CERT_FILE-}" ]; then export SSL_CERT_FILE=$NIX_SSL_CERT_FILE; fi
 
-CARDANO_BUILD_UID="${OS_NAME}-${cardano_branch//\//-}"
-ARTIFACT_BUCKET=ci-output-sink        # ex- cardano-sl-travis
-CARDANO_ARTIFACT=cardano-binaries     # ex- daedalus-bridge
-CARDANO_ARTIFACT_FULL_NAME=${CARDANO_ARTIFACT}-${CARDANO_BUILD_UID}
+LUXCOIN_BUILD_UID="${OS_NAME}-${luxcoin_branch//\//-}"
+ARTIFACT_BUCKET=ci-output-sink        # ex- luxcoin-sl-travis
+LUXCOIN_ARTIFACT=luxcoin-binaries     # ex- luxcore-bridge
+LUXCOIN_ARTIFACT_FULL_NAME=${LUXCOIN_ARTIFACT}-${LUXCOIN_BUILD_UID}
 
-test -d node_modules/daedalus-client-api/ -a -n "${fast_impure}" || {
-        retry 5 curl -o ${CARDANO_ARTIFACT_FULL_NAME}.tar.xz \
-              "https://s3.eu-west-1.amazonaws.com/${ARTIFACT_BUCKET}/cardano-sl/${CARDANO_ARTIFACT_FULL_NAME}.tar.xz"
-        mkdir -p node_modules/daedalus-client-api/
-        du -sh  ${CARDANO_ARTIFACT_FULL_NAME}.tar.xz
-        tar xJf ${CARDANO_ARTIFACT_FULL_NAME}.tar.xz --strip-components=1 -C node_modules/daedalus-client-api/
-        rm      ${CARDANO_ARTIFACT_FULL_NAME}.tar.xz
-        echo "cardano-sl build id is $(cat node_modules/daedalus-client-api/build-id)"
-        if [ -f node_modules/daedalus-client-api/commit-id ]; then echo "cardano-sl revision is $(cat node_modules/daedalus-client-api/commit-id)"; fi
-        if [ -f node_modules/daedalus-client-api/ci-url ]; then echo "cardano-sl ci-url is $(cat node_modules/daedalus-client-api/ci-url)"; fi
-        pushd node_modules/daedalus-client-api
-              mv log-config-prod.yaml cardano-node cardano-launcher configuration.yaml *genesis*.json ../../installers
+test -d node_modules/luxcore-client-api/ -a -n "${fast_impure}" || {
+        retry 5 curl -o ${LUXCOIN_ARTIFACT_FULL_NAME}.tar.xz \
+              "https://s3.eu-west-1.amazonaws.com/${ARTIFACT_BUCKET}/luxcoin-sl/${LUXCOIN_ARTIFACT_FULL_NAME}.tar.xz"
+        mkdir -p node_modules/luxcore-client-api/
+        du -sh  ${LUXCOIN_ARTIFACT_FULL_NAME}.tar.xz
+        tar xJf ${LUXCOIN_ARTIFACT_FULL_NAME}.tar.xz --strip-components=1 -C node_modules/luxcore-client-api/
+        rm      ${LUXCOIN_ARTIFACT_FULL_NAME}.tar.xz
+        echo "luxcoin-sl build id is $(cat node_modules/luxcore-client-api/build-id)"
+        if [ -f node_modules/luxcore-client-api/commit-id ]; then echo "luxcoin-sl revision is $(cat node_modules/luxcore-client-api/commit-id)"; fi
+        if [ -f node_modules/luxcore-client-api/ci-url ]; then echo "luxcoin-sl ci-url is $(cat node_modules/luxcore-client-api/ci-url)"; fi
+        pushd node_modules/luxcore-client-api
+              mv log-config-prod.yaml luxcoin-node luxcoin-launcher configuration.yaml *genesis*.json ../../installers
         popd
-        chmod +w installers/cardano-{node,launcher}
-        strip installers/cardano-{node,launcher}
-        rm -f node_modules/daedalus-client-api/cardano-*
+        chmod +w installers/luxcoin-{node,launcher}
+        strip installers/luxcoin-{node,launcher}
+        rm -f node_modules/luxcore-client-api/luxcoin-*
 }
 
 test "$(find node_modules/ | wc -l)" -gt 100 -a -n "${fast_impure}" ||
         nix-shell --run "npm install"
 
-test -d "release/darwin-x64/Daedalus-darwin-x64" -a -n "${fast_impure}" || {
+test -d "release/darwin-x64/Luxcore-darwin-x64" -a -n "${fast_impure}" || {
         nix-shell --run "npm run package -- --icon installers/icons/256x256.png"
         echo "Size of Electron app is $(du -sh release)"
 }
@@ -141,12 +141,12 @@ cd installers
     if test -n "${upload_s3}"
     then
             echo "$0: --upload-s3 passed, will upload the installer to S3";
-            retry 5 nix-shell -p awscli --run "aws s3 cp 'dist/Daedalus-installer-${DAEDALUS_VERSION}.pkg' s3://daedalus-internal/ --acl public-read"
+            retry 5 nix-shell -p awscli --run "aws s3 cp 'dist/Luxcore-installer-${LUXCORE_VERSION}.pkg' s3://luxcore-internal/ --acl public-read"
     fi
     if test -n "${test_install}"
     then echo "$0:  --test-install passed, will test the installer for installability";
          case ${os} in
-                 osx )   sudo installer -dumplog -verbose -target / -pkg "dist/Daedalus-installer-${DAEDALUS_VERSION}.pkg";;
+                 osx )   sudo installer -dumplog -verbose -target / -pkg "dist/Luxcore-installer-${LUXCORE_VERSION}.pkg";;
                  linux ) echo "WARNING: installation testing not implemented on Linux" >&2;; esac; fi
 cd ..
 

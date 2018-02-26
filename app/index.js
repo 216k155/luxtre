@@ -32,12 +32,12 @@ const isInjectedTestEnv = getUrlParameterByName('test') === 'true';
 const isAboutWindow = getUrlParameterByName('window') === 'about';
 if (isInjectedTestEnv) environment.current = environment.TEST;
 
-const initializeDaedalus = () => {
+const initializeLuxcore = () => {
   const api = setupApi();
   const router = new RouterStore();
   const history = syncHistoryWithStore(hashHistory, router);
   const stores = setupStores(api, actions, router);
-  window.daedalus = {
+  window.luxcore = {
     api,
     environment,
     actions,
@@ -59,6 +59,6 @@ const initializeDaedalus = () => {
   }
 };
 
-window.addEventListener('load', initializeDaedalus);
+window.addEventListener('load', initializeLuxcore);
 window.addEventListener('dragover', (event) => event.preventDefault());
 window.addEventListener('drop', (event) => event.preventDefault());

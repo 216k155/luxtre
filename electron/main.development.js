@@ -7,9 +7,9 @@ import osxMenu from './menus/osx';
 import winLinuxMenu from './menus/win-linux';
 import ipcApi from './ipc-api';
 import getRuntimeFolderPath from './lib/getRuntimeFolderPath';
-import { daedalusLogger } from './lib/remoteLog';
+import { luxcoreLogger } from './lib/remoteLog';
 
-const APP_NAME = 'Daedalus';
+const APP_NAME = 'Luxcore';
 // Configure default logger levels for console and file outputs
 const runtimeFolderPath = getRuntimeFolderPath(process.platform, process.env, APP_NAME);
 const appLogFolderPath = path.join(runtimeFolderPath, 'Logs');
@@ -27,7 +27,7 @@ try {
     sendLogsToRemoteServer = sendLogs;
   });
   ipcMain.on('log-to-remote', (event, logEntry) => {
-    if (sendLogsToRemoteServer) daedalusLogger.info(logEntry);
+    if (sendLogsToRemoteServer) luxcoreLogger.info(logEntry);
   });
 } catch (error) {
   Log.error('Error setting up log logging to remote server', error);
@@ -44,8 +44,8 @@ crashReporter.start({
   uploadToServer: false
 });
 
-Log.info(`========== Daedalus is starting at ${new Date()} ==========`);
-Log.info(`!!! Daedalus is running on ${os.platform()} version ${os.release()}
+Log.info(`========== Luxcore is starting at ${new Date()} ==========`);
+Log.info(`!!! Luxcore is running on ${os.platform()} version ${os.release()}
 with CPU: ${JSON.stringify(os.cpus(), null, 2)} with ${JSON.stringify(os.totalmem(), null, 2)} total RAM !!!`);
 
 let menu;
@@ -56,7 +56,7 @@ let terminateAboutWindow = false;
 const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 const isTest = process.env.NODE_ENV === 'test';
-const daedalusVersion = process.env.DAEDALUS_VERSION || 'dev';
+const luxcoreVersion = process.env.LUXCORE_VERSION || 'dev';
 
 if (isDev) {
   require('electron-debug')(); // eslint-disable-line global-require
@@ -144,7 +144,7 @@ app.on('ready', async () => {
   aboutWindow.on('page-title-updated', event => {
     event.preventDefault();
   });
-  aboutWindow.setTitle('About Daedalus'); // default title
+  aboutWindow.setTitle('About Luxcore'); // default title
 
   // prevent direct link navigation in electron window -> open in default browser
   aboutWindow.webContents.on('will-navigate', (e, url) => {
@@ -193,7 +193,7 @@ app.on('ready', async () => {
   mainWindow.on('page-title-updated', event => {
     event.preventDefault();
   });
-  mainWindow.setTitle(`Daedalus (${daedalusVersion})`);
+  mainWindow.setTitle(`Luxcore (${luxcoreVersion})`);
 
   mainWindow.webContents.on('did-finish-load', () => {
     if (isTest) {

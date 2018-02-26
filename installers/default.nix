@@ -2,4 +2,4 @@ with (import (fetchTarball https://github.com/NixOS/nixpkgs/archive/48ecdcf5980a
 
 with haskell.lib;
 
-justStaticExecutables (haskell.packages.ghc802.callPackage ./cardano-installer.nix {})
+justStaticExecutables (haskell.packages.ghc802.callPackage ./luxcoin-installer.nix {})

@@ -87,7 +87,7 @@ import {
 
 /**
  * The api layer that is used for all requests to the
- * cardano backend when working with the ADA coin.
+ * luxcoin backend when working with the ADA coin.
  */
 
 const ca = remote.getGlobal('ca');
@@ -540,7 +540,7 @@ export default class AdaApi {
     // nextUpdate = {
     //   cuiSoftwareVersion: {
     //     svAppName: {
-    //       getApplicationName: 'cardano'
+    //       getApplicationName: 'luxcoin'
     //     },
     //     svNumber: 1
     //   },

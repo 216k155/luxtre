@@ -1,28 +1,28 @@
-# daedalus
+# luxcore
 
-Daedalus - cryptocurrency wallet
+Luxcore - cryptocurrency wallet
 
 ## Automated build
 
 ### CI/dev build scripts
 
-Platform-specific build scripts facilitate building Daedalus the way it is built
+Platform-specific build scripts facilitate building Luxcore the way it is built
 by the IOHK CI:
 
-   - `scripts/build-installer-unix.sh     <DAEDALUS-VERSION> <CARDANO-BRANCH> [OPTIONS..]`
+   - `scripts/build-installer-unix.sh     <LUXCORE-VERSION> <LUXCOIN-BRANCH> [OPTIONS..]`
       - where OS is either `linux` or `osx`
       - facilitates installer upload to S3 via `--upload-s3`
-   - `scripts/build-installer-windows.bat <DAEDALUS-VERSION> <CARDANO-BRANCH>`
+   - `scripts/build-installer-windows.bat <LUXCORE-VERSION> <LUXCOIN-BRANCH>`
 
 The result can be found at:
-   - on OS X:    `${BUILD}/installers/dist/Daedalus-installer-*.pkg`
-   - on WIndows: `${BUILD}/installers/daedalus-*-installer.exe`
+   - on OS X:    `${BUILD}/installers/dist/Luxcore-installer-*.pkg`
+   - on WIndows: `${BUILD}/installers/luxcore-*-installer.exe`
 
-### One-click build-fresh-daedalus scripts
+### One-click build-fresh-luxcore scripts
 
 These rely on the scripts from the previous section, but also go to a certain
 trouble to ensure that dependencies are installed, and even check out a fresh
-version of Daedalus from the specifid branch.
+version of Luxcore from the specifid branch.
 
 These are intended to be used by developers in a "clean rebuild" scenario, to
 facilitate validation.
@@ -32,12 +32,12 @@ Dependencies:
    - on Windows: `Node.js`, `7zip`
 
 Location:
-   - on OS X:    https://github.com/input-output-hk/daedalus/blob/master/scripts/osx-build-fresh-daedalus.sh
-   - on Windows: https://github.com/input-output-hk/daedalus/blob/master/scripts/windows-build-fresh-daedalus.bat
+   - on OS X:    https://github.com/input-output-hk/luxcore/blob/master/scripts/osx-build-fresh-luxcore.sh
+   - on Windows: https://github.com/input-output-hk/luxcore/blob/master/scripts/windows-build-fresh-luxcore.bat
 
 Invocation:
    ```shell
-   {osx,windows}-build-fresh-daedalus.{sh,bat} [BRANCH] [GITHUB-USER] [OPTIONS...]
+   {osx,windows}-build-fresh-luxcore.{sh,bat} [BRANCH] [GITHUB-USER] [OPTIONS...]
    ```
    ..where `BRANCH` defaults to the current release branch, and `GITHUB-USER`
    defaults to `input-output-hk`.
@@ -70,13 +70,13 @@ $ npm run start-hot
 *Note: requires a node version >= 4 and an npm version >= 3. This project
 defaults to 6.x*
 
-### Development - with Cardano Wallet (daedalus-bridge)
+### Development - with Luxcoin Wallet (luxcore-bridge)
 
-Build and run daedalus-bridge [using instructions in the repo](https://github.com/input-output-hk/pos-haskell-prototype/tree/master/daedalus)
+Build and run luxcore-bridge [using instructions in the repo](https://github.com/input-output-hk/pos-haskell-prototype/tree/master/luxcore)
 
-Symlink the npm package in the subfolder `pos-haskell-prototype/daedalus`:
-* `npm link` (inside the daedalus sub folder of the Cardano client)
-* `npm link daedalus-client-api` (inside this daedalus frontend app)
+Symlink the npm package in the subfolder `pos-haskell-prototype/luxcore`:
+* `npm link` (inside the luxcore sub folder of the Luxcoin client)
+* `npm link luxcore-client-api` (inside this luxcore frontend app)
 
 Run with `npm run dev`
 
@@ -121,7 +121,7 @@ and then this:
 $ npm run test-watch
 ```
 
-You can find more details regarding tests setup within [Running Deadalus acceptance tests](https://github.com/input-output-hk/daedalus/blob/master/features/README.md) README file.
+You can find more details regarding tests setup within [Running Deadalus acceptance tests](https://github.com/input-output-hk/luxcore/blob/master/features/README.md) README file.
 
 ### CSS Modules
 

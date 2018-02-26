@@ -5,8 +5,8 @@ import { observer } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
 import classNames from 'classnames';
 import LoadingSpinner from '../widgets/LoadingSpinner';
-import daedalusLogoWhite from '../../assets/images/daedalus-logo-loading-white.inline.svg';
-import daedalusLogo from '../../assets/images/daedalus-logo-loading-grey.inline.svg';
+import luxcoreLogoWhite from '../../assets/images/luxcore-logo-loading.inline.svg';
+import luxcoreLogo from '../../assets/images/luxcore-logo-loading-grey.inline.svg';
 import styles from './Loading.scss';
 import type { ReactIntlMessage } from '../../types/i18nTypes';
 import environment from '../../environment';
@@ -68,8 +68,8 @@ export default class Loading extends Component<Props> {
       isConnecting ? styles['is-connecting'] : null,
       isSyncing ? styles['is-syncing'] : null,
     ]);
-    const daedalusLogoStyles = classNames([
-      styles.daedalusLogo,
+    const luxcoreLogoStyles = classNames([
+      styles.luxcoreLogo,
       isConnecting ? styles.connectingLogo : styles.syncingLogo,
     ]);
     const currencyLogoStyles = classNames([
@@ -77,14 +77,13 @@ export default class Loading extends Component<Props> {
       isConnecting ? styles.connectingLogo : styles.syncingLogo,
     ]);
 
-    const daedalusLoadingLogo = isConnecting ? daedalusLogoWhite : daedalusLogo;
+    const luxcoreLoadingLogo = isConnecting ? luxcoreLogoWhite : luxcoreLogo;
     const currencyLoadingLogo = isConnecting ? currencyIconWhite : currencyIcon;
     const connectingMessage = hasBeenConnected ? messages.reconnecting : messages.connecting;
 
     return (
       <div className={componentStyles}>
-        <SvgInline svg={currencyLoadingLogo} className={currencyLogoStyles} />
-        <SvgInline svg={daedalusLoadingLogo} className={daedalusLogoStyles} />
+        <SvgInline svg={luxcoreLoadingLogo} className={luxcoreLogoStyles} />
         {hasLoadedCurrentLocale && (
           <div>
             {isConnecting && !hasBlockSyncingStarted && (

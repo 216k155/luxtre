@@ -1,6 +1,6 @@
-name:                cardano-installer
+name:                luxcoin-installer
 version:             0.1.0.0
-synopsis:            Cardano Installer
+synopsis:            Luxcoin Installer
 description:         Please see README.md
 license:             MIT
 author:              Serokell
