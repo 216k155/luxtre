@@ -11,29 +11,29 @@ import arrowIcon from '../../assets/images/arrow.inline.svg';
 
 const messages = defineMessages({
   acceptLabel: {
-    id: 'cardano.node.update.notification.accept.button.label',
+    id: 'luxcoin.node.update.notification.accept.button.label',
     defaultMessage: '!!!Update and restart',
-    description: 'Label "Update and restart" on the Cardano node update notification.'
+    description: 'Label "Update and restart" on the Luxcoin node update notification.'
   },
   denyLabel: {
-    id: 'cardano.node.update.notification.postpone.button.label',
+    id: 'luxcoin.node.update.notification.postpone.button.label',
     defaultMessage: '!!!Postpone until restart',
-    description: 'Label "Postpone until restart" on the Cardano node update notification.'
+    description: 'Label "Postpone until restart" on the Luxcoin node update notification.'
   },
   titleWithVersion: {
-    id: 'cardano.node.update.notification.titleWithVersion',
-    defaultMessage: '!!!Cardano-Core update v{version} is available',
-    description: 'Cardano-Core update notification with version.'
+    id: 'luxcoin.node.update.notification.titleWithVersion',
+    defaultMessage: '!!!Luxcoin-Core update v{version} is available',
+    description: 'Luxcoin-Core update notification with version.'
   },
   titleWithoutVersion: {
-    id: 'cardano.node.update.notification.titleWithoutVersion',
-    defaultMessage: '!!!Cardano-Core update is available',
-    description: 'Cardano-Core update notification without version.'
+    id: 'luxcoin.node.update.notification.titleWithoutVersion',
+    defaultMessage: '!!!Luxcoin-Core update is available',
+    description: 'Luxcoin-Core update notification without version.'
   },
   updateMessage: {
-    id: 'cardano.node.update.notification.message',
-    defaultMessage: '!!!Daedalus and Cardano node update is available. Would you like to install the update?',
-    description: 'Message shown when there is a Daedalus and Cardano node update available.'
+    id: 'luxcoin.node.update.notification.message',
+    defaultMessage: '!!!Luxcore and Luxcoin node update is available. Would you like to install the update?',
+    description: 'Message shown when there is a Luxcore and Luxcoin node update available.'
   },
 });
 

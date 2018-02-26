@@ -4,17 +4,17 @@
 #   2. 'nix-shell'
 #   3. 'stack'
 
-DEFAULT_DAEDALUS_BRANCH=cardano-sl-0.4
+DEFAULT_LUXCORE_BRANCH=luxcoin-sl-0.4
 
-DAEDALUS_BRANCH=${1:-${DEFAULT_DAEDALUS_BRANCH}}
+LUXCORE_BRANCH=${1:-${DEFAULT_LUXCORE_BRANCH}}
 GITHUB_USER=${2:-input-output-hk}
 shift 2
 
-URL=https://github.com/${GITHUB_USER}/daedalus.git
+URL=https://github.com/${GITHUB_USER}/luxcore.git
 
-test ! -e daedalus.old ||
-        rm -rf daedalus.old
-mv daedalus daedalus.old 2>/dev/null
+test ! -e luxcore.old ||
+        rm -rf luxcore.old
+mv luxcore luxcore.old 2>/dev/null
 
 set -e -u
 
@@ -46,14 +46,14 @@ EOF
         . ~/.profile
 }
 
-echo "Building Daedalus branch ${DAEDALUS_BRANCH} from ${URL}"
+echo "Building Luxcore branch ${LUXCORE_BRANCH} from ${URL}"
 git clone ${URL}
 
-pushd daedalus
-    git reset --hard origin/${DAEDALUS_BRANCH}
+pushd luxcore
+    git reset --hard origin/${LUXCORE_BRANCH}
 
     scripts/build-installer-unix.sh \
-            "${GITHUB_USER}-${DAEDALUS_BRANCH}-$(git show-ref --hash HEAD)" \
-            "${DEFAULT_DAEDALUS_BRANCH}" \
+            "${GITHUB_USER}-${LUXCORE_BRANCH}-$(git show-ref --hash HEAD)" \
+            "${DEFAULT_LUXCORE_BRANCH}" \
             "$@"
 popd

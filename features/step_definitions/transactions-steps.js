@@ -13,7 +13,7 @@ Given(/^I made the following transactions with my wallet:$/, async function (tab
   }));
   const result = await this.client.execute((transactions) => (
     transactions.map((t) => {
-      const transaction = daedalus.api.repository.generateTransaction(t, t);
+      const transaction = luxcore.api.repository.generateTransaction(t, t);
       transaction.date = transaction.date.toUTCString();
       return transaction;
     })

@@ -232,8 +232,8 @@ export default {
 
   '--theme-about-window-background-color': '#fafbfc',
   '--theme-about-window-header-bottom-border-color': '#dfe4e8',
-  '--theme-about-window-daedalus-icon-color': '#5e6066',
-  '--theme-about-window-cardano-icon-color': '#5e6066',
+  '--theme-about-window-luxcore-icon-color': '#5e6066',
+  '--theme-about-window-luxcoin-icon-color': '#5e6066',
   '--theme-about-window-title-varsion-color': '#5e6066',
   '--theme-about-window-title-stroke-color': '#5e6066',
   '--theme-about-window-content-text-color': '#5e6066',
@@ -244,7 +244,7 @@ export default {
 
   '--theme-block-generation-info-color': '#5e6066',
 
-  '--theme-connecting-background-color': '#345078',
+  '--theme-connecting-background-color': '#0d2547',
   '--theme-connecting-text-color': '#fff',
   '--theme-syncing-text-color': '#5e6066',
 

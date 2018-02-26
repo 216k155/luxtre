@@ -10,7 +10,7 @@ Given(/^I have accepted "Terms of use"$/, async function () {
 
 Given(/^I didnt accept "Terms of use"$/, async function () {
   await this.client.execute(() => {
-    daedalus.reset();
+    luxcore.reset();
   });
 });
 
@@ -32,7 +32,7 @@ Then(/^I should not see the "Terms of use" screen anymore$/, function () {
 
 Then(/^I should have "Terms of use" accepted$/, async function () {
   const result = await this.client.executeAsync((done) => {
-    daedalus.stores.profile.getTermsOfUseAcceptanceRequest.execute()
+    luxcore.stores.profile.getTermsOfUseAcceptanceRequest.execute()
       .then(done)
       .catch((error) => done(error));
   });

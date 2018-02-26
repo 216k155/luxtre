@@ -10,9 +10,9 @@ const forceVendedEncryptedAdaCertificateFilePath = path.resolve(__dirname, '../s
 const CERTIFICATE_UPLOAD_BOX = '.AdaRedemptionForm_certificate .AdaCertificateUploadWidget_uploadBox input';
 const REDEMPTION_SUBMIT_BUTTON = '.AdaRedemptionForm_component .AdaRedemptionForm_submitButton';
 
-Given(/^I have accepted "Daedalus Redemption Disclaimer"$/, async function () {
+Given(/^I have accepted "Luxcore Redemption Disclaimer"$/, async function () {
   await this.client.execute(() => {
-    daedalus.actions.ada.adaRedemption.acceptRedemptionDisclaimer.trigger();
+    luxcore.actions.ada.adaRedemption.acceptRedemptionDisclaimer.trigger();
   });
 });
 
@@ -21,7 +21,7 @@ Given(/^I am on the ada redemption screen$/, async function () {
   return this.client.waitForVisible('.AdaRedemptionForm_component');
 });
 
-Given(/^I see the "Daedalus Redemption Disclaimer" overlay$/, function () {
+Given(/^I see the "Luxcore Redemption Disclaimer" overlay$/, function () {
   return this.client.waitForVisible('.AdaRedemptionDisclaimer_component');
 });
 
@@ -33,7 +33,7 @@ When(/^I click on the "Continue" button$/, function () {
   return this.waitAndClick('.AdaRedemptionDisclaimer_component button');
 });
 
-Then(/^I should not see the "Daedalus Redemption Disclaimer" overlay anymore$/, function () {
+Then(/^I should not see the "Luxcore Redemption Disclaimer" overlay anymore$/, function () {
   return this.client.waitForVisible('.AdaRedemptionDisclaimer_component', null, true);
 });
 

@@ -1,4 +1,4 @@
-//  ==== Theme: Cardano === //
+//  ==== Theme: Luxcoin === //
 
 export default {
   '--preferred-font': '"Times New Roman", serif',
@@ -232,8 +232,8 @@ export default {
 
   '--theme-about-window-background-color': '#fafbfc',
   '--theme-about-window-header-bottom-border-color': '#dfe4e8',
-  '--theme-about-window-daedalus-icon-color': '#5e6066',
-  '--theme-about-window-cardano-icon-color': '#5e6066',
+  '--theme-about-window-luxcore-icon-color': '#5e6066',
+  '--theme-about-window-luxcoin-icon-color': '#5e6066',
   '--theme-about-window-title-varsion-color': '#5e6066',
   '--theme-about-window-title-stroke-color': '#5e6066',
   '--theme-about-window-content-text-color': '#5e6066',

@@ -13,6 +13,6 @@ export const waitUntilUrlEquals = function (expectedUrl) {
 
 export const navigateTo = function (requestedRoute) {
   return this.client.execute((route) => {
-    daedalus.actions.router.goToRoute.trigger({ route });
+    luxcore.actions.router.goToRoute.trigger({ route });
   }, requestedRoute);
 };

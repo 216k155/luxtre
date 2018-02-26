@@ -5,7 +5,7 @@ import { observer } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
 import styles from './DisplaySettings.scss';
 import themeLightBluePreview from '../../../assets/images/themes/light-blue.png';
-import themeCardanoPreview from '../../../assets/images/themes/cardano.png';
+import themeLuxcoinPreview from '../../../assets/images/themes/luxcoin.png';
 import themeDarkBluePreview from '../../../assets/images/themes/dark-blue.png';
 import { THEMES } from '../../../themes/index';
 
@@ -20,10 +20,10 @@ const messages = defineMessages({
     defaultMessage: '!!!Light blue',
     description: 'Name of the "Light blue" theme on the display settings page.',
   },
-  themeCardano: {
-    id: 'settings.display.themeNames.cardano',
-    defaultMessage: '!!!Cardano',
-    description: 'Name of the "Cardano" theme on the display settings page.',
+  themeLuxcoin: {
+    id: 'settings.display.themeNames.luxcoin',
+    defaultMessage: '!!!Luxcoin',
+    description: 'Name of the "Luxcoin" theme on the display settings page.',
   },
   themeDarkBlue: {
     id: 'settings.display.themeNames.darkBlue',
@@ -53,8 +53,8 @@ export default class DisplaySettings extends Component<Props> {
       styles.themeImageWrapper,
     ]);
 
-    const themeCardanoClasses = classnames([
-      theme === THEMES.CARDANO ? styles.active : styles.inactive,
+    const themeLuxcoinClasses = classnames([
+      theme === THEMES.LUXCOIN ? styles.active : styles.inactive,
       styles.themeImageWrapper,
     ]);
 
@@ -81,11 +81,11 @@ export default class DisplaySettings extends Component<Props> {
           </button>
 
           <button
-            className={themeCardanoClasses}
-            onClick={selectTheme.bind(this, { theme: THEMES.CARDANO })}
+            className={themeLuxcoinClasses}
+            onClick={selectTheme.bind(this, { theme: THEMES.LUXCOIN })}
           >
-            <img src={themeCardanoPreview} role="presentation" />
-            <span>{intl.formatMessage(messages.themeCardano)}</span>
+            <img src={themeLuxcoinPreview} role="presentation" />
+            <span>{intl.formatMessage(messages.themeLuxcoin)}</span>
           </button>
 
           <button
