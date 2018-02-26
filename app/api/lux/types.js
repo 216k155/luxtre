@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js';
 
 export type LuxAccountPassphrase = string;
 export type LuxWalletId = string;
-export type LuxWalletBalance = string;
+export type LuxWalletBalance = BigNumber;
 export type LuxBlockNumber = number;
 export type LuxGas = string;
 export type LuxGasPrice = BigNumber;

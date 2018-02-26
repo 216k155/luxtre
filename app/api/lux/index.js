@@ -152,12 +152,12 @@ export default class LuxApi {
   async getAccountBalance(walletId: string): Promise<GetTransactionsResponse> {
     Logger.debug('LuxApi::getAccountBalance called');
     try {
-      const status = 'latest';
+      const confirmations = 1;
       const response: LuxWalletBalance = await getLuxAccountBalance({
-        ca, walletId, status,
+        walletId, confirmations,
       });
       Logger.debug('LuxApi::getAccountBalance success: ' + stringifyData(response));
-      return quantityToBigNumber(response).dividedBy(WEI_PER_LUX);
+      return response;
     } catch (error) {
       Logger.error('LuxApi::getAccountBalance error: ' + stringifyError(error));
       throw new GenericApiError();
