@@ -103,7 +103,7 @@ export const unsetLuxWalletsData = (): Promise<void> => new Promise((resolve) =>
 // ======= DUMMY DATA =======
 
 export const LUX_WALLETS_DATA = [
-  {
+  /*{
     id: '0xafe149dce151dc829008779820cc4a947ab2257e',
     name: 'Wallet 1',
     assurance: 'CWANormal',
@@ -200,7 +200,7 @@ export const LUX_WALLETS_DATA = [
     assurance: 'CWANormal',
     hasPassword: false,
     passwordUpdateDate: null,
-  },
+  },*/
 ];
 
 export const initLuxWalletsDummyData = (): Promise<void> => new Promise(async (resolve, reject) => {

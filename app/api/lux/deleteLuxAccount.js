@@ -18,7 +18,7 @@ export const deleteLuxAccount = (
     ca,
   }, {
     jsonrpc: '2.0',
-    method: 'luxcore_deleteWallet',
+    method: 'daedalus_deleteWallet',
     params: [walletId]
   })
 );

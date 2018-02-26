@@ -26,7 +26,7 @@ function typedRequest<Response>(
     });
     const httpsRequest = https.request(options, (response) => {
       let body = '';
-      // Luxcoin-sl returns chunked requests, so we need to concat them
+      // Cardano-sl returns chunked requests, so we need to concat them
       response.on('data', (chunk) => (body += chunk));
       // Reject errors
       response.on('error', (error) => reject(error));
