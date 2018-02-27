@@ -104,7 +104,7 @@ export const unsetLuxWalletsData = (): Promise<void> => new Promise((resolve) =>
 
 export const LUX_WALLETS_DATA = [
   {
-    id: 'Test',
+    id: '0x2f71adcdb471af7f7623d7e4ff27d9e5de4fd3b9',
     name: 'Wallet 1',
     assurance: 'CWANormal',
     hasPassword: true,

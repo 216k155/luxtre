@@ -6,11 +6,11 @@ import moment from 'moment';
 export const Logger = {
 
   debug: (data: string) => {
-    Log.error(data);
+    Log.debug(data);
   },
 
   info: (data: string) => {
-    Log.error(data);
+    Log.info(data);
   },
 
   error: (data: string) => {
@@ -19,7 +19,7 @@ export const Logger = {
   },
 
   warn: (data: string) => {
-    Log.error(data);
+    Log.info(data);
   },
 
   sendToRemote: (type: string, data: string) => {

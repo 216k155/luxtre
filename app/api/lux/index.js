@@ -22,7 +22,7 @@ import WalletTransaction, { transactionStates, transactionTypes } from '../../do
 import { getLuxAccounts } from './getLuxAccounts';
 import { getLuxAccountBalance } from './getLuxAccountBalance';
 import { getLuxAccountRecoveryPhrase } from './getLuxAccountRecoveryPhrase';
-import { createLuxAccount } from './createLuxAccount';
+//import { createLuxAccount } from './createLuxAccount';
 import { getLuxBlockByHash } from './getLuxBlock';
 import { sendLuxTransaction } from './sendLuxTransaction';
 import { deleteLuxAccount } from './deleteLuxAccount';
@@ -34,6 +34,8 @@ import { getLuxBlockNumber } from './getLuxBlockNumber';
 import { getLuxAddressesByAccount } from './getLuxAddressesByAccount';
 import { importLuxPrivateKey } from './importLuxPrivateKey';
 import { setLuxAccount } from './setLuxAccount';
+import { getLuxAccountAddress } from './getLuxAccountAddress';
+import {isLuxValidAddress} from './isLuxValidAddress';
 import { isValidMnemonic } from '../../../lib/decrypt';
 
 import type { TransactionType } from '../../domain/WalletTransaction';
@@ -72,6 +74,7 @@ export const LUX_API_HOST = 'localhost';
 export const LUX_API_PORT = 9888;
 export const LUX_API_USER = 'rpcuser';
 export const LUX_API_PWD = 'rpcpwd';
+
 
 // LUX specific Request / Response params
 export type ImportWalletResponse = Wallet;
@@ -123,29 +126,32 @@ export default class LuxApi {
   }
 
   getWallets = async (): Promise<GetWalletsResponse> => {
-    Logger.error('LuxApi::getWallets called');
+    Logger.debug('LuxApi::getWallets called');
     try {
       const accounts: LuxAccounts = await getLuxAccounts();
       delete accounts[""];
       //Logger.error('LuxApi::getWallets success: ' + stringifyData(accounts));
       return await Promise.all(Object.keys(accounts).map(async (id) => {
-        const amount = await this.getAccountBalance(id);
+        const amount = accounts[id]; 
+        const walletId = id;
+        const address = await getLuxAccountAddress({walletId});
         try {
           // use wallet data from local storage
           const walletData = await getLuxWalletData(id); // fetch wallet data from local storage
           const { name, assurance, hasPassword, passwordUpdateDate } = walletData;
-          return new Wallet({ id, name, amount, assurance, hasPassword, passwordUpdateDate });
+          return new Wallet({ id, address, name, amount, assurance, hasPassword, passwordUpdateDate });
         } catch (error) {
           // there is no wallet data in local storage - use fallback data
           const fallbackWalletData = {
             id,
+            address,
             name: 'Untitled Wallet (*)',
             assurance: 'CWANormal',
             hasPassword: true,
             passwordUpdateDate: new Date(),
           };
           const { name, assurance, hasPassword, passwordUpdateDate } = fallbackWalletData;
-          return new Wallet({ id, name, amount, assurance, hasPassword, passwordUpdateDate });
+          return new Wallet({ id, address, name, amount, assurance, hasPassword, passwordUpdateDate });
         }
       }));
     } catch (error) {
@@ -204,37 +210,35 @@ export default class LuxApi {
   };
 
   async importWallet(request: ImportWalletRequest): Promise<ImportWalletResponse> {
-    Logger.error('LuxApi::importWallet called');
     const { name, privateKey, password } = request;
+    Logger.debug('LuxApi::importWallet called: ' + privateKey);
     let ImportWallet = null;
     try {
       const account = "";
       const oldAddresses: LuxAddresses = await getLuxAddressesByAccount({account});
-      Logger.error('LuxApi::importWallet success: ' + stringifyData(oldAddresses) + name);
       const label = "";
       const rescan = false;
-      Logger.error('LuxApi::importWallet success: ' + privateKey);
       await importLuxPrivateKey({privateKey, label, rescan});
       const newAddresses: LuxAddresses = await getLuxAddressesByAccount({account});
+      Logger.debug('LuxApi::getLuxAddressesByAccount success: ' + name);
 
-      Logger.error('LuxApi::importWallet success: ' + stringifyData(newAddresses) + name);
-
-      let address = null;
+      let newAddress = null;
       if(newAddresses.length - oldAddresses.length==1){
         newAddresses.forEach(async function(currUnAssAdd,indexUnAssAdd,arrUnAssAdd){
             var newUnAssAdd=oldAddresses.find(function(currUnAssAddOld,indexUnAssAddOld,arrUnAssAddOld){
                 return currUnAssAddOld===currUnAssAdd;
             })
             if(!newUnAssAdd){
-                address = newAddresses[indexUnAssAdd];
+              newAddress = newAddresses[indexUnAssAdd];
             }
         })
       }
 
-      if(address)
+      if(newAddress)
       {
+        const address = newAddress;
         await setLuxAccount({address, name});
-        Logger.error('LuxApi::importWallet success');
+        Logger.debug('LuxApi::importWallet success');
         const id = name;
         const amount = quantityToBigNumber('0');
         const assurance = 'CWANormal';
@@ -243,7 +247,7 @@ export default class LuxApi {
         await setLuxWalletData({
           id, name, assurance, hasPassword, passwordUpdateDate,
         });
-        ImportWallet = new Wallet({ id, name, amount, assurance, hasPassword, passwordUpdateDate });
+        ImportWallet = new Wallet({ id, address, name, amount, assurance, hasPassword, passwordUpdateDate });
       }
 
     } catch (error) {
@@ -297,7 +301,7 @@ export default class LuxApi {
       const senderAccount = params.from;
       const { from, to, value, password } = params;
       const txHash: LuxTxHash = await sendLuxTransaction({
-        to, value,
+        from, to, value
       });
       Logger.debug('LuxApi::createTransaction success: ' + stringifyData(txHash));
       return _createTransaction(senderAccount, txHash);
@@ -386,7 +390,7 @@ export default class LuxApi {
   }
 
   isValidAddress(address: string): Promise<boolean> {
-    return Promise.resolve(isAddress(address));
+    return Promise.resolve(isLuxValidAddress({address}));
   }
 
   async getEstimatedGasPriceResponse(

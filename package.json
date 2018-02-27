@@ -60,6 +60,7 @@
     "babel-register": "6.24.0",
     "boiler-room-custodian": "0.4.3",
     "chai": "4.1.2",
+    "coinkey": "^2.0.0",
     "concurrently": "3.4.0",
     "cross-env": "3.2.4",
     "css-loader": "0.25.0",
