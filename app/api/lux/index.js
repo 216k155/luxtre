@@ -210,9 +210,9 @@ export default class LuxApi {
   };
 
   async importWallet(request: ImportWalletRequest): Promise<ImportWalletResponse> {
-    Logger.error('LuxApi::importWallet called: ');
+    Logger.debug('LuxApi::importWallet called: ');
     const { name, privateKey, password } = request;
-    Logger.error('LuxApi::importWallet called: ' + privateKey);
+    Logger.debug('LuxApi::importWallet called: ' + privateKey);
     let ImportWallet = null;
     try {
       const account = "";
@@ -221,7 +221,7 @@ export default class LuxApi {
       const rescan = false;
       await importLuxPrivateKey({privateKey, label, rescan});
       const newAddresses: LuxAddresses = await getLuxAddressesByAccount({account});
-      Logger.error('LuxApi::getLuxAddressesByAccount success: ' + name);
+      Logger.debug('LuxApi::getLuxAddressesByAccount success: ' + name);
 
       let newAddress = null;
       if(newAddresses.length - oldAddresses.length==1){
@@ -239,7 +239,7 @@ export default class LuxApi {
       {
         const address = newAddress;
         await setLuxAccount({address, name});
-        Logger.error('LuxApi::importWallet success');
+        Logger.debug('LuxApi::importWallet success');
         const id = name;
         const amount = quantityToBigNumber('0');
         const assurance = 'CWANormal';
@@ -260,18 +260,18 @@ export default class LuxApi {
   }
 
   createWallet = async (request: CreateWalletRequest): Promise<CreateWalletResponse> => {
-    Logger.error('LuxApi::createWallet called');
+    Logger.debug('LuxApi::createWallet called');
     const { name, mnemonic, password } = request;
     const privateKeyHex = mnemonicToSeedHex(mnemonic);
 
     //var ck = CoinKey.fromWif('Q1mY6nVLLkV2LyimeMCViXkPZQuPMhMKq8HTMPAiYuSn72dRCP4d')
     //Logger.error('LuxApi::createWallet private: ' + ck.versions.private.toString());
     //Logger.error('LuxApi::createWallet public: ' + ck.versions.public.toString());
-    //CoinKey.createRandom(ci('NMC'));
-    Logger.error('LuxApi::createWallet called' + privateKeyHex);
+    
+    Logger.debug('LuxApi::createWallet success: ' + privateKeyHex);
     var coinkey = new CoinKey(new Buffer(privateKeyHex, 'hex'), {private: 155, public: 27});
     const privateKey = coinkey.privateWif;
-    Logger.error('LuxApi::createWallet called' + privateKey);
+    Logger.debug('LuxApi::createWallet success: ' + privateKey);
     try {
       const response: ImportWalletResponse = await this.importWallet({
         name, privateKey, password,
