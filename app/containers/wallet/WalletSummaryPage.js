@@ -65,7 +65,7 @@ export default class WalletSummaryPage extends Component<Props> {
       <VerticalFlexContainer>
         <WalletSummary
           walletName={wallet.name}
-          amount={wallet.amount != 0 ? wallet.amount.toFormat(DECIMAL_PLACES_IN_LUX) : 0}
+          amount={wallet.amount.toFormat(DECIMAL_PLACES_IN_LUX)}
           numberOfTransactions={totalAvailable}
           pendingAmount={unconfirmedAmount}
           isLoadingTransactions={recentTransactionsRequest.isExecutingFirstTime}
