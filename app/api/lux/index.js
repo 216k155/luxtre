@@ -35,6 +35,7 @@ import { getLuxAddressesByAccount } from './getLuxAddressesByAccount';
 import { importLuxPrivateKey } from './importLuxPrivateKey';
 import { setLuxAccount } from './setLuxAccount';
 import { getLuxAccountAddress } from './getLuxAccountAddress';
+import {isLuxValidAddress} from './isLuxValidAddress';
 import { isValidMnemonic } from '../../../lib/decrypt';
 
 import type { TransactionType } from '../../domain/WalletTransaction';
@@ -124,7 +125,7 @@ export default class LuxApi {
   }
 
   getWallets = async (): Promise<GetWalletsResponse> => {
-    Logger.error('LuxApi::getWallets called');
+    Logger.debug('LuxApi::getWallets called');
     try {
       const accounts: LuxAccounts = await getLuxAccounts();
       delete accounts[""];
@@ -301,7 +302,7 @@ export default class LuxApi {
       const senderAccount = params.from;
       const { from, to, value, password } = params;
       const txHash: LuxTxHash = await sendLuxTransaction({
-        to, value,
+        from, to, value
       });
       Logger.debug('LuxApi::createTransaction success: ' + stringifyData(txHash));
       return _createTransaction(senderAccount, txHash);
@@ -390,7 +391,7 @@ export default class LuxApi {
   }
 
   isValidAddress(address: string): Promise<boolean> {
-    return Promise.resolve(isAddress(address));
+    return Promise.resolve(isLuxValidAddress({address}));
   }
 
   async getEstimatedGasPriceResponse(
