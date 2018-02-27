@@ -1,7 +1,7 @@
 // @flow
 import BigNumber from 'bignumber.js';
 import { request } from './lib/request';
-import { LUX_API_HOST, LUX_API_PORT } from './index';
+import { LUX_API_HOST, LUX_API_PORT, LUX_API_USER, LUX_API_PWD } from './index';
 import type { LuxTransactions } from './types';
 
 export type GetLuxTransactionsParams = {
@@ -32,8 +32,8 @@ export const getLuxTransactions = (
     method: 'listtransactions',
     params: [
       walletId,
-      new (BigNumber(toBlock) - BigNumber(fromBlock)).toString(16),
-      new BigNumber(fromBlock).toString(16),
+      toBlock - fromBlock,
+      fromBlock
     ],
   })
 );

@@ -27,24 +27,25 @@ export type LuxSyncProgress = ?{
 };
 
 export type LuxTransaction = {
-  hash: LuxTxHash,
-  nonce: string,
-  blockHash: string,
-  blockNumber: LuxBlockNumber,
-  transactionIndex: string,
-  from: LuxWalletId,
-  to: LuxWalletId,
-  value: string,
-  gasPrice: LuxGasPrice,
-  gas: LuxGas,
-  input: string,
-  pending: boolean,
+  account: string,
+  address: LuxWalletId,
+  category: string,
+  amount: BigNumber,
+  fee: BigNumber,
+  confirmations: number,
+  txid: LuxTxHash,
+  //nonce: string,
+  blockhash: string,
+  //blockNumber: LuxBlockNumber,
+  blockindex: string,
+  blocktime: numner
+  //value: string,
+  //gasPrice: LuxGasPrice,
+  //gas: LuxGas,
+  //input: string,
 };
 
-export type LuxTransactions = {
-  received: Array<LuxTransaction>,
-  sent: Array<LuxTransaction>,
-};
+export type LuxTransactions = Array<LuxTransaction>;
 
 export type LuxInfo = {
 		//version: number,

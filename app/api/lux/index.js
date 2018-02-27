@@ -1,6 +1,5 @@
 // @flow
 import CoinKey from 'coinkey';
-import ci from 'coininfo';
 import BigNumber from 'bignumber.js';
 import { remote } from 'electron';
 import { isAddress } from 'web3-utils/src/utils';
@@ -106,9 +105,9 @@ export default class LuxApi {
     Logger.debug('LuxApi::getSyncProgress called');
     try {
       const response: LuxInfo = await getLuxInfo();
-      Logger.info('LuxApi::getLuxInfo success: ' + stringifyData(response));
+      //Logger.info('LuxApi::getLuxInfo success: ' + stringifyData(response));
       const peerInfos: LuxPeerInfos = await getLuxPeerInfo();
-      Logger.info('LuxApi::getLuxPeerInfo success: ' + stringifyData(peerInfos));
+      //Logger.info('LuxApi::getLuxPeerInfo success: ' + stringifyData(peerInfos));
       var totalBlocks = peerInfos.sort(function(a, b){
         return b.startingheight - a.startingheight;
       })[0].startingheight;
@@ -173,24 +172,27 @@ export default class LuxApi {
     Logger.debug('LuxApi::getTransactions called: ' + stringifyData(request));
     try {
       const walletId = request.walletId;
-      const mostRecentBlockNumber: LuxBlockNumber = await getLuxBlockNumber({ ca });
+      const mostRecentBlockNumber: LuxBlockNumber = await getLuxBlockNumber();
       const transactions: LuxTransactions = await getLuxTransactions({
         walletId,
         fromBlock: Math.max(mostRecentBlockNumber - 10000, 0),
         toBlock: mostRecentBlockNumber,
       });
       Logger.debug('LuxApi::getTransactions success: ' + stringifyData(transactions));
-      const receivedTxs = await Promise.all(
-        transactions.received.map(async (tx: LuxTransaction) => (
-          _createWalletTransactionFromServerData(transactionTypes.INCOME, tx)
-        ))
+      const allTxs = await Promise.all(
+        transactions.map(async (tx: LuxTransaction) => {
+          if(tx.category == 'receive')
+          {
+              return _createWalletTransactionFromServerData(transactionTypes.INCOME, tx)
+          }
+
+          if(tx.category == 'send')
+          {
+              return _createWalletTransactionFromServerData(transactionTypes.EXPEND, tx)
+          }
+          
+        })
       );
-      const sentTxs = await Promise.all(
-        transactions.sent.map(async (tx: LuxTransaction) => (
-          _createWalletTransactionFromServerData(transactionTypes.EXPEND, tx)
-        ))
-      );
-      const allTxs = receivedTxs.concat(sentTxs);
       return {
         transactions: allTxs,
         total: allTxs.length,
@@ -423,24 +425,21 @@ export default class LuxApi {
 const _createWalletTransactionFromServerData = async (
   type: TransactionType, txData: LuxTransaction
 ): Promise<WalletTransaction> => {
-  const { hash, blockHash, value, from, to, pending, } = txData;
-  const txBlock: ?LuxBlock = blockHash ? await getLuxBlockByHash({
-    blockHash,
-  }) : null;
-  const blockDate = txBlock ? unixTimestampToDate(txBlock.time) : new Date();
+  const { txid, blockHash, amount, address, confirmations, blocktime} = txData;
+  //const txBlock: ?LuxBlock = blockHash ? await getLuxBlockByHash({
+  //  blockHash,
+  //}) : null;
+  const blockDate = unixTimestampToDate(blocktime);
   return new WalletTransaction({
-    id: hash,
+    id: txid,
     type,
     title: '',
     description: '',
-    amount: quantityToBigNumber(value).dividedBy(WEI_PER_LUX),
+    amount: amount,
     date: blockDate,
-    numberOfConfirmations: 0,
-    addresses: {
-      from: [from],
-      to: [to],
-    },
-    state: pending ? transactionStates.PENDING : transactionStates.OK,
+    numberOfConfirmations: confirmations,
+    address: address,
+    state: confirmations < 3 ? transactionStates.PENDING : transactionStates.OK,
   });
 };
 
