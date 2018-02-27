@@ -2,7 +2,7 @@
 import CoinKey from 'coinkey';
 import BigNumber from 'bignumber.js';
 import { remote } from 'electron';
-import { isAddress } from 'web3-utils/src/utils';
+//import { isAddress } from 'web3-utils/src/utils';
 import { getLuxInfo } from './getLuxInfo';
 import { getLuxPeerInfo } from './getLuxPeerInfo';
 import { Logger, stringifyData, stringifyError } from '../../utils/logging';
