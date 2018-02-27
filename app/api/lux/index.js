@@ -151,7 +151,7 @@ export default class LuxApi {
             passwordUpdateDate: new Date(),
           };
           const { name, assurance, hasPassword, passwordUpdateDate } = fallbackWalletData;
-          return new Wallet({ id, name, amount, assurance, hasPassword, passwordUpdateDate });
+          return new Wallet({ id, address, name, amount, assurance, hasPassword, passwordUpdateDate });
         }
       }));
     } catch (error) {
