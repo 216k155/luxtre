@@ -6,11 +6,11 @@ import moment from 'moment';
 export const Logger = {
 
   debug: (data: string) => {
-    Log.debug(data);
+    Log.error(data);
   },
 
   info: (data: string) => {
-    Log.info(data);
+    Log.error(data);
   },
 
   error: (data: string) => {
@@ -19,13 +19,13 @@ export const Logger = {
   },
 
   warn: (data: string) => {
-    Log.info(data);
+    Log.error(data);
   },
 
   sendToRemote: (type: string, data: string) => {
     // Log entry should be sent to the remote server in the format of:
     // [datestamp] [log-type]: log-data
-    // e.g: [2017-08-22 11:25:20:0811] [debug] LuxClientApi::getLocale called
+    // e.g: [2017-08-22 11:25:20:0811] [debug] LuxcoinClientApi::getLocale called
     const logEntry = `${moment().format('YYYY-MM-DD HH:mm:ss:0SSS')} [${type}]: ${data}`;
     ipcRenderer.send('log-to-remote', logEntry);
   },

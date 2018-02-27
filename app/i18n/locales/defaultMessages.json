@@ -242,13 +242,13 @@
     "descriptors": [
       {
         "defaultMessage": "!!!Update and restart",
-        "description": "Label \"Update and restart\" on the Lux node update notification.",
+        "description": "Label \"Update and restart\" on the Luxcoin node update notification.",
         "end": {
           "column": 3,
           "line": 17
         },
         "file": "app/components/notifications/NodeUpdateNotification.js",
-        "id": "lux.node.update.notification.accept.button.label",
+        "id": "luxcoin.node.update.notification.accept.button.label",
         "start": {
           "column": 15,
           "line": 13
@@ -256,55 +256,55 @@
       },
       {
         "defaultMessage": "!!!Postpone until restart",
-        "description": "Label \"Postpone until restart\" on the Lux node update notification.",
+        "description": "Label \"Postpone until restart\" on the Luxcoin node update notification.",
         "end": {
           "column": 3,
           "line": 22
         },
         "file": "app/components/notifications/NodeUpdateNotification.js",
-        "id": "lux.node.update.notification.postpone.button.label",
+        "id": "luxcoin.node.update.notification.postpone.button.label",
         "start": {
           "column": 13,
           "line": 18
         }
       },
       {
-        "defaultMessage": "!!!Lux-Core update v{version} is available",
-        "description": "Lux-Core update notification with version.",
+        "defaultMessage": "!!!Luxcoin-Core update v{version} is available",
+        "description": "Luxcoin-Core update notification with version.",
         "end": {
           "column": 3,
           "line": 27
         },
         "file": "app/components/notifications/NodeUpdateNotification.js",
-        "id": "lux.node.update.notification.titleWithVersion",
+        "id": "luxcoin.node.update.notification.titleWithVersion",
         "start": {
           "column": 20,
           "line": 23
         }
       },
       {
-        "defaultMessage": "!!!Lux-Core update is available",
-        "description": "Lux-Core update notification without version.",
+        "defaultMessage": "!!!Luxcoin-Core update is available",
+        "description": "Luxcoin-Core update notification without version.",
         "end": {
           "column": 3,
           "line": 32
         },
         "file": "app/components/notifications/NodeUpdateNotification.js",
-        "id": "lux.node.update.notification.titleWithoutVersion",
+        "id": "luxcoin.node.update.notification.titleWithoutVersion",
         "start": {
           "column": 23,
           "line": 28
         }
       },
       {
-        "defaultMessage": "!!!Lux and Lux node update is available. Would you like to install the update?",
-        "description": "Message shown when there is a Lux and Lux node update available.",
+        "defaultMessage": "!!!Luxcore and Luxcoin node update is available. Would you like to install the update?",
+        "description": "Message shown when there is a Luxcore and Luxcoin node update available.",
         "end": {
           "column": 3,
           "line": 37
         },
         "file": "app/components/notifications/NodeUpdateNotification.js",
-        "id": "lux.node.update.notification.message",
+        "id": "luxcoin.node.update.notification.message",
         "start": {
           "column": 17,
           "line": 33
@@ -504,14 +504,14 @@
         }
       },
       {
-        "defaultMessage": "!!!Lux",
-        "description": "Name of the \"Lux\" theme on the display settings page.",
+        "defaultMessage": "!!!Luxcoin",
+        "description": "Name of the \"Luxcoin\" theme on the display settings page.",
         "end": {
           "column": 3,
           "line": 27
         },
         "file": "app/components/settings/categories/DisplaySettings.js",
-        "id": "settings.display.themeNames.lux",
+        "id": "settings.display.themeNames.luxcoin",
         "start": {
           "column": 16,
           "line": 23
@@ -758,7 +758,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "!!!About Lux",
+        "defaultMessage": "!!!About Luxcore",
         "description": "About Window \"title\"",
         "end": {
           "column": 3,
@@ -772,7 +772,7 @@
         }
       },
       {
-        "defaultMessage": "!!!Lux",
+        "defaultMessage": "!!!Luxcore",
         "description": "About \"title\"",
         "end": {
           "column": 3,
@@ -800,28 +800,28 @@
         }
       },
       {
-        "defaultMessage": "!!!Lux Team:",
-        "description": "About page lux team headline",
+        "defaultMessage": "!!!Luxcore Team:",
+        "description": "About page luxcore team headline",
         "end": {
           "column": 3,
           "line": 30
         },
         "file": "app/components/static/About.js",
-        "id": "static.about.content.lux.headline",
+        "id": "static.about.content.luxcore.headline",
         "start": {
           "column": 32,
           "line": 26
         }
       },
       {
-        "defaultMessage": "!!!Lux Team:",
-        "description": "About page lux team headline",
+        "defaultMessage": "!!!Luxcoin Team:",
+        "description": "About page luxcoin team headline",
         "end": {
           "column": 3,
           "line": 35
         },
         "file": "app/components/static/About.js",
-        "id": "static.about.content.lux.headline",
+        "id": "static.about.content.luxcoin.headline",
         "start": {
           "column": 31,
           "line": 31
@@ -829,13 +829,13 @@
       },
       {
         "defaultMessage": "!!!Alexander Rukin, Charles Hoskinson, Darko Mijić, Dominik Guzei, Jeremy Wood, Nikola Glumac, Richard Wild, Tomislav Horaček",
-        "description": "About page lux team members",
+        "description": "About page luxcore team members",
         "end": {
           "column": 3,
           "line": 40
         },
         "file": "app/components/static/About.js",
-        "id": "static.about.content.lux.members",
+        "id": "static.about.content.luxcore.members",
         "start": {
           "column": 31,
           "line": 36
@@ -843,13 +843,13 @@
       },
       {
         "defaultMessage": "!!!Alexander Sukhoverkhov, Alexander Vieth, Alexandre Rodrigues Baldé, Alfredo Di Napoli, Anastasiya Besman, Andrzej Rybczak, Ante Kegalj, Anton Belyy, Anupam Jain, Arseniy Seroka, Artyom Kazak, Carlos D'Agostino, Charles Hoskinson, Dan Friedman, Denis Shevchenko, Dmitry Kovanikov, Dmitry Mukhutdinov, Dmitry Nikulin, Domen Kožar, Duncan Coutts, Edsko de Vries, Eileen Fitzgerald, George Agapov, Hiroto Shioi, Ilya Lubimov, Ilya Peresadin, Ivan Gromakovskii, Jake Mitchell, Jane Wild, Jens Krause, Jeremy Wood, Joel Mislov Kunst, Jonn Mostovoy, Konstantin Ivanov, Kristijan Šarić, Lars Brünjes, Laurie Wang, Lionel Miller, Michael Bishop, Mikhail Volkhov, Niklas Hambüchen, Peter Gaži, Philipp Kant, Serge Kosyrev, Vincent Hanquez",
-        "description": "About page lux team members",
+        "description": "About page luxcoin team members",
         "end": {
           "column": 3,
           "line": 45
         },
         "file": "app/components/static/About.js",
-        "id": "static.about.content.lux.members",
+        "id": "static.about.content.luxcoin.members",
         "start": {
           "column": 30,
           "line": 41
@@ -936,7 +936,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "!!!Lux Redemption Disclamer",
+        "defaultMessage": "!!!Luxcore Redemption Disclamer",
         "description": "Title of \"Redemption disclaimer\" on Ada redemption page.",
         "end": {
           "column": 3,
@@ -950,7 +950,7 @@
         }
       },
       {
-        "defaultMessage": "!!!ATTENTION: Redeeming on the Lux Test-net will validate that your certificate or redemption key is correct and will allow you to redeem TEST-ADA for testing purposes only. KEEP your certificate or redemption key safe and secure. You will need to redeem again when Lux SL launches the mainnet. TEST-ADA holds no value and cannot be exchanged.",
+        "defaultMessage": "!!!ATTENTION: Redeeming on the Luxcoin Test-net will validate that your certificate or redemption key is correct and will allow you to redeem TEST-ADA for testing purposes only. KEEP your certificate or redemption key safe and secure. You will need to redeem again when Luxcoin SL launches the mainnet. TEST-ADA holds no value and cannot be exchanged.",
         "description": "Disclaimer text for \"Redemption disclaimer\" on Ada redemption page.",
         "end": {
           "column": 3,
@@ -1385,7 +1385,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "!!!On the following screen, you will see a set of X random words. This is\n    your wallet backup phrase. It can be entered in any version of Lux application in order\n    to back up or restore your wallet’s funds and private key.",
+        "defaultMessage": "!!!On the following screen, you will see a set of X random words. This is\n    your wallet backup phrase. It can be entered in any version of Luxcore application in order\n    to back up or restore your wallet’s funds and private key.",
         "description": "Instructions for backing up wallet recovery phrase on dialog that displays wallet recovery phrase.",
         "end": {
           "column": 3,
@@ -1541,13 +1541,13 @@
     "descriptors": [
       {
         "defaultMessage": "!!!Your wallet address",
-        "description": "Label for wallet address on the ETC wallet \"Receive page\"",
+        "description": "Label for wallet address on the LUX wallet \"Receive page\"",
         "end": {
           "column": 3,
           "line": 17
         },
-        "file": "app/components/wallet/etc/WalletReceive.js",
-        "id": "wallet.receive.page.etc.walletAddressLabel",
+        "file": "app/components/wallet/lux/WalletReceive.js",
+        "id": "wallet.receive.page.lux.walletAddressLabel",
         "start": {
           "column": 22,
           "line": 13
@@ -1555,20 +1555,20 @@
       },
       {
         "defaultMessage": "!!!Share this wallet address to receive payments.",
-        "description": "Wallet receive payments instructions on the ETC wallet \"Receive page\"",
+        "description": "Wallet receive payments instructions on the LUX wallet \"Receive page\"",
         "end": {
           "column": 3,
           "line": 22
         },
-        "file": "app/components/wallet/etc/WalletReceive.js",
-        "id": "wallet.receive.page.etc.walletReceiveInstructions",
+        "file": "app/components/wallet/lux/WalletReceive.js",
+        "id": "wallet.receive.page.lux.walletReceiveInstructions",
         "start": {
           "column": 29,
           "line": 18
         }
       }
     ],
-    "path": "app/components/wallet/etc/WalletReceive.json"
+    "path": "app/components/wallet/lux/WalletReceive.json"
   },
   {
     "descriptors": [
@@ -3992,7 +3992,7 @@
           "line": 13
         },
         "file": "app/components/widgets/NodeSyncStatusIcon.js",
-        "id": "lux.node.sync.status.blocksSynced",
+        "id": "luxcoin.node.sync.status.blocksSynced",
         "start": {
           "column": 16,
           "line": 9
@@ -4435,14 +4435,14 @@
         }
       },
       {
-        "defaultMessage": "!!!Etc",
-        "description": "Name for \"Etc\" unit.",
+        "defaultMessage": "!!!Lux",
+        "description": "Name for \"Lux\" unit.",
         "end": {
           "column": 3,
           "line": 123
         },
         "file": "app/i18n/global-messages.js",
-        "id": "global.unit.etc",
+        "id": "global.unit.lux",
         "start": {
           "column": 11,
           "line": 119
@@ -4505,14 +4505,14 @@
         }
       },
       {
-        "defaultMessage": "!!!Etc",
+        "defaultMessage": "!!!Lux",
         "description": "Name for \"Ada\" unit.",
         "end": {
           "column": 5,
           "line": 154
         },
         "file": "app/i18n/global-messages.js",
-        "id": "environment.currency.etc",
+        "id": "environment.currency.lux",
         "start": {
           "column": 14,
           "line": 150

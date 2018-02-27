@@ -39,7 +39,7 @@ export default class TopBar extends Component<Props> {
         <div className={styles.walletName}>{activeWallet.name}</div>
         <div className={styles.walletAmount}>
           {
-            // show currency and use long format (e.g. in ETC show all decimal places)
+            // show currency and use long format (e.g. in LUX show all decimal places)
             formattedWalletAmount(activeWallet.amount, true, true)
           }
         </div>

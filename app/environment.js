@@ -4,7 +4,7 @@ const environment = Object.assign({
   TEST: 'test',
   PRODUCTION: 'production',
   NETWORK: process.env.NETWORK,
-  API: process.env.API || 'ada',
+  API: process.env.API || 'lux',
   MOBX_DEV_TOOLS: process.env.MOBX_DEV_TOOLS,
   current: process.env.NODE_ENV,
   isDev: () => environment.current === environment.DEVELOPMENT,
@@ -12,7 +12,7 @@ const environment = Object.assign({
   isProduction: () => environment.current === environment.PRODUCTION,
   isMainnet: () => environment.NETWORK === 'mainnet',
   isAdaApi: () => environment.API === 'ada',
-  isEtcApi: () => environment.API === 'etc',
+  isLuxApi: () => environment.API === 'lux',
 }, process.env);
 
 export default environment;

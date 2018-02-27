@@ -116,10 +116,10 @@ export default defineMessages({
     defaultMessage: '!!!Ada',
     description: 'Name for "Ada" unit.'
   },
-  unitEtc: {
-    id: 'global.unit.etc',
-    defaultMessage: '!!!Etc',
-    description: 'Name for "Etc" unit.'
+  unitLux: {
+    id: 'global.unit.lux',
+    defaultMessage: '!!!Lux',
+    description: 'Name for "Lux" unit.'
   },
   recoveryPhraseDialogTitle: {
     id: 'wallet.backup.recovery.phrase.dialog.title',
@@ -146,10 +146,10 @@ export const environmentSpecificMessages = {
       description: 'Name for "Ada" unit.'
     },
   }),
-  etc: defineMessages({
+  lux: defineMessages({
     currency: {
-      id: 'environment.currency.etc',
-      defaultMessage: '!!!Etc',
+      id: 'environment.currency.lux',
+      defaultMessage: '!!!Lux',
       description: 'Name for "Ada" unit.'
     },
   }),

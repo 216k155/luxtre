@@ -8,9 +8,9 @@ import ProfileActions from './profile-actions';
 import DialogsActions from './dialogs-actions';
 import NotificationsActions from './notifications-actions';
 import adaActionsMap from './ada/index';
-import etcActionsMap from './etc/index';
+import luxActionsMap from './lux/index';
 import type { AdaActionsMap } from './ada/index';
-import type { EtcActionsMap } from './etc/index';
+import type { LuxActionsMap } from './lux/index';
 
 export type ActionsMap = {
   router: RouterActions,
@@ -22,7 +22,7 @@ export type ActionsMap = {
   dialogs: DialogsActions,
   notifications: NotificationsActions,
   ada: AdaActionsMap,
-  etc: EtcActionsMap,
+  lux: LuxActionsMap,
 };
 
 const actionsMap: ActionsMap = {
@@ -35,7 +35,7 @@ const actionsMap: ActionsMap = {
   dialogs: new DialogsActions(),
   notifications: new NotificationsActions(),
   ada: adaActionsMap,
-  etc: etcActionsMap,
+  lux: luxActionsMap,
 };
 
 export default actionsMap;

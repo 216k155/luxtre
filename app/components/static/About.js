@@ -4,18 +4,18 @@ import SvgInline from 'react-svg-inline';
 import { ipcRenderer } from 'electron';
 import { defineMessages, intlShape } from 'react-intl';
 import styles from './About.scss';
-import luxIcon from '../../assets/images/lux-logo-loading-grey.inline.svg';
-import luxIcon from '../../assets/images/lux-logo.inline.svg';
+import luxcoreIcon from '../../assets/images/luxcore-logo-loading-grey.inline.svg';
+import luxcoinIcon from '../../assets/images/luxcoin-logo.inline.svg';
 
 const messages = defineMessages({
   aboutWindowTitle: {
     id: 'window.about.title',
-    defaultMessage: '!!!About Lux',
+    defaultMessage: '!!!About Luxcore',
     description: 'About Window "title"',
   },
   aboutTitle: {
     id: 'static.about.title',
-    defaultMessage: '!!!Lux',
+    defaultMessage: '!!!Luxcore',
     description: 'About "title"',
   },
   aboutReleaseVersion: {
@@ -23,25 +23,25 @@ const messages = defineMessages({
     defaultMessage: '!!!0.8.2',
     description: 'Label for "App Release Version"',
   },
-  aboutContentLuxHeadline: {
-    id: 'static.about.content.lux.headline',
-    defaultMessage: '!!!Lux Team:',
-    description: 'About page lux team headline',
+  aboutContentLuxcoreHeadline: {
+    id: 'static.about.content.luxcore.headline',
+    defaultMessage: '!!!Luxcore Team:',
+    description: 'About page luxcore team headline',
   },
-  aboutContentLuxHeadline: {
-    id: 'static.about.content.lux.headline',
-    defaultMessage: '!!!Lux Team:',
-    description: 'About page lux team headline',
+  aboutContentLuxcoinHeadline: {
+    id: 'static.about.content.luxcoin.headline',
+    defaultMessage: '!!!Luxcoin Team:',
+    description: 'About page luxcoin team headline',
   },
-  aboutContentLuxMembers: {
-    id: 'static.about.content.lux.members',
+  aboutContentLuxcoreMembers: {
+    id: 'static.about.content.luxcore.members',
     defaultMessage: '!!!Alexander Rukin, Charles Hoskinson, Darko Mijić, Dominik Guzei, Jeremy Wood, Nikola Glumac, Richard Wild, Tomislav Horaček',
-    description: 'About page lux team members',
+    description: 'About page luxcore team members',
   },
-  aboutContentLuxMembers: {
-    id: 'static.about.content.lux.members',
+  aboutContentLuxcoinMembers: {
+    id: 'static.about.content.luxcoin.members',
     defaultMessage: '!!!Alexander Sukhoverkhov, Alexander Vieth, Alexandre Rodrigues Baldé, Alfredo Di Napoli, Anastasiya Besman, Andrzej Rybczak, Ante Kegalj, Anton Belyy, Anupam Jain, Arseniy Seroka, Artyom Kazak, Carlos D\'Agostino, Charles Hoskinson, Dan Friedman, Denis Shevchenko, Dmitry Kovanikov, Dmitry Mukhutdinov, Dmitry Nikulin, Domen Kožar, Duncan Coutts, Edsko de Vries, Eileen Fitzgerald, George Agapov, Hiroto Shioi, Ilya Lubimov, Ilya Peresadin, Ivan Gromakovskii, Jake Mitchell, Jane Wild, Jens Krause, Jeremy Wood, Joel Mislov Kunst, Jonn Mostovoy, Konstantin Ivanov, Kristijan Šarić, Lars Brünjes, Laurie Wang, Lionel Miller, Michael Bishop, Mikhail Volkhov, Niklas Hambüchen, Peter Gaži, Philipp Kant, Serge Kosyrev, Vincent Hanquez',
-    description: 'About page lux team members',
+    description: 'About page luxcoin team members',
   },
   aboutCopyright: {
     id: 'static.about.copyright',
@@ -73,41 +73,41 @@ export default class About extends Component<any> {
 
         <div className={styles.headerWrapper}>
 
-          <SvgInline svg={luxIcon} className={styles.luxIcon} />
+          <SvgInline svg={luxcoreIcon} className={styles.luxcoreIcon} />
 
-          <div className={styles.luxTitleVersion}>
-            <div className={styles.luxTitle}>
+          <div className={styles.luxcoreTitleVersion}>
+            <div className={styles.luxcoreTitle}>
               {intl.formatMessage(messages.aboutTitle)}
             </div>
-            <div className={styles.luxVersion}>
+            <div className={styles.luxcoreVersion}>
               {intl.formatMessage(messages.aboutReleaseVersion)}
             </div>
           </div>
 
-          <SvgInline svg={luxIcon} className={styles.luxIcon} />
+          <SvgInline svg={luxcoinIcon} className={styles.luxcoinIcon} />
         </div>
 
         <div className={styles.contentText}>
 
-          <h2>{intl.formatMessage(messages.aboutContentLuxHeadline)}</h2>
+          <h2>{intl.formatMessage(messages.aboutContentLuxcoreHeadline)}</h2>
 
-          <div className={styles.contentLux}>
-            {intl.formatMessage(messages.aboutContentLuxMembers)}
+          <div className={styles.contentLuxcore}>
+            {intl.formatMessage(messages.aboutContentLuxcoreMembers)}
           </div>
 
-          <h2>{intl.formatMessage(messages.aboutContentLuxHeadline)}</h2>
+          <h2>{intl.formatMessage(messages.aboutContentLuxcoinHeadline)}</h2>
 
-          <div className={styles.contentLuxMembers}>
-            {intl.formatMessage(messages.aboutContentLuxMembers)}
+          <div className={styles.contentLuxcoinMembers}>
+            {intl.formatMessage(messages.aboutContentLuxcoinMembers)}
           </div>
 
         </div>
 
         <div className={styles.footerWrapper}>
-          <a href="http://luxwallet.io">http://luxwallet.io</a>
+          <a href="http://luxcorewallet.io">http://luxcorewallet.io</a>
           <div className={styles.copyright}>
             {intl.formatMessage(messages.aboutCopyright)}&nbsp;
-            <a href="https://github.com/216k155/luxcore/blob/master/LICENSE">
+            <a href="https://github.com/input-output-hk/luxcore/blob/master/LICENSE">
               {intl.formatMessage(messages.licenseLink)}
             </a>
           </div>

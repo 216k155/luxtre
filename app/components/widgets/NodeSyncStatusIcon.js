@@ -7,7 +7,7 @@ import styles from './NodeSyncStatusIcon.scss';
 
 const messages = defineMessages({
   blocksSynced: {
-    id: 'lux.node.sync.status.blocksSynced',
+    id: 'luxcoin.node.sync.status.blocksSynced',
     defaultMessage: '!!!Blocks synced {percentage}%',
     description: 'Label for the blocks synced info overlay on node sync status icon.'
   },
