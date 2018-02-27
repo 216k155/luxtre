@@ -1,25 +1,23 @@
 // @flow
 import { request } from './lib/request';
-import { LUX_API_HOST, LUX_API_PORT } from './index';
+import { LUX_API_HOST, LUX_API_PORT, LUX_API_USER, LUX_API_PWD } from './index';
 import type { LuxBlock } from './types';
 
 export type GetLuxBlockByHashParams = {
-  ca: string,
   blockHash: string,
 };
 
 export const getLuxBlockByHash = (
-  { ca, blockHash }: GetLuxBlockByHashParams
+  { blockHash }: GetLuxBlockByHashParams
 ): Promise<LuxBlock> => (
   request({
     hostname: LUX_API_HOST,
     method: 'POST',
-    path: '/',
     port: LUX_API_PORT,
-    ca,
+    auth: LUX_API_USER + ':' + LUX_API_PWD
   }, {
     jsonrpc: '2.0',
-    method: 'eth_getBlockByHash',
-    params: [blockHash, true] // returns the full transaction objects
+    method: 'getblock',
+    params: [blockHash, 1] // returns the full transaction objects
   })
 );

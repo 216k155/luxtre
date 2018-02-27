@@ -1,6 +1,6 @@
 // @flow
 import { request } from './lib/request';
-import { LUX_API_HOST, LUX_API_PORT, LUX_API_USER, LUX_API_PWD } from './index';
+import { LUX_API_HOST, LUX_API_PORT } from './index';
 import type { LuxWalletId } from './types';
 
 export const createLuxAccount = (

@@ -39,7 +39,8 @@ function typedRequest<Response>(
           reject(new Error(parsedBody.error.message));
         } else {
           // TODO: investigate if that can happen! (no Right or Left in a response)
-          reject(new Error('Unknown response from backend.'));
+          resolve(parsedBody);
+          //reject(new Error('Unknown response from backend.'));
         }
       });
     });
