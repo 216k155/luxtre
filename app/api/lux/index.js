@@ -126,6 +126,7 @@ export default class LuxApi {
     Logger.error('LuxApi::getWallets called');
     try {
       const accounts: LuxAccounts = await getLuxAccounts();
+      delete accounts[""];
       //Logger.error('LuxApi::getWallets success: ' + stringifyData(accounts));
       return await Promise.all(Object.keys(accounts).map(async (id) => {
         const amount = await this.getAccountBalance(id);
@@ -183,14 +184,13 @@ export default class LuxApi {
         transactions.map(async (tx: LuxTransaction) => {
           if(tx.category == 'receive')
           {
-              return _createWalletTransactionFromServerData(transactionTypes.INCOME, tx)
+              return _createWalletTransactionFromServerData(transactionTypes.INCOME, tx);
           }
 
           if(tx.category == 'send')
           {
-              return _createWalletTransactionFromServerData(transactionTypes.EXPEND, tx)
+              return _createWalletTransactionFromServerData(transactionTypes.EXPEND, tx);
           }
-          
         })
       );
       return {
