@@ -8,13 +8,16 @@ export type LuxBlockNumber = number;
 export type LuxGas = string;
 export type LuxGasPrice = BigNumber;
 export type LuxTxHash = string;
+export type LuxAddress = string;
 
 export type LuxRecoveryPassphrase = Array<string>;
 
-export type LuxAccounts = Array<LuxWalletId>;
+export type LuxAddresses = Array<LuxAddress>;
+//export type LuxAccounts = Array<LuxWalletId>;
+export type LuxAccounts = object;
 
 export type LuxBlock = {
-  timestamp: string
+  time: number
 };
 
 export type LuxSyncProgress = ?{
