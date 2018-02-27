@@ -16,6 +16,7 @@ export default class Wallet {
 
   constructor(data: {
     id: string,
+    address: string,
     name: string,
     amount: BigNumber,
     assurance: AssuranceModeOption,

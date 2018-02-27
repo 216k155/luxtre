@@ -22,7 +22,7 @@ import WalletTransaction, { transactionStates, transactionTypes } from '../../do
 import { getLuxAccounts } from './getLuxAccounts';
 import { getLuxAccountBalance } from './getLuxAccountBalance';
 import { getLuxAccountRecoveryPhrase } from './getLuxAccountRecoveryPhrase';
-import { createLuxAccount } from './createLuxAccount';
+//import { createLuxAccount } from './createLuxAccount';
 import { getLuxBlockByHash } from './getLuxBlock';
 import { sendLuxTransaction } from './sendLuxTransaction';
 import { deleteLuxAccount } from './deleteLuxAccount';
@@ -34,6 +34,7 @@ import { getLuxBlockNumber } from './getLuxBlockNumber';
 import { getLuxAddressesByAccount } from './getLuxAddressesByAccount';
 import { importLuxPrivateKey } from './importLuxPrivateKey';
 import { setLuxAccount } from './setLuxAccount';
+import { getLuxAccountAddress } from './getLuxAccountAddress';
 import { isValidMnemonic } from '../../../lib/decrypt';
 
 import type { TransactionType } from '../../domain/WalletTransaction';
@@ -129,16 +130,19 @@ export default class LuxApi {
       delete accounts[""];
       //Logger.error('LuxApi::getWallets success: ' + stringifyData(accounts));
       return await Promise.all(Object.keys(accounts).map(async (id) => {
-        const amount = await this.getAccountBalance(id);
+        const amount = accounts[id]; 
+        const walletId = id;
+        const address = await getLuxAccountAddress({walletId});
         try {
           // use wallet data from local storage
           const walletData = await getLuxWalletData(id); // fetch wallet data from local storage
           const { name, assurance, hasPassword, passwordUpdateDate } = walletData;
-          return new Wallet({ id, name, amount, assurance, hasPassword, passwordUpdateDate });
+          return new Wallet({ id, address, name, amount, assurance, hasPassword, passwordUpdateDate });
         } catch (error) {
           // there is no wallet data in local storage - use fallback data
           const fallbackWalletData = {
             id,
+            address,
             name: 'Untitled Wallet (*)',
             assurance: 'CWANormal',
             hasPassword: true,

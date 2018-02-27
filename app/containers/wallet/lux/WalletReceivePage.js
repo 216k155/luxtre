@@ -64,7 +64,7 @@ export default class WalletReceivePage extends Component<Props, State> {
       <VerticalFlexContainer>
 
         <WalletReceive
-          walletAddress={wallet.id}
+          walletAddress={wallet.address}
           onCopyAddress={(address) => {
             this.setState({ copiedAddress: address });
             actions.notifications.open.trigger({

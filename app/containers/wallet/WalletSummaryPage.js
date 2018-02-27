@@ -6,7 +6,7 @@ import WalletTransactionsList from '../../components/wallet/transactions/WalletT
 import WalletSummary from '../../components/wallet/summary/WalletSummary';
 import WalletNoTransactions from '../../components/wallet/transactions/WalletNoTransactions';
 import VerticalFlexContainer from '../../components/layout/VerticalFlexContainer';
-import { DECIMAL_PLACES_IN_ADA } from '../../config/numbersConfig';
+import { DECIMAL_PLACES_IN_LUX } from '../../config/numbersConfig';
 import type { InjectedProps } from '../../types/injectedPropsType';
 
 export const messages = defineMessages({
@@ -65,7 +65,7 @@ export default class WalletSummaryPage extends Component<Props> {
       <VerticalFlexContainer>
         <WalletSummary
           walletName={wallet.name}
-          amount={wallet.amount.toFormat(DECIMAL_PLACES_IN_ADA)}
+          amount={wallet.amount != 0 ? wallet.amount.toFormat(DECIMAL_PLACES_IN_LUX) : 0}
           numberOfTransactions={totalAvailable}
           pendingAmount={unconfirmedAmount}
           isLoadingTransactions={recentTransactionsRequest.isExecutingFirstTime}

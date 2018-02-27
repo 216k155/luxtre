@@ -39,7 +39,7 @@ export default class WalletReceivePage extends Component<Props, State> {
   }
 
   handleGenerateAddress = (password :string) => {
-    const { wallets } = this.props.stores.ada;
+    const { wallets } = this.props.stores.lux;
     const wallet = wallets.active;
     if (wallet) {
       this.props.actions.ada.addresses.createAddress.trigger({
@@ -54,7 +54,7 @@ export default class WalletReceivePage extends Component<Props, State> {
   };
 
   closeNotification = () => {
-    const { wallets } = this.props.stores.ada;
+    const { wallets } = this.props.stores.lux;
     const wallet = wallets.active;
     if (wallet) {
       const notificationId = `${wallet.id}-copyNotification`;
@@ -66,13 +66,13 @@ export default class WalletReceivePage extends Component<Props, State> {
     const { copiedAddress } = this.state;
     const actions = this.props.actions;
     const { sidebar, uiNotifications } = this.props.stores;
-    const { wallets, addresses } = this.props.stores.ada;
+    const { wallets, addresses } = this.props.stores.lux;
     const wallet = wallets.active;
 
     // Guard against potential null values
     if (!wallet) throw new Error('Active wallet required for WalletReceivePage.');
 
-    const walletAddress = addresses.active ? addresses.active.id : '';
+    const walletAddress = addresses.active ? addresses.active.address : '';
     const isWalletAddressUsed = addresses.active ? addresses.active.isUsed : false;
     const walletAddresses = addresses.all.reverse();
 
