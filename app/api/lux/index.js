@@ -75,6 +75,7 @@ export const LUX_API_PORT = 9888;
 export const LUX_API_USER = 'rpcuser';
 export const LUX_API_PWD = 'rpcpwd';
 
+
 // LUX specific Request / Response params
 export type ImportWalletResponse = Wallet;
 export type UpdateWalletRequest = Wallet;
