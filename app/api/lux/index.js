@@ -239,8 +239,9 @@ export default class LuxApi {
       if(address)
       {
         await setLuxAccount({address, name});
-        Logger.error('LuxApi::importWallet success');
+        Logger.debug('LuxApi::importWallet success');
         const id = name;
+        const address = address;
         const amount = quantityToBigNumber('0');
         const assurance = 'CWANormal';
         const hasPassword = password !== null;
@@ -248,7 +249,7 @@ export default class LuxApi {
         await setLuxWalletData({
           id, name, assurance, hasPassword, passwordUpdateDate,
         });
-        ImportWallet = new Wallet({ id, name, amount, assurance, hasPassword, passwordUpdateDate });
+        ImportWallet = new Wallet({ id, address, name, amount, assurance, hasPassword, passwordUpdateDate });
       }
 
     } catch (error) {
