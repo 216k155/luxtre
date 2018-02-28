@@ -2,7 +2,7 @@
 import CoinKey from 'coinkey';
 import BigNumber from 'bignumber.js';
 import { remote } from 'electron';
-import { isAddress } from 'web3-utils/src/utils';
+//import { isAddress } from 'web3-utils/src/utils';
 import { getLuxInfo } from './getLuxInfo';
 import { getLuxPeerInfo } from './getLuxPeerInfo';
 import { Logger, stringifyData, stringifyError } from '../../utils/logging';
@@ -132,7 +132,7 @@ export default class LuxApi {
       delete accounts[""];
       //Logger.error('LuxApi::getWallets success: ' + stringifyData(accounts));
       return await Promise.all(Object.keys(accounts).map(async (id) => {
-        const amount = accounts[id]; 
+        const amount = quantityToBigNumber(accounts[id]);
         const walletId = id;
         const address = await getLuxAccountAddress({walletId});
         try {
@@ -210,6 +210,7 @@ export default class LuxApi {
   };
 
   async importWallet(request: ImportWalletRequest): Promise<ImportWalletResponse> {
+    Logger.debug('LuxApi::importWallet called: ');
     const { name, privateKey, password } = request;
     Logger.debug('LuxApi::importWallet called: ' + privateKey);
     let ImportWallet = null;
@@ -266,9 +267,11 @@ export default class LuxApi {
     //var ck = CoinKey.fromWif('Q1mY6nVLLkV2LyimeMCViXkPZQuPMhMKq8HTMPAiYuSn72dRCP4d')
     //Logger.error('LuxApi::createWallet private: ' + ck.versions.private.toString());
     //Logger.error('LuxApi::createWallet public: ' + ck.versions.public.toString());
-
+    
+    Logger.debug('LuxApi::createWallet success: ' + privateKeyHex);
     var coinkey = new CoinKey(new Buffer(privateKeyHex, 'hex'), {private: 155, public: 27});
     const privateKey = coinkey.privateWif;
+    Logger.debug('LuxApi::createWallet success: ' + privateKey);
     try {
       const response: ImportWalletResponse = await this.importWallet({
         name, privateKey, password,
@@ -439,7 +442,7 @@ const _createWalletTransactionFromServerData = async (
     type,
     title: '',
     description: '',
-    amount: amount,
+    amount: quantityToBigNumber(amount),
     date: blockDate,
     numberOfConfirmations: confirmations,
     address: address,
