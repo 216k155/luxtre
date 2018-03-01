@@ -14,7 +14,7 @@ export default class WalletSettingsPage extends Component<Props> {
 
   render() {
     const { uiDialogs } = this.props.stores;
-    const { wallets, walletSettings } = this.props.stores.ada;
+    const { wallets, walletSettings } = this.props.stores.lux;
     const { actions } = this.props;
     const activeWallet = wallets.active;
     const {
@@ -28,7 +28,7 @@ export default class WalletSettingsPage extends Component<Props> {
       stopEditingWalletField,
       cancelEditingWalletField,
       updateWalletField,
-    } = actions.ada.walletSettings;
+    } = actions.lux.walletSettings;
 
     // Guard against potential null values
     if (!activeWallet) throw new Error('Active wallet required for WalletSettingsPage.');

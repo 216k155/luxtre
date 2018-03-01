@@ -4,7 +4,7 @@ import { observer, inject } from 'mobx-react';
 import MainLayout from '../MainLayout';
 import WalletWithNavigation from '../../components/wallet/layouts/WalletWithNavigation';
 import LoadingSpinner from '../../components/widgets/LoadingSpinner';
-import AdaRedemptionSuccessOverlay from '../../components/wallet/ada-redemption/AdaRedemptionSuccessOverlay';
+import LuxRedemptionSuccessOverlay from '../../components/wallet/lux-redemption/LuxRedemptionSuccessOverlay';
 import { buildRoute } from '../../utils/routing';
 import { ROUTES } from '../../routes-config';
 import type { InjectedContainerProps } from '../../types/injectedPropsType';
@@ -18,14 +18,14 @@ export default class Wallet extends Component<Props> {
 
   isActiveScreen = (page: string) => {
     const { app } = this.props.stores;
-    const { wallets } = this.props.stores.ada;
+    const { wallets } = this.props.stores.lux;
     if (!wallets.active) return false;
     const screenRoute = buildRoute(ROUTES.WALLETS.PAGE, { id: wallets.active.id, page });
     return app.currentRoute === screenRoute;
   };
 
   handleWalletNavItemClick = (page: string) => {
-    const { wallets } = this.props.stores.ada;
+    const { wallets } = this.props.stores.lux;
     if (!wallets.active) return;
     this.props.actions.router.goToRoute.trigger({
       route: ROUTES.WALLETS.PAGE,
@@ -34,9 +34,9 @@ export default class Wallet extends Component<Props> {
   };
 
   render() {
-    const { wallets, adaRedemption } = this.props.stores.ada;
+    const { wallets, luxRedemption } = this.props.stores.lux;
     const { actions } = this.props;
-    const { showAdaRedemptionSuccessMessage, amountRedeemed } = adaRedemption;
+    const { showLuxRedemptionSuccessMessage, amountRedeemed } = luxRedemption;
     if (!wallets.active) return <MainLayout><LoadingSpinner /></MainLayout>;
     return (
       <MainLayout>
@@ -46,10 +46,10 @@ export default class Wallet extends Component<Props> {
         >
           {this.props.children}
         </WalletWithNavigation>
-        {showAdaRedemptionSuccessMessage ? (
-          <AdaRedemptionSuccessOverlay
+        {showLuxRedemptionSuccessMessage ? (
+          <LuxRedemptionSuccessOverlay
             amount={amountRedeemed}
-            onClose={actions.ada.adaRedemption.closeAdaRedemptionSuccessOverlay.trigger}
+            onClose={actions.lux.luxRedemption.closeLuxRedemptionSuccessOverlay.trigger}
           />
         ) : null}
       </MainLayout>

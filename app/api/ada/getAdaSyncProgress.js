@@ -1,14 +1,14 @@
 // @flow
-import type { AdaSyncProgressResponse } from './types';
+import type { LuxSyncProgressResponse } from './types';
 import { request } from './lib/request';
 
-export type GetAdaSyncProgressParams = {
+export type GetLuxSyncProgressParams = {
   ca: string,
 };
 
-export const getAdaSyncProgress = (
-  { ca }: GetAdaSyncProgressParams
-): Promise<AdaSyncProgressResponse> => (
+export const getLuxSyncProgress = (
+  { ca }: GetLuxSyncProgressParams
+): Promise<LuxSyncProgressResponse> => (
   request({
     hostname: 'localhost',
     method: 'GET',

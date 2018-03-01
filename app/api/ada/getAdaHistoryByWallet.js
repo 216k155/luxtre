@@ -1,17 +1,17 @@
 // @flow
-import type { AdaTransactions } from './types';
+import type { LuxTransactions } from './types';
 import { request } from './lib/request';
 
-export type GetAdaHistoryByWalletParams = {
+export type GetLuxHistoryByWalletParams = {
   ca: string,
   walletId: string,
   skip: number,
   limit: number,
 };
 
-export const getAdaHistoryByWallet = (
-  { ca, walletId, skip, limit }: GetAdaHistoryByWalletParams
-): Promise<AdaTransactions> => (
+export const getLuxHistoryByWallet = (
+  { ca, walletId, skip, limit }: GetLuxHistoryByWalletParams
+): Promise<LuxTransactions> => (
   request({
     hostname: 'localhost',
     method: 'GET',

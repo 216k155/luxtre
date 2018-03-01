@@ -1,13 +1,13 @@
 // @flow
 import { request } from './lib/request';
 
-export type IsValidAdaAddressParams = {
+export type IsValidLuxAddressParams = {
   ca: string,
   address: string,
 };
 
-export const isValidAdaAddress = (
-  { ca, address }: IsValidAdaAddressParams
+export const isValidLuxAddress = (
+  { ca, address }: IsValidLuxAddressParams
 ): Promise<boolean> => {
   const encodedAddress = encodeURIComponent(address);
   return request({

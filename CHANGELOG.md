@@ -101,7 +101,7 @@ Changelog
 - Fixed missing 'used address' styling for default wallet address on wallet receive screen ([PR 422](https://github.com/input-output-hk/luxcore/pull/422))
 - Terms of service for the mainnet ([PR 425](https://github.com/input-output-hk/luxcore/pull/425))
 - Fixed failing acceptance tests ([PR 424](https://github.com/input-output-hk/luxcore/pull/424))
-- Show correct error message on sending money to Ada redemption address ([PR 423](https://github.com/input-output-hk/luxcore/pull/423))
+- Show correct error message on sending money to Lux redemption address ([PR 423](https://github.com/input-output-hk/luxcore/pull/423))
 - Fixed ENOENT error on log file rotation ([PR 428](https://github.com/input-output-hk/luxcore/pull/428))
 - Fixed logging error ([PR 431](https://github.com/input-output-hk/luxcore/pull/431))
 - Add theming support on UI which was introduced after introduction of Theming feature ([PR 434](https://github.com/input-output-hk/luxcore/pull/434))
@@ -137,20 +137,20 @@ Changelog
 - "Terms of use" screen on first application start
 - Spending password on "Send money" form
 - Optionally setting a password during wallet restore
-- Ada redemption disclaimer
+- Lux redemption disclaimer
 - "Terms of use" page in settings section
 - Change wallet password dialog UX improvements
 - New receive screen with support for HD wallets
 - Wallet rename
 - Multiple input and output addresses in transaction details
-- Ada redemption acceptance tests
+- Lux redemption acceptance tests
 - Show BTC and LUX currencies as coming soon in create wallet dialog
 - Remove currencies dropdown on create wallet dialog
 - Spending password on wallet receive page
 - Prepared UI dialogs for exporting paper wallets
 - Prepared UI dialogs for importing paper wallets
 - Spending password on "Import wallet" dialog
-- Spending password on "Ada redemption" forms
+- Spending password on "Lux redemption" forms
 - Acceptance test for "Restore wallet with and without spending password" feature
 - Acceptance test for "Create wallet with spending password" feature
 - Acceptance test for "Import wallet with/without spending password" feature
@@ -161,7 +161,7 @@ Changelog
 - Final version of Luxcore logo added in the top-bar
 - Receive page design update
 - UI for displaying transaction fees on wallet send screen
-- Correct placeholder text for Ada redemption "Ada amount" input
+- Correct placeholder text for Lux redemption "Lux amount" input
 
 ### Fixes
 
@@ -170,7 +170,7 @@ Changelog
 - Prevent wallet send form reset on submit
 - Prevent redemption key reset after unsuccessful redemption
 - Ghost boxes on "Loading" screen
-- Reset Ada redemption form values on page load and certificate add/remove events
+- Reset Lux redemption form values on page load and certificate add/remove events
 - Prevent sidebar auto-hiding feature and always show submenus on wallets page load
 - Apply grammatical fixes to redemption instructions
 - Prevent sidebar visual glitch on sidebar open
@@ -193,7 +193,7 @@ Changelog
 - Acceptance tests configuration fix for the timeouts
 - Show more specific error messages on "Change password" dialog
 - Update password fields placeholders to match latest designs
-- Prevent selected wallet reset on "Ada redemption" screen on tab or certificate change
+- Prevent selected wallet reset on "Lux redemption" screen on tab or certificate change
 - Fixed sending amount maximum value validation
 - Use correct styling for used addresses marking on wallet receive screen
 
@@ -211,7 +211,7 @@ Changelog
 
 ### Features
 
-- Ada redemption testnet disclaimer on Ada redemption pages
+- Lux redemption testnet disclaimer on Lux redemption pages
 
 ## 0.6.1
 
@@ -219,8 +219,8 @@ Changelog
 
 - Wallet name on the send screen was hardcoded in Japanese translation
 - Button on the wallet send screen is too large
-- Hamburger button" and wallet's name are present on the "Ada redemption" and "Settings" screens
-- Ada redemption button is not enabled as soon as inputs are valid
+- Hamburger button" and wallet's name are present on the "Lux redemption" and "Settings" screens
+- Lux redemption button is not enabled as soon as inputs are valid
 - Prevent navigation on file drop event in the application window
 
 ### Chores
@@ -232,11 +232,11 @@ Changelog
 
 ### Features
 
-- Ada redemption with certificate decryption and parsing to extract the redemption key
+- Lux redemption with certificate decryption and parsing to extract the redemption key
 - Transaction assurance level with color coding for transactions and settings for a normal or strict mode
 - Wallet settings page with wallet deletion and transaction assurance level settings
 - User interface language option on application start and in settings with English and Japanese translations
-- Ada amounts formatting with thousands separator for displaying and entering amounts
+- Lux amounts formatting with thousands separator for displaying and entering amounts
 - Application header updated to show wallet name and amount of money in the wallet
 - Copy wallet address to the clipboard with UI notification
 - Testnet label
@@ -248,11 +248,11 @@ Changelog
 ### Fixes
 
 - Toggling the application bar not working properly
-- UI glitch when quickly typing in Ada amounts on the send money form
+- UI glitch when quickly typing in Lux amounts on the send money form
 - "Add wallet" dialog does not disappear immediately after wallet creation
 - Clearing correctly entered backup recovery phrase should not be possible
 - Sidebar "randomly" closes/opens when navigating
-- Ada redemption overlay should also cover the wallet navigation
+- Lux redemption overlay should also cover the wallet navigation
 - No transactions message is not vertically centered on Transactions page
 - Transactions ordering
 - Smaller UI improvements and fixes

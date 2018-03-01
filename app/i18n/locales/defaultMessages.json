@@ -8,7 +8,7 @@
           "column": 3,
           "line": 9
         },
-        "file": "app/api/ada/errors.js",
+        "file": "app/api/lux/errors.js",
         "id": "api.errors.ApiMethodNotYetImplementedError",
         "start": {
           "column": 35,
@@ -22,7 +22,7 @@
           "column": 3,
           "line": 14
         },
-        "file": "app/api/ada/errors.js",
+        "file": "app/api/lux/errors.js",
         "id": "api.errors.WalletAlreadyImportedError",
         "start": {
           "column": 30,
@@ -30,14 +30,14 @@
         }
       },
       {
-        "defaultMessage": "!!!Your ADA could not be redeemed correctly.",
-        "description": "\"Your ADA could not be redeemed correctly.\" error message.",
+        "defaultMessage": "!!!Your LUX could not be redeemed correctly.",
+        "description": "\"Your LUX could not be redeemed correctly.\" error message.",
         "end": {
           "column": 3,
           "line": 19
         },
-        "file": "app/api/ada/errors.js",
-        "id": "api.errors.RedeemAdaError",
+        "file": "app/api/lux/errors.js",
+        "id": "api.errors.RedeemLuxError",
         "start": {
           "column": 18,
           "line": 15
@@ -50,7 +50,7 @@
           "column": 3,
           "line": 24
         },
-        "file": "app/api/ada/errors.js",
+        "file": "app/api/lux/errors.js",
         "id": "api.errors.WalletFileImportError",
         "start": {
           "column": 25,
@@ -64,7 +64,7 @@
           "column": 3,
           "line": 29
         },
-        "file": "app/api/ada/errors.js",
+        "file": "app/api/lux/errors.js",
         "id": "api.errors.NotEnoughMoneyToSendError",
         "start": {
           "column": 29,
@@ -78,7 +78,7 @@
           "column": 3,
           "line": 34
         },
-        "file": "app/api/ada/errors.js",
+        "file": "app/api/lux/errors.js",
         "id": "api.errors.NotAllowedToSendMoneyToSameAddressError",
         "start": {
           "column": 43,
@@ -86,13 +86,13 @@
         }
       },
       {
-        "defaultMessage": "!!!It is not allowed to send money to Ada redemption address.",
-        "description": "\"It is not allowed to send money to Ada redemption address.\" error message.",
+        "defaultMessage": "!!!It is not allowed to send money to Lux redemption address.",
+        "description": "\"It is not allowed to send money to Lux redemption address.\" error message.",
         "end": {
           "column": 3,
           "line": 39
         },
-        "file": "app/api/ada/errors.js",
+        "file": "app/api/lux/errors.js",
         "id": "api.errors.NotAllowedToSendMoneyToRedeemAddressError",
         "start": {
           "column": 45,
@@ -106,7 +106,7 @@
           "column": 3,
           "line": 44
         },
-        "file": "app/api/ada/errors.js",
+        "file": "app/api/lux/errors.js",
         "id": "api.errors.AllFundsAlreadyAtReceiverAddressError",
         "start": {
           "column": 41,
@@ -114,13 +114,13 @@
         }
       },
       {
-        "defaultMessage": "!!!Not enough Ada for fees. Try sending a smaller amount.",
-        "description": "\"Not enough Ada for fees. Try sending a smaller amount.\" error message",
+        "defaultMessage": "!!!Not enough Lux for fees. Try sending a smaller amount.",
+        "description": "\"Not enough Lux for fees. Try sending a smaller amount.\" error message",
         "end": {
           "column": 3,
           "line": 49
         },
-        "file": "app/api/ada/errors.js",
+        "file": "app/api/lux/errors.js",
         "id": "api.errors.NotEnoughFundsForTransactionFeesError",
         "start": {
           "column": 41,
@@ -128,7 +128,7 @@
         }
       }
     ],
-    "path": "app/api/ada/errors.json"
+    "path": "app/api/lux/errors.json"
   },
   {
     "descriptors": [
@@ -890,12 +890,12 @@
     "descriptors": [
       {
         "defaultMessage": "!!!Regular",
-        "description": "Tab title \"Regular\" on Ada redemption page.",
+        "description": "Tab title \"Regular\" on Lux redemption page.",
         "end": {
           "column": 3,
           "line": 12
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionChoices.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionChoices.js",
         "id": "wallet.redeem.choices.tab.title.regularVended",
         "start": {
           "column": 19,
@@ -904,12 +904,12 @@
       },
       {
         "defaultMessage": "!!!Force vended",
-        "description": "Tab title \"Force vended\" on Ada redemption page.",
+        "description": "Tab title \"Force vended\" on Lux redemption page.",
         "end": {
           "column": 3,
           "line": 17
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionChoices.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionChoices.js",
         "id": "wallet.redeem.choices.tab.title.forceVended",
         "start": {
           "column": 23,
@@ -918,12 +918,12 @@
       },
       {
         "defaultMessage": "!!!Paper vended",
-        "description": "Tab title \"Paper vended\" on Ada redemption page.",
+        "description": "Tab title \"Paper vended\" on Lux redemption page.",
         "end": {
           "column": 3,
           "line": 22
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionChoices.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionChoices.js",
         "id": "wallet.redeem.choices.tab.title.paperVended",
         "start": {
           "column": 23,
@@ -931,18 +931,18 @@
         }
       }
     ],
-    "path": "app/components/wallet/ada-redemption/AdaRedemptionChoices.json"
+    "path": "app/components/wallet/lux-redemption/LuxRedemptionChoices.json"
   },
   {
     "descriptors": [
       {
         "defaultMessage": "!!!Luxcore Redemption Disclamer",
-        "description": "Title of \"Redemption disclaimer\" on Ada redemption page.",
+        "description": "Title of \"Redemption disclaimer\" on Lux redemption page.",
         "end": {
           "column": 3,
           "line": 19
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionDisclaimer.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionDisclaimer.js",
         "id": "wallet.redeem.disclaimerOverlay.title",
         "start": {
           "column": 19,
@@ -950,13 +950,13 @@
         }
       },
       {
-        "defaultMessage": "!!!ATTENTION: Redeeming on the Luxcoin Test-net will validate that your certificate or redemption key is correct and will allow you to redeem TEST-ADA for testing purposes only. KEEP your certificate or redemption key safe and secure. You will need to redeem again when Luxcoin SL launches the mainnet. TEST-ADA holds no value and cannot be exchanged.",
-        "description": "Disclaimer text for \"Redemption disclaimer\" on Ada redemption page.",
+        "defaultMessage": "!!!ATTENTION: Redeeming on the Luxcoin Test-net will validate that your certificate or redemption key is correct and will allow you to redeem TEST-LUX for testing purposes only. KEEP your certificate or redemption key safe and secure. You will need to redeem again when Luxcoin SL launches the mainnet. TEST-LUX holds no value and cannot be exchanged.",
+        "description": "Disclaimer text for \"Redemption disclaimer\" on Lux redemption page.",
         "end": {
           "column": 3,
           "line": 24
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionDisclaimer.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionDisclaimer.js",
         "id": "wallet.redeem.disclaimerOverlay.disclaimerText",
         "start": {
           "column": 18,
@@ -965,12 +965,12 @@
       },
       {
         "defaultMessage": "!!!I’ve understood the information above",
-        "description": "Label for \"I’ve understood the information above\" checkbox on Ada redemption page \"Redemption disclaimer\".",
+        "description": "Label for \"I’ve understood the information above\" checkbox on Lux redemption page \"Redemption disclaimer\".",
         "end": {
           "column": 3,
           "line": 29
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionDisclaimer.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionDisclaimer.js",
         "id": "wallet.redeem.disclaimerOverlay.checkboxLabel",
         "start": {
           "column": 17,
@@ -979,12 +979,12 @@
       },
       {
         "defaultMessage": "!!!Continue",
-        "description": "Label for \"Continue\" button on Ada redemption page \"Redemption disclaimer\".",
+        "description": "Label for \"Continue\" button on Lux redemption page \"Redemption disclaimer\".",
         "end": {
           "column": 3,
           "line": 34
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionDisclaimer.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionDisclaimer.js",
         "id": "wallet.redeem.disclaimerOverlay.submitLabel",
         "start": {
           "column": 15,
@@ -992,18 +992,18 @@
         }
       }
     ],
-    "path": "app/components/wallet/ada-redemption/AdaRedemptionDisclaimer.json"
+    "path": "app/components/wallet/lux-redemption/LuxRedemptionDisclaimer.json"
   },
   {
     "descriptors": [
       {
-        "defaultMessage": "!!!Ada Redemption",
-        "description": "Headline \"Ada redemption\" dialog.",
+        "defaultMessage": "!!!Lux Redemption",
+        "description": "Headline \"Lux redemption\" dialog.",
         "end": {
           "column": 3,
           "line": 31
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.headline",
         "start": {
           "column": 12,
@@ -1011,13 +1011,13 @@
         }
       },
       {
-        "defaultMessage": "!!!<p>To redeem your Ada, upload your certificate or copy and paste your redemption code from the certificate.\nBelow is an example of a redemption key. Your key will look similar:</p>\n<p><strong>B_GQOAffMBeRIn6vh1hJmeOT3ViS_TmaT4XAHAfDVH0=</strong></p>\n<p>If you upload a PDF file with your certificate, a redemption code will be automatically extracted.</p>\n<p>If you upload an <strong>encrypted certificate</strong>, you will need to provide a <strong>9 word mnemonic\npassphrase</strong> to decrypt your certificate and your redemption code will be automatically extracted.</p>",
-        "description": "Detailed instructions for redeeming Ada from the regular vending",
+        "defaultMessage": "!!!<p>To redeem your Lux, upload your certificate or copy and paste your redemption code from the certificate.\nBelow is an example of a redemption key. Your key will look similar:</p>\n<p><strong>B_GQOAffMBeRIn6vh1hJmeOT3ViS_TmaT4XAHAfDVH0=</strong></p>\n<p>If you upload a PDF file with your certificate, a redemption code will be automatically extracted.</p>\n<p>If you upload an <strong>encrypted certificate</strong>, you will need to provide a <strong>9 word mnemonic\npassphrase</strong> to decrypt your certificate and your redemption code will be automatically extracted.</p>",
+        "description": "Detailed instructions for redeeming Lux from the regular vending",
         "end": {
           "column": 3,
           "line": 41
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.instructions.regular",
         "start": {
           "column": 23,
@@ -1025,13 +1025,13 @@
         }
       },
       {
-        "defaultMessage": "!!!<p>To redeem your Ada, upload your certificate or copy and paste your redemption code from the certificate.\nBelow is an example of a redemption key. Your key will look similar:</p><p><strong>B_GQOAffMBeRIn6vh1hJmeOT3ViS_TmaT4XAHAfDVH0=</strong></p>\n<p>If you upload a PDF file with your certificate, the redemption code will be automatically extracted.</p>\n<p>If you upload an <strong>encrypted certificate</strong>, you will need to provide <strong>your email address, Ada passcode and Ada amount</strong>\nto decrypt your certificate and your redemption code will be automatically extracted.</p>",
-        "description": "Detailed instructions for redeeming Ada from the force vending",
+        "defaultMessage": "!!!<p>To redeem your Lux, upload your certificate or copy and paste your redemption code from the certificate.\nBelow is an example of a redemption key. Your key will look similar:</p><p><strong>B_GQOAffMBeRIn6vh1hJmeOT3ViS_TmaT4XAHAfDVH0=</strong></p>\n<p>If you upload a PDF file with your certificate, the redemption code will be automatically extracted.</p>\n<p>If you upload an <strong>encrypted certificate</strong>, you will need to provide <strong>your email address, Lux passcode and Lux amount</strong>\nto decrypt your certificate and your redemption code will be automatically extracted.</p>",
+        "description": "Detailed instructions for redeeming Lux from the force vending",
         "end": {
           "column": 3,
           "line": 50
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.instructions.forceVended",
         "start": {
           "column": 27,
@@ -1039,13 +1039,13 @@
         }
       },
       {
-        "defaultMessage": "!!!<p>To redeem your Ada, enter your shielded vending key from the certificate, choose a wallet\nwhere Ada should be redeemed and enter 9 word mnemonic passphrase.</p>",
-        "description": "Detailed instructions for redeeming Ada from the paper vending",
+        "defaultMessage": "!!!<p>To redeem your Lux, enter your shielded vending key from the certificate, choose a wallet\nwhere Lux should be redeemed and enter 9 word mnemonic passphrase.</p>",
+        "description": "Detailed instructions for redeeming Lux from the paper vending",
         "end": {
           "column": 3,
           "line": 56
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.instructions.paperVended",
         "start": {
           "column": 27,
@@ -1059,7 +1059,7 @@
           "column": 3,
           "line": 61
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.certificateLabel",
         "start": {
           "column": 20,
@@ -1073,7 +1073,7 @@
           "column": 3,
           "line": 66
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.certificateHint",
         "start": {
           "column": 19,
@@ -1082,12 +1082,12 @@
       },
       {
         "defaultMessage": "!!!Choose Wallet",
-        "description": "Label for the wallet select field on Ada redemption form",
+        "description": "Label for the wallet select field on Lux redemption form",
         "end": {
           "column": 3,
           "line": 71
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.walletSelectLabel",
         "start": {
           "column": 21,
@@ -1095,13 +1095,13 @@
         }
       },
       {
-        "defaultMessage": "!!!Passphrase to Decrypt the Ada Voucher Certificate",
-        "description": "Label for the passphrase to decrypt Ada voucher certificate input",
+        "defaultMessage": "!!!Passphrase to Decrypt the Lux Voucher Certificate",
+        "description": "Label for the passphrase to decrypt Lux voucher certificate input",
         "end": {
           "column": 3,
           "line": 76
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.passphraseLabel",
         "start": {
           "column": 19,
@@ -1115,7 +1115,7 @@
           "column": 3,
           "line": 81
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.passphraseHint",
         "start": {
           "column": 18,
@@ -1129,7 +1129,7 @@
           "column": 3,
           "line": 86
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.passphrase.input.noResults",
         "start": {
           "column": 23,
@@ -1138,12 +1138,12 @@
       },
       {
         "defaultMessage": "!!!Redemption key",
-        "description": "Label for ada redemption key input",
+        "description": "Label for lux redemption key input",
         "end": {
           "column": 3,
           "line": 91
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.redemptionKeyLabel",
         "start": {
           "column": 22,
@@ -1157,7 +1157,7 @@
           "column": 3,
           "line": 96
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.shieldedRedemptionKeyLabel",
         "start": {
           "column": 30,
@@ -1166,12 +1166,12 @@
       },
       {
         "defaultMessage": "!!!Invalid redemption key",
-        "description": "Error \"Invalid redemption key\" for ada redemption code input",
+        "description": "Error \"Invalid redemption key\" for lux redemption code input",
         "end": {
           "column": 3,
           "line": 101
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.redemptionCodeError",
         "start": {
           "column": 22,
@@ -1180,12 +1180,12 @@
       },
       {
         "defaultMessage": "!!!Invalid shielded vending key",
-        "description": "Error \"Invalid shielded vending key\" for ada redemption code input",
+        "description": "Error \"Invalid shielded vending key\" for lux redemption code input",
         "end": {
           "column": 3,
           "line": 106
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.shieldedRedemptionCodeError",
         "start": {
           "column": 30,
@@ -1194,12 +1194,12 @@
       },
       {
         "defaultMessage": "!!!Enter your redemption key or upload a certificate",
-        "description": "Hint for ada redemption key input",
+        "description": "Hint for lux redemption key input",
         "end": {
           "column": 3,
           "line": 111
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.redemptionCodeHint",
         "start": {
           "column": 21,
@@ -1213,7 +1213,7 @@
           "column": 3,
           "line": 116
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.shieldedRedemptionKeyHint",
         "start": {
           "column": 29,
@@ -1222,12 +1222,12 @@
       },
       {
         "defaultMessage": "!!!Redeem your money",
-        "description": "Label for the \"Ada redemption\" dialog submit button.",
+        "description": "Label for the \"Lux redemption\" dialog submit button.",
         "end": {
           "column": 3,
           "line": 121
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.submitLabel",
         "start": {
           "column": 15,
@@ -1241,7 +1241,7 @@
           "column": 3,
           "line": 126
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.emailLabel",
         "start": {
           "column": 14,
@@ -1255,7 +1255,7 @@
           "column": 3,
           "line": 131
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.emailHint",
         "start": {
           "column": 13,
@@ -1263,56 +1263,56 @@
         }
       },
       {
-        "defaultMessage": "!!!Ada passcode",
-        "description": "Label for the ada passcode input field.",
+        "defaultMessage": "!!!Lux passcode",
+        "description": "Label for the lux passcode input field.",
         "end": {
           "column": 3,
           "line": 136
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
-        "id": "wallet.redeem.dialog.adaPasscodeLabel",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
+        "id": "wallet.redeem.dialog.luxPasscodeLabel",
         "start": {
           "column": 20,
           "line": 132
         }
       },
       {
-        "defaultMessage": "!!!Enter your Ada passcode",
-        "description": "Hint for the Ada passcode input field.",
+        "defaultMessage": "!!!Enter your Lux passcode",
+        "description": "Hint for the Lux passcode input field.",
         "end": {
           "column": 3,
           "line": 141
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
-        "id": "wallet.redeem.dialog.adaPasscodeHint",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
+        "id": "wallet.redeem.dialog.luxPasscodeHint",
         "start": {
           "column": 19,
           "line": 137
         }
       },
       {
-        "defaultMessage": "!!!Ada amount",
-        "description": "Label for the ada amount input field.",
+        "defaultMessage": "!!!Lux amount",
+        "description": "Label for the lux amount input field.",
         "end": {
           "column": 3,
           "line": 146
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
-        "id": "wallet.redeem.dialog.adaAmountLabel",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
+        "id": "wallet.redeem.dialog.luxAmountLabel",
         "start": {
           "column": 18,
           "line": 142
         }
       },
       {
-        "defaultMessage": "!!!Enter your Ada amount",
-        "description": "Hint for the Ada amount input field.",
+        "defaultMessage": "!!!Enter your Lux amount",
+        "description": "Hint for the Lux amount input field.",
         "end": {
           "column": 3,
           "line": 151
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
-        "id": "wallet.redeem.dialog.adaAmountHint",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
+        "id": "wallet.redeem.dialog.luxAmountHint",
         "start": {
           "column": 17,
           "line": 147
@@ -1325,7 +1325,7 @@
           "column": 3,
           "line": 156
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.walletPasswordPlaceholder",
         "start": {
           "column": 29,
@@ -1339,7 +1339,7 @@
           "column": 3,
           "line": 161
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionForm.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionForm.js",
         "id": "wallet.redeem.dialog.walletPasswordLabel",
         "start": {
           "column": 23,
@@ -1347,18 +1347,18 @@
         }
       }
     ],
-    "path": "app/components/wallet/ada-redemption/AdaRedemptionForm.json"
+    "path": "app/components/wallet/lux-redemption/LuxRedemptionForm.json"
   },
   {
     "descriptors": [
       {
         "defaultMessage": "!!!You have successfully redeemed",
-        "description": "Headline for the ada redemption success overlay.",
+        "description": "Headline for the lux redemption success overlay.",
         "end": {
           "column": 3,
           "line": 18
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionSuccessOverlay.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionSuccessOverlay.js",
         "id": "wallet.redeem.success.overlay.headline",
         "start": {
           "column": 12,
@@ -1372,7 +1372,7 @@
           "column": 3,
           "line": 23
         },
-        "file": "app/components/wallet/ada-redemption/AdaRedemptionSuccessOverlay.js",
+        "file": "app/components/wallet/lux-redemption/LuxRedemptionSuccessOverlay.js",
         "id": "wallet.redeem.success.overlay.confirmButton",
         "start": {
           "column": 17,
@@ -1380,7 +1380,7 @@
         }
       }
     ],
-    "path": "app/components/wallet/ada-redemption/AdaRedemptionSuccessOverlay.json"
+    "path": "app/components/wallet/lux-redemption/LuxRedemptionSuccessOverlay.json"
   },
   {
     "descriptors": [
@@ -3647,14 +3647,14 @@
         }
       },
       {
-        "defaultMessage": "!!!equals {amount} ADA",
+        "defaultMessage": "!!!equals {amount} LUX",
         "description": "Convertion hint for the \"Amount\" number input in the wallet send form.",
         "end": {
           "column": 3,
           "line": 51
         },
         "file": "app/components/wallet/WalletSendForm.js",
-        "id": "wallet.send.form.amount.equalsAda",
+        "id": "wallet.send.form.amount.equalsLux",
         "start": {
           "column": 17,
           "line": 47
@@ -3745,8 +3745,8 @@
         }
       },
       {
-        "defaultMessage": "!!!Not enough Ada for fees. Try sending a smaller amount.",
-        "description": "\"Not enough Ada for fees. Try sending a smaller amount.\" error message",
+        "defaultMessage": "!!!Not enough Lux for fees. Try sending a smaller amount.",
+        "description": "\"Not enough Lux for fees. Try sending a smaller amount.\" error message",
         "end": {
           "column": 3,
           "line": 86
@@ -4122,28 +4122,28 @@
         }
       },
       {
-        "defaultMessage": "!!!The ADA redemption code could not be parsed from the given document.",
-        "description": "Error message shown when invalid Ada redemption certificate was uploaded.",
+        "defaultMessage": "!!!The LUX redemption code could not be parsed from the given document.",
+        "description": "Error message shown when invalid Lux redemption certificate was uploaded.",
         "end": {
           "column": 3,
           "line": 23
         },
         "file": "app/i18n/global-messages.js",
-        "id": "global.errors.AdaRedemptionCertificateParseError",
+        "id": "global.errors.LuxRedemptionCertificateParseError",
         "start": {
           "column": 35,
           "line": 19
         }
       },
       {
-        "defaultMessage": "!!!The ADA redemption code could not be parsed, please check your passphrase.",
-        "description": "Error message shown when invalid Ada redemption encrypted certificate was uploaded.",
+        "defaultMessage": "!!!The LUX redemption code could not be parsed, please check your passphrase.",
+        "description": "Error message shown when invalid Lux redemption encrypted certificate was uploaded.",
         "end": {
           "column": 3,
           "line": 28
         },
         "file": "app/i18n/global-messages.js",
-        "id": "global.errors.AdaRedemptionEncryptedCertificateParseError",
+        "id": "global.errors.LuxRedemptionEncryptedCertificateParseError",
         "start": {
           "column": 44,
           "line": 24
@@ -4388,14 +4388,14 @@
         }
       },
       {
-        "defaultMessage": "!!!Ada",
-        "description": "Name for \"Ada\" unit.",
+        "defaultMessage": "!!!Lux",
+        "description": "Name for \"Lux\" unit.",
         "end": {
           "column": 3,
           "line": 118
         },
         "file": "app/i18n/global-messages.js",
-        "id": "global.unit.ada",
+        "id": "global.unit.lux",
         "start": {
           "column": 11,
           "line": 114
@@ -4444,14 +4444,14 @@
         }
       },
       {
-        "defaultMessage": "!!!Ada",
-        "description": "Name for \"Ada\" unit.",
+        "defaultMessage": "!!!Lux",
+        "description": "Name for \"Lux\" unit.",
         "end": {
           "column": 5,
           "line": 147
         },
         "file": "app/i18n/global-messages.js",
-        "id": "environment.currency.ada",
+        "id": "environment.currency.lux",
         "start": {
           "column": 14,
           "line": 143

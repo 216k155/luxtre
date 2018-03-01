@@ -1,8 +1,8 @@
 // @flow
-import type { AdaTransactionFee } from './types';
+import type { LuxTransactionFee } from './types';
 import { request } from './lib/request';
 
-export type AdaTxFeeParams = {
+export type LuxTxFeeParams = {
   ca: string,
   sender: string,
   receiver: string,
@@ -12,9 +12,9 @@ export type AdaTxFeeParams = {
   groupingPolicy: ?'OptimizeForSecurity' | 'OptimizeForSize',
 };
 
-export const adaTxFee = (
-{ ca, sender, receiver, amount, groupingPolicy }: AdaTxFeeParams
-): Promise<AdaTransactionFee> => (
+export const luxTxFee = (
+{ ca, sender, receiver, amount, groupingPolicy }: LuxTxFeeParams
+): Promise<LuxTransactionFee> => (
   request({
     hostname: 'localhost',
     method: 'POST',

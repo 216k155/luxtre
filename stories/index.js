@@ -5,7 +5,7 @@ import './SidebarWalletsMenu.stories';
 import './StakingChart.stories';
 import './Staking.stories';
 import './Widgets.stories';
-import './AdaRedemptionDialog.stories';
+import './LuxRedemptionDialog.stories';
 import './AddWallet.stories';
 import './WalletSummary.stories';
 import './LanguageSelectionForm.stories';

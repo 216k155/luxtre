@@ -1,27 +1,27 @@
 // @flow
 import WalletsActions from './wallets-actions';
-import AdaRedemptionActions from './ada-redemption-actions';
+import LuxRedemptionActions from './lux-redemption-actions';
 import TransactionsActions from './transactions-actions';
 import NodeUpdateActions from './node-update-actions';
 import WalletSettingsActions from './wallet-settings-actions';
 import AddressesActions from './addresses-actions';
 
-export type AdaActionsMap = {
+export type LuxActionsMap = {
   wallets: WalletsActions,
-  adaRedemption: AdaRedemptionActions,
+  luxRedemption: LuxRedemptionActions,
   transactions: TransactionsActions,
   nodeUpdate: NodeUpdateActions,
   walletSettings: WalletSettingsActions,
   addresses: AddressesActions,
 };
 
-const adaActionsMap: AdaActionsMap = {
+const luxActionsMap: LuxActionsMap = {
   wallets: new WalletsActions(),
-  adaRedemption: new AdaRedemptionActions(),
+  luxRedemption: new LuxRedemptionActions(),
   transactions: new TransactionsActions(),
   nodeUpdate: new NodeUpdateActions(),
   walletSettings: new WalletSettingsActions(),
   addresses: new AddressesActions(),
 };
 
-export default adaActionsMap;
+export default luxActionsMap;

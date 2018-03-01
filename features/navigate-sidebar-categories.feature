@@ -13,18 +13,18 @@ Feature: Navigate Sidebar Categories
 
     Examples:
     | FROM           | TO             |
-    | wallets        | ada-redemption |
-    | ada-redemption | wallets        |
+    | wallets        | lux-redemption |
+    | lux-redemption | wallets        |
 
-  Scenario: Navigate from a Wallet to Ada Redemption screen
+  Scenario: Navigate from a Wallet to Lux Redemption screen
     Given I am on the "Test wallet" wallet "summary" screen
     And The sidebar shows the "wallets" category
-    When I click on the "ada-redemption" category in the sidebar
-    Then I should be on the ada redemption screen
+    When I click on the "lux-redemption" category in the sidebar
+    Then I should be on the lux redemption screen
 
-  Scenario: Open Wallets Menu from Ada Redemption Screen
-    Given I am on the ada redemption screen
-    And The sidebar shows the "ada-redemption" category
+  Scenario: Open Wallets Menu from Lux Redemption Screen
+    Given I am on the lux redemption screen
+    And The sidebar shows the "lux-redemption" category
     When I click on the "wallets" category in the sidebar
     Then The "wallets" category should be active
     But I should be on the "Test wallet" wallet "summary" screen

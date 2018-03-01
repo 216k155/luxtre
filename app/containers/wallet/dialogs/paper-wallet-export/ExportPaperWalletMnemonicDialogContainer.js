@@ -43,7 +43,7 @@ export default class ExportPaperWalletMnemonicDialogContainer extends Component<
   render() {
     const { stores } = this.props;
     const { uiDialogs } = stores;
-    const { wallets } = stores.ada;
+    const { wallets } = stores.lux;
     const dialogData = uiDialogs.dataForActiveDialog;
 
     return (

@@ -1,14 +1,14 @@
 // @flow
-import type { AdaAccounts } from './types';
+import type { LuxAccounts } from './types';
 import { request } from './lib/request';
 
-export type GetAdaAccountsParams = {
+export type GetLuxAccountsParams = {
   ca: string,
 };
 
-export const getAdaAccounts = (
-  { ca }: GetAdaAccountsParams
-): Promise<AdaAccounts> => (
+export const getLuxAccounts = (
+  { ca }: GetLuxAccountsParams
+): Promise<LuxAccounts> => (
   request({
     hostname: 'localhost',
     method: 'GET',

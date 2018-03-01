@@ -14,45 +14,45 @@ import SelectSkin from 'react-polymorph/lib/skins/simple/SelectSkin';
 import Autocomplete from 'react-polymorph/lib/components/Autocomplete';
 import SimpleAutocompleteSkin from 'react-polymorph/lib/skins/simple/AutocompleteSkin';
 import ReactToolboxMobxForm from '../../../utils/ReactToolboxMobxForm';
-import AdaCertificateUploadWidget from '../../widgets/forms/AdaCertificateUploadWidget';
-import AdaRedemptionChoices from './AdaRedemptionChoices';
-import AdaRedemptionDisclaimer from './AdaRedemptionDisclaimer';
+import LuxCertificateUploadWidget from '../../widgets/forms/LuxCertificateUploadWidget';
+import LuxRedemptionChoices from './LuxRedemptionChoices';
+import LuxRedemptionDisclaimer from './LuxRedemptionDisclaimer';
 import BorderedBox from '../../widgets/BorderedBox';
 import LocalizableError from '../../../i18n/LocalizableError';
 import { InvalidMnemonicError, InvalidEmailError, FieldRequiredError } from '../../../i18n/errors';
 import globalMessages from '../../../i18n/global-messages';
-import styles from './AdaRedemptionForm.scss';
+import styles from './LuxRedemptionForm.scss';
 
 const messages = defineMessages({
   headline: {
     id: 'wallet.redeem.dialog.headline',
-    defaultMessage: '!!!Ada Redemption',
-    description: 'Headline "Ada redemption" dialog.'
+    defaultMessage: '!!!Lux Redemption',
+    description: 'Headline "Lux redemption" dialog.'
   },
   instructionsRegular: {
     id: 'wallet.redeem.dialog.instructions.regular',
-    defaultMessage: `!!!<p>To redeem your Ada, upload your certificate or copy and paste your redemption code from the certificate.
+    defaultMessage: `!!!<p>To redeem your Lux, upload your certificate or copy and paste your redemption code from the certificate.
 Below is an example of a redemption key. Your key will look similar:</p>
 <p><strong>B_GQOAffMBeRIn6vh1hJmeOT3ViS_TmaT4XAHAfDVH0=</strong></p>
 <p>If you upload a PDF file with your certificate, a redemption code will be automatically extracted.</p>
 <p>If you upload an <strong>encrypted certificate</strong>, you will need to provide a <strong>9 word mnemonic
 passphrase</strong> to decrypt your certificate and your redemption code will be automatically extracted.</p>`,
-    description: 'Detailed instructions for redeeming Ada from the regular vending',
+    description: 'Detailed instructions for redeeming Lux from the regular vending',
   },
   instructionsForceVended: {
     id: 'wallet.redeem.dialog.instructions.forceVended',
-    defaultMessage: `!!!<p>To redeem your Ada, upload your certificate or copy and paste your redemption code from the certificate.
+    defaultMessage: `!!!<p>To redeem your Lux, upload your certificate or copy and paste your redemption code from the certificate.
 Below is an example of a redemption key. Your key will look similar:</p><p><strong>B_GQOAffMBeRIn6vh1hJmeOT3ViS_TmaT4XAHAfDVH0=</strong></p>
 <p>If you upload a PDF file with your certificate, the redemption code will be automatically extracted.</p>
-<p>If you upload an <strong>encrypted certificate</strong>, you will need to provide <strong>your email address, Ada passcode and Ada amount</strong>
+<p>If you upload an <strong>encrypted certificate</strong>, you will need to provide <strong>your email address, Lux passcode and Lux amount</strong>
 to decrypt your certificate and your redemption code will be automatically extracted.</p>`,
-    description: 'Detailed instructions for redeeming Ada from the force vending',
+    description: 'Detailed instructions for redeeming Lux from the force vending',
   },
   instructionsPaperVended: {
     id: 'wallet.redeem.dialog.instructions.paperVended',
-    defaultMessage: `!!!<p>To redeem your Ada, enter your shielded vending key from the certificate, choose a wallet
-where Ada should be redeemed and enter 9 word mnemonic passphrase.</p>`,
-    description: 'Detailed instructions for redeeming Ada from the paper vending',
+    defaultMessage: `!!!<p>To redeem your Lux, enter your shielded vending key from the certificate, choose a wallet
+where Lux should be redeemed and enter 9 word mnemonic passphrase.</p>`,
+    description: 'Detailed instructions for redeeming Lux from the paper vending',
   },
   certificateLabel: {
     id: 'wallet.redeem.dialog.certificateLabel',
@@ -67,12 +67,12 @@ where Ada should be redeemed and enter 9 word mnemonic passphrase.</p>`,
   walletSelectLabel: {
     id: 'wallet.redeem.dialog.walletSelectLabel',
     defaultMessage: '!!!Choose Wallet',
-    description: 'Label for the wallet select field on Ada redemption form'
+    description: 'Label for the wallet select field on Lux redemption form'
   },
   passphraseLabel: {
     id: 'wallet.redeem.dialog.passphraseLabel',
-    defaultMessage: '!!!Passphrase to Decrypt the Ada Voucher Certificate',
-    description: 'Label for the passphrase to decrypt Ada voucher certificate input'
+    defaultMessage: '!!!Passphrase to Decrypt the Lux Voucher Certificate',
+    description: 'Label for the passphrase to decrypt Lux voucher certificate input'
   },
   passphraseHint: {
     id: 'wallet.redeem.dialog.passphraseHint',
@@ -87,7 +87,7 @@ where Ada should be redeemed and enter 9 word mnemonic passphrase.</p>`,
   redemptionKeyLabel: {
     id: 'wallet.redeem.dialog.redemptionKeyLabel',
     defaultMessage: '!!!Redemption key',
-    description: 'Label for ada redemption key input',
+    description: 'Label for lux redemption key input',
   },
   shieldedRedemptionKeyLabel: {
     id: 'wallet.redeem.dialog.shieldedRedemptionKeyLabel',
@@ -97,17 +97,17 @@ where Ada should be redeemed and enter 9 word mnemonic passphrase.</p>`,
   redemptionKeyError: {
     id: 'wallet.redeem.dialog.redemptionCodeError',
     defaultMessage: '!!!Invalid redemption key',
-    description: 'Error "Invalid redemption key" for ada redemption code input',
+    description: 'Error "Invalid redemption key" for lux redemption code input',
   },
   shieldedRedemptionKeyError: {
     id: 'wallet.redeem.dialog.shieldedRedemptionCodeError',
     defaultMessage: '!!!Invalid shielded vending key',
-    description: 'Error "Invalid shielded vending key" for ada redemption code input',
+    description: 'Error "Invalid shielded vending key" for lux redemption code input',
   },
   redemptionKeyHint: {
     id: 'wallet.redeem.dialog.redemptionCodeHint',
     defaultMessage: '!!!Enter your redemption key or upload a certificate',
-    description: 'Hint for ada redemption key input',
+    description: 'Hint for lux redemption key input',
   },
   shieldedRedemptionKeyHint: {
     id: 'wallet.redeem.dialog.shieldedRedemptionKeyHint',
@@ -117,7 +117,7 @@ where Ada should be redeemed and enter 9 word mnemonic passphrase.</p>`,
   submitLabel: {
     id: 'wallet.redeem.dialog.submitLabel',
     defaultMessage: '!!!Redeem your money',
-    description: 'Label for the "Ada redemption" dialog submit button.'
+    description: 'Label for the "Lux redemption" dialog submit button.'
   },
   emailLabel: {
     id: 'wallet.redeem.dialog.emailLabel',
@@ -129,25 +129,25 @@ where Ada should be redeemed and enter 9 word mnemonic passphrase.</p>`,
     defaultMessage: '!!!Enter your email address',
     description: 'Hint for the email input field.'
   },
-  adaPasscodeLabel: {
-    id: 'wallet.redeem.dialog.adaPasscodeLabel',
-    defaultMessage: '!!!Ada passcode',
-    description: 'Label for the ada passcode input field.'
+  luxPasscodeLabel: {
+    id: 'wallet.redeem.dialog.luxPasscodeLabel',
+    defaultMessage: '!!!Lux passcode',
+    description: 'Label for the lux passcode input field.'
   },
-  adaPasscodeHint: {
-    id: 'wallet.redeem.dialog.adaPasscodeHint',
-    defaultMessage: '!!!Enter your Ada passcode',
-    description: 'Hint for the Ada passcode input field.'
+  luxPasscodeHint: {
+    id: 'wallet.redeem.dialog.luxPasscodeHint',
+    defaultMessage: '!!!Enter your Lux passcode',
+    description: 'Hint for the Lux passcode input field.'
   },
-  adaAmountLabel: {
-    id: 'wallet.redeem.dialog.adaAmountLabel',
-    defaultMessage: '!!!Ada amount',
-    description: 'Label for the ada amount input field.'
+  luxAmountLabel: {
+    id: 'wallet.redeem.dialog.luxAmountLabel',
+    defaultMessage: '!!!Lux amount',
+    description: 'Label for the lux amount input field.'
   },
-  adaAmountHint: {
-    id: 'wallet.redeem.dialog.adaAmountHint',
-    defaultMessage: '!!!Enter your Ada amount',
-    description: 'Hint for the Ada amount input field.'
+  luxAmountHint: {
+    id: 'wallet.redeem.dialog.luxAmountHint',
+    defaultMessage: '!!!Enter your Lux amount',
+    description: 'Hint for the Lux amount input field.'
   },
   walletPasswordPlaceholder: {
     id: 'wallet.redeem.dialog.walletPasswordPlaceholder',
@@ -171,8 +171,8 @@ type Props = {
   onRemoveCertificate: Function,
   onPassPhraseChanged: Function,
   onEmailChanged: Function,
-  onAdaPasscodeChanged: Function,
-  onAdaAmountChanged: Function,
+  onLuxPasscodeChanged: Function,
+  onLuxAmountChanged: Function,
   onRedemptionCodeChanged: Function,
   onSubmit: Function,
   redemptionType: string,
@@ -193,7 +193,7 @@ type Props = {
 };
 
 @observer
-export default class AdaRedemptionForm extends Component<Props> {
+export default class LuxRedemptionForm extends Component<Props> {
 
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -268,30 +268,30 @@ export default class AdaRedemptionForm extends Component<Props> {
           ];
         }]
       },
-      adaPasscode: {
-        label: this.context.intl.formatMessage(messages.adaPasscodeLabel),
-        placeholder: this.context.intl.formatMessage(messages.adaPasscodeHint),
+      luxPasscode: {
+        label: this.context.intl.formatMessage(messages.luxPasscodeLabel),
+        placeholder: this.context.intl.formatMessage(messages.luxPasscodeHint),
         value: '',
         validators: [({ field }) => {
           if (!this.props.showInputsForDecryptingForceVendedCertificate) return [true];
-          const adaPasscode = field.value;
-          if (!isEmpty(adaPasscode)) this.props.onAdaPasscodeChanged(adaPasscode);
+          const luxPasscode = field.value;
+          if (!isEmpty(luxPasscode)) this.props.onLuxPasscodeChanged(luxPasscode);
           return [
-            !isEmpty(adaPasscode),
+            !isEmpty(luxPasscode),
             this.context.intl.formatMessage(new FieldRequiredError())
           ];
         }],
       },
-      adaAmount: {
-        label: this.context.intl.formatMessage(messages.adaAmountLabel),
-        placeholder: this.context.intl.formatMessage(messages.adaAmountHint),
+      luxAmount: {
+        label: this.context.intl.formatMessage(messages.luxAmountLabel),
+        placeholder: this.context.intl.formatMessage(messages.luxAmountHint),
         value: '',
         validators: [({ field }) => {
           if (!this.props.showInputsForDecryptingForceVendedCertificate) return [true];
-          const adaAmount = field.value;
-          if (!isEmpty(adaAmount)) this.props.onAdaAmountChanged(adaAmount);
+          const luxAmount = field.value;
+          if (!isEmpty(luxAmount)) this.props.onLuxAmountChanged(luxAmount);
           return [
-            !isEmpty(adaAmount),
+            !isEmpty(luxAmount),
             this.context.intl.formatMessage(new FieldRequiredError())
           ];
         }],
@@ -342,8 +342,8 @@ export default class AdaRedemptionForm extends Component<Props> {
     // We can not user form.reset() call here as it would reset selected walletId
     // which is a bad UX since we are calling resetForm on certificate add/remove
     form.$('walletPassword').reset();
-    form.$('adaAmount').reset();
-    form.$('adaPasscode').reset();
+    form.$('luxAmount').reset();
+    form.$('luxPasscode').reset();
     form.$('certificate').reset();
     form.$('email').reset();
     form.$('passPhrase').reset();
@@ -378,8 +378,8 @@ export default class AdaRedemptionForm extends Component<Props> {
     const shieldedRedemptionKeyField = form.$('shieldedRedemptionKey');
     const walletId = form.$('walletId');
     const emailField = form.$('email');
-    const adaPasscodeField = form.$('adaPasscode');
-    const adaAmountField = form.$('adaAmount');
+    const luxPasscodeField = form.$('luxPasscode');
+    const luxAmountField = form.$('luxAmount');
     const walletPasswordField = form.$('walletPassword');
     const componentClasses = classnames([
       styles.component,
@@ -432,7 +432,7 @@ export default class AdaRedemptionForm extends Component<Props> {
 
             <h1 className={styles.headline}>{intl.formatMessage(messages.headline)}</h1>
 
-            <AdaRedemptionChoices
+            <LuxRedemptionChoices
               activeChoice={redemptionType}
               onSelectChoice={(choice: string) => {
                 const isRedemptionTypeChanged = redemptionType !== choice;
@@ -482,7 +482,7 @@ export default class AdaRedemptionForm extends Component<Props> {
 
               {showUploadWidget ? (
                 <div className={styles.certificate}>
-                  <AdaCertificateUploadWidget
+                  <LuxCertificateUploadWidget
                     {...certificateField.bind()}
                     selectedFile={certificateField.value}
                     onFileSelected={(file) => {
@@ -541,22 +541,22 @@ export default class AdaRedemptionForm extends Component<Props> {
             ) : null}
 
             {showInputsForDecryptingForceVendedCertificate ? (
-              <div className={styles.adaPasscode}>
+              <div className={styles.luxPasscode}>
                 <Input
-                  className="ada-passcode"
-                  {...adaPasscodeField.bind()}
-                  error={adaPasscodeField.error}
+                  className="lux-passcode"
+                  {...luxPasscodeField.bind()}
+                  error={luxPasscodeField.error}
                   skin={<SimpleInputSkin />}
                 />
               </div>
             ) : null}
 
             {showInputsForDecryptingForceVendedCertificate ? (
-              <div className={styles.adaAmount}>
+              <div className={styles.luxAmount}>
                 <Input
-                  className="ada-amount"
-                  {...adaAmountField.bind()}
-                  error={adaAmountField.error}
+                  className="lux-amount"
+                  {...luxAmountField.bind()}
+                  error={luxAmountField.error}
                   skin={<SimpleInputSkin />}
                 />
               </div>
@@ -577,7 +577,7 @@ export default class AdaRedemptionForm extends Component<Props> {
         </div>
 
         {!isRedemptionDisclaimerAccepted ? (
-          <AdaRedemptionDisclaimer
+          <LuxRedemptionDisclaimer
             onSubmit={onAcceptRedemptionDisclaimer}
           />
         ) : null}

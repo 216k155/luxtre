@@ -21,7 +21,7 @@ export default class PaperWalletImportDialogContainer extends Component<Props> {
   };
 
   render() {
-    const { wallets } = this.props.stores.ada;
+    const { wallets } = this.props.stores.lux;
 
     return (
       <PaperWalletImportDialog

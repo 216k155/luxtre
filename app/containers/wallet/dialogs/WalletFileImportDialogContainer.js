@@ -12,18 +12,18 @@ export default class WalletFileImportDialogContainer extends Component<Props> {
   static defaultProps = { actions: null, stores: null, children: null, onClose: () => {} };
 
   onSubmit = (values: { filePath: string, walletPassword: ?string, walletName: ?string }) => {
-    this.props.actions.ada.wallets.importWalletFromFile.trigger(values);
+    this.props.actions.lux.wallets.importWalletFromFile.trigger(values);
   };
 
   onCancel = () => {
     this.props.onClose();
     // Import request should be reset only in case restore is finished/errored
-    const { importFromFileRequest } = this.props.stores.ada.wallets;
+    const { importFromFileRequest } = this.props.stores.lux.wallets;
     if (!importFromFileRequest.isExecuting) importFromFileRequest.reset();
   };
 
   render() {
-    const { wallets } = this.props.stores.ada;
+    const { wallets } = this.props.stores.lux;
     const { importFromFileRequest } = wallets;
 
     return (

@@ -8,7 +8,7 @@ import certificateNormalIcon from '../../../assets/images/cert-ic.inline.svg';
 import certificateLockedIcon from '../../../assets/images/cert-locked-ic.inline.svg';
 import certificateInvalidIcon from '../../../assets/images/cert-bad-ic.inline.svg';
 import closeCrossIcon from '../../../assets/images/close-cross.inline.svg';
-import styles from './AdaCertificateUploadWidget.scss';
+import styles from './LuxCertificateUploadWidget.scss';
 import { messages } from './ImageUploadWidget';
 
 type Props = {
@@ -22,7 +22,7 @@ type Props = {
 };
 
 @observer
-export default class AdaCertificateUploadWidget extends Component<Props> {
+export default class LuxCertificateUploadWidget extends Component<Props> {
 
   static contextTypes = {
     intl: intlShape.isRequired,

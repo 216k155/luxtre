@@ -168,7 +168,7 @@ export default class Transaction extends Component<Props, State> {
 
     const status = intl.formatMessage(assuranceLevelTranslations[assuranceLevel]);
     const currency = intl.formatMessage(environmentSpecificMessages[environment.API].currency);
-    const symbol = environment.isAdaApi() ? luxSymbol : luxSymbol;
+    const symbol = environment.isLuxApi() ? luxSymbol : luxSymbol;
 
     return (
       <div className={componentStyles}>
@@ -246,7 +246,7 @@ export default class Transaction extends Component<Props, State> {
                 <span key={`${data.id}-to-${address}-${addressIndex}`} className={styles.address}>{address}</span>
               ))}
 
-              {environment.isAdaApi() ? (
+              {environment.isLuxApi() ? (
                 <div className={styles.row}>
                   <h2>{intl.formatMessage(messages.assuranceLevel)}</h2>
                   {state === transactionStates.OK ? (

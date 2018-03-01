@@ -19,11 +19,11 @@ export default class MainLayout extends Component<Props> {
   render() {
     const { actions, stores } = this.props;
     const { sidebar } = stores;
-    const wallets = stores.ada.wallets;
+    const wallets = stores.lux.wallets;
     const activeWallet = wallets.active;
     const activeWalletId = activeWallet ? activeWallet.id : null;
-    const isNodeUpdateAvailable = this.props.stores.ada.nodeUpdate.isUpdateAvailable;
-    const isUpdatePostponed = this.props.stores.ada.nodeUpdate.isUpdatePostponed;
+    const isNodeUpdateAvailable = this.props.stores.lux.nodeUpdate.isUpdateAvailable;
+    const isUpdatePostponed = this.props.stores.lux.nodeUpdate.isUpdatePostponed;
     const { isImportActive, isRestoreActive } = wallets;
 
     const sidebarMenus = {

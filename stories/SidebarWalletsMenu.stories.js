@@ -25,7 +25,7 @@ storiesOf('SidebarWalletsMenu', module)
     <SidebarWalletsMenu
       wallets={[
         { id: '1', title: 'Main wallet', info: 'LUX' },
-        { id: '2', title: 'House rent', info: '274912874,35 ADA' },
+        { id: '2', title: 'House rent', info: '274912874,35 LUX' },
         { id: '3', title: 'Mining', info: '0,0004924712 BTC' },
         { id: '4', title: 'Shopping wallet', info: 'LUX' },
       ]}

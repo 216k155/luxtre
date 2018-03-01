@@ -1,9 +1,9 @@
 .component {
   align-items: center;
-  background-color: var(--theme-ada-redemption-disclaimer-background-color);
+  background-color: var(--theme-lux-redemption-disclaimer-background-color);
   bottom: 0;
   box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.25);
-  color: var(--theme-ada-redemption-disclaimer-text-color);
+  color: var(--theme-lux-redemption-disclaimer-text-color);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -21,7 +21,7 @@
       height: 110px;
       width: 110px;
       path {
-        fill: var(--theme-icon-ada-redemption-attention-color);
+        fill: var(--theme-icon-lux-redemption-attention-color);
       }
       path:nth-child(1) {
         opacity: 0.2;
@@ -49,10 +49,10 @@
   }
 
   button {
-    background-color: var(--theme-ada-redemption-disclaimer-button-background-color);
-    border: solid 1px var(--theme-ada-redemption-disclaimer-button-border-color);
+    background-color: var(--theme-lux-redemption-disclaimer-button-background-color);
+    border: solid 1px var(--theme-lux-redemption-disclaimer-button-border-color);
     border-radius: 5px;
-    color: var(--theme-ada-redemption-disclaimer-button-text-color);
+    color: var(--theme-lux-redemption-disclaimer-button-text-color);
     cursor: pointer;
     height: 50px;
     font-size: 14px;
@@ -62,8 +62,8 @@
 
     &:not(.disabled) {
       &:hover {
-        background-color: var(--theme-ada-redemption-disclaimer-button-background-color-hover);
-        color: var(--theme-ada-redemption-disclaimer-button-text-color-hover);
+        background-color: var(--theme-lux-redemption-disclaimer-button-background-color-hover);
+        color: var(--theme-lux-redemption-disclaimer-button-text-color-hover);
       }
     }
 
@@ -73,26 +73,26 @@
     }
   }
 
-  :global .adaRedemptionDisclaimerCheckbox {
+  :global .luxRedemptionDisclaimerCheckbox {
     .SimpleCheckbox_root {
       margin-bottom: 30px;
       opacity: 0.8;
       padding-top: 20px;
 
       .SimpleCheckbox_check {
-        border-color: var(--theme-ada-redemption-disclaimer-checkbox-color-check);
+        border-color: var(--theme-lux-redemption-disclaimer-checkbox-color-check);
 
         &.SimpleCheckbox_checked {
-          background-color: var(--theme-ada-redemption-disclaimer-checkbox-color-checked);
+          background-color: var(--theme-lux-redemption-disclaimer-checkbox-color-checked);
 
           &:after {
-            border-color: var(--theme-ada-redemption-disclaimer-checkbox-color-after);
+            border-color: var(--theme-lux-redemption-disclaimer-checkbox-color-after);
           }
         }
       }
 
       .SimpleCheckbox_label {
-        color: var(--theme-ada-redemption-disclaimer-checkbox-label-color);
+        color: var(--theme-lux-redemption-disclaimer-checkbox-label-color);
       }
     }
   }

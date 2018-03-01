@@ -9,20 +9,20 @@ export class InvalidMnemonicError extends LocalizableError {
   }
 }
 
-export class AdaRedemptionCertificateParseError extends LocalizableError {
+export class LuxRedemptionCertificateParseError extends LocalizableError {
   constructor() {
     super({
-      id: 'global.errors.AdaRedemptionCertificateParseError',
-      defaultMessage: '!!!The ADA redemption code could not be parsed from the given document.',
+      id: 'global.errors.LuxRedemptionCertificateParseError',
+      defaultMessage: '!!!The LUX redemption code could not be parsed from the given document.',
     });
   }
 }
 
-export class AdaRedemptionEncryptedCertificateParseError extends LocalizableError {
+export class LuxRedemptionEncryptedCertificateParseError extends LocalizableError {
   constructor() {
     super({
-      id: 'global.errors.AdaRedemptionEncryptedCertificateParseError',
-      defaultMessage: '!!!The ADA redemption code could not be parsed, please check your passphrase.',
+      id: 'global.errors.LuxRedemptionEncryptedCertificateParseError',
+      defaultMessage: '!!!The LUX redemption code could not be parsed, please check your passphrase.',
     });
   }
 }

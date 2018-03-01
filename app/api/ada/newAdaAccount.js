@@ -1,12 +1,12 @@
 // @flow
-import type { AdaAccount } from './types';
+import type { LuxAccount } from './types';
 import { request } from './lib/request';
 
-export type NewAdaAccountQueryParams = {
+export type NewLuxAccountQueryParams = {
   passphrase: ?string,
 };
 
-export type NewAdaAccountRawBodyParams = {
+export type NewLuxAccountRawBodyParams = {
   accountInitData: {
     caInitMeta: {
       caName: string,
@@ -15,12 +15,12 @@ export type NewAdaAccountRawBodyParams = {
   }
 };
 
-export const newAdaAccount = (
+export const newLuxAccount = (
   ca: string,
   pathParams: {},
-  queryParams: NewAdaAccountQueryParams,
-  rawBodyParams: NewAdaAccountRawBodyParams,
-): Promise<AdaAccount> => {
+  queryParams: NewLuxAccountQueryParams,
+  rawBodyParams: NewLuxAccountRawBodyParams,
+): Promise<LuxAccount> => {
   const { accountInitData } = rawBodyParams;
   return request({
     hostname: 'localhost',

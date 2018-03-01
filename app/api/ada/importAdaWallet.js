@@ -1,16 +1,16 @@
 // @flow
-import type { AdaWallet } from './types';
+import type { LuxWallet } from './types';
 import { request } from './lib/request';
 
-export type ImportAdaWalletParams = {
+export type ImportLuxWalletParams = {
   ca: string,
   filePath: string,
   walletPassword: ?string,
 };
 
-export const importAdaWallet = (
-  { ca, walletPassword, filePath }: ImportAdaWalletParams
-): Promise<AdaWallet> => (
+export const importLuxWallet = (
+  { ca, walletPassword, filePath }: ImportLuxWalletParams
+): Promise<LuxWallet> => (
   request({
     hostname: 'localhost',
     method: 'POST',

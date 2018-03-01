@@ -55,7 +55,7 @@ defineSupportCode(({ AfterAll, BeforeAll, Before, setDefaultTimeout }) => {
     await this.client.executeAsync((done) => {
       const resetBackend = () => {
         if (luxcore.stores.networkStatus.isConnected) {
-          luxcore.api.ada.testReset()
+          luxcore.api.lux.testReset()
             .then(() => luxcore.api.localStorage.reset())
             .then(done)
             .catch((error) => done(error));

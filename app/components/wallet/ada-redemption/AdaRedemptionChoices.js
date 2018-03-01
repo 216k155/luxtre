@@ -2,23 +2,23 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
-import styles from './AdaRedemptionChoices.scss';
+import styles from './LuxRedemptionChoices.scss';
 
 const messages = defineMessages({
   regularTabTitle: {
     id: 'wallet.redeem.choices.tab.title.regularVended',
     defaultMessage: '!!!Regular',
-    description: 'Tab title "Regular" on Ada redemption page.'
+    description: 'Tab title "Regular" on Lux redemption page.'
   },
   forceVendedTabTitle: {
     id: 'wallet.redeem.choices.tab.title.forceVended',
     defaultMessage: '!!!Force vended',
-    description: 'Tab title "Force vended" on Ada redemption page.'
+    description: 'Tab title "Force vended" on Lux redemption page.'
   },
   paperVendedTabTitle: {
     id: 'wallet.redeem.choices.tab.title.paperVended',
     defaultMessage: '!!!Paper vended',
-    description: 'Tab title "Paper vended" on Ada redemption page.'
+    description: 'Tab title "Paper vended" on Lux redemption page.'
   },
 });
 
@@ -28,7 +28,7 @@ type Props = {
 };
 
 @observer
-export default class AdaRedemptionChoices extends Component<Props> {
+export default class LuxRedemptionChoices extends Component<Props> {
 
   static contextTypes = {
     intl: intlShape.isRequired,

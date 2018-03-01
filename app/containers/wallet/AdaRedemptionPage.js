@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import Layout from '../MainLayout';
-import AdaRedemptionForm from '../../components/wallet/ada-redemption/AdaRedemptionForm';
+import LuxRedemptionForm from '../../components/wallet/lux-redemption/LuxRedemptionForm';
 import LoadingSpinner from '../../components/widgets/LoadingSpinner';
-import { AdaRedemptionCertificateParseError } from '../../i18n/errors';
+import { LuxRedemptionCertificateParseError } from '../../i18n/errors';
 import type { InjectedProps } from '../../types/injectedPropsType';
 import validWords from '../../../lib/valid-words.en';
 import environment from '../../environment';
@@ -12,12 +12,12 @@ import environment from '../../environment';
 type Props = InjectedProps;
 
 @inject('stores', 'actions') @observer
-export default class AdaRedemptionPage extends Component<Props> {
+export default class LuxRedemptionPage extends Component<Props> {
 
   static defaultProps = { actions: null, stores: null };
 
   onSubmit = (values: { walletId: string, walletPassword: ?string }) => {
-    this.props.actions.ada.adaRedemption.redeemAda.trigger(values);
+    this.props.actions.lux.luxRedemption.redeemLux.trigger(values);
   };
 
   onSubmitPaperVended = (values: {
@@ -25,53 +25,53 @@ export default class AdaRedemptionPage extends Component<Props> {
     shieldedRedemptionKey: string,
     walletPassword: ?string,
   }) => {
-    this.props.actions.ada.adaRedemption.redeemPaperVendedAda.trigger(values);
+    this.props.actions.lux.luxRedemption.redeemPaperVendedLux.trigger(values);
   };
 
   render() {
-    const { wallets, adaRedemption } = this.props.stores.ada;
+    const { wallets, luxRedemption } = this.props.stores.lux;
     const {
-      redeemAdaRequest, redeemPaperVendedAdaRequest, isCertificateEncrypted, isValidRedemptionKey,
+      redeemLuxRequest, redeemPaperVendedLuxRequest, isCertificateEncrypted, isValidRedemptionKey,
       redemptionType, isValidRedemptionMnemonic, isValidPaperVendRedemptionKey,
       isRedemptionDisclaimerAccepted, error
-    } = adaRedemption;
+    } = luxRedemption;
     const {
       chooseRedemptionType, setCertificate, setPassPhrase, setRedemptionCode, removeCertificate,
-      setEmail, setAdaPasscode, setAdaAmount, acceptRedemptionDisclaimer
-    } = this.props.actions.ada.adaRedemption;
+      setEmail, setLuxPasscode, setLuxAmount, acceptRedemptionDisclaimer
+    } = this.props.actions.lux.luxRedemption;
     const selectableWallets = wallets.all.map((w) => ({
       value: w.id, label: w.name
     }));
 
     if (selectableWallets.length === 0) return <Layout><LoadingSpinner /></Layout>;
-    const request = redemptionType === 'paperVended' ? redeemPaperVendedAdaRequest : redeemAdaRequest;
-    const isCertificateSelected = adaRedemption.certificate !== null;
+    const request = redemptionType === 'paperVended' ? redeemPaperVendedLuxRequest : redeemLuxRequest;
+    const isCertificateSelected = luxRedemption.certificate !== null;
     const showInputsForDecryptingForceVendedCertificate = isCertificateSelected &&
       isCertificateEncrypted && redemptionType === 'forceVended';
     const showPassPhraseWidget = isCertificateSelected && isCertificateEncrypted &&
       redemptionType === 'regular' || redemptionType === 'paperVended';
     return (
       <Layout>
-        <AdaRedemptionForm
+        <LuxRedemptionForm
           onCertificateSelected={(certificate) => setCertificate.trigger({ certificate })}
           onPassPhraseChanged={(passPhrase) => setPassPhrase.trigger({ passPhrase })}
           onRedemptionCodeChanged={(redemptionCode) => {
             setRedemptionCode.trigger({ redemptionCode });
           }}
           onEmailChanged={(email) => setEmail.trigger({ email })}
-          onAdaAmountChanged={(adaAmount) => setAdaAmount.trigger({ adaAmount })}
-          onAdaPasscodeChanged={(adaPasscode) => setAdaPasscode.trigger({ adaPasscode })}
+          onLuxAmountChanged={(luxAmount) => setLuxAmount.trigger({ luxAmount })}
+          onLuxPasscodeChanged={(luxPasscode) => setLuxPasscode.trigger({ luxPasscode })}
           onChooseRedemptionType={(choice) => {
             chooseRedemptionType.trigger({ redemptionType: choice });
           }}
-          redemptionCode={adaRedemption.redemptionCode}
+          redemptionCode={luxRedemption.redemptionCode}
           wallets={selectableWallets}
           suggestedMnemonics={validWords}
           isCertificateSelected={isCertificateSelected}
           isCertificateEncrypted={isCertificateEncrypted}
-          isCertificateInvalid={error instanceof AdaRedemptionCertificateParseError}
+          isCertificateInvalid={error instanceof LuxRedemptionCertificateParseError}
           isSubmitting={request.isExecuting}
-          error={adaRedemption.error}
+          error={luxRedemption.error}
           onRemoveCertificate={removeCertificate.trigger}
           onSubmit={redemptionType === 'paperVended' ? this.onSubmitPaperVended : this.onSubmit}
           mnemonicValidator={isValidRedemptionMnemonic}

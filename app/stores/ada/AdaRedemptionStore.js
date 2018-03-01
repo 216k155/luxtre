@@ -10,17 +10,17 @@ import WalletTransaction from '../../domain/WalletTransaction';
 import { PARSE_REDEMPTION_CODE } from '../../../electron/ipc-api/parse-redemption-code-from-pdf';
 import {
   InvalidMnemonicError,
-  AdaRedemptionCertificateParseError,
-  AdaRedemptionEncryptedCertificateParseError
+  LuxRedemptionCertificateParseError,
+  LuxRedemptionEncryptedCertificateParseError
 } from '../../i18n/errors';
-import { DECIMAL_PLACES_IN_ADA } from '../../config/numbersConfig';
+import { DECIMAL_PLACES_IN_LUX } from '../../config/numbersConfig';
 import LocalizableError from '../../i18n/LocalizableError';
 import Wallet from '../../domain/Wallet';
 import { ROUTES } from '../../routes-config';
-import type { RedeemPaperVendedAdaResponse } from '../../api/ada/index';
+import type { RedeemPaperVendedLuxResponse } from '../../api/lux/index';
 import type { RedemptionTypeChoices } from '../../types/redemptionTypes';
 
-export default class AdaRedemptionStore extends Store {
+export default class LuxRedemptionStore extends Store {
 
   @observable redemptionType: RedemptionTypeChoices = 'regular';
   @observable certificate: ?File = null;
@@ -28,37 +28,37 @@ export default class AdaRedemptionStore extends Store {
   @observable passPhrase: ?string = null;
   @observable shieldedRedemptionKey: ?string = null;
   @observable email: ?string = null;
-  @observable adaPasscode: ?string = null;
-  @observable adaAmount: ?string = null;
+  @observable luxPasscode: ?string = null;
+  @observable luxAmount: ?string = null;
   @observable redemptionCode: string = '';
   @observable walletId: ?string = null;
   @observable error: ?LocalizableError = null;
   @observable amountRedeemed: number = 0;
-  @observable showAdaRedemptionSuccessMessage: boolean = false;
-  @observable redeemAdaRequest: Request<Wallet> = new Request(this.api.ada.redeemAda);
+  @observable showLuxRedemptionSuccessMessage: boolean = false;
+  @observable redeemLuxRequest: Request<Wallet> = new Request(this.api.lux.redeemLux);
   // eslint-disable-next-line
-  @observable redeemPaperVendedAdaRequest: Request<RedeemPaperVendedAdaResponse> = new Request(this.api.ada.redeemPaperVendedAda);
+  @observable redeemPaperVendedLuxRequest: Request<RedeemPaperVendedLuxResponse> = new Request(this.api.lux.redeemPaperVendedLux);
   @observable isRedemptionDisclaimerAccepted = false;
 
   setup() {
-    const actions = this.actions.ada.adaRedemption;
+    const actions = this.actions.lux.luxRedemption;
     actions.chooseRedemptionType.listen(this._chooseRedemptionType);
     actions.setCertificate.listen(this._setCertificate);
     actions.setPassPhrase.listen(this._setPassPhrase);
     actions.setRedemptionCode.listen(this._setRedemptionCode);
     actions.setEmail.listen(this._setEmail);
-    actions.setAdaPasscode.listen(this._setAdaPasscode);
-    actions.setAdaAmount.listen(this._setAdaAmount);
-    actions.redeemAda.listen(this._redeemAda);
-    actions.redeemPaperVendedAda.listen(this._redeemPaperVendedAda);
-    actions.adaSuccessfullyRedeemed.listen(this._onAdaSuccessfullyRedeemed);
-    actions.closeAdaRedemptionSuccessOverlay.listen(this._onCloseAdaRedemptionSuccessOverlay);
+    actions.setLuxPasscode.listen(this._setLuxPasscode);
+    actions.setLuxAmount.listen(this._setLuxAmount);
+    actions.redeemLux.listen(this._redeemLux);
+    actions.redeemPaperVendedLux.listen(this._redeemPaperVendedLux);
+    actions.luxSuccessfullyRedeemed.listen(this._onLuxSuccessfullyRedeemed);
+    actions.closeLuxRedemptionSuccessOverlay.listen(this._onCloseLuxRedemptionSuccessOverlay);
     actions.removeCertificate.listen(this._onRemoveCertificate);
     actions.acceptRedemptionDisclaimer.listen(this._onAcceptRedemptionDisclaimer);
     ipcRenderer.on(PARSE_REDEMPTION_CODE.SUCCESS, this._onCodeParsed);
     ipcRenderer.on(PARSE_REDEMPTION_CODE.ERROR, this._onParseError);
     this.registerReactions([
-      this._resetRedemptionFormValuesOnAdaRedemptionPageLoad,
+      this._resetRedemptionFormValuesOnLuxRedemptionPageLoad,
     ]);
   }
 
@@ -69,16 +69,16 @@ export default class AdaRedemptionStore extends Store {
   }
 
   isValidRedemptionKey = (redemptionKey: string) => (
-    this.api.ada.isValidRedemptionKey(redemptionKey)
+    this.api.lux.isValidRedemptionKey(redemptionKey)
   );
 
   isValidRedemptionMnemonic = (mnemonic: string) => (
-    this.api.ada.isValidRedemptionMnemonic(mnemonic)
+    this.api.lux.isValidRedemptionMnemonic(mnemonic)
   );
 
   isValidPaperVendRedemptionKey = (
     mnemonic: string
-  ) => this.api.ada.isValidPaperVendRedemptionKey(mnemonic);
+  ) => this.api.lux.isValidPaperVendRedemptionKey(mnemonic);
 
   @action _chooseRedemptionType = (params: {
     redemptionType: RedemptionTypeChoices,
@@ -118,13 +118,13 @@ export default class AdaRedemptionStore extends Store {
     this._parseCodeFromCertificate();
   });
 
-  _setAdaPasscode = action(({ adaPasscode } : { adaPasscode: string }) => {
-    this.adaPasscode = adaPasscode;
+  _setLuxPasscode = action(({ luxPasscode } : { luxPasscode: string }) => {
+    this.luxPasscode = luxPasscode;
     this._parseCodeFromCertificate();
   });
 
-  _setAdaAmount = action(({ adaAmount } : { adaAmount: string }) => {
-    this.adaAmount = adaAmount;
+  _setLuxAmount = action(({ luxAmount } : { luxAmount: string }) => {
+    this.luxAmount = luxAmount;
     this._parseCodeFromCertificate();
   });
 
@@ -133,20 +133,20 @@ export default class AdaRedemptionStore extends Store {
       if (!this.passPhrase && this.isCertificateEncrypted) return;
     }
     if (this.redemptionType === 'forceVended') {
-      if ((!this.email || !this.adaAmount || !this.adaPasscode) && this.isCertificateEncrypted) {
+      if ((!this.email || !this.luxAmount || !this.luxPasscode) && this.isCertificateEncrypted) {
         return;
       }
     }
     if (this.redemptionType === 'paperVended') return;
     if (this.certificate == null) throw new Error('Certificate File is required for parsing.');
     const path = this.certificate.path; // eslint-disable-line
-    Logger.debug('Parsing ADA Redemption code from certificate: ' + path);
+    Logger.debug('Parsing LUX Redemption code from certificate: ' + path);
     let decryptionKey = null;
     if (this.redemptionType === 'regular' && this.isCertificateEncrypted) {
       decryptionKey = this.passPhrase;
     }
     if (this.redemptionType === 'forceVended' && this.isCertificateEncrypted) {
-      decryptionKey = [this.email, this.adaPasscode, this.adaAmount];
+      decryptionKey = [this.email, this.luxPasscode, this.luxAmount];
     }
     ipcRenderer.send(PARSE_REDEMPTION_CODE.REQUEST, path, decryptionKey, this.redemptionType);
   }
@@ -162,35 +162,35 @@ export default class AdaRedemptionStore extends Store {
       this.error = new InvalidMnemonicError();
     } else if (this.redemptionType === 'regular') {
       if (this.isCertificateEncrypted) {
-        this.error = new AdaRedemptionEncryptedCertificateParseError();
+        this.error = new LuxRedemptionEncryptedCertificateParseError();
       } else {
-        this.error = new AdaRedemptionCertificateParseError();
+        this.error = new LuxRedemptionCertificateParseError();
       }
     }
     this.redemptionCode = '';
     this.passPhrase = null;
   });
 
-  _redeemAda = async ({ walletId, walletPassword } : {
+  _redeemLux = async ({ walletId, walletPassword } : {
     walletId: string,
     walletPassword: ?string,
   }) => {
     runInAction(() => {
       this.walletId = walletId;
     });
-    const accountId = this.stores.ada.addresses._getAccountIdByWalletId(walletId);
-    if (!accountId) throw new Error('Active account required before redeeming Ada.');
+    const accountId = this.stores.lux.addresses._getAccountIdByWalletId(walletId);
+    if (!accountId) throw new Error('Active account required before redeeming Lux.');
 
-    this.redeemAdaRequest.execute({
+    this.redeemLuxRequest.execute({
       redemptionCode: this.redemptionCode,
       accountId,
       walletPassword
     })
       .then(action((transaction: WalletTransaction) => {
         this._reset();
-        this.actions.ada.adaRedemption.adaSuccessfullyRedeemed.trigger({
+        this.actions.lux.luxRedemption.luxSuccessfullyRedeemed.trigger({
           walletId,
-          amount: transaction.amount.toFormat(DECIMAL_PLACES_IN_ADA),
+          amount: transaction.amount.toFormat(DECIMAL_PLACES_IN_LUX),
         });
       }))
       .catch(action((error) => {
@@ -198,15 +198,15 @@ export default class AdaRedemptionStore extends Store {
       }));
   };
 
-  _redeemPaperVendedAda = action(({ walletId, shieldedRedemptionKey, walletPassword } : {
+  _redeemPaperVendedLux = action(({ walletId, shieldedRedemptionKey, walletPassword } : {
     walletId: string,
     shieldedRedemptionKey: string,
     walletPassword: ?string,
   }) => {
     this.walletId = walletId;
-    const accountId = this.stores.ada.addresses._getAccountIdByWalletId(walletId);
-    if (!accountId) throw new Error('Active account required before redeeming Ada.');
-    this.redeemPaperVendedAdaRequest.execute({
+    const accountId = this.stores.lux.addresses._getAccountIdByWalletId(walletId);
+    if (!accountId) throw new Error('Active account required before redeeming Lux.');
+    this.redeemPaperVendedLuxRequest.execute({
       shieldedRedemptionKey,
       mnemonics: this.passPhrase,
       accountId,
@@ -214,9 +214,9 @@ export default class AdaRedemptionStore extends Store {
     })
       .then(action((transaction: WalletTransaction) => {
         this._reset();
-        this.actions.ada.adaRedemption.adaSuccessfullyRedeemed.trigger({
+        this.actions.lux.luxRedemption.luxSuccessfullyRedeemed.trigger({
           walletId,
-          amount: transaction.amount.toFormat(DECIMAL_PLACES_IN_ADA),
+          amount: transaction.amount.toFormat(DECIMAL_PLACES_IN_LUX),
         });
       }))
       .catch(action((error) => {
@@ -224,22 +224,22 @@ export default class AdaRedemptionStore extends Store {
       }));
   });
 
-  _onAdaSuccessfullyRedeemed = action(({ walletId, amount }) => {
-    Logger.debug('ADA successfully redeemed for wallet: ' + walletId);
-    this.stores.ada.wallets.goToWalletRoute(walletId);
+  _onLuxSuccessfullyRedeemed = action(({ walletId, amount }) => {
+    Logger.debug('LUX successfully redeemed for wallet: ' + walletId);
+    this.stores.lux.wallets.goToWalletRoute(walletId);
     this.amountRedeemed = amount;
-    this.showAdaRedemptionSuccessMessage = true;
+    this.showLuxRedemptionSuccessMessage = true;
     this.redemptionCode = '';
     this.passPhrase = null;
   });
 
-  _onCloseAdaRedemptionSuccessOverlay = action(() => {
-    this.showAdaRedemptionSuccessMessage = false;
+  _onCloseLuxRedemptionSuccessOverlay = action(() => {
+    this.showLuxRedemptionSuccessMessage = false;
   });
 
-  _resetRedemptionFormValuesOnAdaRedemptionPageLoad = () => {
+  _resetRedemptionFormValuesOnLuxRedemptionPageLoad = () => {
     const currentRoute = this.stores.app.currentRoute;
-    const match = matchRoute(ROUTES.ADA_REDEMPTION, currentRoute);
+    const match = matchRoute(ROUTES.LUX_REDEMPTION, currentRoute);
     if (match) this._reset();
   }
 
@@ -249,8 +249,8 @@ export default class AdaRedemptionStore extends Store {
     this.redemptionCode = '';
     this.passPhrase = null;
     this.email = null;
-    this.adaPasscode = null;
-    this.adaAmount = null;
+    this.luxPasscode = null;
+    this.luxAmount = null;
   });
 
   @action _reset = () => {
@@ -263,8 +263,8 @@ export default class AdaRedemptionStore extends Store {
     this.shieldedRedemptionKey = null;
     this.passPhrase = null;
     this.email = null;
-    this.adaPasscode = null;
-    this.adaAmount = null;
+    this.luxPasscode = null;
+    this.luxAmount = null;
   };
 
 }

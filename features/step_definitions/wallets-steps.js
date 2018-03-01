@@ -13,7 +13,7 @@ import {
   waitUntilUrlEquals,
   navigateTo,
 } from '../support/helpers/route-helpers';
-import { DECIMAL_PLACES_IN_ADA } from '../../app/config/numbersConfig';
+import { DECIMAL_PLACES_IN_LUX } from '../../app/config/numbersConfig';
 import sidebar from '../support/helpers/sidebar-helpers';
 import addWalletDialog from '../support/helpers/dialogs/add-wallet-dialog-helpers';
 import importWalletDialog from '../support/helpers/dialogs/import-wallet-dialog-helpers';
@@ -44,16 +44,16 @@ Given(/^I have a wallet with funds and password$/, async function () {
 Given(/^I have the following wallets:$/, async function (table) {
   const result = await this.client.executeAsync((wallets, done) => {
     window.Promise.all(wallets.map((wallet) => (
-      luxcore.api.ada.createWallet({
+      luxcore.api.lux.createWallet({
         name: wallet.name,
         mnemonic: luxcore.utils.crypto.generateMnemonic(),
         password: wallet.password || null,
       })
     )))
     .then(() => (
-      luxcore.stores.ada.wallets.walletsRequest.execute()
+      luxcore.stores.lux.wallets.walletsRequest.execute()
         .then((storeWallets) => (
-          luxcore.stores.ada.wallets.refreshWalletsData()
+          luxcore.stores.lux.wallets.refreshWalletsData()
             .then(() => done(storeWallets))
             .catch((error) => done(error))
         ))
@@ -165,7 +165,7 @@ When(/^I fill out the send form with a transaction to "([^"]*)" wallet:$/, async
   const values = table.hashes()[0];
   const walletId = this.wallets.find((w) => w.name === walletName).id;
   const walletAddress = await this.client.executeAsync((id, done) => {
-    luxcore.api.ada.getAddresses({ walletId: id })
+    luxcore.api.lux.getAddresses({ walletId: id })
       .then((response) => (
         done(response.addresses[0].id)
       ))
@@ -365,7 +365,7 @@ Then(/^I should not see the restore status notification once restore is finished
 
 Then(/^I should have newly created "([^"]*)" wallet loaded$/, async function (walletName) {
   const result = await this.client.executeAsync((done) => {
-    luxcore.stores.ada.wallets.walletsRequest.execute()
+    luxcore.stores.lux.wallets.walletsRequest.execute()
       .then(done)
       .catch((error) => done(error));
   });
@@ -413,7 +413,7 @@ Then(/^the latest transaction should show:$/, async function (table) {
   // substract them in order to get a match with expectedData.amountWithoutFees.
   // NOTE: we use "add()" as this is outgoing transaction and amount is a negative value!
   const transactionAmount = new BigNumber(transactionAmounts[0]);
-  const transactionAmountWithoutFees = transactionAmount.add(this.fees).toFormat(DECIMAL_PLACES_IN_ADA);
+  const transactionAmountWithoutFees = transactionAmount.add(this.fees).toFormat(DECIMAL_PLACES_IN_LUX);
   expect(expectedData.amountWithoutFees).to.equal(transactionAmountWithoutFees);
 });
 
@@ -424,7 +424,7 @@ Then(/^the balance of "([^"]*)" wallet should be:$/, { timeout: 40000 }, async f
   const receiverWallet = getWalletByName.call(this, walletName);
   return this.client.waitUntil(async () => {
     const receiverWalletBalance = await this.client.getText(`.SidebarWalletsMenu_wallets .Wallet_${receiverWallet.id} .SidebarWalletMenuItem_info`);
-    return receiverWalletBalance === `${expectedData.balance} ADA`;
+    return receiverWalletBalance === `${expectedData.balance} LUX`;
   });
 });
 

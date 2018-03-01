@@ -82,7 +82,7 @@ Run with `npm run dev`
 
 ### Development - network options
 
-There are four different network options you can run Deadalus in: `mainnet`, `testnet` and `development` (default).
+There are four different network options you can run Luxcore in: `mainnet`, `testnet` and `development` (default).
 To set desired network option use `NETWORK` environment variable:
 
 ```bash
@@ -121,7 +121,7 @@ and then this:
 $ npm run test-watch
 ```
 
-You can find more details regarding tests setup within [Running Deadalus acceptance tests](https://github.com/input-output-hk/luxcore/blob/master/features/README.md) README file.
+You can find more details regarding tests setup within [Running Luxcore acceptance tests](https://github.com/input-output-hk/luxcore/blob/master/features/README.md) README file.
 
 ### CSS Modules
 

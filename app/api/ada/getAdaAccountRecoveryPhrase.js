@@ -1,7 +1,7 @@
 // @flow
-import type { AdaWalletRecoveryPhraseResponse } from './types';
+import type { LuxWalletRecoveryPhraseResponse } from './types';
 import { generateMnemonic } from '../../utils/crypto';
 
-export const getAdaAccountRecoveryPhrase = (): AdaWalletRecoveryPhraseResponse => (
+export const getLuxAccountRecoveryPhrase = (): LuxWalletRecoveryPhraseResponse => (
   generateMnemonic().split(' ')
 );
