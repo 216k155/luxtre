@@ -10,7 +10,7 @@ import SidebarWalletMenuItem from './SidebarWalletMenuItem';
 import type { SidebarWalletType } from '../../../stores/SidebarStore';
 
 const messages = defineMessages({
-  addAdaWallet: {
+  addLuxWallet: {
     id: 'sidebar.wallets.addWallet',
     defaultMessage: '!!!Add wallet',
     description: 'Label for the "Add wallet" button in wallet sidebar menu.',
@@ -51,7 +51,7 @@ export default class SidebarWalletsMenu extends Component<Props> {
         </div>
         <button className={styles.addWalletButton} onClick={onAddWallet}>
           <SvgInline svg={addWalletIcon} className={styles.icon} />
-          <span>{intl.formatMessage(messages.addAdaWallet)}</span>
+          <span>{intl.formatMessage(messages.addLuxWallet)}</span>
         </button>
       </SidebarSubMenu>
     );

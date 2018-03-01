@@ -1,46 +1,46 @@
 // @flow
 import { observable, action } from 'mobx';
-import AdaWalletsStore from './AdaWalletsStore';
-import TransactionsStore from './AdaTransactionsStore';
-import AdaRedemptionStore from './AdaRedemptionStore';
+import LuxWalletsStore from './LuxWalletsStore';
+import TransactionsStore from './LuxTransactionsStore';
+import LuxRedemptionStore from './LuxRedemptionStore';
 import NodeUpdateStore from './NodeUpdateStore';
-import AdaWalletSettingsStore from './AdaWalletSettingsStore';
+import LuxWalletSettingsStore from './LuxWalletSettingsStore';
 import AddressesStore from './AddressesStore';
 
-export const adaStoreClasses = {
-  wallets: AdaWalletsStore,
+export const luxStoreClasses = {
+  wallets: LuxWalletsStore,
   transactions: TransactionsStore,
-  adaRedemption: AdaRedemptionStore,
+  luxRedemption: LuxRedemptionStore,
   nodeUpdate: NodeUpdateStore,
-  walletSettings: AdaWalletSettingsStore,
+  walletSettings: LuxWalletSettingsStore,
   addresses: AddressesStore,
 };
 
-export type AdaStoresMap = {
-  wallets: AdaWalletsStore,
+export type LuxStoresMap = {
+  wallets: LuxWalletsStore,
   transactions: TransactionsStore,
-  adaRedemption: AdaRedemptionStore,
+  luxRedemption: LuxRedemptionStore,
   nodeUpdate: NodeUpdateStore,
-  walletSettings: AdaWalletSettingsStore,
+  walletSettings: LuxWalletSettingsStore,
   addresses: AddressesStore,
 };
 
-const adaStores = observable({
+const luxStores = observable({
   wallets: null,
   transactions: null,
-  adaRedemption: null,
+  luxRedemption: null,
   nodeUpdate: null,
   walletSettings: null,
   addresses: null
 });
 
 // Set up and return the stores and reset all stores to defaults
-export default action((stores, api, actions): AdaStoresMap => {
-  const storeNames = Object.keys(adaStoreClasses);
-  storeNames.forEach(name => { if (adaStores[name]) adaStores[name].teardown(); });
+export default action((stores, api, actions): LuxStoresMap => {
+  const storeNames = Object.keys(luxStoreClasses);
+  storeNames.forEach(name => { if (luxStores[name]) luxStores[name].teardown(); });
   storeNames.forEach(name => {
-    adaStores[name] = new adaStoreClasses[name](stores, api, actions);
+    luxStores[name] = new luxStoreClasses[name](stores, api, actions);
   });
-  storeNames.forEach(name => { if (adaStores[name]) adaStores[name].initialize(); });
-  return adaStores;
+  storeNames.forEach(name => { if (luxStores[name]) luxStores[name].initialize(); });
+  return luxStores;
 });

@@ -1,8 +1,8 @@
 // @flow
-import type { AdaTransaction } from './types';
+import type { LuxTransaction } from './types';
 import { request } from './lib/request';
 
-export type RedeemAdaPaperVendParams = {
+export type RedeemLuxPaperVendParams = {
   ca: string,
   walletPassword: ?string,
   redeemPaperVendedData: {
@@ -14,13 +14,13 @@ export type RedeemAdaPaperVendParams = {
   }
 };
 
-export const redeemAdaPaperVend = (
-  { ca, walletPassword, redeemPaperVendedData }: RedeemAdaPaperVendParams
-): Promise<AdaTransaction> => (
+export const redeemLuxPaperVend = (
+  { ca, walletPassword, redeemPaperVendedData }: RedeemLuxPaperVendParams
+): Promise<LuxTransaction> => (
   request({
     hostname: 'localhost',
     method: 'POST',
-    path: '/api/papervend/redemptions/ada',
+    path: '/api/papervend/redemptions/lux',
     port: 8090,
     ca,
   }, { passphrase: walletPassword }, redeemPaperVendedData)

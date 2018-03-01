@@ -12,10 +12,10 @@ const messages = defineMessages({
     defaultMessage: '!!!Wallet you are trying to import already exists.',
     description: '"Wallet you are trying to import already exists." error message.'
   },
-  redeemAdaError: {
-    id: 'api.errors.RedeemAdaError',
-    defaultMessage: '!!!Your ADA could not be redeemed correctly.',
-    description: '"Your ADA could not be redeemed correctly." error message.'
+  redeemLuxError: {
+    id: 'api.errors.RedeemLuxError',
+    defaultMessage: '!!!Your LUX could not be redeemed correctly.',
+    description: '"Your LUX could not be redeemed correctly." error message.'
   },
   walletFileImportError: {
     id: 'api.errors.WalletFileImportError',
@@ -34,8 +34,8 @@ const messages = defineMessages({
   },
   notAllowedToSendMoneyToRedeemAddressError: {
     id: 'api.errors.NotAllowedToSendMoneyToRedeemAddressError',
-    defaultMessage: '!!!It is not allowed to send money to Ada redemption address.',
-    description: '"It is not allowed to send money to Ada redemption address." error message.'
+    defaultMessage: '!!!It is not allowed to send money to Lux redemption address.',
+    description: '"It is not allowed to send money to Lux redemption address." error message.'
   },
   allFundsAlreadyAtReceiverAddressError: {
     id: 'api.errors.AllFundsAlreadyAtReceiverAddressError',
@@ -44,8 +44,8 @@ const messages = defineMessages({
   },
   notEnoughFundsForTransactionFeesError: {
     id: 'api.errors.NotEnoughFundsForTransactionFeesError',
-    defaultMessage: '!!!Not enough Ada for fees. Try sending a smaller amount.',
-    description: '"Not enough Ada for fees. Try sending a smaller amount." error message'
+    defaultMessage: '!!!Not enough Lux for fees. Try sending a smaller amount.',
+    description: '"Not enough Lux for fees. Try sending a smaller amount." error message'
   },
 });
 
@@ -67,11 +67,11 @@ export class WalletAlreadyImportedError extends LocalizableError {
   }
 }
 
-export class RedeemAdaError extends LocalizableError {
+export class RedeemLuxError extends LocalizableError {
   constructor() {
     super({
-      id: messages.redeemAdaError.id,
-      defaultMessage: messages.redeemAdaError.defaultMessage,
+      id: messages.redeemLuxError.id,
+      defaultMessage: messages.redeemLuxError.defaultMessage,
     });
   }
 }

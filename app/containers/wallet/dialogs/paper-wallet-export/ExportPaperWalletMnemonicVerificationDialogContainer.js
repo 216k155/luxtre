@@ -32,7 +32,7 @@ export default class ExportPaperWalletMnemonicVerificationDialogContainer extend
 
   render() {
     const { stores } = this.props;
-    const { walletExportMnemonic } = stores.ada.wallets;
+    const { walletExportMnemonic } = stores.lux.wallets;
 
     return (
       <ExportPaperWalletMnemonicVerificationDialog

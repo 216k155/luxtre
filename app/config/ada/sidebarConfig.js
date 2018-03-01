@@ -2,7 +2,7 @@
 import { ROUTES } from '../../routes-config';
 import walletsIcon from '../../assets/images/sidebar/wallet-ic.inline.svg';
 import settingsIcon from '../../assets/images/sidebar/settings-ic.inline.svg';
-import adaRedemptionIcon from '../../assets/images/sidebar/ada-redemption-ic.inline.svg';
+import luxRedemptionIcon from '../../assets/images/sidebar/lux-redemption-ic.inline.svg';
 
 export const CATEGORIES = [
   {
@@ -11,9 +11,9 @@ export const CATEGORIES = [
     icon: walletsIcon,
   },
   {
-    name: 'ADA_REDEMPTION',
-    route: ROUTES.ADA_REDEMPTION,
-    icon: adaRedemptionIcon,
+    name: 'LUX_REDEMPTION',
+    route: ROUTES.LUX_REDEMPTION,
+    icon: luxRedemptionIcon,
   },
   {
     name: 'SETTINGS',

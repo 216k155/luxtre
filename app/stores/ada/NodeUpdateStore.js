@@ -4,7 +4,7 @@ import Store from '../lib/Store';
 import Request from '../lib/LocalizedRequest';
 import type {
   NextUpdateResponse, PostponeUpdateResponse, ApplyUpdateResponse
-} from '../../api/ada/index';
+} from '../../api/lux/index';
 
 export default class NodeUpdateStore extends Store {
 
@@ -18,13 +18,13 @@ export default class NodeUpdateStore extends Store {
 
   // REQUESTS
   /* eslint-disable max-len */
-  @observable nextUpdateRequest: Request<NextUpdateResponse> = new Request(this.api.ada.nextUpdate);
-  @observable postponeUpdateRequest: Request<PostponeUpdateResponse> = new Request(this.api.ada.postponeUpdate);
-  @observable applyUpdateRequest: Request<ApplyUpdateResponse> = new Request(this.api.ada.applyUpdate);
+  @observable nextUpdateRequest: Request<NextUpdateResponse> = new Request(this.api.lux.nextUpdate);
+  @observable postponeUpdateRequest: Request<PostponeUpdateResponse> = new Request(this.api.lux.postponeUpdate);
+  @observable applyUpdateRequest: Request<ApplyUpdateResponse> = new Request(this.api.lux.applyUpdate);
   /* eslint-disable max-len */
 
   setup() {
-    const actions = this.actions.ada.nodeUpdate;
+    const actions = this.actions.lux.nodeUpdate;
     actions.acceptNodeUpdate.listen(this._acceptNodeUpdate);
     actions.postponeNodeUpdate.listen(this._postponeNodeUpdate);
     actions.toggleNodeUpdateNotificationExpanded.listen(this._toggleNotificationExpanded);

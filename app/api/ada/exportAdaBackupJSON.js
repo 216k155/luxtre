@@ -1,14 +1,14 @@
 // @flow
 import { request } from './lib/request';
 
-export type ExportAdaBackupJSONParams = {
+export type ExportLuxBackupJSONParams = {
   ca: string,
   walletId: string,
   filePath: string,
 };
 
-export const exportAdaBackupJSON = (
-  { ca, walletId, filePath }: ExportAdaBackupJSONParams,
+export const exportLuxBackupJSON = (
+  { ca, walletId, filePath }: ExportLuxBackupJSONParams,
 ): Promise<[]> => (
   request({
     hostname: 'localhost',

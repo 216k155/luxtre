@@ -24,7 +24,7 @@
   font-size: 18px;
   margin-bottom: 2rem;
   margin-top: 10px;
-  color: var(--theme-ada-redemption-headline-color);
+  color: var(--theme-lux-redemption-headline-color);
 }
 
 .instructions {
@@ -32,7 +32,7 @@
   font-family: var(--font-regular);
   font-size: 16px;
   line-height: 1.38;
-  color: var(--theme-ada-redemption-instructions-color);
+  color: var(--theme-lux-redemption-instructions-color);
   strong {
     font-family: var(--font-bold);
   }
@@ -56,8 +56,8 @@
   }
 }
 
-.adaAmount,
-.adaPasscode,
+.luxAmount,
+.luxPasscode,
 .email,
 .passPhrase,
 .passwordInput {

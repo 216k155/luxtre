@@ -1,16 +1,16 @@
 // @flow
-import type { AdaAddress } from './types';
+import type { LuxAddress } from './types';
 import { request } from './lib/request';
 
-export type NewAdaWalletAddressParams = {
+export type NewLuxWalletAddressParams = {
   ca: string,
   password: ?string,
   accountId: string,
 };
 
-export const newAdaWalletAddress = (
-  { ca, password, accountId }: NewAdaWalletAddressParams
-): Promise<AdaAddress> => (
+export const newLuxWalletAddress = (
+  { ca, password, accountId }: NewLuxWalletAddressParams
+): Promise<LuxAddress> => (
   request({
     hostname: 'localhost',
     method: 'POST',

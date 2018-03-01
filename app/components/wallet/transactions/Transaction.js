@@ -5,7 +5,6 @@ import SvgInline from 'react-svg-inline';
 import classNames from 'classnames';
 import styles from './Transaction.scss';
 import TransactionTypeIcon from './TransactionTypeIcon';
-import adaSymbol from '../../../assets/images/ada-symbol.inline.svg';
 import luxSymbol from '../../../assets/images/lux-symbol.inline.svg';
 import WalletTransaction, { transactionStates, transactionTypes } from '../../../domain/WalletTransaction';
 import { assuranceLevels } from '../../../config/transactionAssuranceConfig';
@@ -169,7 +168,7 @@ export default class Transaction extends Component<Props, State> {
 
     const status = intl.formatMessage(assuranceLevelTranslations[assuranceLevel]);
     const currency = intl.formatMessage(environmentSpecificMessages[environment.API].currency);
-    const symbol = environment.isAdaApi() ? adaSymbol : luxSymbol;
+    const symbol = environment.isLuxApi() ? luxSymbol : luxSymbol;
 
     return (
       <div className={componentStyles}>
@@ -232,7 +231,7 @@ export default class Transaction extends Component<Props, State> {
             <div>
               <h2>
                 {intl.formatMessage(messages[
-                  environment.isLuxApi() ? 'fromAddress' : 'fromAddresses'
+                  environment.isLuxApi() ? 'fromAddresses' : 'fromAddress'
                 ])}
               </h2>
               {data.addresses.from.map((address, addressIndex) => (
@@ -240,14 +239,14 @@ export default class Transaction extends Component<Props, State> {
               ))}
               <h2>
                 {intl.formatMessage(messages[
-                  environment.isLuxApi() ? 'toAddress' : 'toAddresses'
+                  environment.isLuxApi() ? 'toAddresses' : 'toAddress'
                 ])}
               </h2>
               {data.addresses.to.map((address, addressIndex) => (
                 <span key={`${data.id}-to-${address}-${addressIndex}`} className={styles.address}>{address}</span>
               ))}
 
-              {environment.isAdaApi() ? (
+              {environment.isLuxApi() ? (
                 <div className={styles.row}>
                   <h2>{intl.formatMessage(messages.assuranceLevel)}</h2>
                   {state === transactionStates.OK ? (
@@ -256,18 +255,6 @@ export default class Transaction extends Component<Props, State> {
                       . {data.numberOfConfirmations} {intl.formatMessage(messages.confirmations)}.
                     </span>
                   ) : null}
-                </div>
-              ) : null}
-
-              {environment.isLuxApi() ? (
-                <div className={styles.row}>
-                  <h2>{intl.formatMessage(messages.transactionAmount)}</h2>
-                  <span>
-                    {
-                      // show currency and use long format (e.g. in LUX show all decimal places)
-                      formattedWalletAmount(data.amount, true, true)
-                    }
-                  </span>
                 </div>
               ) : null}
 

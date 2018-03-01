@@ -5,7 +5,7 @@ import { intlShape } from 'react-intl';
 import WalletSendForm from '../../components/wallet/WalletSendForm';
 import type { InjectedProps } from '../../types/injectedPropsType';
 import globalMessages from '../../i18n/global-messages';
-import { DECIMAL_PLACES_IN_ADA, MAX_INTEGER_PLACES_IN_ADA } from '../../config/numbersConfig';
+import { DECIMAL_PLACES_IN_LUX, MAX_INTEGER_PLACES_IN_LUX } from '../../config/numbersConfig';
 
 type Props = InjectedProps;
 
@@ -21,7 +21,7 @@ export default class WalletSendPage extends Component<Props> {
   render() {
     const { intl } = this.context;
     const { uiDialogs } = this.props.stores;
-    const { wallets, transactions } = this.props.stores.ada;
+    const { wallets, transactions } = this.props.stores.lux;
     const { actions } = this.props;
     const { isValidAddress } = wallets;
     const { calculateTransactionFee, validateAmount } = transactions;
@@ -32,9 +32,9 @@ export default class WalletSendPage extends Component<Props> {
 
     return (
       <WalletSendForm
-        currencyUnit={intl.formatMessage(globalMessages.unitAda)}
-        currencyMaxIntegerDigits={MAX_INTEGER_PLACES_IN_ADA}
-        currencyMaxFractionalDigits={DECIMAL_PLACES_IN_ADA}
+        currencyUnit={intl.formatMessage(globalMessages.unitLux)}
+        currencyMaxIntegerDigits={MAX_INTEGER_PLACES_IN_LUX}
+        currencyMaxFractionalDigits={DECIMAL_PLACES_IN_LUX}
         validateAmount={validateAmount}
         calculateTransactionFee={(receiver, amount) => (
           calculateTransactionFee(activeWallet.id, receiver, amount)

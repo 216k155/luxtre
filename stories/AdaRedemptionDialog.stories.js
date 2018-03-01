@@ -1,10 +1,10 @@
 import React from 'react';
 import { storiesOf, action } from '@kadira/storybook';
 import StoryDecorator from './support/StoryDecorator';
-import AdaRedemptionForm from '../app/components/wallet/ada-redemption/AdaRedemptionForm';
-import AdaRedemptionChoices from '../app/components/wallet/ada-redemption/AdaRedemptionChoices';
+import LuxRedemptionForm from '../app/components/wallet/lux-redemption/LuxRedemptionForm';
+import LuxRedemptionChoices from '../app/components/wallet/lux-redemption/LuxRedemptionChoices';
 
-storiesOf('AdaRedemptionForm', module)
+storiesOf('LuxRedemptionForm', module)
 
   .addDecorator((story) => (
     <StoryDecorator>
@@ -14,9 +14,9 @@ storiesOf('AdaRedemptionForm', module)
 
   // ====== Stories ======
 
-  .add('Ada redemption choices', () => (
+  .add('Lux redemption choices', () => (
     <div>
-      <AdaRedemptionChoices
+      <LuxRedemptionChoices
         activeChoice="forceVended"
         onSelectChoice={action('selectChoice')}
       />
@@ -25,7 +25,7 @@ storiesOf('AdaRedemptionForm', module)
 
   .add('Certificate not selected', () => (
     <div>
-      <AdaRedemptionForm
+      <LuxRedemptionForm
         onSubmit={action('submit')}
         isSubmitting={false}
         isRedemptionDisclaimerAccepted={true}
@@ -49,7 +49,7 @@ storiesOf('AdaRedemptionForm', module)
 
   .add('Certificate selected - not encrypted', () => (
     <div>
-      <AdaRedemptionForm
+      <LuxRedemptionForm
         onSubmit={action('submit')}
         isSubmitting={false}
         isRedemptionDisclaimerAccepted={true}
@@ -73,7 +73,7 @@ storiesOf('AdaRedemptionForm', module)
 
   .add('Certificate selected - encrypted', () => (
     <div>
-      <AdaRedemptionForm
+      <LuxRedemptionForm
         onSubmit={action('submit')}
         isSubmitting={false}
         isRedemptionDisclaimerAccepted={true}

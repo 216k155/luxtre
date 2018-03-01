@@ -6,7 +6,7 @@ import SvgInline from 'react-svg-inline';
 import Button from 'react-polymorph/lib/components/Button';
 import SimpleButtonSkin from 'react-polymorph/lib/skins/simple/ButtonSkin';
 import DialogCloseButton from '../../widgets/DialogCloseButton';
-import styles from './AdaRedemptionSuccessOverlay.scss';
+import styles from './LuxRedemptionSuccessOverlay.scss';
 import successIcon from '../../../assets/images/success-big.inline.svg';
 import closeCrossWhite from '../../../assets/images/close-cross-white.inline.svg';
 
@@ -14,7 +14,7 @@ const messages = defineMessages({
   headline: {
     id: 'wallet.redeem.success.overlay.headline',
     defaultMessage: '!!!You have successfully redeemed',
-    description: 'Headline for the ada redemption success overlay.'
+    description: 'Headline for the lux redemption success overlay.'
   },
   confirmButton: {
     id: 'wallet.redeem.success.overlay.confirmButton',
@@ -29,7 +29,7 @@ type Props = {
 };
 
 @observer
-export default class AdaRedemptionSuccessOverlay extends Component<Props> {
+export default class LuxRedemptionSuccessOverlay extends Component<Props> {
 
   static contextTypes = {
     intl: intlShape.isRequired
@@ -44,7 +44,7 @@ export default class AdaRedemptionSuccessOverlay extends Component<Props> {
         <SvgInline svg={successIcon} className={styles.icon} />
         <div className={styles.text}>
           <h1 className={styles.headline}>{intl.formatMessage(messages.headline)}</h1>
-          <div className={styles.amount}>{amount} ADA</div>
+          <div className={styles.amount}>{amount} LUX</div>
           <Button
             className={styles.confirmButton}
             label={intl.formatMessage(messages.confirmButton)}

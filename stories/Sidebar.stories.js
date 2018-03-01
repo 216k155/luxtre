@@ -6,16 +6,16 @@ import Sidebar from '../app/components/sidebar/Sidebar';
 
 const SIDEBAR_CATEGORIES = {
   WALLETS: '/wallets',
-  ADA_REDEMPTION: '/ada-redemption',
+  LUX_REDEMPTION: '/lux-redemption',
   SETTINGS: '/settings',
 };
 
 const sidebarMenus = observable({
   wallets: {
     items: [
-      { id: '1', title: 'First', info: '100 ADA', isConnected: true },
-      { id: '2', title: 'Second', info: '200 ADA', isConnected: true },
-      { id: '3', title: 'Third', info: '300 ADA', isConnected: true },
+      { id: '1', title: 'First', info: '100 LUX', isConnected: true },
+      { id: '2', title: 'Second', info: '200 LUX', isConnected: true },
+      { id: '3', title: 'Third', info: '300 LUX', isConnected: true },
     ],
     activeWalletId: '1',
     actions: {

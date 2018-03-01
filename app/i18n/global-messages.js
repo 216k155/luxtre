@@ -16,15 +16,15 @@ export default defineMessages({
     defaultMessage: '!!!Invalid email entered, please check.',
     description: 'Error message shown when invalid email was entered.'
   },
-  invalidAdaRedemptionCertificate: {
-    id: 'global.errors.AdaRedemptionCertificateParseError',
-    defaultMessage: '!!!The ADA redemption code could not be parsed from the given document.',
-    description: 'Error message shown when invalid Ada redemption certificate was uploaded.',
+  invalidLuxRedemptionCertificate: {
+    id: 'global.errors.LuxRedemptionCertificateParseError',
+    defaultMessage: '!!!The LUX redemption code could not be parsed from the given document.',
+    description: 'Error message shown when invalid Lux redemption certificate was uploaded.',
   },
-  invalidAdaRedemptionEncryptedCertificate: {
-    id: 'global.errors.AdaRedemptionEncryptedCertificateParseError',
-    defaultMessage: '!!!The ADA redemption code could not be parsed, please check your passphrase.',
-    description: 'Error message shown when invalid Ada redemption encrypted certificate was uploaded.',
+  invalidLuxRedemptionEncryptedCertificate: {
+    id: 'global.errors.LuxRedemptionEncryptedCertificateParseError',
+    defaultMessage: '!!!The LUX redemption code could not be parsed, please check your passphrase.',
+    description: 'Error message shown when invalid Lux redemption encrypted certificate was uploaded.',
   },
   invalidWalletName: {
     id: 'global.errors.invalidWalletName',
@@ -111,11 +111,6 @@ export default defineMessages({
     defaultMessage: '!!!Strict',
     description: 'Name for "Strict" transaction assurance security level.'
   },
-  unitAda: {
-    id: 'global.unit.ada',
-    defaultMessage: '!!!Ada',
-    description: 'Name for "Ada" unit.'
-  },
   unitLux: {
     id: 'global.unit.lux',
     defaultMessage: '!!!Lux',
@@ -139,18 +134,11 @@ export default defineMessages({
 });
 
 export const environmentSpecificMessages = {
-  ada: defineMessages({
-    currency: {
-      id: 'environment.currency.ada',
-      defaultMessage: '!!!Ada',
-      description: 'Name for "Ada" unit.'
-    },
-  }),
   lux: defineMessages({
     currency: {
       id: 'environment.currency.lux',
       defaultMessage: '!!!Lux',
-      description: 'Name for "Ada" unit.'
+      description: 'Name for "Lux" unit.'
     },
   }),
 };

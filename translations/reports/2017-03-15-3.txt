@@ -52,7 +52,7 @@ Untranslated keys:
   wallet.recovery.phrase.show.entry.dialog.button.labelConfirm: !!!Confirm
   wallet.redeem.dialog.certificateHint: !!!Drop file here or click to choose
   wallet.redeem.dialog.certificateLabel: !!!Certificate
-  wallet.redeem.dialog.headline: !!!Ada Redemption
+  wallet.redeem.dialog.headline: !!!Lux Redemption
   wallet.redeem.dialog.instructions: !!!Detailed instructions
   wallet.redeem.dialog.passphraseLabel: !!!Redeem token
   wallet.redeem.dialog.redemptionCodeError: !!!Invalid Redemption Code
@@ -122,7 +122,7 @@ Untranslated keys:
   wallet.recovery.phrase.show.entry.dialog.button.labelConfirm: !!!Confirm
   wallet.redeem.dialog.certificateHint: !!!Drop file here or click to choose
   wallet.redeem.dialog.certificateLabel: !!!Certificate
-  wallet.redeem.dialog.headline: !!!Ada Redemption
+  wallet.redeem.dialog.headline: !!!Lux Redemption
   wallet.redeem.dialog.instructions: !!!Detailed instructions
   wallet.redeem.dialog.passphraseLabel: !!!Redeem token
   wallet.redeem.dialog.redemptionCodeError: !!!Invalid Redemption Code
@@ -200,7 +200,7 @@ Untranslated keys:
   wallet.recovery.phrase.show.entry.dialog.button.labelConfirm: !!!Confirm
   wallet.redeem.dialog.certificateHint: !!!Drop file here or click to choose
   wallet.redeem.dialog.certificateLabel: !!!Certificate
-  wallet.redeem.dialog.headline: !!!Ada Redemption
+  wallet.redeem.dialog.headline: !!!Lux Redemption
   wallet.redeem.dialog.instructions: !!!Detailed instructions
   wallet.redeem.dialog.passphraseLabel: !!!Redeem token
   wallet.redeem.dialog.redemptionCodeError: !!!Invalid Redemption Code
@@ -231,7 +231,7 @@ Untranslated keys:
   wallet.summary.page.pendingConfirmationLabel: !!!Pending confirmation
   wallet.summary.page.transactionsLabel: !!!Number of transactions
   wallet.transaction.pendingLabel: !!!Pending
-  wallet.transaction.type.ada: !!!ADA transaction
+  wallet.transaction.type.lux: !!!LUX transaction
   wallet.transaction.type.card: !!!Card payment
   wallet.transaction.type.exchange: !!!Exchange transaction
   wallet.transaction.verificationsLabel: !!!verifications
@@ -292,7 +292,7 @@ Untranslated keys:
   wallet.recovery.phrase.show.entry.dialog.button.labelConfirm: !!!Confirm
   wallet.redeem.dialog.certificateHint: !!!Drop file here or click to choose
   wallet.redeem.dialog.certificateLabel: !!!Certificate
-  wallet.redeem.dialog.headline: !!!Ada Redemption
+  wallet.redeem.dialog.headline: !!!Lux Redemption
   wallet.redeem.dialog.instructions: !!!Detailed instructions
   wallet.redeem.dialog.passphraseLabel: !!!Redeem token
   wallet.redeem.dialog.redemptionCodeError: !!!Invalid Redemption Code
@@ -323,7 +323,7 @@ Untranslated keys:
   wallet.summary.page.pendingConfirmationLabel: !!!Pending confirmation
   wallet.summary.page.transactionsLabel: !!!Number of transactions
   wallet.transaction.pendingLabel: !!!Pending
-  wallet.transaction.type.ada: !!!ADA transaction
+  wallet.transaction.type.lux: !!!LUX transaction
   wallet.transaction.type.card: !!!Card payment
   wallet.transaction.type.exchange: !!!Exchange transaction
   wallet.transaction.verificationsLabel: !!!verifications

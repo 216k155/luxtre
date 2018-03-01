@@ -44,9 +44,9 @@ export const messages = defineMessages({
     defaultMessage: '!!!Amount',
     description: 'Label for the "Amount" number input in the wallet send form.'
   },
-  equalsAdaHint: {
-    id: 'wallet.send.form.amount.equalsAda',
-    defaultMessage: '!!!equals {amount} ADA',
+  equalsLuxHint: {
+    id: 'wallet.send.form.amount.equalsLux',
+    defaultMessage: '!!!equals {amount} LUX',
     description: 'Convertion hint for the "Amount" number input in the wallet send form.'
   },
   descriptionLabel: {
@@ -81,8 +81,8 @@ export const messages = defineMessages({
   },
   transactionFeeError: {
     id: 'wallet.send.form.transactionFeeError',
-    defaultMessage: '!!!Not enough Ada for fees. Try sending a smaller amount.',
-    description: '"Not enough Ada for fees. Try sending a smaller amount." error message',
+    defaultMessage: '!!!Not enough Lux for fees. Try sending a smaller amount.',
+    description: '"Not enough Lux for fees. Try sending a smaller amount." error message',
   }
 });
 

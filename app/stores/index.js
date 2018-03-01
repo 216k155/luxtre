@@ -8,9 +8,7 @@ import WindowStore from './WindowStore';
 import UiDialogsStore from './UiDialogsStore';
 import UiNotificationsStore from './UiNotificationsStore';
 import NetworkStatusStore from './NetworkStatusStore';
-import setupAdaStores from './ada/index';
 import setupLuxStores from './lux/index';
-import type { AdaStoresMap } from './ada/index';
 import type { LuxStoresMap } from './lux/index';
 import environment from '../environment';
 
@@ -35,7 +33,6 @@ export type StoresMap = {
   uiDialogs: UiDialogsStore,
   uiNotifications: UiNotificationsStore,
   networkStatus: NetworkStatusStore,
-  ada: AdaStoresMap,
   lux: LuxStoresMap,
 };
 
@@ -50,7 +47,6 @@ const stores = observable({
   uiDialogs: null,
   uiNotifications: null,
   networkStatus: null,
-  ada: null,
   lux: null,
 });
 
@@ -65,7 +61,6 @@ export default action((api, actions, router): StoresMap => {
   storeNames.forEach(name => { if (stores[name]) stores[name].initialize(); });
 
   // Add currency specific stores
-  if (environment.API === 'ada') stores.ada = setupAdaStores(stores, api, actions);
   if (environment.API === 'lux') stores.lux = setupLuxStores(stores, api, actions);
 
   return stores;

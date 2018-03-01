@@ -10,44 +10,44 @@ import WalletTransaction, { transactionTypes } from '../../domain/WalletTransact
 import WalletAddress from '../../domain/WalletAddress';
 import { isValidMnemonic } from '../../../lib/decrypt';
 import { isValidRedemptionKey, isValidPaperVendRedemptionKey } from '../../../lib/redemption-key-validation';
-import { LOVELACES_PER_ADA } from '../../config/numbersConfig';
-import { getAdaSyncProgress } from './getAdaSyncProgress';
+import { LOVELACES_PER_LUX } from '../../config/numbersConfig';
+import { getLuxSyncProgress } from './getLuxSyncProgress';
 import environment from '../../environment';
-import patchAdaApi from './mocks/patchAdaApi';
+import patchLuxApi from './mocks/patchLuxApi';
 
-import { getAdaWallets } from './getAdaWallets';
-import { changeAdaWalletPassphrase } from './changeAdaWalletPassphrase';
-import { deleteAdaWallet } from './deleteAdaWallet';
-import { newAdaWallet } from './newAdaWallet';
-import { newAdaWalletAddress } from './newAdaWalletAddress';
-import { restoreAdaWallet } from './restoreAdaWallet';
-import { updateAdaWallet } from './updateAdaWallet';
-import { exportAdaBackupJSON } from './exportAdaBackupJSON';
-import { importAdaBackupJSON } from './importAdaBackupJSON';
-import { importAdaWallet } from './importAdaWallet';
-import { getAdaWalletAccounts } from './getAdaWalletAccounts';
-import { isValidAdaAddress } from './isValidAdaAddress';
-import { adaTxFee } from './adaTxFee';
-import { newAdaPayment } from './newAdaPayment';
-import { redeemAda } from './redeemAda';
-import { redeemAdaPaperVend } from './redeemAdaPaperVend';
-import { nextAdaUpdate } from './nextAdaUpdate';
-import { postponeAdaUpdate } from './postponeAdaUpdate';
-import { applyAdaUpdate } from './applyAdaUpdate';
-import { adaTestReset } from './adaTestReset';
-import { getAdaHistoryByWallet } from './getAdaHistoryByWallet';
-import { getAdaAccountRecoveryPhrase } from './getAdaAccountRecoveryPhrase';
+import { getLuxWallets } from './getLuxWallets';
+import { changeLuxWalletPassphrase } from './changeLuxWalletPassphrase';
+import { deleteLuxWallet } from './deleteLuxWallet';
+import { newLuxWallet } from './newLuxWallet';
+import { newLuxWalletAddress } from './newLuxWalletAddress';
+import { restoreLuxWallet } from './restoreLuxWallet';
+import { updateLuxWallet } from './updateLuxWallet';
+import { exportLuxBackupJSON } from './exportLuxBackupJSON';
+import { importLuxBackupJSON } from './importLuxBackupJSON';
+import { importLuxWallet } from './importLuxWallet';
+import { getLuxWalletAccounts } from './getLuxWalletAccounts';
+import { isValidLuxAddress } from './isValidLuxAddress';
+import { luxTxFee } from './luxTxFee';
+import { newLuxPayment } from './newLuxPayment';
+import { redeemLux } from './redeemLux';
+import { redeemLuxPaperVend } from './redeemLuxPaperVend';
+import { nextLuxUpdate } from './nextLuxUpdate';
+import { postponeLuxUpdate } from './postponeLuxUpdate';
+import { applyLuxUpdate } from './applyLuxUpdate';
+import { luxTestReset } from './luxTestReset';
+import { getLuxHistoryByWallet } from './getLuxHistoryByWallet';
+import { getLuxAccountRecoveryPhrase } from './getLuxAccountRecoveryPhrase';
 
 import type {
-  AdaSyncProgressResponse,
-  AdaAddress,
-  AdaAccounts,
-  AdaTransaction,
-  AdaTransactionFee,
-  AdaTransactions,
-  AdaWallet,
-  AdaWallets,
-  AdaWalletRecoveryPhraseResponse,
+  LuxSyncProgressResponse,
+  LuxAddress,
+  LuxAccounts,
+  LuxTransaction,
+  LuxTransactionFee,
+  LuxTransactions,
+  LuxWallet,
+  LuxWallets,
+  LuxWalletRecoveryPhraseResponse,
 } from './types';
 
 import type {
@@ -80,19 +80,19 @@ import {
   NotAllowedToSendMoneyToSameAddressError,
   NotEnoughFundsForTransactionFeesError,
   NotEnoughMoneyToSendError,
-  RedeemAdaError,
+  RedeemLuxError,
   WalletAlreadyImportedError,
   WalletFileImportError,
 } from './errors';
 
 /**
  * The api layer that is used for all requests to the
- * luxcoin backend when working with the ADA coin.
+ * luxcoin backend when working with the LUX coin.
  */
 
 const ca = remote.getGlobal('ca');
 
-// ADA specific Request / Response params
+// LUX specific Request / Response params
 export type GetAddressesResponse = {
   accountId: ?string,
   addresses: Array<WalletAddress>,
@@ -117,19 +117,19 @@ export type UpdateWalletRequest = {
   name: string,
   assurance: string,
 };
-export type RedeemAdaRequest = {
+export type RedeemLuxRequest = {
   redemptionCode: string,
   accountId: string,
   walletPassword: ?string,
 };
-export type RedeemAdaResponse = Wallet;
-export type RedeemPaperVendedAdaRequest = {
+export type RedeemLuxResponse = Wallet;
+export type RedeemPaperVendedLuxRequest = {
   shieldedRedemptionKey: string,
   mnemonics: string,
   accountId: string,
   walletPassword: ?string,
 };
-export type RedeemPaperVendedAdaResponse = RedeemPaperVendedAdaRequest;
+export type RedeemPaperVendedLuxResponse = RedeemPaperVendedLuxRequest;
 export type ImportWalletFromKeyRequest = {
   filePath: string,
   walletPassword: ?string,
@@ -176,32 +176,32 @@ export type ExportWalletToFileResponse = [];
 // })();
 
 
-export default class AdaApi {
+export default class LuxApi {
 
   constructor() {
     if (environment.isTest()) {
-      patchAdaApi(this);
+      patchLuxApi(this);
     }
   }
 
   async getWallets(): Promise<GetWalletsResponse> {
-    Logger.debug('AdaApi::getWallets called');
+    Logger.debug('LuxApi::getWallets called');
     try {
-      const response: AdaWallets = await getAdaWallets({ ca });
-      Logger.debug('AdaApi::getWallets success: ' + stringifyData(response));
+      const response: LuxWallets = await getLuxWallets({ ca });
+      Logger.debug('LuxApi::getWallets success: ' + stringifyData(response));
       return response.map(data => _createWalletFromServerData(data));
     } catch (error) {
-      Logger.error('AdaApi::getWallets error: ' + stringifyError(error));
+      Logger.error('LuxApi::getWallets error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
   async getAddresses(request: GetAddressesRequest): Promise<GetAddressesResponse> {
-    Logger.debug('AdaApi::getAddresses called: ' + stringifyData(request));
+    Logger.debug('LuxApi::getAddresses called: ' + stringifyData(request));
     const { walletId } = request;
     try {
-      const response: AdaAccounts = await getAdaWalletAccounts({ ca, walletId });
-      Logger.debug('AdaApi::getAddresses success: ' + stringifyData(response));
+      const response: LuxAccounts = await getLuxWalletAccounts({ ca, walletId });
+      Logger.debug('LuxApi::getAddresses success: ' + stringifyData(response));
       if (!response.length) {
         return new Promise((resolve) => resolve({ accountId: null, addresses: [] }));
       }
@@ -215,29 +215,29 @@ export default class AdaApi {
         addresses: firstAccountAddresses.map(data => _createAddressFromServerData(data)),
       }));
     } catch (error) {
-      Logger.error('AdaApi::getAddresses error: ' + stringifyError(error));
+      Logger.error('LuxApi::getAddresses error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
   async getTransactions(request: GetTransactionsRequest): Promise<GetTransactionsResponse> {
-    Logger.debug('AdaApi::searchHistory called: ' + stringifyData(request));
+    Logger.debug('LuxApi::searchHistory called: ' + stringifyData(request));
     const { walletId, skip, limit } = request;
     try {
-      const history: AdaTransactions = await getAdaHistoryByWallet({ ca, walletId, skip, limit });
-      Logger.debug('AdaApi::searchHistory success: ' + stringifyData(history));
+      const history: LuxTransactions = await getLuxHistoryByWallet({ ca, walletId, skip, limit });
+      Logger.debug('LuxApi::searchHistory success: ' + stringifyData(history));
       return new Promise((resolve) => resolve({
         transactions: history[0].map(data => _createTransactionFromServerData(data)),
         total: history[1]
       }));
     } catch (error) {
-      Logger.error('AdaApi::searchHistory error: ' + stringifyError(error));
+      Logger.error('LuxApi::searchHistory error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
   async createWallet(request: CreateWalletRequest): Promise<CreateWalletResponse> {
-    Logger.debug('AdaApi::createWallet called');
+    Logger.debug('LuxApi::createWallet called');
     const { name, mnemonic, password } = request;
     const assurance = 'CWANormal';
     const unit = 0;
@@ -252,42 +252,42 @@ export default class AdaApi {
           bpToList: split(mnemonic), // array of mnemonic words
         }
       };
-      const wallet: AdaWallet = await newAdaWallet({ ca, password, walletInitData });
-      Logger.debug('AdaApi::createWallet success');
+      const wallet: LuxWallet = await newLuxWallet({ ca, password, walletInitData });
+      Logger.debug('LuxApi::createWallet success');
       return _createWalletFromServerData(wallet);
     } catch (error) {
-      Logger.error('AdaApi::createWallet error: ' + stringifyError(error));
+      Logger.error('LuxApi::createWallet error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
   async deleteWallet(request: DeleteWalletRequest): Promise<DeleteWalletResponse> {
-    Logger.debug('AdaApi::deleteWallet called: ' + stringifyData(request));
+    Logger.debug('LuxApi::deleteWallet called: ' + stringifyData(request));
     try {
       const { walletId } = request;
-      await deleteAdaWallet({ ca, walletId });
-      Logger.debug('AdaApi::deleteWallet success: ' + stringifyData(request));
+      await deleteLuxWallet({ ca, walletId });
+      Logger.debug('LuxApi::deleteWallet success: ' + stringifyData(request));
       return true;
     } catch (error) {
-      Logger.error('AdaApi::deleteWallet error: ' + stringifyError(error));
+      Logger.error('LuxApi::deleteWallet error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
   async createTransaction(request: CreateTransactionRequest): Promise<CreateTransactionResponse> {
-    Logger.debug('AdaApi::createTransaction called');
+    Logger.debug('LuxApi::createTransaction called');
     const { sender, receiver, amount, password } = request;
     // sender must be set as accountId (account.caId) and not walletId
     try {
       // default value. Select (OptimizeForSecurity | OptimizeForSize) will be implemented
       const groupingPolicy = 'OptimizeForSecurity';
-      const response: AdaTransaction = await newAdaPayment(
+      const response: LuxTransaction = await newLuxPayment(
         { ca, sender, receiver, amount, groupingPolicy, password }
       );
-      Logger.debug('AdaApi::createTransaction success: ' + stringifyData(response));
+      Logger.debug('LuxApi::createTransaction success: ' + stringifyData(response));
       return _createTransactionFromServerData(response);
     } catch (error) {
-      Logger.error('AdaApi::createTransaction error: ' + stringifyError(error));
+      Logger.error('LuxApi::createTransaction error: ' + stringifyError(error));
       // eslint-disable-next-line max-len
       if (error.message.includes('It\'s not allowed to send money to the same address you are sending from')) {
         throw new NotAllowedToSendMoneyToSameAddressError();
@@ -306,18 +306,18 @@ export default class AdaApi {
   }
 
   async calculateTransactionFee(request: TransactionFeeRequest): Promise<TransactionFeeResponse> {
-    Logger.debug('AdaApi::calculateTransactionFee called');
+    Logger.debug('LuxApi::calculateTransactionFee called');
     const { sender, receiver, amount } = request;
     try {
       // default value. Select (OptimizeForSecurity | OptimizeForSize) will be implemented
       const groupingPolicy = 'OptimizeForSecurity';
-      const response: adaTxFee = await adaTxFee(
+      const response: luxTxFee = await luxTxFee(
         { ca, sender, receiver, amount, groupingPolicy }
       );
-      Logger.debug('AdaApi::calculateTransactionFee success: ' + stringifyData(response));
+      Logger.debug('LuxApi::calculateTransactionFee success: ' + stringifyData(response));
       return _createTransactionFeeFromServerData(response);
     } catch (error) {
-      Logger.error('AdaApi::calculateTransactionFee error: ' + stringifyError(error));
+      Logger.error('LuxApi::calculateTransactionFee error: ' + stringifyError(error));
       // eslint-disable-next-line max-len
       if (error.message.includes('not enough money on addresses which are not included in output addresses set')) {
         throw new AllFundsAlreadyAtReceiverAddressError();
@@ -330,16 +330,16 @@ export default class AdaApi {
   }
 
   async createAddress(request: CreateAddressRequest): Promise<CreateAddressResponse> {
-    Logger.debug('AdaApi::createAddress called');
+    Logger.debug('LuxApi::createAddress called');
     const { accountId, password } = request;
     try {
-      const response: AdaAddress = await newAdaWalletAddress(
+      const response: LuxAddress = await newLuxWalletAddress(
         { ca, password, accountId }
       );
-      Logger.debug('AdaApi::createAddress success: ' + stringifyData(response));
+      Logger.debug('LuxApi::createAddress success: ' + stringifyData(response));
       return _createAddressFromServerData(response);
     } catch (error) {
-      Logger.error('AdaApi::createAddress error: ' + stringifyError(error));
+      Logger.error('LuxApi::createAddress error: ' + stringifyError(error));
       if (error.message.includes('Passphrase doesn\'t match')) {
         throw new IncorrectWalletPasswordError();
       }
@@ -348,7 +348,7 @@ export default class AdaApi {
   }
 
   isValidAddress(address: string): Promise<boolean> {
-    return isValidAdaAddress({ ca, address });
+    return isValidLuxAddress({ ca, address });
   }
 
   isValidMnemonic(mnemonic: string): Promise<boolean> {
@@ -368,21 +368,21 @@ export default class AdaApi {
   }
 
   getWalletRecoveryPhrase(): Promise<GetWalletRecoveryPhraseResponse> {
-    Logger.debug('AdaApi::getWalletRecoveryPhrase called');
+    Logger.debug('LuxApi::getWalletRecoveryPhrase called');
     try {
-      const response: Promise<AdaWalletRecoveryPhraseResponse> = new Promise(
-        (resolve) => resolve(getAdaAccountRecoveryPhrase())
+      const response: Promise<LuxWalletRecoveryPhraseResponse> = new Promise(
+        (resolve) => resolve(getLuxAccountRecoveryPhrase())
       );
-      Logger.debug('AdaApi::getWalletRecoveryPhrase success');
+      Logger.debug('LuxApi::getWalletRecoveryPhrase success');
       return response;
     } catch (error) {
-      Logger.error('AdaApi::getWalletRecoveryPhrase error: ' + stringifyError(error));
+      Logger.error('LuxApi::getWalletRecoveryPhrase error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
   async restoreWallet(request: RestoreWalletRequest): Promise<RestoreWalletResponse> {
-    Logger.debug('AdaApi::restoreWallet called');
+    Logger.debug('LuxApi::restoreWallet called');
     const { recoveryPhrase, walletName, walletPassword } = request;
     const assurance = 'CWANormal';
     const unit = 0;
@@ -399,13 +399,13 @@ export default class AdaApi {
     };
 
     try {
-      const wallet: AdaWallet = await restoreAdaWallet(
+      const wallet: LuxWallet = await restoreLuxWallet(
         { ca, walletPassword, walletInitData }
       );
-      Logger.debug('AdaApi::restoreWallet success');
+      Logger.debug('LuxApi::restoreWallet success');
       return _createWalletFromServerData(wallet);
     } catch (error) {
-      Logger.error('AdaApi::restoreWallet error: ' + stringifyError(error));
+      Logger.error('LuxApi::restoreWallet error: ' + stringifyError(error));
       // TODO: backend will return something different here, if multiple wallets
       // are restored from the key and if there are duplicate wallets we will get
       // some kind of error and present the user with message that some wallets
@@ -422,16 +422,16 @@ export default class AdaApi {
   async importWalletFromKey(
     request: ImportWalletFromKeyRequest
   ): Promise<ImportWalletFromKeyResponse> {
-    Logger.debug('AdaApi::importWalletFromKey called');
+    Logger.debug('LuxApi::importWalletFromKey called');
     const { filePath, walletPassword } = request;
     try {
-      const importedWallet: AdaWallet = await importAdaWallet(
+      const importedWallet: LuxWallet = await importLuxWallet(
         { ca, walletPassword, filePath }
       );
-      Logger.debug('AdaApi::importWalletFromKey success');
+      Logger.debug('LuxApi::importWalletFromKey success');
       return _createWalletFromServerData(importedWallet);
     } catch (error) {
-      Logger.error('AdaApi::importWalletFromKey error: ' + stringifyError(error));
+      Logger.error('LuxApi::importWalletFromKey error: ' + stringifyError(error));
       if (error.message.includes('already exists')) {
         throw new WalletAlreadyImportedError();
       }
@@ -442,19 +442,19 @@ export default class AdaApi {
   async importWalletFromFile(
     request: ImportWalletFromFileRequest
   ): Promise<ImportWalletFromFileResponse> {
-    Logger.debug('AdaApi::importWalletFromFile called');
+    Logger.debug('LuxApi::importWalletFromFile called');
     const { filePath, walletPassword } = request;
     const isKeyFile = filePath.split('.').pop().toLowerCase() === 'key';
     try {
-      const importedWallet: AdaWallet = isKeyFile ? (
-        await importAdaWallet({ ca, walletPassword, filePath })
+      const importedWallet: LuxWallet = isKeyFile ? (
+        await importLuxWallet({ ca, walletPassword, filePath })
       ) : (
-        await importAdaBackupJSON({ ca, filePath })
+        await importLuxBackupJSON({ ca, filePath })
       );
-      Logger.debug('AdaApi::importWalletFromFile success');
+      Logger.debug('LuxApi::importWalletFromFile success');
       return _createWalletFromServerData(importedWallet);
     } catch (error) {
-      Logger.error('AdaApi::importWalletFromFile error: ' + stringifyError(error));
+      Logger.error('LuxApi::importWalletFromFile error: ' + stringifyError(error));
       if (error.message.includes('already exists')) {
         throw new WalletAlreadyImportedError();
       }
@@ -462,8 +462,8 @@ export default class AdaApi {
     }
   }
 
-  async redeemAda(request: RedeemAdaRequest): Promise<RedeemAdaResponse> {
-    Logger.debug('AdaApi::redeemAda called');
+  async redeemLux(request: RedeemLuxRequest): Promise<RedeemLuxResponse> {
+    Logger.debug('LuxApi::redeemLux called');
     const { redemptionCode, accountId, walletPassword } = request;
     try {
       const walletRedeemData = {
@@ -471,25 +471,25 @@ export default class AdaApi {
         crSeed: redemptionCode,
       };
 
-      const response: AdaTransaction = await redeemAda(
+      const response: LuxTransaction = await redeemLux(
         { ca, walletPassword, walletRedeemData }
       );
 
-      Logger.debug('AdaApi::redeemAda success');
+      Logger.debug('LuxApi::redeemLux success');
       return _createTransactionFromServerData(response);
     } catch (error) {
-      Logger.error('AdaApi::redeemAda error: ' + stringifyError(error));
+      Logger.error('LuxApi::redeemLux error: ' + stringifyError(error));
       if (error.message.includes('Passphrase doesn\'t match')) {
         throw new IncorrectWalletPasswordError();
       }
-      throw new RedeemAdaError();
+      throw new RedeemLuxError();
     }
   }
 
-  async redeemPaperVendedAda(
-    request: RedeemPaperVendedAdaRequest
-  ): Promise<RedeemPaperVendedAdaResponse> {
-    Logger.debug('AdaApi::redeemAdaPaperVend called');
+  async redeemPaperVendedLux(
+    request: RedeemPaperVendedLuxRequest
+  ): Promise<RedeemPaperVendedLuxResponse> {
+    Logger.debug('LuxApi::redeemLuxPaperVend called');
     const { shieldedRedemptionKey, mnemonics, accountId, walletPassword } = request;
     try {
       const redeemPaperVendedData = {
@@ -500,28 +500,28 @@ export default class AdaApi {
         }
       };
 
-      const response: AdaTransaction = await redeemAdaPaperVend(
+      const response: LuxTransaction = await redeemLuxPaperVend(
         { ca, walletPassword, redeemPaperVendedData }
       );
 
-      Logger.debug('AdaApi::redeemAdaPaperVend success');
+      Logger.debug('LuxApi::redeemLuxPaperVend success');
       return _createTransactionFromServerData(response);
     } catch (error) {
-      Logger.error('AdaApi::redeemAdaPaperVend error: ' + stringifyError(error));
+      Logger.error('LuxApi::redeemLuxPaperVend error: ' + stringifyError(error));
       if (error.message.includes('Passphrase doesn\'t match')) {
         throw new IncorrectWalletPasswordError();
       }
-      throw new RedeemAdaError();
+      throw new RedeemLuxError();
     }
   }
 
   async nextUpdate(): Promise<NextUpdateResponse> {
-    Logger.debug('AdaApi::nextUpdate called');
+    Logger.debug('LuxApi::nextUpdate called');
     let nextUpdate = null;
     try {
       // TODO: add flow type definitions for nextUpdate response
-      const response: Promise<any> = await nextAdaUpdate({ ca });
-      Logger.debug('AdaApi::nextUpdate success: ' + stringifyData(response));
+      const response: Promise<any> = await nextLuxUpdate({ ca });
+      Logger.debug('LuxApi::nextUpdate success: ' + stringifyData(response));
       if (response && response.cuiSoftwareVersion) {
         nextUpdate = {
           version: get(response, ['cuiSoftwareVersion', 'svNumber'], null)
@@ -529,9 +529,9 @@ export default class AdaApi {
       }
     } catch (error) {
       if (error.message.includes('No updates available')) {
-        Logger.debug('AdaApi::nextUpdate success: No updates available');
+        Logger.debug('LuxApi::nextUpdate success: No updates available');
       } else {
-        Logger.error('AdaApi::nextUpdate error: ' + stringifyError(error));
+        Logger.error('LuxApi::nextUpdate error: ' + stringifyError(error));
       }
       // throw new GenericApiError();
     }
@@ -569,34 +569,34 @@ export default class AdaApi {
   }
 
   async postponeUpdate(): PostponeUpdateResponse {
-    Logger.debug('AdaApi::postponeUpdate called');
+    Logger.debug('LuxApi::postponeUpdate called');
     try {
-      const response: Promise<any> = await postponeAdaUpdate({ ca });
-      Logger.debug('AdaApi::postponeUpdate success: ' + stringifyData(response));
+      const response: Promise<any> = await postponeLuxUpdate({ ca });
+      Logger.debug('LuxApi::postponeUpdate success: ' + stringifyData(response));
     } catch (error) {
-      Logger.error('AdaApi::postponeUpdate error: ' + stringifyError(error));
+      Logger.error('LuxApi::postponeUpdate error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
   async applyUpdate(): ApplyUpdateResponse {
-    Logger.debug('AdaApi::applyUpdate called');
+    Logger.debug('LuxApi::applyUpdate called');
     try {
-      const response: Promise<any> = await applyAdaUpdate({ ca });
-      Logger.debug('AdaApi::applyUpdate success: ' + stringifyData(response));
+      const response: Promise<any> = await applyLuxUpdate({ ca });
+      Logger.debug('LuxApi::applyUpdate success: ' + stringifyData(response));
       ipcRenderer.send('kill-process');
     } catch (error) {
-      Logger.error('AdaApi::applyUpdate error: ' + stringifyError(error));
+      Logger.error('LuxApi::applyUpdate error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
   getSyncProgress = async (): Promise<GetSyncProgressResponse> => {
-    Logger.debug('AdaApi::syncProgress called');
+    Logger.debug('LuxApi::syncProgress called');
 
     try {
-      const response: AdaSyncProgressResponse = await getAdaSyncProgress({ ca });
-      Logger.debug('AdaApi::syncProgress success: ' + stringifyData(response));
+      const response: LuxSyncProgressResponse = await getLuxSyncProgress({ ca });
+      Logger.debug('LuxApi::syncProgress success: ' + stringifyData(response));
       const localDifficulty = response._spLocalCD.getChainDifficulty.getBlockCount;
       // In some cases we dont get network difficulty & we need to wait for it from the notify API
       let networkDifficulty = null;
@@ -605,13 +605,13 @@ export default class AdaApi {
       }
       return { localDifficulty, networkDifficulty };
     } catch (error) {
-      Logger.error('AdaApi::syncProgress error: ' + stringifyError(error));
+      Logger.error('LuxApi::syncProgress error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   };
 
   async updateWallet(request: UpdateWalletRequest): Promise<UpdateWalletResponse> {
-    Logger.debug('AdaApi::updateWallet called: ' + stringifyData(request));
+    Logger.debug('LuxApi::updateWallet called: ' + stringifyData(request));
     const { walletId, name, assurance } = request;
     const unit = 0;
 
@@ -622,11 +622,11 @@ export default class AdaApi {
     };
 
     try {
-      const wallet: AdaWallet = await updateAdaWallet({ ca, walletId, walletMeta });
-      Logger.debug('AdaApi::updateWallet success: ' + stringifyData(wallet));
+      const wallet: LuxWallet = await updateLuxWallet({ ca, walletId, walletMeta });
+      Logger.debug('LuxApi::updateWallet success: ' + stringifyData(wallet));
       return _createWalletFromServerData(wallet);
     } catch (error) {
-      Logger.error('AdaApi::updateWallet error: ' + stringifyError(error));
+      Logger.error('LuxApi::updateWallet error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
@@ -634,14 +634,14 @@ export default class AdaApi {
   async updateWalletPassword(
     request: UpdateWalletPasswordRequest
   ): Promise<UpdateWalletPasswordResponse> {
-    Logger.debug('AdaApi::updateWalletPassword called');
+    Logger.debug('LuxApi::updateWalletPassword called');
     const { walletId, oldPassword, newPassword } = request;
     try {
-      await changeAdaWalletPassphrase({ ca, walletId, oldPassword, newPassword });
-      Logger.debug('AdaApi::updateWalletPassword success');
+      await changeLuxWalletPassphrase({ ca, walletId, oldPassword, newPassword });
+      Logger.debug('LuxApi::updateWalletPassword success');
       return true;
     } catch (error) {
-      Logger.error('AdaApi::updateWalletPassword error: ' + stringifyError(error));
+      Logger.error('LuxApi::updateWalletPassword error: ' + stringifyError(error));
       if (error.message.includes('Invalid old passphrase given')) {
         throw new IncorrectWalletPasswordError();
       }
@@ -653,25 +653,25 @@ export default class AdaApi {
     request: ExportWalletToFileRequest
   ): Promise<ExportWalletToFileResponse> {
     const { walletId, filePath } = request;
-    Logger.debug('AdaApi::exportWalletToFile called');
+    Logger.debug('LuxApi::exportWalletToFile called');
     try {
-      const response: Promise<[]> = await exportAdaBackupJSON({ ca, walletId, filePath });
-      Logger.debug('AdaApi::exportWalletToFile success: ' + stringifyData(response));
+      const response: Promise<[]> = await exportLuxBackupJSON({ ca, walletId, filePath });
+      Logger.debug('LuxApi::exportWalletToFile success: ' + stringifyData(response));
       return response;
     } catch (error) {
-      Logger.error('AdaApi::exportWalletToFile error: ' + stringifyError(error));
+      Logger.error('LuxApi::exportWalletToFile error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
   async testReset(): Promise<void> {
-    Logger.debug('AdaApi::testReset called');
+    Logger.debug('LuxApi::testReset called');
     try {
-      const response: Promise<void> = await adaTestReset({ ca });
-      Logger.debug('AdaApi::testReset success: ' + stringifyData(response));
+      const response: Promise<void> = await luxTestReset({ ca });
+      Logger.debug('LuxApi::testReset success: ' + stringifyData(response));
       return response;
     } catch (error) {
-      Logger.error('AdaApi::testReset error: ' + stringifyError(error));
+      Logger.error('LuxApi::testReset error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
@@ -680,10 +680,10 @@ export default class AdaApi {
 // ========== TRANSFORM SERVER DATA INTO FRONTEND MODELS =========
 
 const _createWalletFromServerData = action(
-  'AdaApi::_createWalletFromServerData', (data: AdaWallet) => (
+  'LuxApi::_createWalletFromServerData', (data: LuxWallet) => (
     new Wallet({
       id: data.cwId,
-      amount: new BigNumber(data.cwAmount.getCCoin).dividedBy(LOVELACES_PER_ADA),
+      amount: new BigNumber(data.cwAmount.getCCoin).dividedBy(LOVELACES_PER_LUX),
       name: data.cwMeta.cwName,
       assurance: data.cwMeta.cwAssurance,
       hasPassword: data.cwHasPassphrase,
@@ -693,10 +693,10 @@ const _createWalletFromServerData = action(
 );
 
 const _createAddressFromServerData = action(
-  'AdaApi::_createAddressFromServerData', (data: AdaAddress) => (
+  'LuxApi::_createAddressFromServerData', (data: LuxAddress) => (
     new WalletAddress({
       id: data.cadId,
-      amount: new BigNumber(data.cadAmount.getCCoin).dividedBy(LOVELACES_PER_ADA),
+      amount: new BigNumber(data.cadAmount.getCCoin).dividedBy(LOVELACES_PER_LUX),
       isUsed: data.cadIsUsed,
     })
   )
@@ -711,14 +711,14 @@ const _conditionToTxState = (condition: string) => {
 };
 
 const _createTransactionFromServerData = action(
-  'AdaApi::_createTransactionFromServerData', (data: AdaTransaction) => {
+  'LuxApi::_createTransactionFromServerData', (data: LuxTransaction) => {
     const coins = data.ctAmount.getCCoin;
     const { ctmTitle, ctmDescription, ctmDate } = data.ctMeta;
     return new WalletTransaction({
       id: data.ctId,
-      title: ctmTitle || data.ctIsOutgoing ? 'Ada sent' : 'Ada received',
+      title: ctmTitle || data.ctIsOutgoing ? 'Lux sent' : 'Lux received',
       type: data.ctIsOutgoing ? transactionTypes.EXPEND : transactionTypes.INCOME,
-      amount: new BigNumber(data.ctIsOutgoing ? -1 * coins : coins).dividedBy(LOVELACES_PER_ADA),
+      amount: new BigNumber(data.ctIsOutgoing ? -1 * coins : coins).dividedBy(LOVELACES_PER_LUX),
       date: unixTimestampToDate(ctmDate),
       description: ctmDescription || '',
       numberOfConfirmations: data.ctConfirmations,
@@ -732,8 +732,8 @@ const _createTransactionFromServerData = action(
 );
 
 const _createTransactionFeeFromServerData = action(
-  'AdaApi::_createTransactionFeeFromServerData', (data: AdaTransactionFee) => {
+  'LuxApi::_createTransactionFeeFromServerData', (data: LuxTransactionFee) => {
     const coins = data.getCCoin;
-    return new BigNumber(coins).dividedBy(LOVELACES_PER_ADA);
+    return new BigNumber(coins).dividedBy(LOVELACES_PER_LUX);
   }
 );

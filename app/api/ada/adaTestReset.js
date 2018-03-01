@@ -1,12 +1,12 @@
 // @flow
 import { request } from './lib/request';
 
-export type AdaTestResetParams = {
+export type LuxTestResetParams = {
   ca: string,
 };
 
-export const adaTestReset = (
-  { ca }: AdaTestResetParams
+export const luxTestReset = (
+  { ca }: LuxTestResetParams
 ): Promise<void> => (
   request({
     hostname: 'localhost',

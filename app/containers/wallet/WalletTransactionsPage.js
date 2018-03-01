@@ -33,13 +33,13 @@ export default class WalletTransactionsPage extends Component<Props> {
   };
 
   // _handleSearchInputChange = (value: string, event: Object) => {
-  //   this.props.actions.ada.transactions.filterTransactions({ searchTerm: event.target.value });
+  //   this.props.actions.lux.transactions.filterTransactions({ searchTerm: event.target.value });
   // };
 
   render() {
     const { intl } = this.context;
     const actions = this.props.actions;
-    const { transactions, wallets } = this.props.stores.ada;
+    const { transactions, wallets } = this.props.stores.lux;
     const activeWallet = wallets.active;
     const {
       searchOptions,
@@ -76,7 +76,7 @@ export default class WalletTransactionsPage extends Component<Props> {
           transactions={filtered}
           isLoadingTransactions={searchRequest.isExecutingFirstTime}
           hasMoreToLoad={totalAvailable > searchLimit}
-          onLoadMore={actions.ada.transactions.loadMoreTransactions.trigger}
+          onLoadMore={actions.lux.transactions.loadMoreTransactions.trigger}
           assuranceMode={activeWallet.assuranceMode}
           walletId={activeWallet.id}
         />

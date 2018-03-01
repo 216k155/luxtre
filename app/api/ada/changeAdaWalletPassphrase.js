@@ -1,18 +1,18 @@
 // @flow
-import type { AdaWallet } from './types';
+import type { LuxWallet } from './types';
 import { request } from './lib/request';
 import { encryptPassphrase } from './lib/encryptPassphrase';
 
-export type ChangeAdaWalletPassphraseParams = {
+export type ChangeLuxWalletPassphraseParams = {
   ca: string,
   walletId: string,
   oldPassword: ?string,
   newPassword: ?string,
 };
 
-export const changeAdaWalletPassphrase = (
-  { ca, walletId, oldPassword, newPassword }: ChangeAdaWalletPassphraseParams
-): Promise<AdaWallet> => {
+export const changeLuxWalletPassphrase = (
+  { ca, walletId, oldPassword, newPassword }: ChangeLuxWalletPassphraseParams
+): Promise<LuxWallet> => {
   const encryptedOldPassphrase = oldPassword ? encryptPassphrase(oldPassword) : null;
   const encryptedNewPassphrase = newPassword ? encryptPassphrase(newPassword) : null;
   return request({

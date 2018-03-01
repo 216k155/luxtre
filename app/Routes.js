@@ -6,7 +6,7 @@ import resolver from './utils/imports';
 
 // PAGES
 // import StakingPage from './containers/staking/StakingPage';
-import AdaRedemptionPage from './containers/wallet/AdaRedemptionPage';
+import LuxRedemptionPage from './containers/wallet/LuxRedemptionPage';
 import NoWalletsPage from './containers/wallet/NoWalletsPage';
 import LanguageSelectionPage from './containers/profile/LanguageSelectionPage';
 import Settings from './containers/settings/Settings';
@@ -33,7 +33,7 @@ export const Routes = (
     <Route path={ROUTES.PROFILE.TERMS_OF_USE} component={TermsOfUsePage} />
     <Route path={ROUTES.PROFILE.SEND_LOGS} component={SendLogsChoicePage} />
     {/* <Route path={ROUTES.STAKING} component={StakingPage} /> */}
-    <Route path={ROUTES.ADA_REDEMPTION} component={AdaRedemptionPage} />
+    <Route path={ROUTES.LUX_REDEMPTION} component={LuxRedemptionPage} />
     <Route path={ROUTES.NO_WALLETS} component={NoWalletsPage} />
     <Route path={ROUTES.WALLETS.ROOT} component={Wallet}>
       <Route path={ROUTES.WALLETS.SUMMARY} component={WalletSummaryPage} />

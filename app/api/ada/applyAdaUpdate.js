@@ -1,12 +1,12 @@
 // @flow
 import { request } from './lib/request';
 
-export type ApplyAdaUpdateParams = {
+export type ApplyLuxUpdateParams = {
   ca: string,
 };
 
-export const applyAdaUpdate = (
-  { ca }: ApplyAdaUpdateParams
+export const applyLuxUpdate = (
+  { ca }: ApplyLuxUpdateParams
 ): Promise<any> => (
   request({
     hostname: 'localhost',

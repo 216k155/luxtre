@@ -9,28 +9,28 @@ import SimpleCheckboxSkin from 'react-polymorph/lib/skins/simple/CheckboxSkin';
 import Button from 'react-polymorph/lib/components/Button';
 import SimpleButtonSkin from 'react-polymorph/lib/skins/simple/ButtonSkin';
 import attentionIcon from '../../../assets/images/attention-big-light.inline.svg';
-import styles from './AdaRedemptionDisclaimer.scss';
+import styles from './LuxRedemptionDisclaimer.scss';
 
 const messages = defineMessages({
   disclaimerTitle: {
     id: 'wallet.redeem.disclaimerOverlay.title',
     defaultMessage: '!!!Luxcore Redemption Disclamer',
-    description: 'Title of "Redemption disclaimer" on Ada redemption page.'
+    description: 'Title of "Redemption disclaimer" on Lux redemption page.'
   },
   disclaimerText: {
     id: 'wallet.redeem.disclaimerOverlay.disclaimerText',
-    defaultMessage: '!!!ATTENTION: Redeeming on the Luxcoin Test-net will validate that your certificate or redemption key is correct and will allow you to redeem TEST-ADA for testing purposes only. KEEP your certificate or redemption key safe and secure. You will need to redeem again when Luxcoin SL launches the mainnet. TEST-ADA holds no value and cannot be exchanged.',
-    description: 'Disclaimer text for "Redemption disclaimer" on Ada redemption page.'
+    defaultMessage: '!!!ATTENTION: Redeeming on the Luxcoin Test-net will validate that your certificate or redemption key is correct and will allow you to redeem TEST-LUX for testing purposes only. KEEP your certificate or redemption key safe and secure. You will need to redeem again when Luxcoin SL launches the mainnet. TEST-LUX holds no value and cannot be exchanged.',
+    description: 'Disclaimer text for "Redemption disclaimer" on Lux redemption page.'
   },
   checkboxLabel: {
     id: 'wallet.redeem.disclaimerOverlay.checkboxLabel',
     defaultMessage: '!!!I’ve understood the information above',
-    description: 'Label for "I’ve understood the information above" checkbox on Ada redemption page "Redemption disclaimer".'
+    description: 'Label for "I’ve understood the information above" checkbox on Lux redemption page "Redemption disclaimer".'
   },
   submitLabel: {
     id: 'wallet.redeem.disclaimerOverlay.submitLabel',
     defaultMessage: '!!!Continue',
-    description: 'Label for "Continue" button on Ada redemption page "Redemption disclaimer".'
+    description: 'Label for "Continue" button on Lux redemption page "Redemption disclaimer".'
   },
 });
 
@@ -43,7 +43,7 @@ type State = {
 };
 
 @observer
-export default class AdaRedemptionDisclaimer extends Component<Props, State> {
+export default class LuxRedemptionDisclaimer extends Component<Props, State> {
 
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -75,7 +75,7 @@ export default class AdaRedemptionDisclaimer extends Component<Props, State> {
 
         <p>{intl.formatMessage(messages.disclaimerText)}</p>
 
-        <div className="adaRedemptionDisclaimerCheckbox">
+        <div className="luxRedemptionDisclaimerCheckbox">
           <Checkbox
             label={intl.formatMessage(messages.checkboxLabel)}
             onChange={this.onAcceptToggle}

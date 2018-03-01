@@ -1,8 +1,8 @@
 // @flow
-import type { AdaWallet } from './types';
+import type { LuxWallet } from './types';
 import { request } from './lib/request';
 
-export type UpdateAdaWalletParams = {
+export type UpdateLuxWalletParams = {
   ca: string,
   walletId: string,
   walletMeta: {
@@ -12,9 +12,9 @@ export type UpdateAdaWalletParams = {
   }
 };
 
-export const updateAdaWallet = (
-  { ca, walletId, walletMeta }: UpdateAdaWalletParams
-): Promise<AdaWallet> => (
+export const updateLuxWallet = (
+  { ca, walletId, walletMeta }: UpdateLuxWalletParams
+): Promise<LuxWallet> => (
   request({
     hostname: 'localhost',
     method: 'PUT',

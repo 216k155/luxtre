@@ -1,11 +1,11 @@
 // @flow
 
 // ========= Response Types =========
-export type AdaAssurance = 'CWANormal' | 'CWAStrict';
-export type AdaTransactionCondition = 'CPtxApplying' | 'CPtxInBlocks' | 'CPtxWontApply' | 'CPtxNotTracked';
-export type AdaWalletRecoveryPhraseResponse = Array<string>;
+export type LuxAssurance = 'CWANormal' | 'CWAStrict';
+export type LuxTransactionCondition = 'CPtxApplying' | 'CPtxInBlocks' | 'CPtxWontApply' | 'CPtxNotTracked';
+export type LuxWalletRecoveryPhraseResponse = Array<string>;
 
-export type AdaSyncProgressResponse = {
+export type LuxSyncProgressResponse = {
   _spLocalCD: {
     getChainDifficulty: {
       getBlockCount: number,
@@ -19,10 +19,10 @@ export type AdaSyncProgressResponse = {
   _spPeers: number,
 };
 
-export type AdaWalletInitData = {
+export type LuxWalletInitData = {
   cwInitMeta: {
     cwName: string,
-    cwAssurance: AdaAssurance,
+    cwAssurance: LuxAssurance,
     cwUnit: number,
   },
   cwBackupPhrase: {
@@ -30,67 +30,67 @@ export type AdaWalletInitData = {
   }
 };
 
-export type AdaAmount = {
+export type LuxAmount = {
   getCCoin: number,
 };
-export type AdaTransactionTag = 'CTIn' | 'CTOut';
+export type LuxTransactionTag = 'CTIn' | 'CTOut';
 
-export type AdaAddress = {
-  cadAmount: AdaAmount,
+export type LuxAddress = {
+  cadAmount: LuxAmount,
   cadId: string,
   cadIsUsed: boolean,
 };
 
-export type AdaAddresses = Array<AdaAddress>;
+export type LuxAddresses = Array<LuxAddress>;
 
-export type AdaAccount = {
-  caAddresses: AdaAddresses,
-  caAmount: AdaAmount,
+export type LuxAccount = {
+  caAddresses: LuxAddresses,
+  caAmount: LuxAmount,
   caId: string,
   caMeta: {
     caName: string,
   },
 };
 
-export type AdaAccounts = Array<AdaAccount>;
+export type LuxAccounts = Array<LuxAccount>;
 
-export type AdaTransaction = {
-  ctAmount: AdaAmount,
+export type LuxTransaction = {
+  ctAmount: LuxAmount,
   ctConfirmations: number,
   ctId: string,
-  ctInputs: AdaTransactionInputOutput,
+  ctInputs: LuxTransactionInputOutput,
   ctIsOutgoing: boolean,
   ctMeta: {
     ctmDate: Date,
     ctmDescription: ?string,
     ctmTitle: ?string,
   },
-  ctOutputs: AdaTransactionInputOutput,
-  ctCondition: AdaTransactionCondition,
+  ctOutputs: LuxTransactionInputOutput,
+  ctCondition: LuxTransactionCondition,
 };
 
-export type AdaTransactions = [
-  Array<AdaTransaction>,
+export type LuxTransactions = [
+  Array<LuxTransaction>,
   number,
 ];
 
-export type AdaTransactionInputOutput = [
-  [string, AdaAmount],
+export type LuxTransactionInputOutput = [
+  [string, LuxAmount],
 ];
 
-export type AdaTransactionFee = AdaAmount;
+export type LuxTransactionFee = LuxAmount;
 
-export type AdaWallet = {
+export type LuxWallet = {
   cwAccountsNumber: number,
-  cwAmount: AdaAmount,
+  cwAmount: LuxAmount,
   cwHasPassphrase: boolean,
   cwId: string,
   cwMeta: {
-    cwAssurance: AdaAssurance,
+    cwAssurance: LuxAssurance,
     cwName: string,
     csUnit: number,
   },
   cwPassphraseLU: Date,
 };
 
-export type AdaWallets = Array<AdaWallet>;
+export type LuxWallets = Array<LuxWallet>;

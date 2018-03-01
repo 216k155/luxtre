@@ -1,8 +1,8 @@
-# Running Deadalus acceptance tests
+# Running Luxcore acceptance tests
 
 
 1. Make sure you have correct node/npm versions installed on your machine (node v6.x and npm v3.x)
-2. Clone Deadalus repo to your machine (git@github.com:input-output-hk/luxcore.git - use **master** branch)
+2. Clone Luxcore repo to your machine (git@github.com:input-output-hk/luxcore.git - use **master** branch)
 3. Install npm dependencies from within Luxcore directory:
 ```
 $ cd luxcore/
@@ -18,7 +18,7 @@ $ npm link luxcore-client-api
 $ cd luxcoin-sl/
 $ ./scripts/launch/staging.sh
 ```
-6. Run Deadalus frontend in hot-server mode:
+6. Run Luxcore frontend in hot-server mode:
 ```
 $ cd luxcore/
 $ npm run hot-server

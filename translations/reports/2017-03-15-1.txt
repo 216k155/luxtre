@@ -6,16 +6,16 @@ Duplicate ids:
 Maintaining en-US.json:
 
 Deleted keys:
-  Sidebar.categories.adaRedemption: ADA Redemption
+  Sidebar.categories.luxRedemption: LUX Redemption
   Sidebar.categories.settings: Settings
   Sidebar.categories.wallets: Wallets
   api.errors.ApiMethodNotYetImplementedError: This API method is not yet implemented.
   api.errors.GenericApiError: An error occured, please try again later.
   api.errors.NotEnoughMoneyToSendError: Not enough money to make this transaction.
-  api.errors.RedeemAdaError: Your Ada was not redeemed. Please try again.
+  api.errors.RedeemLuxError: Your Lux was not redeemed. Please try again.
   api.errors.WalletAlreadyRestoredError: You have already restored a wallet with this phrase.
   api.errors.WalletKeyImportError: Key could not be imported, please make sure you are providing a correct key file.
-  errors.AdaRedemptionCertificateParseError: Your redemption code could not be parsed from the given document.
+  errors.LuxRedemptionCertificateParseError: Your redemption code could not be parsed from the given document.
   login.form.email.hint: E-mail
   login.form.invalidCredentials: E-mail or password is wrong.
   login.form.password.hint: Password
@@ -121,7 +121,7 @@ Added keys:
   wallet.recovery.phrase.show.entry.dialog.button.labelConfirm: !!!Confirm
   wallet.redeem.dialog.certificateHint: !!!Drop file here or click to choose
   wallet.redeem.dialog.certificateLabel: !!!Certificate
-  wallet.redeem.dialog.headline: !!!Ada Redemption
+  wallet.redeem.dialog.headline: !!!Lux Redemption
   wallet.redeem.dialog.instructions: !!!Detailed instructions
   wallet.redeem.dialog.passphraseHint: !!!Enter your 9 word mnemonic passPhraseTokens here
   wallet.redeem.dialog.passphraseLabel: !!!Redeem token
@@ -226,7 +226,7 @@ Added keys:
   wallet.recovery.phrase.show.entry.dialog.button.labelConfirm: !!!Confirm
   wallet.redeem.dialog.certificateHint: !!!Drop file here or click to choose
   wallet.redeem.dialog.certificateLabel: !!!Certificate
-  wallet.redeem.dialog.headline: !!!Ada Redemption
+  wallet.redeem.dialog.headline: !!!Lux Redemption
   wallet.redeem.dialog.instructions: !!!Detailed instructions
   wallet.redeem.dialog.passphraseHint: !!!Enter your 9 word mnemonic passPhraseTokens here
   wallet.redeem.dialog.passphraseLabel: !!!Redeem token

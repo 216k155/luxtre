@@ -1,8 +1,8 @@
 // @flow
-import type { AdaTransaction } from './types';
+import type { LuxTransaction } from './types';
 import { request } from './lib/request';
 
-export type NewAdaPaymentParams = {
+export type NewLuxPaymentParams = {
   ca: string,
   sender: string,
   receiver: string,
@@ -14,9 +14,9 @@ export type NewAdaPaymentParams = {
 };
 
 
-export const newAdaPayment = (
-  { ca, sender, receiver, amount, groupingPolicy, password }: NewAdaPaymentParams
-): Promise<AdaTransaction> => (
+export const newLuxPayment = (
+  { ca, sender, receiver, amount, groupingPolicy, password }: NewLuxPaymentParams
+): Promise<LuxTransaction> => (
   request({
     hostname: 'localhost',
     method: 'POST',

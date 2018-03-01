@@ -42,7 +42,7 @@ export default class WalletReceivePage extends Component<Props, State> {
     const { wallets } = this.props.stores.lux;
     const wallet = wallets.active;
     if (wallet) {
-      this.props.actions.ada.addresses.createAddress.trigger({
+      this.props.actions.lux.addresses.createAddress.trigger({
         walletId: wallet.id,
         password,
       });
@@ -50,7 +50,7 @@ export default class WalletReceivePage extends Component<Props, State> {
   };
 
   resetErrors = () => {
-    this.props.actions.ada.addresses.resetErrors.trigger();
+    this.props.actions.lux.addresses.resetErrors.trigger();
   };
 
   closeNotification = () => {

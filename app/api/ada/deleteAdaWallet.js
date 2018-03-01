@@ -1,13 +1,13 @@
 // @flow
 import { request } from './lib/request';
 
-export type DeleteAdaWalletParams = {
+export type DeleteLuxWalletParams = {
   ca: string,
   walletId: string,
 };
 
-export const deleteAdaWallet = (
-  { ca, walletId }: DeleteAdaWalletParams
+export const deleteLuxWallet = (
+  { ca, walletId }: DeleteLuxWalletParams
 ): Promise<[]> => (
   request({
     hostname: 'localhost',
