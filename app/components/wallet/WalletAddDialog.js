@@ -123,7 +123,7 @@ export default class WalletAddDialog extends Component<Props> {
               label={intl.formatMessage(messages.importLabel)}
               description={intl.formatMessage(messages.importDescription)}
               isDisabled={
-                environment.isLuxApi() || (environment.isAdaApi() && environment.isMainnet())
+                (environment.isAdaApi() && environment.isMainnet())
               }
             />
           </div>

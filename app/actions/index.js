@@ -9,7 +9,6 @@ import DialogsActions from './dialogs-actions';
 import NotificationsActions from './notifications-actions';
 import adaActionsMap from './ada/index';
 import luxActionsMap from './lux/index';
-import type { AdaActionsMap } from './ada/index';
 import type { LuxActionsMap } from './lux/index';
 
 export type ActionsMap = {
@@ -21,7 +20,6 @@ export type ActionsMap = {
   profile: ProfileActions,
   dialogs: DialogsActions,
   notifications: NotificationsActions,
-  ada: AdaActionsMap,
   lux: LuxActionsMap,
 };
 
@@ -34,7 +32,6 @@ const actionsMap: ActionsMap = {
   profile: new ProfileActions(),
   dialogs: new DialogsActions(),
   notifications: new NotificationsActions(),
-  ada: adaActionsMap,
   lux: luxActionsMap,
 };
 

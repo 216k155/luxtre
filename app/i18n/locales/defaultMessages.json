@@ -1540,39 +1540,6 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "!!!Your wallet address",
-        "description": "Label for wallet address on the LUX wallet \"Receive page\"",
-        "end": {
-          "column": 3,
-          "line": 17
-        },
-        "file": "app/components/wallet/lux/WalletReceive.js",
-        "id": "wallet.receive.page.lux.walletAddressLabel",
-        "start": {
-          "column": 22,
-          "line": 13
-        }
-      },
-      {
-        "defaultMessage": "!!!Share this wallet address to receive payments.",
-        "description": "Wallet receive payments instructions on the LUX wallet \"Receive page\"",
-        "end": {
-          "column": 3,
-          "line": 22
-        },
-        "file": "app/components/wallet/lux/WalletReceive.js",
-        "id": "wallet.receive.page.lux.walletReceiveInstructions",
-        "start": {
-          "column": 29,
-          "line": 18
-        }
-      }
-    ],
-    "path": "app/components/wallet/lux/WalletReceive.json"
-  },
-  {
-    "descriptors": [
-      {
         "defaultMessage": "!!!Import Wallet",
         "description": "headline for \"Import wallet from file\" dialog.",
         "end": {
@@ -4435,20 +4402,6 @@
         }
       },
       {
-        "defaultMessage": "!!!Lux",
-        "description": "Name for \"Lux\" unit.",
-        "end": {
-          "column": 3,
-          "line": 123
-        },
-        "file": "app/i18n/global-messages.js",
-        "id": "global.unit.lux",
-        "start": {
-          "column": 11,
-          "line": 119
-        }
-      },
-      {
         "defaultMessage": "!!!Recovery phrase",
         "description": "Title for the \"Recovery Phrase\" dialog.",
         "end": {
@@ -4502,20 +4455,6 @@
         "start": {
           "column": 14,
           "line": 143
-        }
-      },
-      {
-        "defaultMessage": "!!!Lux",
-        "description": "Name for \"Ada\" unit.",
-        "end": {
-          "column": 5,
-          "line": 154
-        },
-        "file": "app/i18n/global-messages.js",
-        "id": "environment.currency.lux",
-        "start": {
-          "column": 14,
-          "line": 150
         }
       }
     ],
