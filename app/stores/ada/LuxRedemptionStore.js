@@ -21,7 +21,6 @@ import type { RedeemPaperVendedLuxResponse } from '../../api/lux/index';
 import type { RedemptionTypeChoices } from '../../types/redemptionTypes';
 
 export default class LuxRedemptionStore extends Store {
-
   @observable redemptionType: RedemptionTypeChoices = 'regular';
   @observable certificate: ?File = null;
   @observable isCertificateEncrypted = false;
@@ -37,7 +36,10 @@ export default class LuxRedemptionStore extends Store {
   @observable showLuxRedemptionSuccessMessage: boolean = false;
   @observable redeemLuxRequest: Request<Wallet> = new Request(this.api.lux.redeemLux);
   // eslint-disable-next-line
-  @observable redeemPaperVendedLuxRequest: Request<RedeemPaperVendedLuxResponse> = new Request(this.api.lux.redeemPaperVendedLux);
+  @observable
+  redeemPaperVendedLuxRequest: Request<RedeemPaperVendedLuxResponse> = new Request(
+    this.api.lux.redeemPaperVendedLux
+  );
   @observable isRedemptionDisclaimerAccepted = false;
 
   setup() {
@@ -57,9 +59,7 @@ export default class LuxRedemptionStore extends Store {
     actions.acceptRedemptionDisclaimer.listen(this._onAcceptRedemptionDisclaimer);
     ipcRenderer.on(PARSE_REDEMPTION_CODE.SUCCESS, this._onCodeParsed);
     ipcRenderer.on(PARSE_REDEMPTION_CODE.ERROR, this._onParseError);
-    this.registerReactions([
-      this._resetRedemptionFormValuesOnLuxRedemptionPageLoad,
-    ]);
+    this.registerReactions([this._resetRedemptionFormValuesOnLuxRedemptionPageLoad]);
   }
 
   teardown() {
@@ -68,21 +68,17 @@ export default class LuxRedemptionStore extends Store {
     ipcRenderer.removeAllListeners(PARSE_REDEMPTION_CODE.ERROR);
   }
 
-  isValidRedemptionKey = (redemptionKey: string) => (
-    this.api.lux.isValidRedemptionKey(redemptionKey)
-  );
+  isValidRedemptionKey = (redemptionKey: string) =>
+    this.api.lux.isValidRedemptionKey(redemptionKey);
 
-  isValidRedemptionMnemonic = (mnemonic: string) => (
-    this.api.lux.isValidRedemptionMnemonic(mnemonic)
-  );
+  isValidRedemptionMnemonic = (mnemonic: string) =>
+    this.api.lux.isValidRedemptionMnemonic(mnemonic);
 
-  isValidPaperVendRedemptionKey = (
-    mnemonic: string
-  ) => this.api.lux.isValidPaperVendRedemptionKey(mnemonic);
+  isValidPaperVendRedemptionKey = (mnemonic: string) =>
+    this.api.lux.isValidPaperVendRedemptionKey(mnemonic);
 
-  @action _chooseRedemptionType = (params: {
-    redemptionType: RedemptionTypeChoices,
-  }) => {
+  @action
+  _chooseRedemptionType = (params: { redemptionType: RedemptionTypeChoices }) => {
     if (this.redemptionType !== params.redemptionType) {
       this._reset();
       this.redemptionType = params.redemptionType;
@@ -104,26 +100,26 @@ export default class LuxRedemptionStore extends Store {
     this._parseCodeFromCertificate();
   });
 
-  _setPassPhrase = action(({ passPhrase } : { passPhrase: string }) => {
+  _setPassPhrase = action(({ passPhrase }: { passPhrase: string }) => {
     this.passPhrase = passPhrase;
     if (this.isValidRedemptionMnemonic(passPhrase)) this._parseCodeFromCertificate();
   });
 
-  _setRedemptionCode = action(({ redemptionCode } : { redemptionCode: string }) => {
+  _setRedemptionCode = action(({ redemptionCode }: { redemptionCode: string }) => {
     this.redemptionCode = redemptionCode;
   });
 
-  _setEmail = action(({ email } : { email: string }) => {
+  _setEmail = action(({ email }: { email: string }) => {
     this.email = email;
     this._parseCodeFromCertificate();
   });
 
-  _setLuxPasscode = action(({ luxPasscode } : { luxPasscode: string }) => {
+  _setLuxPasscode = action(({ luxPasscode }: { luxPasscode: string }) => {
     this.luxPasscode = luxPasscode;
     this._parseCodeFromCertificate();
   });
 
-  _setLuxAmount = action(({ luxAmount } : { luxAmount: string }) => {
+  _setLuxAmount = action(({ luxAmount }: { luxAmount: string }) => {
     this.luxAmount = luxAmount;
     this._parseCodeFromCertificate();
   });
@@ -171,9 +167,12 @@ export default class LuxRedemptionStore extends Store {
     this.passPhrase = null;
   });
 
-  _redeemLux = async ({ walletId, walletPassword } : {
+  _redeemLux = async ({
+    walletId,
+    walletPassword
+  }: {
     walletId: string,
-    walletPassword: ?string,
+    walletPassword: ?string
   }) => {
     runInAction(() => {
       this.walletId = walletId;
@@ -181,48 +180,64 @@ export default class LuxRedemptionStore extends Store {
     const accountId = this.stores.lux.addresses._getAccountIdByWalletId(walletId);
     if (!accountId) throw new Error('Active account required before redeeming Lux.');
 
-    this.redeemLuxRequest.execute({
-      redemptionCode: this.redemptionCode,
-      accountId,
-      walletPassword
-    })
-      .then(action((transaction: WalletTransaction) => {
-        this._reset();
-        this.actions.lux.luxRedemption.luxSuccessfullyRedeemed.trigger({
-          walletId,
-          amount: transaction.amount.toFormat(DECIMAL_PLACES_IN_LUX),
-        });
-      }))
-      .catch(action((error) => {
-        this.error = error;
-      }));
+    this.redeemLuxRequest
+      .execute({
+        redemptionCode: this.redemptionCode,
+        accountId,
+        walletPassword
+      })
+      .then(
+        action((transaction: WalletTransaction) => {
+          this._reset();
+          this.actions.lux.luxRedemption.luxSuccessfullyRedeemed.trigger({
+            walletId,
+            amount: transaction.amount.toFormat(DECIMAL_PLACES_IN_LUX)
+          });
+        })
+      )
+      .catch(
+        action(error => {
+          this.error = error;
+        })
+      );
   };
 
-  _redeemPaperVendedLux = action(({ walletId, shieldedRedemptionKey, walletPassword } : {
-    walletId: string,
-    shieldedRedemptionKey: string,
-    walletPassword: ?string,
-  }) => {
-    this.walletId = walletId;
-    const accountId = this.stores.lux.addresses._getAccountIdByWalletId(walletId);
-    if (!accountId) throw new Error('Active account required before redeeming Lux.');
-    this.redeemPaperVendedLuxRequest.execute({
+  _redeemPaperVendedLux = action(
+    ({
+      walletId,
       shieldedRedemptionKey,
-      mnemonics: this.passPhrase,
-      accountId,
-      walletPassword,
-    })
-      .then(action((transaction: WalletTransaction) => {
-        this._reset();
-        this.actions.lux.luxRedemption.luxSuccessfullyRedeemed.trigger({
-          walletId,
-          amount: transaction.amount.toFormat(DECIMAL_PLACES_IN_LUX),
-        });
-      }))
-      .catch(action((error) => {
-        this.error = error;
-      }));
-  });
+      walletPassword
+    }: {
+      walletId: string,
+      shieldedRedemptionKey: string,
+      walletPassword: ?string
+    }) => {
+      this.walletId = walletId;
+      const accountId = this.stores.lux.addresses._getAccountIdByWalletId(walletId);
+      if (!accountId) throw new Error('Active account required before redeeming Lux.');
+      this.redeemPaperVendedLuxRequest
+        .execute({
+          shieldedRedemptionKey,
+          mnemonics: this.passPhrase,
+          accountId,
+          walletPassword
+        })
+        .then(
+          action((transaction: WalletTransaction) => {
+            this._reset();
+            this.actions.lux.luxRedemption.luxSuccessfullyRedeemed.trigger({
+              walletId,
+              amount: transaction.amount.toFormat(DECIMAL_PLACES_IN_LUX)
+            });
+          })
+        )
+        .catch(
+          action(error => {
+            this.error = error;
+          })
+        );
+    }
+  );
 
   _onLuxSuccessfullyRedeemed = action(({ walletId, amount }) => {
     Logger.debug('LUX successfully redeemed for wallet: ' + walletId);
@@ -241,7 +256,7 @@ export default class LuxRedemptionStore extends Store {
     const currentRoute = this.stores.app.currentRoute;
     const match = matchRoute(ROUTES.LUX_REDEMPTION, currentRoute);
     if (match) this._reset();
-  }
+  };
 
   _onRemoveCertificate = action(() => {
     this.error = null;
@@ -253,7 +268,8 @@ export default class LuxRedemptionStore extends Store {
     this.luxAmount = null;
   });
 
-  @action _reset = () => {
+  @action
+  _reset = () => {
     this.error = null;
     this.certificate = null;
     this.isCertificateEncrypted = false;
@@ -266,5 +282,4 @@ export default class LuxRedemptionStore extends Store {
     this.luxPasscode = null;
     this.luxAmount = null;
   };
-
 }

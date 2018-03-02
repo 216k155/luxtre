@@ -13,7 +13,7 @@ export const luxStoreClasses = {
   luxRedemption: LuxRedemptionStore,
   nodeUpdate: NodeUpdateStore,
   walletSettings: LuxWalletSettingsStore,
-  addresses: AddressesStore,
+  addresses: AddressesStore
 };
 
 export type LuxStoresMap = {
@@ -22,7 +22,7 @@ export type LuxStoresMap = {
   luxRedemption: LuxRedemptionStore,
   nodeUpdate: NodeUpdateStore,
   walletSettings: LuxWalletSettingsStore,
-  addresses: AddressesStore,
+  addresses: AddressesStore
 };
 
 const luxStores = observable({
@@ -37,10 +37,14 @@ const luxStores = observable({
 // Set up and return the stores and reset all stores to defaults
 export default action((stores, api, actions): LuxStoresMap => {
   const storeNames = Object.keys(luxStoreClasses);
-  storeNames.forEach(name => { if (luxStores[name]) luxStores[name].teardown(); });
+  storeNames.forEach(name => {
+    if (luxStores[name]) luxStores[name].teardown();
+  });
   storeNames.forEach(name => {
     luxStores[name] = new luxStoreClasses[name](stores, api, actions);
   });
-  storeNames.forEach(name => { if (luxStores[name]) luxStores[name].initialize(); });
+  storeNames.forEach(name => {
+    if (luxStores[name]) luxStores[name].initialize();
+  });
   return luxStores;
 });

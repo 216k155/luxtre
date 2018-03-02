@@ -8,16 +8,16 @@ export const CATEGORIES = [
   {
     name: 'WALLETS',
     route: ROUTES.WALLETS.ROOT,
-    icon: walletsIcon,
+    icon: walletsIcon
   },
   {
     name: 'LUX_REDEMPTION',
     route: ROUTES.LUX_REDEMPTION,
-    icon: luxRedemptionIcon,
+    icon: luxRedemptionIcon
   },
   {
     name: 'SETTINGS',
     route: ROUTES.SETTINGS.ROOT,
-    icon: settingsIcon,
-  },
+    icon: settingsIcon
+  }
 ];
