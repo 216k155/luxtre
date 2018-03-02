@@ -7,7 +7,7 @@ import type { LuxTransactions } from './types';
 export type GetLuxTransactionsParams = {
   walletId: string,
   fromBlock: number,
-  toBlock: number,
+  toBlock: number
 };
 
 /**
@@ -19,21 +19,23 @@ export type GetLuxTransactionsParams = {
  * @param toBlock (more recent)
  * @returns {*}
  */
-export const getLuxTransactions = (
-  { walletId, fromBlock, toBlock }: GetLuxTransactionsParams
-): Promise<LuxTransactions> => (
-  request({
-    hostname: LUX_API_HOST,
-    method: 'POST',
-    port: LUX_API_PORT,
-    auth: LUX_API_USER + ':' + LUX_API_PWD
-  }, {
-    jsonrpc: '2.0',
-    method: 'listtransactions',
-    params: [
-      walletId,
-      toBlock - fromBlock,
-      fromBlock
-    ],
-  })
-);
+export const getLuxTransactions = ({
+  walletId,
+  fromBlock,
+  toBlock
+}: GetLuxTransactionsParams): Promise<LuxTransactions> =>
+  request(
+    {
+      hostname: LUX_API_HOST,
+      method: 'POST',
+      port: LUX_API_PORT,
+      auth: LUX_API_USER + ':' + LUX_API_PWD
+    },
+    {
+      jsonrpc: '2.0',
+      method: 'listtransactions',
+      params: [walletId]
+      //   toBlock - fromBlock,
+      //   fromBlock
+    }
+  );

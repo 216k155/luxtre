@@ -225,6 +225,7 @@ export default class LuxApi {
         fromBlock: Math.max(mostRecentBlockNumber - 10000, 0),
         toBlock: mostRecentBlockNumber
       });
+      console.log(transactions);
       Logger.debug('LuxApi::getTransactions success: ' + stringifyData(transactions));
       const allTxs = await Promise.all(
         transactions.map(async (tx: LuxTransaction) => {
