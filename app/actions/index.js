@@ -8,7 +8,6 @@ import ProfileActions from './profile-actions';
 import DialogsActions from './dialogs-actions';
 import NotificationsActions from './notifications-actions';
 import luxActionsMap from './lux/index';
-import luxActionsMap from './lux/index';
 import type { LuxActionsMap } from './lux/index';
 
 export type ActionsMap = {
