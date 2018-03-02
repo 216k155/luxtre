@@ -14,18 +14,18 @@ export const messages = defineMessages({
     id: 'wallet.summary.no.transactions',
     defaultMessage: '!!!No recent transactions',
     description: 'Message shown when wallet has no transactions on wallet summary page.'
-  },
+  }
 });
 
 type Props = InjectedProps;
 
-@inject('stores', 'actions') @observer
+@inject('stores', 'actions')
+@observer
 export default class WalletSummaryPage extends Component<Props> {
-
   static defaultProps = { actions: null, stores: null };
 
   static contextTypes = {
-    intl: intlShape.isRequired,
+    intl: intlShape.isRequired
   };
 
   render() {
@@ -36,12 +36,11 @@ export default class WalletSummaryPage extends Component<Props> {
       totalAvailable,
       recent,
       recentTransactionsRequest,
-      unconfirmedAmount,
+      unconfirmedAmount
     } = transactions;
     const wallet = wallets.active;
     // Guard against potential null values
     if (!wallet) throw new Error('Active wallet required for WalletSummaryPage.');
-
     let walletTransactions = null;
     const noTransactionsLabel = intl.formatMessage(messages.noTransactions);
 
@@ -74,5 +73,4 @@ export default class WalletSummaryPage extends Component<Props> {
       </VerticalFlexContainer>
     );
   }
-
 }

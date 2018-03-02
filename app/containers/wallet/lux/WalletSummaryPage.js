@@ -12,23 +12,19 @@ import { messages } from '../WalletSummaryPage';
 
 type Props = InjectedProps;
 
-@inject('stores', 'actions') @observer
+@inject('stores', 'actions')
+@observer
 export default class WalletSummaryPage extends Component<Props> {
-
   static defaultProps = { actions: null, stores: null };
 
   static contextTypes = {
-    intl: intlShape.isRequired,
+    intl: intlShape.isRequired
   };
 
   render() {
     const { intl } = this.context;
     const { wallets, transactions } = this.props.stores.lux;
-    const {
-      hasAny,
-      recent,
-      recentTransactionsRequest,
-    } = transactions;
+    const { hasAny, recent, recentTransactionsRequest } = transactions;
     const wallet = wallets.active;
 
     // Guard against potential null values
@@ -70,5 +66,4 @@ export default class WalletSummaryPage extends Component<Props> {
       </VerticalFlexContainer>
     );
   }
-
 }

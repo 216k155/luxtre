@@ -9,16 +9,13 @@ import styles from '../WalletSummary.scss';
 type Props = {
   walletName: string,
   amountInteger: string,
-  amountDecimal: string,
+  amountDecimal: string
 };
 
 @observer
 export default class WalletSummary extends Component<Props> {
-
   render() {
-    const {
-      walletName, amountInteger, amountDecimal,
-    } = this.props;
+    const { walletName, amountInteger, amountDecimal } = this.props;
     return (
       <div className={styles.component}>
         <BorderedBox>
@@ -32,5 +29,4 @@ export default class WalletSummary extends Component<Props> {
       </div>
     );
   }
-
 }
