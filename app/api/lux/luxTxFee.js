@@ -19,7 +19,7 @@ export const luxTxFee = (
     hostname: 'localhost',
     method: 'POST',
     path: `/api/txs/fee/${sender}/${receiver}/${amount}`,
-    port: 8090,
+    port: 9888,
     ca,
   }, {}, { groupingPolicy })
 );

@@ -15,7 +15,7 @@ export const newLuxWalletAddress = (
     hostname: 'localhost',
     method: 'POST',
     path: '/api/addresses',
-    port: 8090,
+    port: 9888,
     ca,
   }, { passphrase: password }, accountId)
 );

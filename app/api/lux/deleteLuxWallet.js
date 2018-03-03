@@ -13,7 +13,7 @@ export const deleteLuxWallet = (
     hostname: 'localhost',
     method: 'DELETE',
     path: `/api/wallets/${walletId}`,
-    port: 8090,
+    port: 9888,
     ca,
   })
 );

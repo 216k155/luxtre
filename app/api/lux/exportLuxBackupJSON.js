@@ -14,7 +14,7 @@ export const exportLuxBackupJSON = (
     hostname: 'localhost',
     method: 'POST',
     path: `/api/backup/export/${walletId}`,
-    port: 8090,
+    port: 9888,
     ca,
   }, {}, filePath)
 );

@@ -14,7 +14,7 @@ export const importLuxBackupJSON = (
     hostname: 'localhost',
     method: 'POST',
     path: '/api/backup/import',
-    port: 8090,
+    port: 9888,
     ca,
   }, {}, filePath)
 );

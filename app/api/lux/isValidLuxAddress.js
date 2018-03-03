@@ -14,7 +14,7 @@ export const isValidLuxAddress = (
     hostname: 'localhost',
     method: 'GET',
     path: `/api/addresses/${encodedAddress}`,
-    port: 8090,
+    port: 9888,
     ca,
   });
 };

@@ -12,7 +12,7 @@ export const nextLuxUpdate = (
     hostname: 'localhost',
     method: 'GET',
     path: '/api/update',
-    port: 8090,
+    port: 9888,
     ca,
   })
 );

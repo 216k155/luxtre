@@ -15,7 +15,7 @@ export const importLuxWallet = (
     hostname: 'localhost',
     method: 'POST',
     path: '/api/wallets/keys',
-    port: 8090,
+    port: 9888,
     ca,
   }, { passphrase: walletPassword }, filePath)
 );

@@ -15,7 +15,7 @@ export const getLuxWalletAccounts = (
     hostname: 'localhost',
     method: 'GET',
     path: '/api/accounts',
-    port: 8090,
+    port: 9888,
     ca,
   }, { accountId: walletId })
 );

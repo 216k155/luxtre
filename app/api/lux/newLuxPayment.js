@@ -21,7 +21,7 @@ export const newLuxPayment = (
     hostname: 'localhost',
     method: 'POST',
     path: `/api/txs/payments/${sender}/${receiver}/${amount}`,
-    port: 8090,
+    port: 9888,
     ca,
   }, { passphrase: password }, { groupingPolicy })
 );

@@ -19,7 +19,7 @@ export const changeLuxWalletPassphrase = (
     hostname: 'localhost',
     method: 'POST',
     path: `/api/wallets/password/${walletId}`,
-    port: 8090,
+    port: 9888,
     ca,
   }, { old: encryptedOldPassphrase, new: encryptedNewPassphrase });
 };

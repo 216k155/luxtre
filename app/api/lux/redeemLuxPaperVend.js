@@ -21,7 +21,7 @@ export const redeemLuxPaperVend = (
     hostname: 'localhost',
     method: 'POST',
     path: '/api/papervend/redemptions/lux',
-    port: 8090,
+    port: 9888,
     ca,
   }, { passphrase: walletPassword }, redeemPaperVendedData)
 );

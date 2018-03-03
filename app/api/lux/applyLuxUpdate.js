@@ -12,7 +12,7 @@ export const applyLuxUpdate = (
     hostname: 'localhost',
     method: 'POST',
     path: '/api/update/apply',
-    port: 8090,
+    port: 9888,
     ca,
   })
 );

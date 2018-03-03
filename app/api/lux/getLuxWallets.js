@@ -13,7 +13,7 @@ export const getLuxWallets = (
     hostname: 'localhost',
     method: 'GET',
     path: '/api/wallets',
-    port: 8090,
+    port: 9888,
     ca,
   })
 );

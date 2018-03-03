@@ -19,7 +19,7 @@ export const updateLuxWallet = (
     hostname: 'localhost',
     method: 'PUT',
     path: `/api/wallets/${walletId}`,
-    port: 8090,
+    port: 9888,
     ca,
   }, {}, walletMeta)
 );

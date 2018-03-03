@@ -18,7 +18,7 @@ export const redeemLux = (
     hostname: 'localhost',
     method: 'POST',
     path: '/api/redemptions/lux',
-    port: 8090,
+    port: 9888,
     ca,
   }, { passphrase: walletPassword }, walletRedeemData)
 );

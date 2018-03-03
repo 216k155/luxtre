@@ -13,7 +13,7 @@ export const getLuxSyncProgress = (
     hostname: 'localhost',
     method: 'GET',
     path: '/api/settings/sync/progress',
-    port: 8090,
+    port: 9888,
     ca,
   })
 );

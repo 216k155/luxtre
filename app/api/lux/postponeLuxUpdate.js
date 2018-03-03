@@ -12,7 +12,7 @@ export const postponeLuxUpdate = (
     hostname: 'localhost',
     method: 'POST',
     path: '/api/update/postpone',
-    port: 8090,
+    port: 9888,
     ca,
   })
 );

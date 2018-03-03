@@ -17,7 +17,7 @@ export const getLuxAddressHistory = (
     hostname: 'localhost',
     method: 'GET',
     path: '/api/txs/histories',
-    port: 8090,
+    port: 9888,
     ca,
   }, { accountId, address, skip, limit })
 );
