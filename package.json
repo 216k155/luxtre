@@ -16,8 +16,8 @@
     "start": "cross-env NODE_ENV=production electron ./",
     "start-hot":
       "cross-env HOT=1 NODE_ENV=development electron -r babel-register -r babel-polyfill ./electron/main.development",
-    "start-debug": "npm run start -- --debug=5858 --inspect",
-    "start-debug-hot": "npm run start-hot -- --debug=5858 --inspect",
+    "start-debug": "npm run start -- --inspect=5858",
+    "start-debug-hot": "npm run start-hot -- --inspect=5858",
     "package":
       "cross-env NODE_ENV=production node -r babel-register -r babel-polyfill webpack/package.js",
     "package-all": "npm run package -- --all",
