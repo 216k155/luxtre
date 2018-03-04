@@ -34,8 +34,6 @@ export const getLuxTransactions = ({
     {
       jsonrpc: '2.0',
       method: 'listtransactions',
-      params: [walletId]
-      //   toBlock - fromBlock,
-      //   fromBlock
+      params: [walletId, toBlock - fromBlock]
     }
   );

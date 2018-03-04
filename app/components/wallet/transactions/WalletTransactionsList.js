@@ -116,7 +116,15 @@ export default class WalletTransactionsList extends Component<Props> {
             <div className={styles.groupDate}>{this.localizedDate(group.date)}</div>
             <div className={styles.list}>
               {group.transactions.map((transaction, transactionIndex) => (
-                <div key={walletId + '-' + transaction.id}>
+                <div
+                  key={
+                    walletId +
+                    '-' +
+                    transaction.id +
+                    transaction.date.toUTCString() +
+                    transaction.numberOfConfirmations
+                  }
+                >
                   <Transaction
                     data={transaction}
                     isLastInList={transactionIndex === group.transactions.length - 1}

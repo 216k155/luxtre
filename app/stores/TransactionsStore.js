@@ -29,9 +29,9 @@ export default class TransactionsStore extends Store {
   @observable _searchOptionsForWallets = {};
 
   setup() {
-    // const actions = this.actions[environment.API].transactions;
-    // actions.filterTransactions.listen(this._updateSearchTerm);
-    // actions.loadMoreTransactions.listen(this._increaseSearchLimit);
+    const actions = this.actions[environment.API].transactions;
+    actions.filterTransactions.listen(this._updateSearchTerm);
+    actions.loadMoreTransactions.listen(this._increaseSearchLimit);
   }
 
   @action
@@ -47,6 +47,10 @@ export default class TransactionsStore extends Store {
       this.searchOptions.searchLimit += this.SEARCH_LIMIT_INCREASE;
     }
   };
+
+  @action
+  filterTransactions = ({ searchTerm }: { searchTerm: string }) =>
+    this._updateSearchTerm({ searchTerm });
 
   @computed
   get recentTransactionsRequest(): CachedRequest<GetTransactionsResponse> {
