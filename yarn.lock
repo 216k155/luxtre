@@ -102,9 +102,9 @@
     webpack-dev-middleware "^1.6.0"
     webpack-hot-middleware "^2.13.2"
 
-"@types/node@^7.0.18":
-  version "7.0.55"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.55.tgz#7bb6215ff9425a1d714106be9f0d3e0e28829288"
+"@types/node@^8.0.24":
+  version "8.9.4"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.9.4.tgz#dfd327582a06c114eb6e0441fa3d6fab35edad48"
 
 abab@^1.0.0:
   version "1.0.3"
@@ -3918,13 +3918,6 @@ electron-chromedriver@~1.7.1:
     electron-download "^4.1.0"
     extract-zip "^1.6.5"
 
-electron-debug@1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/electron-debug/-/electron-debug-1.1.0.tgz#050a9c3f906fffc2492510cf8ac31d0f32a579e1"
-  dependencies:
-    electron-is-dev "^0.1.0"
-    electron-localshortcut "^0.6.0"
-
 electron-devtools-installer@2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/electron-devtools-installer/-/electron-devtools-installer-2.2.1.tgz#0beb73ccbf65cbc4d09e706cebda638f839b8c55"
@@ -3971,10 +3964,6 @@ electron-inspector@0.1.4:
     v8-profiler "git+https://github.com/enlight/v8-profiler.git#v5.6.5-electron-v1.3"
     yargs "^5.0.0"
 
-electron-is-dev@^0.1.0:
-  version "0.1.2"
-  resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-0.1.2.tgz#8a1043e32b3a1da1c3f553dce28ce764246167e3"
-
 electron-json-storage@3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/electron-json-storage/-/electron-json-storage-3.0.4.tgz#3b4e3e95e979eb1743edf55174f8daf69416c6fd"
@@ -3983,10 +3972,6 @@ electron-json-storage@3.0.4:
     lodash "^4.0.1"
     mkdirp "^0.5.1"
     rimraf "^2.5.1"
-
-electron-localshortcut@^0.6.0:
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/electron-localshortcut/-/electron-localshortcut-0.6.1.tgz#c4e268c38a6e42f40de5618fc906d1ed608f11aa"
 
 electron-log@2.0.2:
   version "2.0.2"
@@ -4041,11 +4026,11 @@ electron-rebuild@1.6.0:
     spawn-rx "^2.0.10"
     yargs "^7.0.2"
 
-electron@1.7.9:
-  version "1.7.9"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-1.7.9.tgz#add54e9f8f83ed02f6519ec10135f698b19336cf"
+electron@^1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-1.8.2.tgz#a817cd733c2972b3c7cc4f777caf6e424b88014d"
   dependencies:
-    "@types/node" "^7.0.18"
+    "@types/node" "^8.0.24"
     electron-download "^3.0.1"
     extract-zip "^1.0.3"
 
