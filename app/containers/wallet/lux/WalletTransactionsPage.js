@@ -11,13 +11,13 @@ import { messages } from '../WalletTransactionsPage';
 
 type Props = InjectedProps;
 
-@inject('stores', 'actions') @observer
+@inject('stores', 'actions')
+@observer
 export default class WalletTransactionsPage extends Component<Props> {
-
   static defaultProps = { actions: null, stores: null };
 
   static contextTypes = {
-    intl: intlShape.isRequired,
+    intl: intlShape.isRequired
   };
 
   // _handleSearchInputChange = (value: string, event: Object) => {
@@ -29,13 +29,7 @@ export default class WalletTransactionsPage extends Component<Props> {
     const actions = this.props.actions;
     const { transactions, wallets } = this.props.stores.lux;
     const activeWallet = wallets.active;
-    const {
-      searchOptions,
-      searchRequest,
-      hasAny,
-      totalAvailable,
-      filtered,
-    } = transactions;
+    const { searchOptions, searchRequest, hasAny, totalAvailable, filtered } = transactions;
 
     // Guard against potential null values
     if (!searchOptions || !activeWallet) return null;
@@ -64,7 +58,7 @@ export default class WalletTransactionsPage extends Component<Props> {
           transactions={filtered}
           isLoadingTransactions={searchRequest.isExecutingFirstTime}
           hasMoreToLoad={totalAvailable > searchLimit}
-          onLoadMore={actions.ada.transactions.loadMoreTransactions.trigger}
+          onLoadMore={actions.lux.transactions.loadMoreTransactions.trigger}
           assuranceMode={activeWallet.assuranceMode}
           walletId={activeWallet.id}
         />
@@ -82,5 +76,4 @@ export default class WalletTransactionsPage extends Component<Props> {
       </VerticalFlexContainer>
     );
   }
-
 }

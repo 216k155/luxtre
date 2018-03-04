@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "Attach",
-      "type": "node",
+      "type": "node2",
       "request": "attach",
       "port": 5858,
       "sourceMaps": true,
