@@ -6,29 +6,22 @@
   "main": "./dist/main.js",
   "scripts": {
     "lint": "eslint --format=node_modules/eslint-formatter-pretty app electron features *.js",
-    "hot-server":
-      "cross-env NODE_ENV=development node --preserve-symlinks -r babel-register webpack/server.js",
-    "build-main":
-      "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack/webpack.config.electron.js --progress --profile --colors",
-    "build-renderer":
-      "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack/webpack.config.production.js --progress --profile --colors",
+    "hot-server": "cross-env NODE_ENV=development node --preserve-symlinks -r babel-register webpack/server.js",
+    "build-main": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack/webpack.config.electron.js --progress --profile --colors",
+    "build-renderer": "cross-env NODE_ENV=production node -r babel-register ./node_modules/webpack/bin/webpack --config webpack/webpack.config.production.js --progress --profile --colors",
     "build": "npm run build-main && npm run build-renderer",
     "start": "cross-env NODE_ENV=production electron ./",
-    "start-hot":
-      "cross-env HOT=1 NODE_ENV=development electron -r babel-register -r babel-polyfill ./electron/main.development",
+    "start-hot": "cross-env HOT=1 NODE_ENV=development electron -r babel-register -r babel-polyfill ./electron/main.development",
     "start-debug": "npm run start -- --inspect=5858",
     "start-debug-hot": "npm run start-hot -- --inspect=5858",
-    "package":
-      "cross-env NODE_ENV=production node -r babel-register -r babel-polyfill webpack/package.js",
+    "package": "cross-env NODE_ENV=production node -r babel-register -r babel-polyfill webpack/package.js",
     "package-all": "npm run package -- --all",
     "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
     "preinstall": "which electron || npm install electron@1.7.9",
-    "dev":
-      "npm run purge-translations && concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\"",
+    "dev": "npm run purge-translations && concurrently --kill-others \"npm run hot-server\" \"npm run start-hot\"",
     "debug": "concurrently --kill-others \"npm run hot-server\" \"npm run start-debug-hot\"",
     "cleanup": "mop -v",
-    "cucumber":
-      "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 cucumber-js --compiler js:babel-register --format 'progress-bar' --format-options '{\"snippetInterface\": \"synchronous\"}' --tags 'not @skip'",
+    "cucumber": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 cucumber-js --compiler js:babel-register --format 'progress-bar' --format-options '{\"snippetInterface\": \"synchronous\"}' --tags 'not @skip'",
     "cucumber-watch": "cross-env HOT=1 npm run cucumber -- --tags @watch",
     "test": "npm run cucumber",
     "test-watch": "nodemon --exec npm run cucumber-watch",
@@ -134,6 +127,7 @@
     "electron-log": "2.0.2",
     "es6-error": "4.0.2",
     "lodash": "4.17.4",
+    "mkdirp": "^0.5.1",
     "mobx": "3.1.7",
     "mobx-react": "4.1.5",
     "mobx-react-form": "1.32.2",

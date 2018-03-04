@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, shell, ipcMain, crashReporter, globalShortcut } from 'electron';
+import { app, BrowserWindow, Menu, shell, ipcMain, globalShortcut } from 'electron';
 import os from 'os';
 import path from 'path';
 import fs from 'fs';
@@ -7,13 +7,16 @@ import osxMenu from './menus/osx';
 import winLinuxMenu from './menus/win-linux';
 import ipcApi from './ipc-api';
 import getRuntimeFolderPath from './lib/getRuntimeFolderPath';
-import { luxcoreLogger } from './lib/remoteLog';
+import ensureDirectoryExists from './lib/ensureDirectoryExists';
 
 const APP_NAME = 'Luxcore';
 // Configure default logger levels for console and file outputs
 const runtimeFolderPath = getRuntimeFolderPath(process.platform, process.env, APP_NAME);
 const appLogFolderPath = path.join(runtimeFolderPath, 'Logs');
 const logFilePath = path.join(appLogFolderPath, APP_NAME + '.log');
+
+ensureDirectoryExists(appLogFolderPath);
+
 Log.transports.console.level = 'warn';
 Log.transports.file.level = 'debug';
 Log.transports.file.file = logFilePath;
@@ -21,32 +24,13 @@ Log.transports.file.file = logFilePath;
 // const caProductionPath = path.join(runtimeFolderPath, 'CA', 'tls', 'ca', 'ca.crt');
 const caProductionPath = path.join(process.cwd(), 'tls', 'ca', 'ca.crt');
 
-try {
-  let sendLogsToRemoteServer;
-  ipcMain.on('send-logs-choice', (event, sendLogs) => {
-    sendLogsToRemoteServer = sendLogs;
-  });
-  ipcMain.on('log-to-remote', (event, logEntry) => {
-    if (sendLogsToRemoteServer) luxcoreLogger.info(logEntry);
-  });
-} catch (error) {
-  Log.error('Error setting up log logging to remote server', error);
-}
-
-// Configure & start crash reporter
-app.setPath('temp', appLogFolderPath);
-
-// TODO: Update when endpoint is ready (crash reports are only saved locally for now)
-crashReporter.start({
-  companyName: 'IOHK',
-  productName: APP_NAME,
-  submitURL: '',
-  uploadToServer: false
-});
-
 Log.info(`========== Luxcore is starting at ${new Date()} ==========`);
 Log.info(`!!! Luxcore is running on ${os.platform()} version ${os.release()}
-with CPU: ${JSON.stringify(os.cpus(), null, 2)} with ${JSON.stringify(os.totalmem(), null, 2)} total RAM !!!`);
+with CPU: ${JSON.stringify(os.cpus(), null, 2)} with ${JSON.stringify(
+  os.totalmem(),
+  null,
+  2
+)} total RAM !!!`);
 
 let menu;
 let mainWindow = null;
@@ -58,10 +42,6 @@ const isProd = process.env.NODE_ENV === 'production';
 const isTest = process.env.NODE_ENV === 'test';
 const luxcoreVersion = process.env.LUXCORE_VERSION || 'dev';
 
-if (isDev) {
-  require('electron-debug')(); // eslint-disable-line global-require
-}
-
 app.on('window-all-closed', () => {
   app.quit();
 });
@@ -70,9 +50,7 @@ const installExtensions = async () => {
   if (isDev) {
     const installer = require('electron-devtools-installer'); // eslint-disable-line global-require
 
-    const extensions = [
-      'REACT_DEVELOPER_TOOLS',
-    ];
+    const extensions = ['REACT_DEVELOPER_TOOLS'];
     const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
     for (const name of extensions) {
       try {
@@ -96,7 +74,7 @@ ipcMain.on('about-window-title', (event, title) => {
 });
 
 // IPC endpoint to reload about window (e.g: for updating displayed language)
-ipcMain.on('reload-about-window', (event) => {
+ipcMain.on('reload-about-window', event => {
   // Check that the about window exists but is not the sender of the ipc message!
   // Otherwise it endlessly re-loads itself.
   if (aboutWindow && event.sender !== aboutWindow.webContents) {
@@ -120,7 +98,7 @@ app.on('ready', async () => {
     const pathToCertificate = isProd ? caProductionPath : path.join(__dirname, '../tls/ca.crt');
     Log.info('Using certificates from: ' + pathToCertificate);
     Object.assign(global, {
-      ca: fs.readFileSync(pathToCertificate),
+      ca: fs.readFileSync(pathToCertificate)
     });
   } catch (error) {
     Log.error(`Error while loading ca.crt: ${error}`);
@@ -133,14 +111,16 @@ app.on('ready', async () => {
     fullscreenable: false,
     show: false,
     width,
-    height,
+    height
   });
 
   // prevent resize about window
   aboutWindow.setMinimumSize(width, height);
   aboutWindow.setMaximumSize(width, height);
 
-  aboutWindow.loadURL(`file://${__dirname}/../app/index.html?window=about${isTest ? '&test=true' : ''}`);
+  aboutWindow.loadURL(
+    `file://${__dirname}/../app/index.html?window=about${isTest ? '&test=true' : ''}`
+  );
   aboutWindow.on('page-title-updated', event => {
     event.preventDefault();
   });
@@ -167,7 +147,7 @@ app.on('ready', async () => {
     Menu.buildFromTemplate(contextMenuOptions).popup(aboutWindow);
   });
 
-  aboutWindow.on('close', (e) => {
+  aboutWindow.on('close', e => {
     if (terminateAboutWindow) {
       /* the user tried to quit the app */
       app.quit();
@@ -212,7 +192,7 @@ app.on('ready', async () => {
   mainWindow.webContents.on('context-menu', (e, props) => {
     const contextMenuOptions = [
       { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-      { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+      { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' }
     ];
 
     if (isDev || isTest) {
