@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import { intlShape } from 'react-intl';
+import BigNumber from 'bignumber.js';
 import WalletSendForm from '../../../components/wallet/lux/WalletSendForm';
 import type { InjectedProps } from '../../../types/injectedPropsType';
 import globalMessages from '../../../i18n/global-messages';
@@ -9,13 +10,13 @@ import { DECIMAL_PLACES_IN_LUX } from '../../../config/numbersConfig';
 
 type Props = InjectedProps;
 
-@inject('stores', 'actions') @observer
+@inject('stores', 'actions')
+@observer
 export default class WalletSendPage extends Component<Props> {
-
   static defaultProps = { actions: null, stores: null };
 
   static contextTypes = {
-    intl: intlShape.isRequired,
+    intl: intlShape.isRequired
   };
 
   render() {
@@ -34,14 +35,14 @@ export default class WalletSendPage extends Component<Props> {
         currencyUnit={intl.formatMessage(globalMessages.unitLux)}
         currencyMaxFractionalDigits={DECIMAL_PLACES_IN_LUX}
         validateAmount={isValidAmount}
-        calculateTransactionFee={(receiver, amount) => (
-          calculateTransactionFee({ sender: activeWallet.id, receiver, amount })
-        )}
+        calculateTransactionFee={
+          (receiver, amount) => new Promise(resolve => resolve(new BigNumber(0.0001)))
+          // calculateTransactionFee({ sender: activeWallet.id, receiver, amount })
+        }
         addressValidator={isValidAddress}
         isDialogOpen={uiDialogs.isOpen}
         openDialogAction={actions.dialogs.open.trigger}
       />
     );
   }
-
 }

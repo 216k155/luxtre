@@ -15,7 +15,10 @@ import BorderedBox from '../../widgets/BorderedBox';
 import styles from '../WalletSendForm.scss';
 import WalletSendConfirmationDialog from './WalletSendConfirmationDialog';
 import WalletSendConfirmationDialogContainer from '../../../containers/wallet/dialogs/WalletSendConfirmationDialogContainer';
-import { formattedAmountToBigNumber, formattedAmountToNaturalUnits } from '../../../utils/formatters';
+import {
+  formattedAmountToBigNumber,
+  formattedAmountToNaturalUnits
+} from '../../../utils/formatters';
 import { messages } from '../WalletSendForm';
 
 type Props = {
@@ -26,26 +29,25 @@ type Props = {
   calculateTransactionFee: (receiver: string, amount: string) => Promise<BigNumber>,
   addressValidator: Function,
   openDialogAction: Function,
-  isDialogOpen: Function,
+  isDialogOpen: Function
 };
 
 type State = {
   isTransactionFeeCalculated: boolean,
   transactionFee: BigNumber,
-  transactionFeeError: ?string,
+  transactionFeeError: ?string
 };
 
 @observer
 export default class WalletSendForm extends Component<Props, State> {
-
   static contextTypes = {
-    intl: intlShape.isRequired,
+    intl: intlShape.isRequired
   };
 
   state = {
     isTransactionFeeCalculated: false,
     transactionFee: new BigNumber(0),
-    transactionFeeError: null,
+    transactionFeeError: null
   };
 
   // We need to track form submitting state in order to avoid calling
@@ -66,69 +68,78 @@ export default class WalletSendForm extends Component<Props, State> {
   }
 
   // FORM VALIDATION
-  form = new ReactToolboxMobxForm({
-    fields: {
-      receiver: {
-        label: this.context.intl.formatMessage(messages.receiverLabel),
-        placeholder: this.context.intl.formatMessage(messages.receiverHint),
-        value: '',
-        validators: [({ field, form }) => {
-          const value = field.value;
-          if (value === '') {
-            this._resetTransactionFee();
-            return [false, this.context.intl.formatMessage(messages.fieldIsRequired)];
-          }
-          return this.props.addressValidator(value)
-            .then(isValid => {
-              const amountField = form.$('amount');
-              const amountValue = amountField.value;
-              const isAmountValid = amountField.isValid;
-              if (isValid && isAmountValid) {
-                this._calculateTransactionFee(value, amountValue);
+  form = new ReactToolboxMobxForm(
+    {
+      fields: {
+        receiver: {
+          label: this.context.intl.formatMessage(messages.receiverLabel),
+          placeholder: this.context.intl.formatMessage(messages.receiverHint),
+          value: '',
+          validators: [
+            ({ field, form }) => {
+              const value = field.value;
+              if (value === '') {
+                this._resetTransactionFee();
+                return [false, this.context.intl.formatMessage(messages.fieldIsRequired)];
+              }
+              return this.props.addressValidator(value).then(isValid => {
+                const amountField = form.$('amount');
+                const amountValue = amountField.value;
+                const isAmountValid = amountField.isValid;
+                if (isValid && isAmountValid) {
+                  this._calculateTransactionFee(value, amountValue);
+                } else {
+                  this._resetTransactionFee();
+                }
+                return [isValid, this.context.intl.formatMessage(messages.invalidAddress)];
+              });
+            }
+          ]
+        },
+        amount: {
+          label: this.context.intl.formatMessage(messages.amountLabel),
+          placeholder: `0.${'0'.repeat(this.props.currencyMaxFractionalDigits)}`,
+          value: '',
+          validators: [
+            ({ field, form }) => {
+              const amountValue = field.value;
+              if (amountValue === '') {
+                this._resetTransactionFee();
+                return [false, this.context.intl.formatMessage(messages.fieldIsRequired)];
+              }
+              const isValid = this.props.validateAmount(formattedAmountToNaturalUnits(amountValue));
+              const receiverField = form.$('receiver');
+              const receiverValue = receiverField.value;
+              const isReceiverValid = receiverField.isValid;
+              if (isValid && isReceiverValid) {
+                this._calculateTransactionFee(receiverValue, amountValue);
               } else {
                 this._resetTransactionFee();
               }
-              return [isValid, this.context.intl.formatMessage(messages.invalidAddress)];
-            });
-        }],
-      },
-      amount: {
-        label: this.context.intl.formatMessage(messages.amountLabel),
-        placeholder: `0.${'0'.repeat(this.props.currencyMaxFractionalDigits)}`,
-        value: '',
-        validators: [({ field, form }) => {
-          const amountValue = field.value;
-          if (amountValue === '') {
-            this._resetTransactionFee();
-            return [false, this.context.intl.formatMessage(messages.fieldIsRequired)];
-          }
-          const isValid = this.props.validateAmount(formattedAmountToNaturalUnits(amountValue));
-          const receiverField = form.$('receiver');
-          const receiverValue = receiverField.value;
-          const isReceiverValid = receiverField.isValid;
-          if (isValid && isReceiverValid) {
-            this._calculateTransactionFee(receiverValue, amountValue);
-          } else {
-            this._resetTransactionFee();
-          }
-          return [isValid, this.context.intl.formatMessage(messages.invalidAmount)];
-        }],
-      },
+              return [isValid, this.context.intl.formatMessage(messages.invalidAmount)];
+            }
+          ]
+        }
+      }
     },
-  }, {
-    options: {
-      validateOnBlur: false,
-      validateOnChange: true,
-      validationDebounceWait: 250,
-    },
-  });
+    {
+      options: {
+        validateOnBlur: false,
+        validateOnChange: true,
+        validationDebounceWait: 250
+      }
+    }
+  );
 
   render() {
     const { form } = this;
     const { intl } = this.context;
     const {
-      currencyUnit, currencyMaxIntegerDigits, currencyMaxFractionalDigits,
-      openDialogAction, isDialogOpen
+      currencyUnit,
+      currencyMaxIntegerDigits,
+      currencyMaxFractionalDigits,
+      openDialogAction,
+      isDialogOpen
     } = this.props;
     const { isTransactionFeeCalculated, transactionFee, transactionFeeError } = this.state;
     const amountField = form.$('amount');
@@ -137,16 +148,11 @@ export default class WalletSendForm extends Component<Props, State> {
     const amountFieldProps = amountField.bind();
     const totalAmount = formattedAmountToBigNumber(amountFieldProps.value).add(transactionFee);
 
-    const buttonClasses = classnames([
-      'primary',
-      styles.nextButton,
-    ]);
+    const buttonClasses = classnames(['primary', styles.nextButton]);
 
     return (
       <div className={styles.component}>
-
         <BorderedBox>
-
           <div className={styles.receiverInput}>
             <Input
               className="receiver"
@@ -175,14 +181,15 @@ export default class WalletSendForm extends Component<Props, State> {
           <Button
             className={buttonClasses}
             label={intl.formatMessage(messages.nextButtonLabel)}
-            onMouseUp={() => openDialogAction({
-              dialog: WalletSendConfirmationDialog,
-            })}
+            onMouseUp={() =>
+              openDialogAction({
+                dialog: WalletSendConfirmationDialog
+              })
+            }
             // Form can't be submitted in case transaction fees are not calculated
             disabled={!isTransactionFeeCalculated}
             skin={<SimpleButtonSkin />}
           />
-
         </BorderedBox>
 
         {isDialogOpen(WalletSendConfirmationDialog) ? (
@@ -195,7 +202,6 @@ export default class WalletSendForm extends Component<Props, State> {
             currencyUnit={currencyUnit}
           />
         ) : null}
-
       </div>
     );
   }
@@ -205,7 +211,7 @@ export default class WalletSendForm extends Component<Props, State> {
       this.setState({
         isTransactionFeeCalculated: false,
         transactionFee: new BigNumber(0),
-        transactionFeeError: null,
+        transactionFeeError: null
       });
     }
   }
@@ -220,7 +226,7 @@ export default class WalletSendForm extends Component<Props, State> {
         this.setState({
           isTransactionFeeCalculated: true,
           transactionFee: fee,
-          transactionFeeError: null,
+          transactionFeeError: null
         });
       }
     } catch (error) {

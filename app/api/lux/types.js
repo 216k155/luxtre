@@ -16,6 +16,25 @@ export type LuxAddresses = Array<LuxAddress>;
 // export type LuxAccounts = Array<LuxWalletId>;
 export type LuxAccounts = object;
 
+// {
+//   "hash" : "hash",     (string) the block hash (same as provided)
+//   "confirmations" : n,   (numeric) The number of confirmations, or -1 if the block is not on the main chain
+//   "size" : n,            (numeric) The block size
+//   "height" : n,          (numeric) The block height or index
+//   "version" : n,         (numeric) The block version
+//   "merkleroot" : "xxxx", (string) The merkle root
+//   "tx" : [               (array of string) The transaction ids
+//      "transactionid"     (string) The transaction id
+//      ,...
+//   ],
+//   "time" : ttt,          (numeric) The block time in seconds since epoch (Jan 1 1970 GMT)
+//   "nonce" : n,           (numeric) The nonce
+//   "bits" : "1d00ffff", (string) The bits
+//   "difficulty" : x.xxx,  (numeric) The difficulty
+//   "previousblockhash" : "hash",  (string) The hash of the previous block
+//   "nextblockhash" : "hash"       (string) The hash of the next block
+// }
+
 export type LuxBlock = {
   time: number
 };
@@ -50,7 +69,7 @@ export type LuxTransaction = {
   category: string,
   amount: BigNumber,
   fee: BigNumber,
-  vout: BigNumber,
+  vout?: BigNumber,
   confirmations: number,
   bcconfirmations: number,
   txid: LuxTxHash,

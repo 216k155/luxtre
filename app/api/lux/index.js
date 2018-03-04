@@ -34,6 +34,7 @@ import { getLuxBlockByHash } from './getLuxBlock';
 import { sendLuxTransaction } from './sendLuxTransaction';
 import { deleteLuxAccount } from './deleteLuxAccount';
 import { getLuxTransactionByHash } from './getLuxTransaction';
+import { unlockLuxWallet } from './unlockLuxWallet';
 import { changeLuxAccountPassphrase } from './changeLuxAccountPassphrase';
 import { getLuxEstimatedGas } from './getLuxEstimatedGas';
 import { getLuxTransactions } from './getLuxTransactions';
@@ -359,16 +360,18 @@ export default class LuxApi {
     try {
       const senderAccount = params.from;
       const { from, to, value, password } = params;
+      await unlockLuxWallet({ password, timeout: 20 });
       const txHash: LuxTxHash = await sendLuxTransaction({
         from,
         to,
-        value
+        value: value.toNumber()
       });
       Logger.debug('LuxApi::createTransaction success: ' + stringifyData(txHash));
       return _createTransaction(senderAccount, txHash);
     } catch (error) {
+      console.error(error);
       Logger.error('LuxApi::createTransaction error: ' + stringifyError(error));
-      if (error.message.includes('Could not decrypt key with given passphrase')) {
+      if (error.message.includes('passphrase')) {
         throw new IncorrectWalletPasswordError();
       }
       throw new GenericApiError();
@@ -520,6 +523,7 @@ const _createWalletTransactionFromServerData = async (
     date: blockDate,
     numberOfConfirmations: confirmations,
     address,
+    addresses: null,
     state: confirmations < 3 ? transactionStates.PENDING : transactionStates.OK
   });
 };

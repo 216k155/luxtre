@@ -16,22 +16,26 @@ type Props = {
   totalAmount: string,
   transactionFee: string,
   amountToNaturalUnits: (amountWithFractions: string) => string,
-  currencyUnit: string,
+  currencyUnit: string
 };
 
-@inject('actions', 'stores') @observer
+@inject('actions', 'stores')
+@observer
 export default class WalletSendConfirmationDialogContainer extends Component<Props> {
-
   static defaultProps = { actions: null, stores: null };
 
-  handleWalletSendFormSubmit = (values: Object) => {
+  handleWalletSendFormSubmit = (values: Object) =>
     this.props.actions[environment.API].wallets.sendMoney.trigger(values);
-  };
 
   render() {
     const {
-      actions, amount, receiver, totalAmount,
-      transactionFee, amountToNaturalUnits, currencyUnit
+      actions,
+      amount,
+      receiver,
+      totalAmount,
+      transactionFee,
+      amountToNaturalUnits,
+      currencyUnit
     } = this.props;
     const { wallets } = this.props.stores[environment.API];
     const { sendMoneyRequest } = wallets;
@@ -58,5 +62,4 @@ export default class WalletSendConfirmationDialogContainer extends Component<Pro
       />
     );
   }
-
 }

@@ -5,29 +5,32 @@ import type { AssuranceMode, AssuranceLevel } from '../types/transactionAssuranc
 import { assuranceLevels } from '../config/transactionAssuranceConfig';
 
 export type TransactionState = 'pending' | 'failed' | 'ok';
-export type TrasactionAddresses = { from: Array<string>, to: Array<string> };
+export type TrasactionAddresses = ?{ from: Array<string>, to: Array<string> };
 export type TransactionType = 'card' | 'expend' | 'income' | 'exchange';
 
 export const transactionStates: {
-  PENDING: TransactionState, FAILED: TransactionState, OK: TransactionState,
+  PENDING: TransactionState,
+  FAILED: TransactionState,
+  OK: TransactionState
 } = {
-  PENDING: 'pending', FAILED: 'failed', OK: 'ok',
+  PENDING: 'pending',
+  FAILED: 'failed',
+  OK: 'ok'
 };
 
 export const transactionTypes: {
   CARD: TransactionType,
   EXPEND: TransactionType,
   INCOME: TransactionType,
-  EXCHANGE: TransactionType,
+  EXCHANGE: TransactionType
 } = {
   CARD: 'card',
   EXPEND: 'expend',
   INCOME: 'income',
-  EXCHANGE: 'exchange',
+  EXCHANGE: 'exchange'
 };
 
 export default class WalletTransaction {
-
   @observable id: string = '';
   @observable type: TransactionType;
   @observable title: string = '';
@@ -46,8 +49,8 @@ export default class WalletTransaction {
     date: Date,
     description: string,
     numberOfConfirmations: number,
-    addresses: TrasactionAddresses,
-    state: TransactionState,
+    addresses: ?TrasactionAddresses,
+    state: TransactionState
   }) {
     Object.assign(this, data);
   }
@@ -60,5 +63,4 @@ export default class WalletTransaction {
     }
     return assuranceLevels.HIGH;
   }
-
 }

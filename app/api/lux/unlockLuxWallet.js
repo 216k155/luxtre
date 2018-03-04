@@ -2,15 +2,13 @@
 import BigNumber from 'bignumber.js';
 import { request } from './lib/request';
 import { LUX_API_HOST, LUX_API_PORT, LUX_API_USER, LUX_API_PWD } from './index';
-import type { LuxTxHash } from './types';
 
-export type SendLuxTransactionParams = {
-  from: string,
-  to: string,
-  value: BigNumber
+export type UnlockLuxWalletParams = {
+  password: string,
+  timeout: number
 };
 
-export const sendLuxTransaction = ({ to, value }: SendLuxTransactionParams): Promise<LuxTxHash> =>
+export const unlockLuxWallet = ({ password, timeout }: UnlockLuxWalletParams): Promise<any> => {
   request(
     {
       hostname: LUX_API_HOST,
@@ -20,7 +18,8 @@ export const sendLuxTransaction = ({ to, value }: SendLuxTransactionParams): Pro
     },
     {
       jsonrpc: '2.0',
-      method: 'sendtoaddress',
-      params: [to, value]
+      method: 'walletpassphrase',
+      params: [password, timeout]
     }
   );
+};

@@ -34,6 +34,7 @@ function typedRequest<Response>(httpOptions: RequestOptions, queryParams?: {}): 
         if (parsedBody.result != null) {
           resolve(parsedBody.result);
         } else if (parsedBody.error) {
+          console.error(parsedBody);
           reject(new Error(parsedBody.error.message));
         } else {
           // TODO: investigate if that can happen! (no Right or Left in a response)
