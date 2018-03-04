@@ -231,25 +231,10 @@ export default class Transaction extends Component<Props, State> {
                 </div>
               )}
             <div>
-              <h2>
-                {intl.formatMessage(
-                  messages[environment.isLuxApi() ? 'fromAddresses' : 'fromAddress']
-                )}
-              </h2>
-              {data.addresses.from.map((address, addressIndex) => (
-                <span key={`${data.id}-from-${address}-${addressIndex}`} className={styles.address}>
-                  {address}
-                </span>
-              ))}
-              <h2>
-                {intl.formatMessage(messages[environment.isLuxApi() ? 'toAddresses' : 'toAddress'])}
-              </h2>
-              {data.addresses.to.map((address, addressIndex) => (
-                <span key={`${data.id}-to-${address}-${addressIndex}`} className={styles.address}>
-                  {address}
-                </span>
-              ))}
-
+              <h2>Involved Address</h2>
+              <span key={`${data.id}-to-${data.address}`} className={styles.address}>
+                {data.address}
+              </span>
               {environment.isLuxApi() ? (
                 <div className={styles.row}>
                   <h2>{intl.formatMessage(messages.assuranceLevel)}</h2>

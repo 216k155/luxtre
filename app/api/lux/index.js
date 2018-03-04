@@ -220,19 +220,25 @@ export default class LuxApi {
     try {
       const walletId = request.walletId;
       const mostRecentBlockNumber: LuxBlockNumber = await getLuxBlockNumber();
-      const transactions: LuxTransactions = await getLuxTransactions({
+      let transactions: LuxTransactions = await getLuxTransactions({
         walletId,
         fromBlock: Math.max(mostRecentBlockNumber - 10000, 0),
         toBlock: mostRecentBlockNumber
       });
+      const sendTransactions: LuxTransactions = await getLuxTransactions({
+        walletId: '',
+        fromBlock: Math.max(mostRecentBlockNumber - 10000, 0),
+        toBlock: mostRecentBlockNumber
+      });
+      transactions = transactions.concat(...sendTransactions);
       Logger.debug('LuxApi::getTransactions success: ' + stringifyData(transactions));
       const allTxs = await Promise.all(
         transactions.map(async (tx: LuxTransaction) => {
-          if (tx.category == 'receive') {
+          if (tx.category === 'receive') {
             return _createWalletTransactionFromServerData(transactionTypes.INCOME, tx);
           }
 
-          if (tx.category == 'send') {
+          if (tx.category === 'send') {
             return _createWalletTransactionFromServerData(transactionTypes.EXPEND, tx);
           }
         })
