@@ -8148,9 +8148,9 @@ postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.13, postcss@^5.0
     source-map "^0.5.6"
     supports-color "^3.1.2"
 
-postinstall-build@^5.0.0:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/postinstall-build/-/postinstall-build-5.0.1.tgz#b917a9079b26178d9a24af5a5cd8cb4a991d11b9"
+postinstall-build@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/postinstall-build/-/postinstall-build-5.0.0.tgz#75a18dcd09f75245dd69ea209748d7e0b97793eb"
 
 prelude-ls@~1.1.2:
   version "1.1.2"
@@ -8519,6 +8519,14 @@ react-markdown@2.5.0:
     in-publish "^2.0.0"
     prop-types "^15.5.1"
 
+react-modal@3.1.12:
+  version "3.1.12"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.1.12.tgz#e80ab4e553ce946a6c96faf85eb31e0f9bd07470"
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.5.10"
+    warning "^3.0.0"
+
 react-modal@^1.2.0, react-modal@^1.2.1:
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-1.6.5.tgz#f720d99bd81b1def5c2c32e0ffaa48bdaf484862"
@@ -8527,24 +8535,17 @@ react-modal@^1.2.0, react-modal@^1.2.1:
     exenv "1.2.0"
     lodash.assign "^4.2.0"
 
-react-modal@^2.2.1:
-  version "2.4.1"
-  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-2.4.1.tgz#cb09b26711b148eb9f59cb180e1b7d82980ded05"
-  dependencies:
-    exenv "^1.2.0"
-    prop-types "^15.5.10"
-
 react-number-format@1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-1.1.2.tgz#74d8478fa5cdeed55637f392597a0911157e2568"
 
-react-polymorph@0.5.4:
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/react-polymorph/-/react-polymorph-0.5.4.tgz#03aafde0938a4fc8286961e0a2491ff7d9f7eaf9"
+react-polymorph@^0.6.4:
+  version "0.6.4"
+  resolved "https://registry.yarnpkg.com/react-polymorph/-/react-polymorph-0.6.4.tgz#71533fb96c8b8c6df119207668725ff73cde5f98"
   dependencies:
     filter-react-dom-props "0.0.2"
-    postinstall-build "^5.0.0"
-    react-modal "^2.2.1"
+    postinstall-build "5.0.0"
+    react-modal "3.1.12"
 
 react-proxy@^1.1.7:
   version "1.1.8"
