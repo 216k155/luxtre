@@ -8,7 +8,7 @@ export type UnlockLuxWalletParams = {
   timeout: number
 };
 
-export const unlockLuxWallet = ({ password, timeout }: UnlockLuxWalletParams): Promise<any> => {
+export const unlockLuxWallet = ({ password, timeout }: UnlockLuxWalletParams): Promise<any> =>
   request(
     {
       hostname: LUX_API_HOST,
@@ -22,4 +22,3 @@ export const unlockLuxWallet = ({ password, timeout }: UnlockLuxWalletParams): P
       params: [password, timeout]
     }
   );
-};
