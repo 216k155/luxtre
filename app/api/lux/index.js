@@ -1,8 +1,12 @@
 // @flow
 import { split, get } from 'lodash';
 import { action } from 'mobx';
-import { ipcRenderer, remote } from 'electron';
+
+import CoinKey from 'coinkey';
 import BigNumber from 'bignumber.js';
+import { ipcRenderer, remote } from 'electron';
+import { getLuxInfo } from './getLuxInfo';
+import { getLuxPeerInfo } from './getLuxPeerInfo';
 import { Logger, stringifyData, stringifyError } from '../../utils/logging';
 import { unixTimestampToDate } from './lib/utils';
 import Wallet from '../../domain/Wallet';
