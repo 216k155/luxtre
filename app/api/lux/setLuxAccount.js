@@ -1,10 +1,15 @@
 // @flow
-import type { LuxAccounts } from './types';
 import { request } from './lib/request';
 import { LUX_API_HOST, LUX_API_PORT, LUX_API_USER, LUX_API_PWD } from './index';
 
-export const getLuxAccounts = (
-): Promise<LuxAccounts> => (
+export type setLuxAccountParams = {
+  address: string,
+  name: string
+};
+
+export const setLuxAccount = (
+  { address, name }: setLuxAccountParams
+): Promise<void> => (
   request({
     hostname: LUX_API_HOST,
     method: 'POST',
@@ -12,6 +17,10 @@ export const getLuxAccounts = (
     auth: LUX_API_USER + ':' + LUX_API_PWD
   }, {
     jsonrpc: '2.0',
-    method: 'listaccounts',
+    method: 'setaccount',
+    params: [
+      address,
+      name
+    ]
   })
 );
