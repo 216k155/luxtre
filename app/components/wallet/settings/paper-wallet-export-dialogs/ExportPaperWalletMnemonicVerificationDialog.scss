@@ -1,8 +1,11 @@
 @import '../../../../themes/mixins/loading-spinner';
 @import '../../../../themes/mixins/error-message';
 
+.component {
+  width: 640px;
+}
 .isSubmitting {
-  @include loading-spinner("../../../../assets/images/spinner-light.svg");
+  @include loading-spinner('../../../../assets/images/spinner-light.svg');
 }
 
 .instructions {
@@ -21,8 +24,3 @@
   text-align: center;
 }
 
-:global {
-  .SimpleModal_modal {
-    min-width: 640px;
-  }
-}

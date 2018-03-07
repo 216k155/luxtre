@@ -7,7 +7,6 @@ import { getLuxPeerInfo } from './getLuxPeerInfo';
 import CoinKey from 'coinkey';
 import BigNumber from 'bignumber.js';
 import Wallet from '../../domain/Wallet';
-import WalletTransaction, { transactionTypes } from '../../domain/WalletTransaction';
 import WalletAddress from '../../domain/WalletAddress';
 import { isValidMnemonic } from '../../../lib/decrypt';
 import { isValidRedemptionKey, isValidPaperVendRedemptionKey } from '../../../lib/redemption-key-validation';
@@ -46,6 +45,12 @@ import { setLuxAccount } from './setLuxAccount';
 import { getLuxAccountAddress } from './getLuxAccountAddress';
 import { getLuxBlockNumber } from './getLuxBlockNumber';
 import { getLuxTransactions } from './getLuxTransactions';
+
+import WalletTransaction, { 
+  transactionStates,
+  transactionTypes,
+  TransactionType 
+} from '../../domain/WalletTransaction';
 
 import type {
   LuxSyncProgressResponse,
@@ -518,29 +523,25 @@ export default class LuxApi {
 
   async createTransaction(request: CreateTransactionRequest): Promise<CreateTransactionResponse> {
     Logger.debug('LuxApi::createTransaction called');
-    const { sender, receiver, amount, password } = request;
-    // sender must be set as accountId (account.caId) and not walletId
     try {
-      // default value. Select (OptimizeForSecurity | OptimizeForSize) will be implemented
-      const groupingPolicy = 'OptimizeForSecurity';
-      const response: LuxTransaction = await newLuxPayment(
-        { ca, sender, receiver, amount, groupingPolicy, password }
-      );
-      Logger.debug('LuxApi::createTransaction success: ' + stringifyData(response));
-      return _createTransactionFromServerData(response);
+      const senderAccount = params.from;
+      const { from, to, value, password } = params;
+      if(password !== '')
+      {
+        await unlockLuxWallet({ password, timeout: 20 });
+      }
+      Logger.debug('LuxApi::createTransaction value : ' + value.toNumber() );
+      const txHash: LuxTxHash = await sendLuxTransaction({
+        from,
+        to,
+        value: value.toNumber()
+      });
+      Logger.debug('LuxApi::createTransaction success: ' + stringifyData(txHash));
+      return _createTransaction(senderAccount, txHash);
     } catch (error) {
+      console.error(error);
       Logger.error('LuxApi::createTransaction error: ' + stringifyError(error));
-      // eslint-disable-next-line max-len
-      if (error.message.includes('It\'s not allowed to send money to the same address you are sending from')) {
-        throw new NotAllowedToSendMoneyToSameAddressError();
-      }
-      if (error.message.includes('Destination address can\'t be redeem address')) {
-        throw new NotAllowedToSendMoneyToRedeemAddressError();
-      }
-      if (error.message.includes('Not enough money')) {
-        throw new NotEnoughMoneyToSendError();
-      }
-      if (error.message.includes('Passphrase doesn\'t match')) {
+      if (error.message.includes('passphrase')) {
         throw new IncorrectWalletPasswordError();
       }
       throw new GenericApiError();
@@ -960,3 +961,36 @@ const _createTransactionFeeFromServerData = action(
     return new BigNumber(coins).dividedBy(LOVELACES_PER_LUX);
   }
 );
+
+// ========== TRANSFORM SERVER DATA INTO FRONTEND MODELS =========
+
+const _createWalletTransactionFromServerData = async (
+  type: TransactionType,
+  txData: LuxTransaction
+): Promise<WalletTransaction> => {
+  const { txid, blockHash, amount, address, confirmations, blocktime } = txData;
+  // const txBlock: ?LuxBlock = blockHash ? await getLuxBlockByHash({
+  //  blockHash,
+  // }) : null;
+  const blockDate = unixTimestampToDate(blocktime);
+  return new WalletTransaction({
+    id: txid,
+    type,
+    title: '',
+    description: '',
+    amount: quantityToBigNumber(amount),
+    date: blockDate,
+    numberOfConfirmations: confirmations,
+    address,
+    addresses: null,
+    state: confirmations < 3 ? transactionStates.PENDING : transactionStates.OK
+  });
+};
+
+const _createTransaction = async (senderAccount: LuxWalletId, txHash: LuxTxHash) => {
+  const txData: LuxTransaction = await getLuxTransactionByHash({
+    txHash
+  });
+  const type = senderAccount === txData.from ? transactionTypes.EXPEND : transactionTypes.INCOME;
+  return _createWalletTransactionFromServerData(type, txData);
+};

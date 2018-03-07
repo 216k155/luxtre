@@ -9,9 +9,9 @@ import BorderedBox from '../widgets/BorderedBox';
 import InlineEditingInput from '../widgets/forms/InlineEditingInput';
 import InlineEditingDropdown from '../widgets/forms/InlineEditingDropdown';
 import ReadOnlyInput from '../widgets/forms/ReadOnlyInput';
-import DeleteWalletButton from './settings/DeleteWalletButton';
-import DeleteWalletConfirmationDialog from './settings/DeleteWalletConfirmationDialog';
-import DeleteWalletDialogContainer from '../../containers/wallet/dialogs/DeleteWalletDialogContainer';
+import RenameWalletButton from './settings/RenameWalletButton';
+import RenameWalletConfirmationDialog from './settings/RenameWalletConfirmationDialog';
+import RenameWalletDialogContainer from '../../containers/wallet/dialogs/RenameWalletDialogContainer';
 import WalletExportDialog from './settings/export-to-file/WalletExportToFileDialog';
 import WalletExportToFileDialogContainer from '../../containers/wallet/settings/WalletExportToFileDialogContainer';
 /* eslint-disable max-len */
@@ -192,9 +192,9 @@ export default class WalletSettings extends Component<Props> {
               </button>
             ) : null}
 
-            <DeleteWalletButton
+            <RenameWalletButton
               onClick={() => openDialogAction({
-                dialog: DeleteWalletConfirmationDialog,
+                dialog: RenameWalletConfirmationDialog,
               })}
             />
           </div>
@@ -205,8 +205,8 @@ export default class WalletSettings extends Component<Props> {
           <ChangeWalletPasswordDialogContainer />
         ) : null}
 
-        {isDialogOpen(DeleteWalletConfirmationDialog) ? (
-          <DeleteWalletDialogContainer />
+        {isDialogOpen(RenameWalletConfirmationDialog) ? (
+          <RenameWalletDialogContainer />
         ) : null}
 
         {isDialogOpen(WalletExportDialog) ? (

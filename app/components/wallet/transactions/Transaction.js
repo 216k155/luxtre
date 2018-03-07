@@ -6,7 +6,10 @@ import classNames from 'classnames';
 import styles from './Transaction.scss';
 import TransactionTypeIcon from './TransactionTypeIcon';
 import luxSymbol from '../../../assets/images/lux-symbol.inline.svg';
-import WalletTransaction, { transactionStates, transactionTypes } from '../../../domain/WalletTransaction';
+import WalletTransaction, {
+  transactionStates,
+  transactionTypes
+} from '../../../domain/WalletTransaction';
 import { assuranceLevels } from '../../../config/transactionAssuranceConfig';
 import { environmentSpecificMessages } from '../../../i18n/global-messages';
 import type { TransactionState } from '../../../domain/WalletTransaction';
@@ -19,121 +22,121 @@ const messages = defineMessages({
   card: {
     id: 'wallet.transaction.type.card',
     defaultMessage: '!!!Card payment',
-    description: 'Transaction type shown for credit card payments.',
+    description: 'Transaction type shown for credit card payments.'
   },
   type: {
     id: 'wallet.transaction.type',
     defaultMessage: '!!!{currency} transaction',
-    description: 'Transaction type shown for {currency} transactions.',
+    description: 'Transaction type shown for {currency} transactions.'
   },
   exchange: {
     id: 'wallet.transaction.type.exchange',
     defaultMessage: '!!!Exchange',
-    description: 'Transaction type shown for money exchanges between currencies.',
+    description: 'Transaction type shown for money exchanges between currencies.'
   },
   assuranceLevel: {
     id: 'wallet.transaction.assuranceLevel',
     defaultMessage: '!!!Transaction assurance level',
-    description: 'Transaction assurance level.',
+    description: 'Transaction assurance level.'
   },
   confirmations: {
     id: 'wallet.transaction.confirmations',
     defaultMessage: '!!!confirmations',
-    description: 'Transaction confirmations.',
+    description: 'Transaction confirmations.'
   },
   transactionId: {
     id: 'wallet.transaction.transactionId',
     defaultMessage: '!!!Transaction ID',
-    description: 'Transaction ID.',
+    description: 'Transaction ID.'
   },
   conversionRate: {
     id: 'wallet.transaction.conversion.rate',
     defaultMessage: '!!!Conversion rate',
-    description: 'Conversion rate.',
+    description: 'Conversion rate.'
   },
   sent: {
     id: 'wallet.transaction.sent',
     defaultMessage: '!!!{currency} sent',
-    description: 'Label "{currency} sent" for the transaction.',
+    description: 'Label "{currency} sent" for the transaction.'
   },
   received: {
     id: 'wallet.transaction.received',
     defaultMessage: '!!!{currency} received',
-    description: 'Label "{currency} received" for the transaction.',
+    description: 'Label "{currency} received" for the transaction.'
   },
   fromAddress: {
     id: 'wallet.transaction.address.from',
     defaultMessage: '!!!From address',
-    description: 'From address',
+    description: 'From address'
   },
   fromAddresses: {
     id: 'wallet.transaction.addresses.from',
     defaultMessage: '!!!From addresses',
-    description: 'From addresses',
+    description: 'From addresses'
   },
   toAddress: {
     id: 'wallet.transaction.address.to',
     defaultMessage: '!!!To address',
-    description: 'To address',
+    description: 'To address'
   },
   toAddresses: {
     id: 'wallet.transaction.addresses.to',
     defaultMessage: '!!!To addresses',
-    description: 'To addresses',
+    description: 'To addresses'
   },
   transactionAmount: {
     id: 'wallet.transaction.transactionAmount',
     defaultMessage: '!!!Transaction amount',
-    description: 'Transaction amount.',
-  },
+    description: 'Transaction amount.'
+  }
 });
 
 const assuranceLevelTranslations = defineMessages({
   [assuranceLevels.LOW]: {
     id: 'wallet.transaction.assuranceLevel.low',
     defaultMessage: '!!!low',
-    description: 'Transaction assurance level "low".',
+    description: 'Transaction assurance level "low".'
   },
   [assuranceLevels.MEDIUM]: {
     id: 'wallet.transaction.assuranceLevel.medium',
     defaultMessage: '!!!medium',
-    description: 'Transaction assurance level "medium".',
+    description: 'Transaction assurance level "medium".'
   },
   [assuranceLevels.HIGH]: {
     id: 'wallet.transaction.assuranceLevel.high',
     defaultMessage: '!!!high',
-    description: 'Transaction assurance level "high".',
-  },
+    description: 'Transaction assurance level "high".'
+  }
 });
 
 const stateTranslations = defineMessages({
   [transactionStates.PENDING]: {
     id: 'wallet.transaction.state.pending',
     defaultMessage: '!!!Transaction pending',
-    description: 'Transaction state "pending"',
+    description: 'Transaction state "pending"'
   },
   [transactionStates.FAILED]: {
     id: 'wallet.transaction.state.failed',
     defaultMessage: '!!!Transaction failed',
-    description: 'Transaction state "pending"',
-  },
+    description: 'Transaction state "pending"'
+  }
 });
 
 type Props = {
   data: WalletTransaction,
   state: TransactionState,
   assuranceLevel: string,
-  isLastInList: boolean,
+  isLastInList: boolean
 };
 
 type State = {
-  isExpanded: boolean,
+  isExpanded: boolean
 };
 
 export default class Transaction extends Component<Props, State> {
 
   static contextTypes = {
-    intl: intlShape.isRequired,
+    intl: intlShape.isRequired
   };
 
   state = {
@@ -156,10 +159,7 @@ export default class Transaction extends Component<Props, State> {
       isFailedTransaction ? styles.failed : null
     ]);
 
-    const contentStyles = classNames([
-      styles.content,
-      isLastInList ? styles.last : null
-    ]);
+    const contentStyles = classNames([styles.content, isLastInList ? styles.last : null]);
 
     const detailsStyles = classNames([
       styles.details,
@@ -174,7 +174,12 @@ export default class Transaction extends Component<Props, State> {
       <div className={componentStyles}>
 
         {/* ==== Clickable Header -> toggles details ==== */}
-        <div className={styles.toggler} onClick={this.toggleDetails.bind(this)} role="presentation" aria-hidden>
+        <div
+          className={styles.toggler}
+          onClick={this.toggleDetails.bind(this)}
+          role="presentation"
+          aria-hidden
+        >
           <TransactionTypeIcon
             iconType={isFailedTransaction ? transactionStates.FAILED : data.type}
           />
@@ -182,16 +187,13 @@ export default class Transaction extends Component<Props, State> {
           <div className={styles.togglerContent}>
             <div className={styles.header}>
               <div className={styles.title}>
-                {data.type === transactionTypes.EXPEND ?
-                  intl.formatMessage(messages.sent, { currency }) :
-                  intl.formatMessage(messages.received, { currency })
-                }
+                {data.type === transactionTypes.EXPEND
+                  ? intl.formatMessage(messages.sent, { currency })
+                  : intl.formatMessage(messages.received, { currency })}
               </div>
               <div className={styles.amount}>
-                {
-                  // hide currency (we are showing symbol instead)
-                  formattedWalletAmount(data.amount, false)
-                }
+                {// hide currency (we are showing symbol instead)
+                formattedWalletAmount(data.amount, false)}
                 <SvgInline svg={symbol} className={styles.currencySymbol} />
               </div>
             </div>
@@ -216,7 +218,8 @@ export default class Transaction extends Component<Props, State> {
         {/* ==== Toggleable Transaction Details ==== */}
         <div className={contentStyles}>
           <div className={detailsStyles}>
-            {data.exchange && data.conversionRate && (
+            {data.exchange &&
+              data.conversionRate && (
               <div className={styles.conversion}>
                 <div>
                   <h2>{intl.formatMessage(messages.exchange)}</h2>
@@ -229,23 +232,10 @@ export default class Transaction extends Component<Props, State> {
               </div>
             )}
             <div>
-              <h2>
-                {intl.formatMessage(messages[
-                  environment.isLuxApi() ? 'fromAddresses' : 'fromAddress'
-                ])}
-              </h2>
-              {data.addresses.from.map((address, addressIndex) => (
-                <span key={`${data.id}-from-${address}-${addressIndex}`} className={styles.address}>{address}</span>
-              ))}
-              <h2>
-                {intl.formatMessage(messages[
-                  environment.isLuxApi() ? 'toAddresses' : 'toAddress'
-                ])}
-              </h2>
-              {data.addresses.to.map((address, addressIndex) => (
-                <span key={`${data.id}-to-${address}-${addressIndex}`} className={styles.address}>{address}</span>
-              ))}
-
+              <h2>Involved Address</h2>
+              <span key={`${data.id}-to-${data.address}`} className={styles.address}>
+                {data.address}
+              </span>
               {environment.isLuxApi() ? (
                 <div className={styles.row}>
                   <h2>{intl.formatMessage(messages.assuranceLevel)}</h2>
@@ -259,7 +249,14 @@ export default class Transaction extends Component<Props, State> {
               ) : null}
 
               <h2>{intl.formatMessage(messages.transactionId)}</h2>
-              <span>{data.id}</span>
+              <button
+                className={styles.transactionId}
+                onClick={() => {
+                  shell.openExternal(`https://explorer.luxcore.io/tx/${data.id}`);
+                }}
+              >
+                {data.id}
+              </button>
             </div>
             {/*
             <div>
