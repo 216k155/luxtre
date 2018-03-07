@@ -591,7 +591,7 @@ export default class LuxApi {
   }
 
   isValidAddress(address: string): Promise<boolean> {
-    return isValidLuxAddress({ ca, address });
+    return Promise.resolve(isValidLuxAddress({ address }));
   }
 
   isValidMnemonic(mnemonic: string): Promise<boolean> {

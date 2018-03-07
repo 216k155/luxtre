@@ -12,7 +12,7 @@ export type LuxActionsMap = {
   transactions: TransactionsActions,
   nodeUpdate: NodeUpdateActions,
   walletSettings: WalletSettingsActions,
-  addresses: AddressesActions,
+  addresses: AddressesActions
 };
 
 const luxActionsMap: LuxActionsMap = {
@@ -21,7 +21,7 @@ const luxActionsMap: LuxActionsMap = {
   transactions: new TransactionsActions(),
   nodeUpdate: new NodeUpdateActions(),
   walletSettings: new WalletSettingsActions(),
-  addresses: new AddressesActions(),
+  addresses: new AddressesActions()
 };
 
 export default luxActionsMap;

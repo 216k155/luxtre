@@ -19,7 +19,7 @@ export type ActionsMap = {
   profile: ProfileActions,
   dialogs: DialogsActions,
   notifications: NotificationsActions,
-  lux: LuxActionsMap,
+  lux: LuxActionsMap
 };
 
 const actionsMap: ActionsMap = {
@@ -31,7 +31,7 @@ const actionsMap: ActionsMap = {
   profile: new ProfileActions(),
   dialogs: new DialogsActions(),
   notifications: new NotificationsActions(),
-  lux: luxActionsMap,
+  lux: luxActionsMap
 };
 
 export default actionsMap;

@@ -13,13 +13,13 @@ const messages = defineMessages({
   today: {
     id: 'wallet.summary.page.todayLabel',
     defaultMessage: '!!!Today',
-    description: 'Label for the "Today" label on the wallet summary page.',
+    description: 'Label for the "Today" label on the wallet summary page.'
   },
   yesterday: {
     id: 'wallet.summary.page.yesterdayLabel',
     defaultMessage: '!!!Yesterday',
-    description: 'Label for the "Yesterday" label on the wallet summary page.',
-  },
+    description: 'Label for the "Yesterday" label on the wallet summary page.'
+  }
 });
 
 const dateFormat = 'YYYY-MM-DD';
@@ -30,14 +30,14 @@ type Props = {
   hasMoreToLoad: boolean,
   onLoadMore: Function,
   assuranceMode: AssuranceMode,
-  walletId: string,
+  walletId: string
 };
 
 @observer
 export default class WalletTransactionsList extends Component<Props> {
 
   static contextTypes = {
-    intl: intlShape.isRequired,
+    intl: intlShape.isRequired
   };
 
   componentWillMount() {
@@ -55,7 +55,7 @@ export default class WalletTransactionsList extends Component<Props> {
     const groups = [];
     for (const transaction of transactions) {
       const date = moment(transaction.date).format(dateFormat);
-      let group = groups.find((g) => g.date === date);
+      let group = groups.find(g => g.date === date);
       if (!group) {
         group = { date, transactions: [] };
         groups.push(group);
@@ -84,7 +84,9 @@ export default class WalletTransactionsList extends Component<Props> {
     const { intl } = this.context;
     const today = moment().format(dateFormat);
     if (date === today) return intl.formatMessage(messages.today);
-    const yesterday = moment().subtract(1, 'days').format(dateFormat);
+    const yesterday = moment()
+      .subtract(1, 'days')
+      .format(dateFormat);
     if (date === yesterday) return intl.formatMessage(messages.yesterday);
     return moment(date).format(this.localizedDateFormat);
   }
@@ -95,13 +97,17 @@ export default class WalletTransactionsList extends Component<Props> {
       isLoadingTransactions,
       hasMoreToLoad,
       assuranceMode,
-      walletId,
+      walletId
     } = this.props;
 
     const transactionsGroups = this.groupTransactionsByDay(transactions);
-
-    const loadingSpinner = isLoadingTransactions || hasMoreToLoad ? (
-      <LoadingSpinner ref={(component) => { this.loadingSpinner = component; }} />
+    const loadingSpinner =
+      isLoadingTransactions || hasMoreToLoad ? (
+        <LoadingSpinner
+          ref={component => {
+            this.loadingSpinner = component;
+          }}
+        />
     ) : null;
 
     return (
@@ -111,7 +117,7 @@ export default class WalletTransactionsList extends Component<Props> {
             <div className={styles.groupDate}>{this.localizedDate(group.date)}</div>
             <div className={styles.list}>
               {group.transactions.map((transaction, transactionIndex) => (
-                <div key={walletId + '-' + transaction.id}>
+                <div key={`${walletId}-${transaction.id}-${transaction.type}`}>
                   <Transaction
                     data={transaction}
                     isLastInList={transactionIndex === group.transactions.length - 1}

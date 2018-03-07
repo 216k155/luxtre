@@ -1,20 +1,23 @@
 // @flow
 import { request } from './lib/request';
+import { LUX_API_HOST, LUX_API_PORT, LUX_API_USER, LUX_API_PWD } from './index';
 
 export type IsValidLuxAddressParams = {
-  ca: string,
   address: string,
 };
 
-export const isValidLuxAddress = (
-  { ca, address }: IsValidLuxAddressParams
+export const isValidLuxAddress = async (
+  { address }: IsValidLuxAddressParams
 ): Promise<boolean> => {
-  const encodedAddress = encodeURIComponent(address);
-  return request({
-    hostname: 'localhost',
-    method: 'GET',
-    path: `/api/addresses/${encodedAddress}`,
-    port: 9888,
-    ca,
+  const response = await request({
+    hostname: LUX_API_HOST,
+    method: 'POST',
+    port: LUX_API_PORT,
+    auth: LUX_API_USER + ':' + LUX_API_PWD
+  }, {
+    jsonrpc: '2.0',
+    method: 'validateaddress',
+    params: [address] 
   });
+  return response.isvalid ? true : false;
 };

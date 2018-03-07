@@ -18,14 +18,14 @@ type Props = {
   acceptedFileTypes: string,
   isCertificateEncrypted: boolean,
   isCertificateSelected: boolean,
-  isCertificateInvalid: boolean,
+  isCertificateInvalid: boolean
 };
 
 @observer
 export default class LuxCertificateUploadWidget extends Component<Props> {
 
   static contextTypes = {
-    intl: intlShape.isRequired,
+    intl: intlShape.isRequired
   };
 
   onDrop = (files: [File]) => {
@@ -34,8 +34,13 @@ export default class LuxCertificateUploadWidget extends Component<Props> {
 
   render() {
     const { intl } = this.context;
-    const { label, acceptedFileTypes, isCertificateEncrypted,
-      isCertificateSelected, onRemoveCertificate, isCertificateInvalid
+    const {
+      label,
+      acceptedFileTypes,
+      isCertificateEncrypted,
+      isCertificateSelected,
+      onRemoveCertificate,
+      isCertificateInvalid
     } = this.props;
 
     let certificateIcon;
@@ -63,9 +68,7 @@ export default class LuxCertificateUploadWidget extends Component<Props> {
               accept={acceptedFileTypes}
             >
               <div className={styles.instructions}>
-                <div className={styles.title}>
-                  {intl.formatMessage(messages.orClickToUpload)}
-                </div>
+                <div className={styles.title}>{intl.formatMessage(messages.orClickToUpload)}</div>
               </div>
             </Dropzone>
           )}

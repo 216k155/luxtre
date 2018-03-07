@@ -15,7 +15,11 @@ export default class LuxRedemptionActions {
   setLuxAmount: Action<{ luxAmount: string }> = new Action();
   redeemLux: Action<{ walletId: string, walletPassword: ?string }> = new Action();
   // eslint-disable-next-line max-len
-  redeemPaperVendedLux: Action<{ walletId: string, shieldedRedemptionKey: string, walletPassword: ?string }> = new Action();
+  redeemPaperVendedLux: Action<{
+    walletId: string,
+    shieldedRedemptionKey: string,
+    walletPassword: ?string
+  }> = new Action();
   luxSuccessfullyRedeemed: Action<any> = new Action();
   acceptRedemptionDisclaimer: Action<any> = new Action();
   // TODO: refactor dialog toggles to use dialog-actions instead

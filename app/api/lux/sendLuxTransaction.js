@@ -7,25 +7,20 @@ import type { LuxTxHash } from './types';
 export type SendLuxTransactionParams = {
   from: string,
   to: string,
-  amount: Number
+  value: BigNumber
 };
 
-export const sendLuxTransaction = (
-  { from, to, amount }: SendLuxTransactionParams
-): Promise<LuxTxHash> => {
-  let output = {};
-  output[to] = amount;
-  request({
+export const sendLuxTransaction = ({ from, to, value }: SendLuxTransactionParams): Promise<LuxTxHash> =>
+  request(
+    {
     hostname: LUX_API_HOST,
     method: 'POST',
     port: LUX_API_PORT,
     auth: LUX_API_USER + ':' + LUX_API_PWD
-  }, {
+    },
+    {
     jsonrpc: '2.0',
-    method: 'sendmany',
-    params: [
-      from,
-      output
-    ]
-  })
-};
+      method: 'sendfrom',
+      params: [from, to, value]
+    }
+  );

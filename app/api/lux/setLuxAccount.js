@@ -4,11 +4,11 @@ import { LUX_API_HOST, LUX_API_PORT, LUX_API_USER, LUX_API_PWD } from './index';
 
 export type setLuxAccountParams = {
   address: string,
-  name: string
+  walletId: string
 };
 
 export const setLuxAccount = (
-  { address, name }: setLuxAccountParams
+  { address, walletId }: setLuxAccountParams
 ): Promise<void> => (
   request({
     hostname: LUX_API_HOST,
@@ -20,7 +20,7 @@ export const setLuxAccount = (
     method: 'setaccount',
     params: [
       address,
-      name
+      walletId
     ]
   })
 );

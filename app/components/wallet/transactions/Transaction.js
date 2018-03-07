@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { shell } from 'electron';
 import { defineMessages, intlShape } from 'react-intl';
 import moment from 'moment';
 import SvgInline from 'react-svg-inline';

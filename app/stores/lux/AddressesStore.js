@@ -11,7 +11,8 @@ import type { GetAddressesResponse, CreateAddressResponse } from '../../api/lux/
 export default class AddressesStore extends Store {
 
   @observable lastGeneratedAddress: ?WalletAddress = null;
-  @observable addressesRequests: Array<{
+  @observable
+  addressesRequests: Array<{
     walletId: string,
     allRequest: CachedRequest<GetAddressesResponse>
   }> = [];
@@ -19,7 +20,8 @@ export default class AddressesStore extends Store {
 
   // REQUESTS
   /* eslint-disable max-len */
-  @observable createAddressRequest: Request<CreateAddressResponse> = new Request(this.api.lux.createAddress);
+  @observable
+  createAddressRequest: Request<CreateAddressResponse> = new Request(this.api.lux.createAddress);
   /* eslint-disable max-len */
 
   setup() {
@@ -33,7 +35,8 @@ export default class AddressesStore extends Store {
       const { walletId, password } = params;
       const accountId = this._getAccountIdByWalletId(walletId);
       const address: ?CreateAddressResponse = await this.createAddressRequest.execute({
-        accountId, password
+        accountId,
+        password
       }).promise;
       if (address != null) {
         this._refreshAddresses();
@@ -43,25 +46,30 @@ export default class AddressesStore extends Store {
         });
       }
     } catch (error) {
-      runInAction('set error', () => { this.error = error; });
+      runInAction('set error', () => {
+        this.error = error;
+      });
     }
   };
 
-  @computed get all(): Array<WalletAddress> {
+  @computed
+  get all(): Array<WalletAddress> {
     const wallet = this.stores.lux.wallets.active;
     if (!wallet) return [];
     const result = this._getAddressesAllRequest(wallet.id).result;
     return result ? result.addresses : [];
   }
 
-  @computed get hasAny(): boolean {
+  @computed
+  get hasAny(): boolean {
     const wallet = this.stores.lux.wallets.active;
     if (!wallet) return false;
     const result = this._getAddressesAllRequest(wallet.id).result;
     return result ? result.addresses.length > 0 : false;
   }
 
-  @computed get active(): ?WalletAddress {
+  @computed
+  get active(): ?WalletAddress {
     if (this.lastGeneratedAddress) return this.lastGeneratedAddress;
     const wallet = this.stores.lux.wallets.active;
     if (!wallet) return;
@@ -69,14 +77,16 @@ export default class AddressesStore extends Store {
     return result ? result.addresses[result.addresses.length - 1] : null;
   }
 
-  @computed get totalAvailable(): number {
+  @computed
+  get totalAvailable(): number {
     const wallet = this.stores.lux.wallets.active;
     if (!wallet) return 0;
     const result = this._getAddressesAllRequest(wallet.id).result;
     return result ? result.addresses.length : 0;
   }
 
-  @action _refreshAddresses = () => {
+  @action
+  _refreshAddresses = () => {
     if (this.stores.networkStatus.isConnected) {
       const allWallets = this.stores.lux.wallets.all;
       for (const wallet of allWallets) {
@@ -87,11 +97,12 @@ export default class AddressesStore extends Store {
     }
   };
 
-  @action _resetErrors = () => {
+  @action
+  _resetErrors = () => {
     this.error = null;
   };
 
-  _getAccountIdByWalletId = (walletId: string): (?string) => {
+  _getAccountIdByWalletId = (walletId: string): ?string => {
     const result = this._getAddressesAllRequest(walletId).result;
     return result ? result.accountId : null;
   };
