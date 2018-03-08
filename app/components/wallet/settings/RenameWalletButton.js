@@ -5,7 +5,7 @@ import styles from './RenameWalletButton.scss';
 const messages = defineMessages({
   label: {
     id: 'wallet.settings.renameWalletButtonLabel',
-    defaultMessage: '!!!Delete wallet',
+    defaultMessage: '!!!Rename Wallet',
     description: 'Label for the delete button on wallet settings',
   },
 });

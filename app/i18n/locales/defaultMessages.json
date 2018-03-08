@@ -2148,7 +2148,7 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "!!!Delete wallet",
+        "defaultMessage": "!!!Rename Wallet",
         "description": "Label for the delete button on wallet settings",
         "end": {
           "column": 3,
@@ -2167,8 +2167,8 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "!!!Delete Wallet",
-        "description": "Title for the \"Delete wallet\" dialog.",
+        "defaultMessage": "!!!Rename Wallet",
+        "description": "Title for the \"Rename Wallet\" dialog.",
         "end": {
           "column": 3,
           "line": 22
@@ -2182,7 +2182,7 @@
       },
       {
         "defaultMessage": "!!!Delete",
-        "description": "Label for the \"Delete (x)\" button in the delete wallet dialog.",
+        "description": "Label for the \"Delete (x)\" button in the Rename Wallet dialog.",
         "end": {
           "column": 3,
           "line": 27
@@ -2224,7 +2224,7 @@
       },
       {
         "defaultMessage": "!!!Enter the name of the wallet to confirm deletion:",
-        "description": "Instruction for recovery word on delete wallet dialog",
+        "description": "Instruction for recovery word on Rename Wallet dialog",
         "end": {
           "column": 3,
           "line": 42

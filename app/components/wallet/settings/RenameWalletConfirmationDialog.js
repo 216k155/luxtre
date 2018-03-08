@@ -17,13 +17,13 @@ import environment from '../../../environment';
 const messages = defineMessages({
   dialogTitle: {
     id: 'wallet.settings.delete.dialog.title',
-    defaultMessage: '!!!Delete Wallet',
-    description: 'Title for the "Delete wallet" dialog.'
+    defaultMessage: '!!!Rename Wallet',
+    description: 'Title for the "Rename Wallet" dialog.'
   },
   confirmButtonLabel: {
     id: 'wallet.settings.delete.dialog.confirmButtonLabel',
     defaultMessage: '!!!Delete',
-    description: 'Label for the "Delete (x)" button in the delete wallet dialog.',
+    description: 'Label for the "Delete (x)" button in the Rename Wallet dialog.',
   },
   wantToRenameWalletQuestion: {
     id: 'wallet.settings.delete.dialog.wantToRenameWalletQuestion',
@@ -38,7 +38,7 @@ const messages = defineMessages({
   enterRecoveryWordLabel: {
     id: 'wallet.settings.delete.dialog.enterRecoveryWordLabel',
     defaultMessage: '!!!Enter the name of the wallet to confirm deletion:',
-    description: 'Instruction for recovery word on delete wallet dialog',
+    description: 'Instruction for recovery word on Rename Wallet dialog',
   }
 });
 

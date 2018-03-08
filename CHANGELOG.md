@@ -175,7 +175,7 @@ Changelog
 - Apply grammatical fixes to redemption instructions
 - Prevent sidebar visual glitch on sidebar open
 - Added missing "Add wallet" button label translation key
-- Prevent "Delete wallet" dialog from closing until deletion is over
+- Prevent "Rename Wallet" dialog from closing until deletion is over
 - Improved error handling on "Set/Change wallet password" dialog
 - Improved API response errors handling
 - Update active wallet after wallet update actions
