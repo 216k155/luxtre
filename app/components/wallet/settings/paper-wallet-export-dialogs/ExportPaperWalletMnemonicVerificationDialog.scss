@@ -4,7 +4,6 @@
 .component {
   width: 640px;
 }
-
 .isSubmitting {
   @include loading-spinner('../../../../assets/images/spinner-light.svg');
 }
@@ -24,3 +23,4 @@
   @include error-message;
   text-align: center;
 }
+

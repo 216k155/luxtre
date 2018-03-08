@@ -33,13 +33,14 @@ type Props = {
   amount: string,
   numberOfTransactions: number,
   pendingAmount: UnconfirmedAmount,
-  isLoadingTransactions: boolean
+  isLoadingTransactions: boolean,
 };
 
 @observer
 export default class WalletSummary extends Component<Props> {
+
   static contextTypes = {
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
   };
 
   render() {
@@ -59,20 +60,20 @@ export default class WalletSummary extends Component<Props> {
             {amount}
             <SvgInline svg={luxSymbolBig} className={styles.currencySymbolBig} />
           </div>
-          {pendingAmount.incoming.greaterThan(0) && (
+          {pendingAmount.incoming.greaterThan(0) &&
             <div className={styles.pendingConfirmation}>
               {`${intl.formatMessage(messages.pendingIncomingConfirmationLabel)}`}
               : {pendingAmount.incoming.toFormat(DECIMAL_PLACES_IN_LUX)}
               <SvgInline svg={luxSymbolSmallest} className={styles.currencySymbolSmallest} />
             </div>
-          )}
-          {pendingAmount.outgoing.greaterThan(0) && (
+          }
+          {pendingAmount.outgoing.greaterThan(0) &&
             <div className={styles.pendingConfirmation}>
               {`${intl.formatMessage(messages.pendingOutgoingConfirmationLabel)}`}
               : {pendingAmount.outgoing.toFormat(DECIMAL_PLACES_IN_LUX)}
               <SvgInline svg={luxSymbolSmallest} className={styles.currencySymbolSmallest} />
             </div>
-          )}
+          }
           {!isLoadingTransactions ? (
             <div className={styles.numberOfTransactions}>
               {intl.formatMessage(messages.transactionsLabel)}: {numberOfTransactions}
@@ -82,4 +83,5 @@ export default class WalletSummary extends Component<Props> {
       </div>
     );
   }
+
 }

@@ -1,0 +1,45 @@
+@import '../../../themes/mixins/loading-spinner';
+
+.dialog {
+  font-family: var(--font-light);
+  :global {
+    .SimpleCheckbox_root {
+      margin-top: 20px;
+
+      .SimpleCheckbox_check {
+        border-color: var(--theme-input-remove-color-light);
+
+        &.SimpleCheckbox_checked {
+          background: var(--theme-input-remove-color-light);
+        }
+      }
+    }
+  }
+
+  .confirmationInput {
+    margin-top: 20px;
+  }
+
+  .isSubmitting {
+    @include loading-spinner("../../../assets/images/spinner-light.svg");
+  }
+
+  .deleteButton {
+    &[disabled] {
+      background: var(--theme-input-remove-color-lightest);
+      &:hover,
+      &:active {
+        background: var(--theme-input-remove-color-lightest);
+      }
+    }
+    &:not([disabled]) {
+      background: var(--theme-input-remove-color-light);
+      &:hover {
+        background: var(--theme-input-remove-color-lighter);
+      }
+      &:active {
+        background: var(--theme-input-remove-color-dark);
+      }
+    }
+  }
+}

@@ -39,7 +39,7 @@ function typedRequest<Response>(httpOptions: RequestOptions, queryParams?: {}): 
         } else {
           // TODO: investigate if that can happen! (no Right or Left in a response)
           resolve(parsedBody);
-          // reject(new Error('Unknown response from backend.'));
+          //reject(new Error('Unknown response from backend.'));
         }
       });
     });

@@ -10,17 +10,17 @@ export type SendLuxTransactionParams = {
   value: BigNumber
 };
 
-export const sendLuxTransaction = ({ to, value }: SendLuxTransactionParams): Promise<LuxTxHash> =>
+export const sendLuxTransaction = ({ from, to, value }: SendLuxTransactionParams): Promise<LuxTxHash> =>
   request(
     {
-      hostname: LUX_API_HOST,
-      method: 'POST',
-      port: LUX_API_PORT,
-      auth: LUX_API_USER + ':' + LUX_API_PWD
+    hostname: LUX_API_HOST,
+    method: 'POST',
+    port: LUX_API_PORT,
+    auth: LUX_API_USER + ':' + LUX_API_PWD
     },
     {
-      jsonrpc: '2.0',
-      method: 'sendtoaddress',
-      params: [to, value]
+    jsonrpc: '2.0',
+      method: 'sendfrom',
+      params: [from, to, value]
     }
   );

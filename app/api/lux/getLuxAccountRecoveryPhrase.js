@@ -1,7 +1,7 @@
 // @flow
+import type { LuxWalletRecoveryPhraseResponse } from './types';
 import { generateMnemonic } from '../../utils/crypto';
-import type { LuxRecoveryPassphrase } from './types';
 
-export const getLuxAccountRecoveryPhrase = (): LuxRecoveryPassphrase => (
+export const getLuxAccountRecoveryPhrase = (): LuxWalletRecoveryPhraseResponse => (
   generateMnemonic().split(' ')
 );

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu, shell, ipcMain, globalShortcut } from 'electron';
+import { app, BrowserWindow, Menu, shell, ipcMain, crashReporter, globalShortcut } from 'electron';
 import os from 'os';
 import path from 'path';
 import fs from 'fs';
@@ -7,22 +7,42 @@ import osxMenu from './menus/osx';
 import winLinuxMenu from './menus/win-linux';
 import ipcApi from './ipc-api';
 import getRuntimeFolderPath from './lib/getRuntimeFolderPath';
-import ensureDirectoryExists from './lib/ensureDirectoryExists';
+import { luxcoreLogger } from './lib/remoteLog';
 
 const APP_NAME = 'Luxcore';
 // Configure default logger levels for console and file outputs
 const runtimeFolderPath = getRuntimeFolderPath(process.platform, process.env, APP_NAME);
 const appLogFolderPath = path.join(runtimeFolderPath, 'Logs');
 const logFilePath = path.join(appLogFolderPath, APP_NAME + '.log');
-
-ensureDirectoryExists(appLogFolderPath);
-
 Log.transports.console.level = 'warn';
 Log.transports.file.level = 'debug';
 Log.transports.file.file = logFilePath;
 // TODO: depends on launcher script current directory, move this to getRuntimeFolderPath location
 // const caProductionPath = path.join(runtimeFolderPath, 'CA', 'tls', 'ca', 'ca.crt');
 const caProductionPath = path.join(process.cwd(), 'tls', 'ca', 'ca.crt');
+
+try {
+  let sendLogsToRemoteServer;
+  ipcMain.on('send-logs-choice', (event, sendLogs) => {
+    sendLogsToRemoteServer = sendLogs;
+  });
+  ipcMain.on('log-to-remote', (event, logEntry) => {
+    if (sendLogsToRemoteServer) luxcoreLogger.info(logEntry);
+  });
+} catch (error) {
+  Log.error('Error setting up log logging to remote server', error);
+}
+
+// Configure & start crash reporter
+app.setPath('temp', appLogFolderPath);
+
+// TODO: Update when endpoint is ready (crash reports are only saved locally for now)
+crashReporter.start({
+  companyName: 'IOHK',
+  productName: APP_NAME,
+  submitURL: '',
+  uploadToServer: false
+});
 
 Log.info(`========== Luxcore is starting at ${new Date()} ==========`);
 Log.info(`!!! Luxcore is running on ${os.platform()} version ${os.release()}
@@ -41,6 +61,10 @@ const isDev = process.env.NODE_ENV === 'development';
 const isProd = process.env.NODE_ENV === 'production';
 const isTest = process.env.NODE_ENV === 'test';
 const luxcoreVersion = process.env.LUXCORE_VERSION || 'dev';
+
+if (isDev) {
+  require('electron-debug')(); // eslint-disable-line global-require
+}
 
 app.on('window-all-closed', () => {
   app.quit();
@@ -98,7 +122,7 @@ app.on('ready', async () => {
     const pathToCertificate = isProd ? caProductionPath : path.join(__dirname, '../tls/ca.crt');
     Log.info('Using certificates from: ' + pathToCertificate);
     Object.assign(global, {
-      ca: fs.readFileSync(pathToCertificate)
+      ca: fs.readFileSync(pathToCertificate),
     });
   } catch (error) {
     Log.error(`Error while loading ca.crt: ${error}`);

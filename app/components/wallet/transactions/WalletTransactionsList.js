@@ -35,6 +35,7 @@ type Props = {
 
 @observer
 export default class WalletTransactionsList extends Component<Props> {
+
   static contextTypes = {
     intl: intlShape.isRequired
   };
@@ -107,7 +108,7 @@ export default class WalletTransactionsList extends Component<Props> {
             this.loadingSpinner = component;
           }}
         />
-      ) : null;
+    ) : null;
 
     return (
       <div className={styles.component}>
@@ -132,4 +133,5 @@ export default class WalletTransactionsList extends Component<Props> {
       </div>
     );
   }
+
 }

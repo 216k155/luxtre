@@ -16,24 +16,35 @@ export type LuxAddresses = Array<LuxAddress>;
 // export type LuxAccounts = Array<LuxWalletId>;
 export type LuxAccounts = object;
 
-// {
-//   "hash" : "hash",     (string) the block hash (same as provided)
-//   "confirmations" : n,   (numeric) The number of confirmations, or -1 if the block is not on the main chain
-//   "size" : n,            (numeric) The block size
-//   "height" : n,          (numeric) The block height or index
-//   "version" : n,         (numeric) The block version
-//   "merkleroot" : "xxxx", (string) The merkle root
-//   "tx" : [               (array of string) The transaction ids
-//      "transactionid"     (string) The transaction id
-//      ,...
-//   ],
-//   "time" : ttt,          (numeric) The block time in seconds since epoch (Jan 1 1970 GMT)
-//   "nonce" : n,           (numeric) The nonce
-//   "bits" : "1d00ffff", (string) The bits
-//   "difficulty" : x.xxx,  (numeric) The difficulty
-//   "previousblockhash" : "hash",  (string) The hash of the previous block
-//   "nextblockhash" : "hash"       (string) The hash of the next block
-// }
+// ========= Response Types =========
+export type LuxAssurance = 'CWANormal' | 'CWAStrict';
+export type LuxTransactionCondition = 'CPtxApplying' | 'CPtxInBlocks' | 'CPtxWontApply' | 'CPtxNotTracked';
+export type LuxWalletRecoveryPhraseResponse = Array<string>;
+
+export type LuxSyncProgressResponse = {
+  _spLocalCD: {
+    getChainDifficulty: {
+      getBlockCount: number,
+    }
+  },
+  _spNetworkCD: {
+    getChainDifficulty: {
+      getBlockCount: number,
+    }
+  },
+  _spPeers: number,
+};
+
+export type LuxWalletInitData = {
+  cwInitMeta: {
+    cwName: string,
+    cwAssurance: LuxAssurance,
+    cwUnit: number,
+  },
+  cwBackupPhrase: {
+    bpToList: [],
+  }
+};
 
 export type LuxBlock = {
   time: number
@@ -45,23 +56,10 @@ export type LuxSyncProgress = ?{
   highestBlock: LuxBlock
 };
 
-// {
-//   "account" : "Main",
-//   "address" : "LbMBwLkw3sSB1AVeRdfP1mHcf8Zpgfwgi2",
-//   "category" : "receive",
-//   "amount" : 300.00000000,
-//   "vout" : 3,
-//   "confirmations" : 1517,
-//   "bcconfirmations" : 1517,
-//   "blockhash" : "000000000002926cde088c782abe82b8c9d1699836581eb2e29ceb28994df6d4",
-//   "blockindex" : 1,
-//   "blocktime" : 1520024670,
-//   "txid" : "a6adfb188fac6716480ab68767b0bd99bd061ca14cf861412639849e50c7ccc1",
-//   "walletconflicts" : [
-//   ],
-//   "time" : 1520024670,
-//   "timereceived" : 1520122944
-// },
+export type LuxAmount = {
+  getCCoin: number,
+};
+export type LuxTransactionTag = 'CTIn' | 'CTOut';
 
 export type LuxTransaction = {
   account: string,
@@ -84,7 +82,29 @@ export type LuxTransaction = {
   // input: string,
 };
 
-export type LuxTransactions = Array<LuxTransaction>;
+export type LuxTransactions = [
+  Array<LuxTransaction>,
+  number,
+];
+
+export type LuxTransactionInputOutput = [
+  [string, LuxAmount],
+];
+
+export type LuxTransactionFee = LuxAmount;
+
+export type LuxWallet = {
+  cwAccountsNumber: number,
+  cwAmount: LuxAmount,
+  cwHasPassphrase: boolean,
+  cwId: string,
+  cwMeta: {
+    cwAssurance: LuxAssurance,
+    cwName: string,
+    csUnit: number,
+  },
+  cwPassphraseLU: Date,
+};
 
 export type LuxInfo = {
   // version: number,
@@ -105,8 +125,11 @@ export type LuxInfo = {
   errors: string
 };
 
+export type LuxWallets = Array<LuxWallet>;
+
 export type LuxPeerInfo = {
   startingheight: number
 };
 
 export type LuxPeerInfos = Array<LuxPeerInfo>;
+

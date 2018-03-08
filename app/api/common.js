@@ -49,7 +49,7 @@ export class WalletAlreadyRestoredError extends LocalizableError {
 
 export type CreateTransactionResponse = WalletTransaction;
 export type CreateWalletResponse = Wallet;
-export type DeleteWalletResponse = boolean;
+export type RenameWalletResponse = boolean;
 export type GetWalletsResponse = Array<Wallet>;
 export type GetWalletRecoveryPhraseResponse = Array<string>;
 export type RestoreWalletResponse = Wallet;
@@ -68,7 +68,7 @@ export type UpdateWalletPasswordRequest = {
   newPassword: ?string,
 };
 
-export type DeleteWalletRequest = {
+export type RenameWalletRequest = {
   walletId: string,
 };
 

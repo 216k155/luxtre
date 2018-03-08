@@ -22,6 +22,7 @@ type Props = InjectedProps;
 @inject('stores', 'actions')
 @observer
 export default class WalletSummaryPage extends Component<Props> {
+
   static defaultProps = { actions: null, stores: null };
 
   static contextTypes = {
@@ -41,6 +42,7 @@ export default class WalletSummaryPage extends Component<Props> {
     const wallet = wallets.active;
     // Guard against potential null values
     if (!wallet) throw new Error('Active wallet required for WalletSummaryPage.');
+
     let walletTransactions = null;
     const noTransactionsLabel = intl.formatMessage(messages.noTransactions);
 
@@ -73,4 +75,5 @@ export default class WalletSummaryPage extends Component<Props> {
       </VerticalFlexContainer>
     );
   }
+
 }

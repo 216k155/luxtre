@@ -135,6 +135,7 @@ type State = {
 };
 
 export default class Transaction extends Component<Props, State> {
+
   static contextTypes = {
     intl: intlShape.isRequired
   };
@@ -172,6 +173,7 @@ export default class Transaction extends Component<Props, State> {
 
     return (
       <div className={componentStyles}>
+
         {/* ==== Clickable Header -> toggles details ==== */}
         <div
           className={styles.toggler}
@@ -219,17 +221,17 @@ export default class Transaction extends Component<Props, State> {
           <div className={detailsStyles}>
             {data.exchange &&
               data.conversionRate && (
-                <div className={styles.conversion}>
-                  <div>
-                    <h2>{intl.formatMessage(messages.exchange)}</h2>
-                    <span>{data.exchange}</span>
-                  </div>
-                  <div className={styles.conversionRate}>
-                    <h2>{intl.formatMessage(messages.conversionRate)}</h2>
-                    <span>{data.conversionRate}</span>
-                  </div>
+              <div className={styles.conversion}>
+                <div>
+                  <h2>{intl.formatMessage(messages.exchange)}</h2>
+                  <span>{data.exchange}</span>
                 </div>
-              )}
+                <div className={styles.conversionRate}>
+                  <h2>{intl.formatMessage(messages.conversionRate)}</h2>
+                  <span>{data.conversionRate}</span>
+                </div>
+              </div>
+            )}
             <div>
               <h2>Involved Address</h2>
               <span key={`${data.id}-to-${data.address}`} className={styles.address}>
@@ -265,6 +267,7 @@ export default class Transaction extends Component<Props, State> {
             */}
           </div>
         </div>
+
       </div>
     );
   }

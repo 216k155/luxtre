@@ -23,6 +23,7 @@ type Props = {
 
 @observer
 export default class LuxCertificateUploadWidget extends Component<Props> {
+
   static contextTypes = {
     intl: intlShape.isRequired
   };
@@ -75,4 +76,5 @@ export default class LuxCertificateUploadWidget extends Component<Props> {
       </div>
     );
   }
+
 }

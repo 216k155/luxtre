@@ -26,6 +26,7 @@ type Props = InjectedProps;
 @inject('stores', 'actions')
 @observer
 export default class WalletTransactionsPage extends Component<Props> {
+
   static defaultProps = { actions: null, stores: null };
 
   static contextTypes = {
@@ -88,4 +89,5 @@ export default class WalletTransactionsPage extends Component<Props> {
       </VerticalFlexContainer>
     );
   }
+
 }
