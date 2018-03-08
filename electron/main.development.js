@@ -46,7 +46,11 @@ crashReporter.start({
 
 Log.info(`========== Luxcore is starting at ${new Date()} ==========`);
 Log.info(`!!! Luxcore is running on ${os.platform()} version ${os.release()}
-with CPU: ${JSON.stringify(os.cpus(), null, 2)} with ${JSON.stringify(os.totalmem(), null, 2)} total RAM !!!`);
+with CPU: ${JSON.stringify(os.cpus(), null, 2)} with ${JSON.stringify(
+  os.totalmem(),
+  null,
+  2
+)} total RAM !!!`);
 
 let menu;
 let mainWindow = null;
@@ -70,9 +74,7 @@ const installExtensions = async () => {
   if (isDev) {
     const installer = require('electron-devtools-installer'); // eslint-disable-line global-require
 
-    const extensions = [
-      'REACT_DEVELOPER_TOOLS',
-    ];
+    const extensions = ['REACT_DEVELOPER_TOOLS'];
     const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
     for (const name of extensions) {
       try {
@@ -96,7 +98,7 @@ ipcMain.on('about-window-title', (event, title) => {
 });
 
 // IPC endpoint to reload about window (e.g: for updating displayed language)
-ipcMain.on('reload-about-window', (event) => {
+ipcMain.on('reload-about-window', event => {
   // Check that the about window exists but is not the sender of the ipc message!
   // Otherwise it endlessly re-loads itself.
   if (aboutWindow && event.sender !== aboutWindow.webContents) {
@@ -133,14 +135,16 @@ app.on('ready', async () => {
     fullscreenable: false,
     show: false,
     width,
-    height,
+    height
   });
 
   // prevent resize about window
   aboutWindow.setMinimumSize(width, height);
   aboutWindow.setMaximumSize(width, height);
 
-  aboutWindow.loadURL(`file://${__dirname}/../app/index.html?window=about${isTest ? '&test=true' : ''}`);
+  aboutWindow.loadURL(
+    `file://${__dirname}/../app/index.html?window=about${isTest ? '&test=true' : ''}`
+  );
   aboutWindow.on('page-title-updated', event => {
     event.preventDefault();
   });
@@ -167,7 +171,7 @@ app.on('ready', async () => {
     Menu.buildFromTemplate(contextMenuOptions).popup(aboutWindow);
   });
 
-  aboutWindow.on('close', (e) => {
+  aboutWindow.on('close', e => {
     if (terminateAboutWindow) {
       /* the user tried to quit the app */
       app.quit();
@@ -212,7 +216,7 @@ app.on('ready', async () => {
   mainWindow.webContents.on('context-menu', (e, props) => {
     const contextMenuOptions = [
       { label: 'Copy', accelerator: 'CmdOrCtrl+C', selector: 'copy:' },
-      { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' },
+      { label: 'Paste', accelerator: 'CmdOrCtrl+V', selector: 'paste:' }
     ];
 
     if (isDev || isTest) {

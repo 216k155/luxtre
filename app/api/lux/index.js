@@ -637,19 +637,6 @@ export default class LuxApi {
     }
   }
 
-  async renameWallet(request: RenameWalletRequest): Promise<RenameWalletResponse> {
-    Logger.debug('LuxApi::renameWallet called: ' + stringifyData(request));
-    try {
-      const { walletId } = request;
-      await renameLuxWallet({ ca, walletId });
-      Logger.debug('LuxApi::renameWallet success: ' + stringifyData(request));
-      return true;
-    } catch (error) {
-      Logger.error('LuxApi::renameWallet error: ' + stringifyError(error));
-      throw new GenericApiError();
-    }
-  }
-
   async calculateTransactionFee(request: TransactionFeeRequest): Promise<TransactionFeeResponse> {
     Logger.debug('LuxApi::calculateTransactionFee called');
     const { sender, receiver, amount } = request;
@@ -692,12 +679,12 @@ export default class LuxApi {
     }
   }
 
-  isValidAddress(address: string): Promise<boolean> {
-    return Promise.resolve(isValidLuxAddress({ address }));
-  }
-
   isValidMnemonic(mnemonic: string): Promise<boolean> {
     return isValidMnemonic(mnemonic, 12);
+  }
+
+  isValidAddress(address: string): Promise<boolean> {
+    return Promise.resolve(isValidLuxAddress({ address }));
   }
 
   isValidRedemptionKey(mnemonic: string): Promise<boolean> {

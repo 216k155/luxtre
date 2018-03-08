@@ -18,3 +18,7 @@ export const formattedAmountToNaturalUnits = (amount: string): string => {
 export const formattedAmountWithoutTrailingZeros = (amount: string): string => (
   amount.replace(/0+$/, '').replace(/\.$/, '')
 );
+export const formattedAmountToFloat = (amount: string) => {
+  const cleanedAmount = amount.replace(/,/g, '');
+  return parseFloat(cleanedAmount);
+};
