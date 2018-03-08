@@ -79,7 +79,7 @@ Given(/^I see the add wallet dialog$/, function () {
 });
 
 Given(/^I see delete wallet dialog$/, function () {
-  return this.client.waitForVisible('.DeleteWalletConfirmationDialog_dialog');
+  return this.client.waitForVisible('.RenameWalletConfirmationDialog_dialog');
 });
 
 Given(/^I see the create wallet dialog$/, function () {
@@ -300,19 +300,19 @@ When(/^I submit the create wallet recovery phrase entry dialog$/, function () {
 });
 
 When(/^I click on delete wallet button$/, async function () {
-  return this.client.click('.DeleteWalletButton_button');
+  return this.client.click('.RenameWalletButton_button');
 });
 
 When(/^I enter "([^"]*)" as name of the wallet to confirm$/, async function (walletName) {
-  return this.client.setValue('.DeleteWalletConfirmationDialog_confirmationInput input', walletName);
+  return this.client.setValue('.RenameWalletConfirmationDialog_confirmationInput input', walletName);
 });
 
 When(/^I click on the "Make sure you have access to backup before continuing" checkbox$/, function () {
-  return this.waitAndClick('.DeleteWalletConfirmationDialog_dialog .SimpleCheckbox_root');
+  return this.waitAndClick('.RenameWalletConfirmationDialog_dialog .SimpleCheckbox_root');
 });
 
 When(/^I submit the delete wallet dialog$/, function () {
-  return this.client.click('.DeleteWalletConfirmationDialog_dialog .primary');
+  return this.client.click('.RenameWalletConfirmationDialog_dialog .primary');
 });
 
 When(/^I try to import the wallet with funds again$/, async function () {
@@ -336,7 +336,7 @@ Then(/^I should not see the create wallet recovery phrase entry dialog anymore$/
 });
 
 Then(/^I should not see the delete wallet dialog anymore$/, function () {
-  return this.client.waitForVisible('.DeleteWalletConfirmationDialog_dialog', null, true);
+  return this.client.waitForVisible('.RenameWalletConfirmationDialog_dialog', null, true);
 });
 
 Then(/^I should not see the import wallet dialog anymore$/, function () {

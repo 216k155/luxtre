@@ -24,7 +24,7 @@ export default class WalletsStore extends Store {
   @observable active: ?Wallet = null;
   @observable walletsRequest: Request<any>;
   @observable createWalletRequest: Request<any>;
-  @observable deleteWalletRequest: Request<any>;
+  @observable renameWalletRequest: Request<any>;
   @observable getWalletRecoveryPhraseRequest: Request<any>;
   @observable restoreRequest: Request<any>;
   @observable isImportActive: boolean = false;
@@ -79,7 +79,7 @@ export default class WalletsStore extends Store {
     const walletToDelete = this.getWalletById(params.walletId);
     if (!walletToDelete) return;
     const indexOfWalletToDelete = this.all.indexOf(walletToDelete);
-    await this.deleteWalletRequest.execute({ walletId: params.walletId });
+    await this.renameWalletRequest.execute({ walletId: params.walletId });
     await this.walletsRequest.patch(result => {
       result.splice(indexOfWalletToDelete, 1);
     });
@@ -94,7 +94,7 @@ export default class WalletsStore extends Store {
         this.actions.router.goToRoute.trigger({ route: ROUTES.NO_WALLETS });
       }
     });
-    this.deleteWalletRequest.reset();
+    this.renameWalletRequest.reset();
     this.refreshWalletsData();
   };
 

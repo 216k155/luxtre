@@ -1,14 +1,14 @@
 // @flow
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import DeleteWalletConfirmationDialog from '../../../components/wallet/settings/DeleteWalletConfirmationDialog';
+import RenameWalletConfirmationDialog from '../../../components/wallet/settings/RenameWalletConfirmationDialog';
 import type { InjectedProps } from '../../../types/injectedPropsType';
 import environment from '../../../environment';
 
 type Props = InjectedProps;
 
 @inject('actions', 'stores') @observer
-export default class DeleteWalletDialogContainer extends Component<Props> {
+export default class RenameWalletDialogContainer extends Component<Props> {
 
   static defaultProps = { actions: null, stores: null };
 
@@ -19,13 +19,13 @@ export default class DeleteWalletDialogContainer extends Component<Props> {
     const dialogData = uiDialogs.dataForActiveDialog;
     const { updateDataForActiveDialog } = actions.dialogs;
     const activeWallet = wallets.active;
-    const { deleteWalletRequest } = wallets;
+    const { renameWalletRequest } = wallets;
 
     // Guard against potential null values
-    if (!activeWallet) throw new Error('Active wallet required for DeleteWalletDialogContainer.');
+    if (!activeWallet) throw new Error('Active wallet required for RenameWalletDialogContainer.');
 
     return (
-      <DeleteWalletConfirmationDialog
+      <RenameWalletConfirmationDialog
         walletName={activeWallet.name}
         hasWalletFunds={activeWallet.hasFunds}
         countdownFn={uiDialogs.countdownSinceDialogOpened}
@@ -34,17 +34,17 @@ export default class DeleteWalletDialogContainer extends Component<Props> {
           data: { isBackupNoticeAccepted: true }
         })}
         onContinue={() => {
-          actions[environment.API].wallets.deleteWallet.trigger({ walletId: activeWallet.id });
+          actions[environment.API].wallets.renameWallet.trigger({ walletId: activeWallet.id });
         }}
         onCancel={() => {
           actions.dialogs.closeActiveDialog.trigger();
-          deleteWalletRequest.reset();
+          renameWalletRequest.reset();
         }}
         confirmationValue={dialogData.confirmationValue}
         onConfirmationValueChange={confirmationValue => updateDataForActiveDialog.trigger({
           data: { confirmationValue }
         })}
-        isSubmitting={deleteWalletRequest.isExecuting}
+        isSubmitting={renameWalletRequest.isExecuting}
       />
     );
   }

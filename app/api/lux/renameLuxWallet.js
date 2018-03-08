@@ -19,7 +19,7 @@ export const renameLuxWallet = (
     ca,
   }, {
     jsonrpc: '2.0',
-    method: 'luxcore_deleteWallet',
+    method: 'luxcore_renameWallet',
     params: [walletId]
   })
 );

@@ -9,7 +9,7 @@ import type { walletExportTypeChoices } from '../../types/walletExportTypes';
 import type { WalletImportFromFileParams } from '../../actions/lux/wallets-actions';
 import type { ImportWalletFromFileResponse } from '../../api/lux/index';
 import type {
-  CreateTransactionResponse, CreateWalletResponse, DeleteWalletResponse,
+  CreateTransactionResponse, CreateWalletResponse, RenameWalletResponse,
   GetWalletsResponse, RestoreWalletResponse,
   GetWalletRecoveryPhraseResponse,
 } from '../../api/common';
@@ -21,7 +21,7 @@ export default class LuxWalletsStore extends WalletStore {
   @observable walletsRequest: Request<GetWalletsResponse> = new Request(this.api.lux.getWallets);
   @observable importFromFileRequest: Request<ImportWalletFromFileResponse> = new Request(this.api.lux.importWalletFromFile);
   @observable createWalletRequest: Request<CreateWalletResponse> = new Request(this.api.lux.createWallet);
-  @observable deleteWalletRequest: Request<DeleteWalletResponse> = new Request(this.api.lux.deleteWallet);
+  @observable renameWalletRequest: Request<RenameWalletResponse> = new Request(this.api.lux.renameWallet);
   @observable sendMoneyRequest: Request<CreateTransactionResponse> = new Request(this.api.lux.createTransaction);
   @observable getWalletRecoveryPhraseRequest: Request<GetWalletRecoveryPhraseResponse> = new Request(this.api.lux.getWalletRecoveryPhrase);
   @observable restoreRequest: Request<RestoreWalletResponse> = new Request(this.api.lux.restoreWallet);
@@ -35,7 +35,7 @@ export default class LuxWalletsStore extends WalletStore {
     const { router, walletBackup, lux } = this.actions;
     const { wallets } = lux;
     wallets.createWallet.listen(this._create);
-    wallets.deleteWallet.listen(this._delete);
+    wallets.renameWallet.listen(this._delete);
     wallets.sendMoney.listen(this._sendMoney);
     wallets.restoreWallet.listen(this._restoreWallet);
     wallets.importWalletFromFile.listen(this._importWalletFromFile);

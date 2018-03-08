@@ -9,7 +9,7 @@ import SimpleCheckboxSkin from 'react-polymorph/lib/skins/simple/CheckboxSkin';
 import { defineMessages, intlShape, FormattedHTMLMessage } from 'react-intl';
 import DialogCloseButton from '../../widgets/DialogCloseButton';
 import Dialog from '../../widgets/Dialog';
-import styles from './DeleteWalletConfirmationDialog.scss';
+import styles from './RenameWalletConfirmationDialog.scss';
 import globalMessages from '../../../i18n/global-messages';
 import environment from '../../../environment';
 
@@ -25,8 +25,8 @@ const messages = defineMessages({
     defaultMessage: '!!!Delete',
     description: 'Label for the "Delete (x)" button in the delete wallet dialog.',
   },
-  wantToDeleteWalletQuestion: {
-    id: 'wallet.settings.delete.dialog.wantToDeleteWalletQuestion',
+  wantToRenameWalletQuestion: {
+    id: 'wallet.settings.delete.dialog.wantToRenameWalletQuestion',
     defaultMessage: '!!!Do you really want to delete <strong>{walletName}</strong> wallet?',
     description: 'Question if the user really wants to delete the wallet.',
   },
@@ -55,7 +55,7 @@ type Props = {
 };
 
 @observer
-export default class DeleteWalletConfirmationDialog extends Component<Props> {
+export default class RenameWalletConfirmationDialog extends Component<Props> {
 
   static defaultProps = {
     isBackupNoticeAccepted: false,
@@ -117,7 +117,7 @@ export default class DeleteWalletConfirmationDialog extends Component<Props> {
         closeButton={<DialogCloseButton onClose={onCancel} />}
       >
         <FormattedHTMLMessage
-          {...messages.wantToDeleteWalletQuestion}
+          {...messages.wantToRenameWalletQuestion}
           values={{ walletName }}
         />
         <Checkbox

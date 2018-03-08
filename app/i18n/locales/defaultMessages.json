@@ -2154,15 +2154,15 @@
           "column": 3,
           "line": 10
         },
-        "file": "app/components/wallet/settings/DeleteWalletButton.js",
-        "id": "wallet.settings.deleteWalletButtonLabel",
+        "file": "app/components/wallet/settings/RenameWalletButton.js",
+        "id": "wallet.settings.renameWalletButtonLabel",
         "start": {
           "column": 9,
           "line": 6
         }
       }
     ],
-    "path": "app/components/wallet/settings/DeleteWalletButton.json"
+    "path": "app/components/wallet/settings/RenameWalletButton.json"
   },
   {
     "descriptors": [
@@ -2173,7 +2173,7 @@
           "column": 3,
           "line": 22
         },
-        "file": "app/components/wallet/settings/DeleteWalletConfirmationDialog.js",
+        "file": "app/components/wallet/settings/RenameWalletConfirmationDialog.js",
         "id": "wallet.settings.delete.dialog.title",
         "start": {
           "column": 15,
@@ -2187,7 +2187,7 @@
           "column": 3,
           "line": 27
         },
-        "file": "app/components/wallet/settings/DeleteWalletConfirmationDialog.js",
+        "file": "app/components/wallet/settings/RenameWalletConfirmationDialog.js",
         "id": "wallet.settings.delete.dialog.confirmButtonLabel",
         "start": {
           "column": 22,
@@ -2201,8 +2201,8 @@
           "column": 3,
           "line": 32
         },
-        "file": "app/components/wallet/settings/DeleteWalletConfirmationDialog.js",
-        "id": "wallet.settings.delete.dialog.wantToDeleteWalletQuestion",
+        "file": "app/components/wallet/settings/RenameWalletConfirmationDialog.js",
+        "id": "wallet.settings.delete.dialog.wantToRenameWalletQuestion",
         "start": {
           "column": 30,
           "line": 28
@@ -2215,7 +2215,7 @@
           "column": 3,
           "line": 37
         },
-        "file": "app/components/wallet/settings/DeleteWalletConfirmationDialog.js",
+        "file": "app/components/wallet/settings/RenameWalletConfirmationDialog.js",
         "id": "wallet.settings.delete.dialog.confirmBackupNotice",
         "start": {
           "column": 23,
@@ -2229,7 +2229,7 @@
           "column": 3,
           "line": 42
         },
-        "file": "app/components/wallet/settings/DeleteWalletConfirmationDialog.js",
+        "file": "app/components/wallet/settings/RenameWalletConfirmationDialog.js",
         "id": "wallet.settings.delete.dialog.enterRecoveryWordLabel",
         "start": {
           "column": 26,
@@ -2237,7 +2237,7 @@
         }
       }
     ],
-    "path": "app/components/wallet/settings/DeleteWalletConfirmationDialog.json"
+    "path": "app/components/wallet/settings/RenameWalletConfirmationDialog.json"
   },
   {
     "descriptors": [
