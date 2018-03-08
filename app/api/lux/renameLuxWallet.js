@@ -3,13 +3,13 @@
 import { request } from './lib/request';
 import { LUX_API_HOST, LUX_API_PORT } from './index';
 
-export type DeleteLuxWalletBalanceParams = {
+export type RenameLuxWalletBalanceParams = {
   ca: string,
   walletId: string,
 };
 
-export const deleteLuxWallet = (
-  { ca, walletId }: DeleteLuxWalletBalanceParams
+export const renameLuxWallet = (
+  { ca, walletId }: RenameLuxWalletBalanceParams
 ): Promise<boolean> => (
   request({
     hostname: LUX_API_HOST,
