@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
 import WalletTransactionsList from '../../components/wallet/transactions/WalletTransactionsList';
-// import WalletTransactionsSearch from '../../components/wallet/summary/WalletTransactionsSearch';
+import WalletTransactionsSearch from '../../components/wallet/transactions/WalletTransactionsSearch';
 import WalletNoTransactions from '../../components/wallet/transactions/WalletNoTransactions';
 import VerticalFlexContainer from '../../components/layout/VerticalFlexContainer';
 import type { InjectedProps } from '../../types/injectedPropsType';

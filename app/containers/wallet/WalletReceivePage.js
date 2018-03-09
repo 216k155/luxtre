@@ -72,7 +72,7 @@ export default class WalletReceivePage extends Component<Props, State> {
     // Guard against potential null values
     if (!wallet) throw new Error('Active wallet required for WalletReceivePage.');
 
-    const walletAddress = addresses.active ? addresses.active.address : '';
+    const walletAddress = wallets.active ? wallets.active.address : '';
     const isWalletAddressUsed = addresses.active ? addresses.active.isUsed : false;
     const walletAddresses = addresses.all.reverse();
 
