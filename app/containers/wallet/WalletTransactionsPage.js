@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
 import WalletTransactionsList from '../../components/wallet/transactions/WalletTransactionsList';
-// import WalletTransactionsSearch from '../../components/wallet/summary/WalletTransactionsSearch';
+//import WalletTransactionsSearch from '../../components/wallet/transactions/WalletTransactionsSearch';
 import WalletNoTransactions from '../../components/wallet/transactions/WalletNoTransactions';
 import VerticalFlexContainer from '../../components/layout/VerticalFlexContainer';
 import type { InjectedProps } from '../../types/injectedPropsType';
@@ -33,9 +33,9 @@ export default class WalletTransactionsPage extends Component<Props> {
     intl: intlShape.isRequired
   };
 
-  _handleSearchInputChange = (value: string, event: Object) => {
-    this.props.actions.lux.transactions.filterTransactions({ searchTerm: event.target.value });
-  };
+  //_handleSearchInputChange = (value: string, event: Object) => {
+  //  this.props.actions.lux.transactions.filterTransactions({ searchTerm: event.target.value });
+  //};
 
   render() {
     const { intl } = this.context;
@@ -54,7 +54,7 @@ export default class WalletTransactionsPage extends Component<Props> {
     const noTransactionsLabel = intl.formatMessage(messages.noTransactions);
     const noTransactionsFoundLabel = intl.formatMessage(messages.noTransactionsFound);
 
-    if (wasSearched || hasAny) {
+    /*if (wasSearched || hasAny) {
       transactionSearch = (
         <div style={{ flexShrink: 0 }}>
           <WalletTransactionsSearch
@@ -63,7 +63,7 @@ export default class WalletTransactionsPage extends Component<Props> {
           />
         </div>
       );
-    }
+    }*/
 
     if (searchRequest.isExecutingFirstTime || hasAny) {
       walletTransactions = (

@@ -11,6 +11,7 @@ import DialogCloseButton from '../widgets/DialogCloseButton';
 import globalMessages from '../../i18n/global-messages';
 import LocalizableError from '../../i18n/LocalizableError';
 import styles from './WalletSendConfirmationDialog.scss';
+import { formattedAmountToFloat } from '../../utils/formatters';
 
 export const messages = defineMessages({
   dialogTitle: {
@@ -108,11 +109,11 @@ export default class WalletSendConfirmationDialog extends Component<Props> {
   submit() {
     this.form.submit({
       onSuccess: (form) => {
-        const { isWalletPasswordSet, receiver, amount, amountToNaturalUnits } = this.props;
+        const { isWalletPasswordSet, receiver, amount, totalAmount } = this.props;
         const { walletPassword } = form.values();
         const transactionData = {
           receiver,
-          amount: amountToNaturalUnits(amount),
+          amount: formattedAmountToFloat(totalAmount),
           password: isWalletPasswordSet ? walletPassword : null,
         };
         this.props.onSubmit(transactionData);

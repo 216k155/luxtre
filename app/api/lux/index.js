@@ -32,7 +32,7 @@ import WalletAddress from '../../domain/WalletAddress';
 import { isValidRedemptionKey, isValidPaperVendRedemptionKey } from '../../../lib/redemption-key-validation';
 
 import { newLuxWallet } from './newLuxWallet';
-import { newLuxWalletAddress } from './newLuxWalletAddress';
+import { getLuxNewAddress } from './getLuxNewAddress';
 import { restoreLuxWallet } from './restoreLuxWallet';
 import { updateLuxWallet } from './updateLuxWallet';
 import { exportLuxBackupJSON } from './exportLuxBackupJSON';
@@ -48,6 +48,8 @@ import { postponeLuxUpdate } from './postponeLuxUpdate';
 import { applyLuxUpdate } from './applyLuxUpdate';
 import { luxTestReset } from './luxTestReset';
 import { getLuxHistoryByWallet } from './getLuxHistoryByWallet';
+import {getLuxUnspentTransactions} from './getLuxUnspentTransactions';
+import {getLuxEstimatedFee} from './getLuxEstimatedFee'
 
 import WalletTransaction, { 
   transactionStates,
@@ -265,14 +267,16 @@ export default class LuxApi {
     Logger.debug('LuxApi::getWallets called');
     try {
       const accounts: LuxAccounts = await getLuxAccounts();
+      accounts['Main'] = accounts[''];
       delete accounts[''];
       // Logger.error('LuxApi::getWallets success: ' + stringifyData(accounts));
       return await Promise.all(
         Object.keys(accounts).map(async id => {
-          // const amount = quantityToBigNumber(accounts[id]);
-          let amount = await this.getAccountBalance(id);
+          //let amount = await this.getAccountBalance(id);
+          let amount = await this.getAccountBalance('');//default account
           amount = quantityToBigNumber(amount);
-          const walletId = id;
+          //const walletId = id;
+          const walletId = '';
           const address = await getLuxAccountAddress({ walletId });
           try {
             // use wallet data from local storage
@@ -294,7 +298,7 @@ export default class LuxApi {
               address,
               name: 'Main',
               assurance: 'CWANormal',
-              hasPassword: true,
+              hasPassword: false,
               passwordUpdateDate: new Date()
             };
             const { name, assurance, hasPassword, passwordUpdateDate } = fallbackWalletData;
@@ -319,7 +323,7 @@ export default class LuxApi {
   async getAccountBalance(walletId: string): Promise<GetTransactionsResponse> {
     Logger.debug('LuxApi::getAccountBalance called');
     try {
-      const confirmations = 1;
+      const confirmations = 0;
       const response: LuxWalletBalance = await getLuxAccountBalance({
         walletId,
         confirmations
@@ -335,7 +339,8 @@ export default class LuxApi {
   getTransactions = async (request: GetTransactionsRequest): Promise<GetTransactionsResponse> => {
     Logger.debug('LuxApi::getTransactions called: ' + stringifyData(request));
     try {
-      const walletId = request.walletId;
+      //const walletId = request.walletId;
+      const walletId = '';//default account
       const mostRecentBlockNumber: LuxBlockNumber = await getLuxBlockNumber();
       let transactions: LuxTransactions = await getLuxTransactions({
         walletId,
@@ -360,6 +365,8 @@ export default class LuxApi {
           }
         })
       );
+
+      allTxs.sort((a,b) => b.date - a.date);
       return {
         transactions: allTxs,
         total: allTxs.length
@@ -476,8 +483,8 @@ export default class LuxApi {
   async createTransaction(request: CreateTransactionRequest): Promise<CreateTransactionResponse> {
     Logger.debug('LuxApi::createTransaction called');
     try {
-      const senderAccount = params.from;
-      const { from, to, value, password } = params;
+      const senderAccount = request.from;
+      const { from, to, value, password } = request;
       if(password !== '')
       {
         await unlockLuxWallet({ password, timeout: 20 });
@@ -640,23 +647,20 @@ export default class LuxApi {
   async calculateTransactionFee(request: TransactionFeeRequest): Promise<TransactionFeeResponse> {
     Logger.debug('LuxApi::calculateTransactionFee called');
     const { sender, receiver, amount } = request;
+    
     try {
-      // default value. Select (OptimizeForSecurity | OptimizeForSize) will be implemented
-      const groupingPolicy = 'OptimizeForSecurity';
-      const response: luxTxFee = await luxTxFee(
-        { ca, sender, receiver, amount, groupingPolicy }
-      );
-      Logger.debug('LuxApi::calculateTransactionFee success: ' + stringifyData(response));
-      return _createTransactionFeeFromServerData(response);
+      //const { blocks } = request;
+      const blocks = 25;
+      const estimatedFee: LuxFee = await getLuxEstimatedFee({
+        blocks,
+      });
+      Logger.debug('LuxApi::getEstimatedResponse success: ' + estimatedFee);
+      return quantityToBigNumber(estimatedFee);
     } catch (error) {
-      Logger.error('LuxApi::calculateTransactionFee error: ' + stringifyError(error));
-      // eslint-disable-next-line max-len
-      if (error.message.includes('not enough money on addresses which are not included in output addresses set')) {
-        throw new AllFundsAlreadyAtReceiverAddressError();
-      }
-      if (error.message.includes('not enough money')) {
+      if (error.message.includes('Insufficient funds')) {
         throw new NotEnoughFundsForTransactionFeesError();
       }
+      Logger.error('LuxApi::getEstimatedFeeResponse error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
@@ -665,16 +669,14 @@ export default class LuxApi {
     Logger.debug('LuxApi::createAddress called');
     const { accountId, password } = request;
     try {
-      const response: LuxAddress = await newLuxWalletAddress(
-        { ca, password, accountId }
+      const response: LuxAddress = await getLuxNewAddress(
+        { password, accountId }
       );
       Logger.debug('LuxApi::createAddress success: ' + stringifyData(response));
-      return _createAddressFromServerData(response);
+      //return _createAddressFromServerData(response);
+      return response;
     } catch (error) {
       Logger.error('LuxApi::createAddress error: ' + stringifyError(error));
-      if (error.message.includes('Passphrase doesn\'t match')) {
-        throw new IncorrectWalletPasswordError();
-      }
       throw new GenericApiError();
     }
   }
@@ -798,7 +800,7 @@ export default class LuxApi {
   async nextUpdate(): Promise<NextUpdateResponse> {
     Logger.debug('LuxApi::nextUpdate called');
     let nextUpdate = null;
-    try {
+    /*try {
       // TODO: add flow type definitions for nextUpdate response
       const response: Promise<any> = await nextLuxUpdate({ ca });
       Logger.debug('LuxApi::nextUpdate success: ' + stringifyData(response));
@@ -814,7 +816,7 @@ export default class LuxApi {
         Logger.error('LuxApi::nextUpdate error: ' + stringifyError(error));
       }
       // throw new GenericApiError();
-    }
+    }*/
     return nextUpdate;
     // TODO: remove hardcoded response after node update is tested
     // nextUpdate = {
@@ -909,7 +911,9 @@ const _createWalletTransactionFromServerData = async (
   // const txBlock: ?LuxBlock = blockHash ? await getLuxBlockByHash({
   //  blockHash,
   // }) : null;
-  const blockDate = unixTimestampToDate(blocktime);
+
+  //blocktime isn't returned right after a transaction is sent
+  const blockDate = blocktime !== null && blocktime !== undefined ? unixTimestampToDate(blocktime) : unixTimestampToDate(Date.now() / 1000 | 0);
   return new WalletTransaction({
     id: txid,
     type,
