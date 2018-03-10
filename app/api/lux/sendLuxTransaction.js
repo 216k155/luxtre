@@ -20,7 +20,7 @@ export const sendLuxTransaction = ({ from, to, value }: SendLuxTransactionParams
     },
     {
     jsonrpc: '2.0',
-      method: 'sendfrom',
-      params: [from, to, value]
+      method: 'sendtoaddress',
+      params: [to, value]
     }
   );

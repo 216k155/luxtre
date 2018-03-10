@@ -1,5 +1,6 @@
 // @flow
 import { observable, action, runInAction } from 'mobx';
+import BigNumber from 'bignumber.js';
 import WalletStore from '../WalletStore';
 import Wallet from '../../domain/Wallet';
 import { matchRoute, buildRoute } from '../../utils/routing';
@@ -47,15 +48,16 @@ export default class LuxWalletsStore extends WalletStore {
   _sendMoney = async (transactionDetails: {
     receiver: string,
     amount: string,
-    password: ?string,
+    password: ?string
   }) => {
     const wallet = this.active;
     if (!wallet) throw new Error('Active wallet required before sending.');
-    const accountId = this.stores.lux.addresses._getAccountIdByWalletId(wallet.id);
-    if (!accountId) throw new Error('Active account required before sending.');
+    const { receiver, amount, password } = transactionDetails;
     await this.sendMoneyRequest.execute({
-      ...transactionDetails,
-      sender: accountId,
+      from: wallet.id,
+      to: receiver,
+      value: new BigNumber(amount),
+      password: password != null ? password : ''
     });
     this.refreshWalletsData();
     this.actions.dialogs.closeActiveDialog.trigger();
@@ -79,14 +81,14 @@ export default class LuxWalletsStore extends WalletStore {
           this._setActiveWallet({ walletId: this.active.id });
         }
       });
-      runInAction('refresh address data', () => {
+      /*runInAction('refresh address data', () => {
         const walletIds = result.map((wallet: Wallet) => wallet.id);
         this.stores.lux.addresses.addressesRequests = walletIds.map(walletId => ({
           walletId,
           allRequest: this.stores.lux.addresses._getAddressesAllRequest(walletId),
         }));
         this.stores.lux.addresses._refreshAddresses();
-      });
+      });*/
       runInAction('refresh transaction data', () => {
         const walletIds = result.map((wallet: Wallet) => wallet.id);
         this.stores.lux.transactions.transactionsRequests = walletIds.map(walletId => ({

@@ -39,9 +39,7 @@ export default class LuxTransactionsStore extends TransactionsStore {
   }
 
   calculateTransactionFee = (walletId: string, receiver: string, amount: string) => {
-    const accountId = this.stores.lux.addresses._getAccountIdByWalletId(walletId);
-    if (!accountId) throw new Error('Active account required before calculating transaction fees.');
-    return this.api.lux.calculateTransactionFee({ sender: accountId, receiver, amount });
+    return this.api.lux.calculateTransactionFee({ sender: walletId, receiver, amount });
   };
 
   validateAmount = (amountInLovelaces: string): Promise<boolean> => (
