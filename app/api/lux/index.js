@@ -283,6 +283,7 @@ export default class LuxApi {
             confirmations
           });
           amount = quantityToBigNumber(amount);
+
           const address = await getLuxAccountAddress({ walletId });
           try {
             // use wallet data from local storage
@@ -355,7 +356,9 @@ export default class LuxApi {
     try {
       //const walletId = request.walletId;
       const walletId = '';//default account
+
       //const mostRecentBlockNumber: LuxBlockNumber = await getLuxBlockNumber();
+
       let transactions: LuxTransactions = await getLuxTransactions({
         walletId,
         count: 1000,

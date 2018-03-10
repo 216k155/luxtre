@@ -8,6 +8,7 @@ import LuxRedemptionSuccessOverlay from '../../components/wallet/lux-redemption/
 import { buildRoute } from '../../utils/routing';
 import { ROUTES } from '../../routes-config';
 import type { InjectedContainerProps } from '../../types/injectedPropsType';
+import { DECIMAL_PLACES_IN_LUX } from '../../config/numbersConfig';
 
 type Props = InjectedContainerProps;
 
@@ -43,6 +44,7 @@ export default class Wallet extends Component<Props> {
         <WalletWithNavigation
           isActiveScreen={this.isActiveScreen}
           onWalletNavItemClick={this.handleWalletNavItemClick}
+	  amount={wallets.active.amount.toFormat(DECIMAL_PLACES_IN_LUX)}
         >
           {this.props.children}
         </WalletWithNavigation>
