@@ -71,7 +71,7 @@
 
 .active {
   .container {
-    background-color: var(--theme-nav-item-background-color-active);
+    background: linear-gradient(90deg, #263345, #506577);
     color: var(--theme-nav-item-text-color-active);
   }
 
