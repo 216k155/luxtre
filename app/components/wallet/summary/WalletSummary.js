@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
 import SvgInline from 'react-svg-inline';
-import luxSymbolBig from '../../../assets/images/lux-symbol-big-dark.inline.svg';
-import luxSymbolSmallest from '../../../assets/images/lux-symbol-smallest-dark.inline.svg';
+import luxSymbolBig from '../../../assets/images/lux-logo.inline.svg';
+import luxSymbolSmallest from '../../../assets/images/lux-logo.inline.svg';
 import BorderedBox from '../../widgets/BorderedBox';
 import { DECIMAL_PLACES_IN_LUX } from '../../../config/numbersConfig';
 import type { UnconfirmedAmount } from '../../../types/unconfirmedAmountType';
@@ -54,6 +54,9 @@ export default class WalletSummary extends Component<Props> {
     const { intl } = this.context;
     return (
       <div className={styles.component}>
+	<div className={styles.categoryTitle}>
+          Summary
+        </div>
         <BorderedBox>
           <div className={styles.walletName}>{walletName}</div>
           <div className={styles.walletAmount}>

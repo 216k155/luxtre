@@ -1,15 +1,19 @@
 .component {
   height: 100%;
   display: flex;
-  flex-direction: column;
 }
 
 .navigation {
-  height: 50px;
+  width: 280px;
+  height: 100%;
+  background: #263345;
   flex-shrink: 0;
 }
 
 .page {
-  height: calc(100% - 50px);
+  width: 100%;
   overflow: auto;
+  margin-top: 2%;
+  padding-left:2%;
+  padding-right:2%;
 }

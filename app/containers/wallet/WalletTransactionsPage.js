@@ -84,7 +84,6 @@ export default class WalletTransactionsPage extends Component<Props> {
 
     return (
       <VerticalFlexContainer>
-        {transactionSearch}
         {walletTransactions}
       </VerticalFlexContainer>
     );

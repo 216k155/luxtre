@@ -23,14 +23,11 @@ export default class SidebarLayout extends Component<Props> {
     const { children, sidebar, topbar, notification, contentDialog } = this.props;
     return (
       <div className={styles.component}>
-        <div className={styles.sidebar}>
-          {sidebar}
-        </div>
-        <div className={styles.main}>
           <div className={styles.topbar}>
             {topbar}
           </div>
-          {notification}
+
+        <div className={styles.main}>
           <div className={styles.contentWrapper}>
             <div className={styles.content}>
               {children}

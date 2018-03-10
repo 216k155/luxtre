@@ -31,36 +31,13 @@ export default class TopBar extends Component<Props> {
     const showWalletInfo = walletRoutesMatch && activeWallet != null;
     const topBarStyles = classNames([
       styles.topBar,
-      showWalletInfo ? styles.withWallet : styles.withoutWallet,
+      styles.withoutWallet,
     ]);
 
-    const topBarTitle = walletRoutesMatch && activeWallet != null ? (
-      <div className={styles.walletInfo}>
-        <div className={styles.walletName}>{activeWallet.name}</div>
-        <div className={styles.walletAmount}>
-          {
-            // show currency and use long format (e.g. in LUX show all decimal places)
-            formattedWalletAmount(activeWallet.amount, true, true)
-          }
-        </div>
-      </div>
-    ) : null;
 
-    const sidebarToggleIcon = (
-      <SvgInline
-        svg={showSubMenus ? menuIconOpened : menuIconClosed}
-        className={styles.sidebarIcon}
-      />
-    );
 
     return (
       <header className={topBarStyles}>
-        {walletRoutesMatch && (
-          <button className={styles.leftIcon} onClick={onToggleSidebar}>
-            {sidebarToggleIcon}
-          </button>
-        )}
-        <div className={styles.topBarTitle}>{topBarTitle}</div>
         {this.props.children}
       </header>
     );
