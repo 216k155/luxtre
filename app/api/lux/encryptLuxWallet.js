@@ -4,10 +4,10 @@ import { request } from './lib/request';
 import { LUX_API_HOST, LUX_API_PORT, LUX_API_USER, LUX_API_PWD } from './index';
 
 export type EncryptLuxWalletParams = {
-  password: string
+  newPassword: string
 };
 
-export const encryptLuxWallet = ({ password }: EncryptLuxWalletParams): Promise<any> =>
+export const encryptLuxWallet = ({ newPassword }: EncryptLuxWalletParams): Promise<any> =>
   request(
     {
       hostname: LUX_API_HOST,
@@ -18,6 +18,6 @@ export const encryptLuxWallet = ({ password }: EncryptLuxWalletParams): Promise<
     {
       jsonrpc: '2.0',
       method: 'encryptwallet',
-      params: [password]
+      params: [newPassword]
     }
   );
