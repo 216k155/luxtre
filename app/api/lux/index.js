@@ -274,16 +274,21 @@ export default class LuxApi {
       // Logger.error('LuxApi::getWallets success: ' + stringifyData(accounts));
       return await Promise.all(
         Object.keys(accounts).map(async id => {
-          //let amount = await this.getAccountBalance(id);
-          let amount = await this.getAccountBalance('');//default account
-          amount = quantityToBigNumber(amount);
+          //let amount = await this.getAccountBalance('');
           //const walletId = id;
           const walletId = '';
+          const confirmations = 0;
+          let amount = await getLuxAccountBalance({
+            walletId,
+            confirmations
+          });
+          amount = quantityToBigNumber(amount);
           const address = await getLuxAccountAddress({ walletId });
           try {
             // use wallet data from local storage
             const walletData = await getLuxWalletData(id); // fetch wallet data from local storage
-            const { name, assurance, hasPassword, passwordUpdateDate } = walletData;
+            const { name, assurance, passwordUpdateDate } = walletData;
+            const hasPassword = true;
             return new Wallet({
               id,
               address,
@@ -356,7 +361,7 @@ export default class LuxApi {
       });*/
       //transactions = transactions.concat(...sendTransactions);
       const allTxs = await Promise.all(
-        transactions.filter(async (tx: LuxTransaction) => tx.category != 'move').map(async (tx: LuxTransaction) => {
+        transactions.filter( (tx: LuxTransaction) => tx.category !== 'move').map(async (tx: LuxTransaction) => {
           if (tx.category === 'receive') {
             return _createWalletTransactionFromServerData(transactionTypes.INCOME, tx);
           }
@@ -532,14 +537,26 @@ export default class LuxApi {
   ): Promise<UpdateWalletPasswordResponse> {
     Logger.debug('LuxApi::updateWalletPassword called');
     const { walletId, oldPassword, newPassword } = request;
+    console.log('walletId' + walletId);
+    console.log('oldPassword' + oldPassword);
+    console.log('newPassword' + newPassword);
     try {
-      await changeLuxAccountPassphrase({
-        ca,
-        walletId,
-        oldPassword,
-        newPassword
-      });
+      if(oldPassword !== null)
+      {
+        await changeLuxWalletPassphrase({
+          walletId,
+          oldPassword,
+          newPassword
+        });
+      }
+      else{
+        await encryptLuxWallet({
+          newPassword
+        });
+      }
+      
       Logger.debug('LuxApi::updateWalletPassword success');
+      console.log('LuxApi::updateWalletPassword success');
       const hasPassword = newPassword !== null;
       const passwordUpdateDate = hasPassword ? new Date() : null;
       await updateLuxWalletData({
