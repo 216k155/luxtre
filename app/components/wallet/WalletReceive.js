@@ -175,12 +175,6 @@ export default class WalletReceive extends Component<Props, State> {
           />
         }
 
-        <Button
-          className={generateAddressButtonClasses}
-          label={intl.formatMessage(messages.generateNewAddressButtonLabel)}
-          onMouseUp={this.submit.bind(this)}
-          skin={<SimpleButtonSkin />}
-        />
       </div>
     );
 
@@ -192,7 +186,9 @@ export default class WalletReceive extends Component<Props, State> {
 
     return (
       <div className={styles.component}>
-
+	<div className={styles.categoryTitle}>
+          Receive
+        </div>
         <BorderedBox>
 
           <div className={styles.qrCodeAndInstructions}>

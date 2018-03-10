@@ -4,6 +4,7 @@ $topBarHeight: 84px;
   background: var(--theme-main-body-background-color);
   height: 100%;
   display: flex;
+  flex-direction: column;
 }
 
 .main {

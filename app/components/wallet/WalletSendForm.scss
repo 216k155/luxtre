@@ -5,6 +5,12 @@
   padding: 20px;
 }
 
+.categoryTitle {
+  font-size: 26px;
+  letter-spacing: 0.5px;
+  color: var(--theme-bordered-box-text-color);
+  margin-bottom: 30px;
+}
 .amountInput,
 .receiverInput {
   position: relative;

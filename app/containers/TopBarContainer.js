@@ -30,7 +30,6 @@ export default class TopBarContainer extends Component<Props> {
         currentRoute={app.currentRoute}
         showSubMenus={sidebar.isShowingSubMenus}
       >
-        {testnetLabel}
         <NodeSyncStatusIcon
           networkStatus={networkStatus}
           isMainnet={isMainnet}

@@ -55,7 +55,9 @@ export default class WalletNavigation extends Component<Props> {
     const { intl } = this.context;
     return (
       <div className={styles.component}>
-
+        <div>
+     	    LUXCORE
+        </div>
         <div className={styles.navItem}>
           <WalletNavButton
             className="summary"

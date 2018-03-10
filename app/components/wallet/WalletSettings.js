@@ -122,34 +122,12 @@ export default class WalletSettings extends Component<Props> {
 
     return (
       <div className={styles.component}>
-
+	<div className={styles.categoryTitle}>
+          Settings
+        </div>
         <BorderedBox>
 
-          <InlineEditingInput
-            className="walletName"
-            inputFieldLabel={intl.formatMessage(messages.name)}
-            inputFieldValue={walletName}
-            isActive={activeField === 'name'}
-            onStartEditing={() => onStartEditing('name')}
-            onStopEditing={onStopEditing}
-            onCancelEditing={onCancelEditing}
-            onSubmit={(value) => onFieldValueChange('name', value)}
-            isValid={nameValidator}
-            validationErrorMessage={intl.formatMessage(globalMessages.invalidWalletName)}
-            successfullyUpdated={!isSubmitting && lastUpdatedField === 'name' && !isInvalid}
-          />
 
-          <InlineEditingDropdown
-            className="walletAssuranceLevel"
-            label={intl.formatMessage(messages.assuranceLevelLabel)}
-            options={assuranceLevelOptions}
-            value={walletAssurance}
-            isActive={activeField === 'assurance'}
-            onStartEditing={() => onStartEditing('assurance')}
-            onStopEditing={onStopEditing}
-            onSubmit={(value) => onFieldValueChange('assurance', value)}
-            successfullyUpdated={!isSubmitting && lastUpdatedField === 'assurance'}
-          />
 
           <ReadOnlyInput
             label={intl.formatMessage(messages.passwordLabel)}
@@ -180,24 +158,7 @@ export default class WalletSettings extends Component<Props> {
 
           {error && <p className={styles.error}>{intl.formatMessage(error)}</p>}
 
-          <div className={styles.actionButtons}>
-            {!environment.isMainnet() ? (
-              <button
-                className={styles.exportLink}
-                onClick={() => openDialogAction({
-                  dialog: WalletExportDialog
-                })}
-              >
-                {intl.formatMessage(messages.exportButtonLabel)}
-              </button>
-            ) : null}
 
-            <RenameWalletButton
-              onClick={() => openDialogAction({
-                dialog: RenameWalletConfirmationDialog,
-              })}
-            />
-          </div>
 
         </BorderedBox>
 
