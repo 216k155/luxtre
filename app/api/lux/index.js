@@ -287,8 +287,7 @@ export default class LuxApi {
           try {
             // use wallet data from local storage
             const walletData = await getLuxWalletData(id); // fetch wallet data from local storage
-            const { name, assurance, passwordUpdateDate } = walletData;
-            const hasPassword = true;
+            const { name, assurance, hasPassword, passwordUpdateDate } = walletData;
             return new Wallet({
               id,
               address,
@@ -309,6 +308,14 @@ export default class LuxApi {
               passwordUpdateDate: new Date()
             };
             const { name, assurance, hasPassword, passwordUpdateDate } = fallbackWalletData;
+            await setLuxWalletData({
+              id,
+              address,
+              name,
+              assurance,
+              hasPassword,
+              passwordUpdateDate
+            });
             return new Wallet({
               id,
               address,
