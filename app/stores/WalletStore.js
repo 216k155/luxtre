@@ -17,7 +17,7 @@ import environment from '../environment';
 
 export default class WalletsStore extends Store {
 
-  WALLET_REFRESH_INTERVAL = 20000;
+  WALLET_REFRESH_INTERVAL = 5000;
   WAIT_FOR_SERVER_ERROR_TIME = 2000;
   MIN_NOTIFICATION_TIME = 500;
 
