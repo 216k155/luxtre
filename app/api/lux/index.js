@@ -343,11 +343,11 @@ export default class LuxApi {
     try {
       //const walletId = request.walletId;
       const walletId = '';//default account
-      const mostRecentBlockNumber: LuxBlockNumber = await getLuxBlockNumber();
+      //const mostRecentBlockNumber: LuxBlockNumber = await getLuxBlockNumber();
       let transactions: LuxTransactions = await getLuxTransactions({
         walletId,
-        fromBlock: Math.max(mostRecentBlockNumber - 10000, 0),
-        toBlock: mostRecentBlockNumber
+        count: 1000,
+        skip: 0
       });
       /*const sendTransactions: LuxTransactions = await getLuxTransactions({
         walletId: '',
@@ -356,7 +356,7 @@ export default class LuxApi {
       });*/
       //transactions = transactions.concat(...sendTransactions);
       const allTxs = await Promise.all(
-        transactions.filter( (tx: LuxTransaction) => tx.category != 'move').map(async (tx: LuxTransaction) => {
+        transactions.filter(async (tx: LuxTransaction) => tx.category != 'move').map(async (tx: LuxTransaction) => {
           if (tx.category === 'receive') {
             return _createWalletTransactionFromServerData(transactionTypes.INCOME, tx);
           }

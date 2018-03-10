@@ -6,8 +6,8 @@ import type { LuxTransactions } from './types';
 
 export type GetLuxTransactionsParams = {
   walletId: string,
-  fromBlock: number,
-  toBlock: number
+  count: number,
+  skip: number
 };
 
 /**
@@ -21,8 +21,8 @@ export type GetLuxTransactionsParams = {
  */
 export const getLuxTransactions = ({
   walletId,
-  fromBlock,
-  toBlock
+  count,
+  skip
 }: GetLuxTransactionsParams): Promise<LuxTransactions> =>
   request(
     {
@@ -34,6 +34,6 @@ export const getLuxTransactions = ({
     {
       jsonrpc: '2.0',
       method: 'listtransactions',
-      params: [walletId, toBlock - fromBlock]
+      params: [walletId, count, skip]
     }
   );
