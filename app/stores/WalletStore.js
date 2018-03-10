@@ -17,7 +17,7 @@ import environment from '../environment';
 
 export default class WalletsStore extends Store {
 
-  WALLET_REFRESH_INTERVAL = 5000;
+  WALLET_REFRESH_INTERVAL = 20000;
   WAIT_FOR_SERVER_ERROR_TIME = 2000;
   MIN_NOTIFICATION_TIME = 500;
 
@@ -206,9 +206,9 @@ export default class WalletsStore extends Store {
     });
   };
 
-  _pollRefresh = async () => (
+  _pollRefresh = async () => {
     this.stores.networkStatus.isSynced && await this.refreshWalletsData()
-  );
+  };
 
   _toggleAddWalletDialogOnWalletsLoaded = () => {
     // Register mobx observers for active import and restore in order to trigger reaction on change

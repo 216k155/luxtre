@@ -15,7 +15,6 @@ import { getLuxAccounts } from './getLuxAccounts';
 import { getLuxAccountBalance } from './getLuxAccountBalance';
 import { getLuxAccountRecoveryPhrase } from './getLuxAccountRecoveryPhrase';
 import { sendLuxTransaction } from './sendLuxTransaction';
-import { renameLuxWallet } from './renameLuxWallet';
 import { getLuxTransactionByHash } from './getLuxTransaction';
 import { unlockLuxWallet } from './unlockLuxWallet';
 import { changeLuxWalletPassphrase } from './changeLuxWalletPassphrase';
@@ -27,10 +26,7 @@ import { setLuxAccount } from './setLuxAccount';
 import { getLuxAccountAddress } from './getLuxAccountAddress';
 import { isValidLuxAddress } from './isValidLuxAddress';
 import { isValidMnemonic } from '../../../lib/decrypt';
-
 import WalletAddress from '../../domain/WalletAddress';
-import { isValidRedemptionKey, isValidPaperVendRedemptionKey } from '../../../lib/redemption-key-validation';
-
 import { newLuxWallet } from './newLuxWallet';
 import { getLuxNewAddress } from './getLuxNewAddress';
 import { restoreLuxWallet } from './restoreLuxWallet';
@@ -40,16 +36,20 @@ import { importLuxBackupJSON } from './importLuxBackupJSON';
 import { importLuxWallet } from './importLuxWallet';
 import { getLuxWalletAccounts } from './getLuxWalletAccounts';
 import { luxTxFee } from './luxTxFee';
-import { newLuxPayment } from './newLuxPayment';
-import { redeemLux } from './redeemLux';
-import { redeemLuxPaperVend } from './redeemLuxPaperVend';
-import { nextLuxUpdate } from './nextLuxUpdate';
-import { postponeLuxUpdate } from './postponeLuxUpdate';
-import { applyLuxUpdate } from './applyLuxUpdate';
-import { luxTestReset } from './luxTestReset';
-import { getLuxHistoryByWallet } from './getLuxHistoryByWallet';
 import {getLuxUnspentTransactions} from './getLuxUnspentTransactions';
-import {getLuxEstimatedFee} from './getLuxEstimatedFee'
+import {getLuxEstimatedFee} from './getLuxEstimatedFee';
+import {encryptLuxWallet} from './encryptLuxWallet';
+
+//import { isValidRedemptionKey, isValidPaperVendRedemptionKey } from '../../../lib/redemption-key-validation';
+//import { renameLuxWallet } from './renameLuxWallet';
+//import { newLuxPayment } from './newLuxPayment';
+//import { redeemLux } from './redeemLux';
+//import { redeemLuxPaperVend } from './redeemLuxPaperVend';
+//import { nextLuxUpdate } from './nextLuxUpdate';
+//import { postponeLuxUpdate } from './postponeLuxUpdate';
+//import { applyLuxUpdate } from './applyLuxUpdate';
+//import { luxTestReset } from './luxTestReset';
+//import { getLuxHistoryByWallet } from './getLuxHistoryByWallet';
 
 import WalletTransaction, { 
   transactionStates,
@@ -173,7 +173,7 @@ export type CreateAddressRequest = {
   password: ?string,
 };
 
-export type RedeemLuxRequest = {
+/*export type RedeemLuxRequest = {
   redemptionCode: string,
   accountId: string,
   walletPassword: ?string,
@@ -186,6 +186,8 @@ export type RedeemPaperVendedLuxRequest = {
   walletPassword: ?string,
 };
 export type RedeemPaperVendedLuxResponse = RedeemPaperVendedLuxRequest;
+*/
+
 export type ImportWalletFromKeyRequest = {
   filePath: string,
   walletPassword: ?string,
@@ -200,8 +202,8 @@ export type ImportWalletFromFileResponse = Wallet;
 export type NextUpdateResponse = ?{
   version: ?string,
 };
-export type PostponeUpdateResponse = Promise<void>;
-export type ApplyUpdateResponse = Promise<void>;
+//export type PostponeUpdateResponse = Promise<void>;
+//export type ApplyUpdateResponse = Promise<void>;
 
 export type TransactionFeeRequest = {
   sender: string,
@@ -353,14 +355,13 @@ export default class LuxApi {
         toBlock: mostRecentBlockNumber
       });*/
       //transactions = transactions.concat(...sendTransactions);
-      Logger.debug('LuxApi::getTransactions success: ' + stringifyData(transactions));
       const allTxs = await Promise.all(
-        transactions.map(async (tx: LuxTransaction) => {
+        transactions.filter( (tx: LuxTransaction) => tx.category != 'move').map(async (tx: LuxTransaction) => {
           if (tx.category === 'receive') {
             return _createWalletTransactionFromServerData(transactionTypes.INCOME, tx);
           }
 
-          if (tx.category === 'send' || tx.category === 'move') {
+          if (tx.category === 'send') {
             return _createWalletTransactionFromServerData(transactionTypes.EXPEND, tx);
           }
         })
@@ -689,18 +690,6 @@ export default class LuxApi {
     return Promise.resolve(isValidLuxAddress({ address }));
   }
 
-  isValidRedemptionKey(mnemonic: string): Promise<boolean> {
-    return isValidRedemptionKey(mnemonic);
-  }
-
-  isValidPaperVendRedemptionKey(mnemonic: string): Promise<boolean> {
-    return isValidPaperVendRedemptionKey(mnemonic);
-  }
-
-  isValidRedemptionMnemonic(mnemonic: string): Promise<boolean> {
-    return isValidMnemonic(mnemonic, 9);
-  }
-
   async importWalletFromKey(
     request: ImportWalletFromKeyRequest
   ): Promise<ImportWalletFromKeyResponse> {
@@ -744,133 +733,10 @@ export default class LuxApi {
     }
   }
 
-  async redeemLux(request: RedeemLuxRequest): Promise<RedeemLuxResponse> {
-    Logger.debug('LuxApi::redeemLux called');
-    const { redemptionCode, accountId, walletPassword } = request;
-    try {
-      const walletRedeemData = {
-        crWalletId: accountId,
-        crSeed: redemptionCode,
-      };
-
-      const response: LuxTransaction = await redeemLux(
-        { ca, walletPassword, walletRedeemData }
-      );
-
-      Logger.debug('LuxApi::redeemLux success');
-      return _createTransactionFromServerData(response);
-    } catch (error) {
-      Logger.error('LuxApi::redeemLux error: ' + stringifyError(error));
-      if (error.message.includes('Passphrase doesn\'t match')) {
-        throw new IncorrectWalletPasswordError();
-      }
-      throw new RedeemLuxError();
-    }
-  }
-
-  async redeemPaperVendedLux(
-    request: RedeemPaperVendedLuxRequest
-  ): Promise<RedeemPaperVendedLuxResponse> {
-    Logger.debug('LuxApi::redeemLuxPaperVend called');
-    const { shieldedRedemptionKey, mnemonics, accountId, walletPassword } = request;
-    try {
-      const redeemPaperVendedData = {
-        pvWalletId: accountId,
-        pvSeed: shieldedRedemptionKey,
-        pvBackupPhrase: {
-          bpToList: split(mnemonics),
-        }
-      };
-
-      const response: LuxTransaction = await redeemLuxPaperVend(
-        { ca, walletPassword, redeemPaperVendedData }
-      );
-
-      Logger.debug('LuxApi::redeemLuxPaperVend success');
-      return _createTransactionFromServerData(response);
-    } catch (error) {
-      Logger.error('LuxApi::redeemLuxPaperVend error: ' + stringifyError(error));
-      if (error.message.includes('Passphrase doesn\'t match')) {
-        throw new IncorrectWalletPasswordError();
-      }
-      throw new RedeemLuxError();
-    }
-  }
-
   async nextUpdate(): Promise<NextUpdateResponse> {
     Logger.debug('LuxApi::nextUpdate called');
     let nextUpdate = null;
-    /*try {
-      // TODO: add flow type definitions for nextUpdate response
-      const response: Promise<any> = await nextLuxUpdate({ ca });
-      Logger.debug('LuxApi::nextUpdate success: ' + stringifyData(response));
-      if (response && response.cuiSoftwareVersion) {
-        nextUpdate = {
-          version: get(response, ['cuiSoftwareVersion', 'svNumber'], null)
-        };
-      }
-    } catch (error) {
-      if (error.message.includes('No updates available')) {
-        Logger.debug('LuxApi::nextUpdate success: No updates available');
-      } else {
-        Logger.error('LuxApi::nextUpdate error: ' + stringifyError(error));
-      }
-      // throw new GenericApiError();
-    }*/
     return nextUpdate;
-    // TODO: remove hardcoded response after node update is tested
-    // nextUpdate = {
-    //   cuiSoftwareVersion: {
-    //     svAppName: {
-    //       getApplicationName: 'luxcoin'
-    //     },
-    //     svNumber: 1
-    //   },
-    //   cuiBlockVesion: {
-    //     bvMajor: 0,
-    //     bvMinor: 1,
-    //     bvAlt: 0
-    //   },
-    //   cuiScriptVersion: 1,
-    //   cuiImplicit: false,
-    //   cuiVotesFor: 2,
-    //   cuiVotesAgainst: 0,
-    //   cuiPositiveStake: {
-    //     getCoin: 66666
-    //   },
-    //   cuiNegativeStake: {
-    //     getCoin: 0
-    //   }
-    // };
-    // if (nextUpdate && nextUpdate.cuiSoftwareVersion && nextUpdate.cuiSoftwareVersion.svNumber) {
-    //   return { version: nextUpdate.cuiSoftwareVersion.svNumber };
-    // } else if (nextUpdate) {
-    //   return { version: null };
-    // }
-    // return null;
-  }
-
-  async postponeUpdate(): PostponeUpdateResponse {
-    Logger.debug('LuxApi::postponeUpdate called');
-    try {
-      const response: Promise<any> = await postponeLuxUpdate({ ca });
-      Logger.debug('LuxApi::postponeUpdate success: ' + stringifyData(response));
-    } catch (error) {
-      Logger.error('LuxApi::postponeUpdate error: ' + stringifyError(error));
-      throw new GenericApiError();
-    }
-  }
-
-  async applyUpdate(): ApplyUpdateResponse {
-    Logger.debug('LuxApi::applyUpdate called');
-    try {
-      const response: Promise<any> = await applyLuxUpdate({ ca });
-      Logger.debug('LuxApi::applyUpdate success: ' + stringifyData(response));
-      ipcRenderer.send('kill-process');
-    } catch (error) {
-      Logger.error('LuxApi::applyUpdate error: ' + stringifyError(error));
-      throw new GenericApiError();
-    }
   }
 
   async exportWalletToFile(
