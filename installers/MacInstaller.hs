@@ -90,7 +90,7 @@ main = do
     unless (exitcode == ExitSuccess) $ error "Signing failed"
     run "security" ["set-key-partition-list", "-S", "apple-tool:,apple:", "-s", "-k", "travis", "macos-build.keychain"]
     run "security" ["unlock-keychain", "-p", "travis", "macos-build.keychain"]
-    shells ("productsign --sign \"Developer ID Installer: Input Output HK Limited (89TW38X994)\" --keychain macos-build.keychain dist/temp2.pkg " <> T.pack pkg) mempty
+    shells ("productsign --sign \"Developer ID Installer: Luxcore Limited (89TW38X994)\" --keychain macos-build.keychain dist/temp2.pkg " <> T.pack pkg) mempty
   else do
     echo "Pull request, not signing the installer."
     run "cp" ["dist/temp2.pkg", T.pack pkg]

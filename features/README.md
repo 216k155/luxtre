@@ -2,7 +2,7 @@
 
 
 1. Make sure you have correct node/npm versions installed on your machine (node v6.x and npm v3.x)
-2. Clone Luxcore repo to your machine (git@github.com:input-output-hk/luxcore.git - use **master** branch)
+2. Clone Luxcore repo to your machine (git@github.com:Luxcore/luxcore.git - use **master** branch)
 3. Install npm dependencies from within Luxcore directory:
 ```
 $ cd luxcore/

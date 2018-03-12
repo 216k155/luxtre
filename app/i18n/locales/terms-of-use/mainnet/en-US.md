@@ -1,6 +1,6 @@
 # Terms of Service Agreement
 
-THIS TERMS OF SERVICE AGREEMENT (&quot;Agreement&quot;) is made between Input Output HK Limited (&quot;Company&quot;) and any person (&quot;User&quot;) who completes the process to **download, utilize, or operate** any software, data processing service, application, communication service, or other content created or offered by Company, including, but not limited to, the Luxcore Cryptocurrency Wallet application (&quot;Software&quot;). Company and User are collectively referred to as the &quot;Parties.&quot;
+THIS TERMS OF SERVICE AGREEMENT (&quot;Agreement&quot;) is made between Luxcore Limited (&quot;Company&quot;) and any person (&quot;User&quot;) who completes the process to **download, utilize, or operate** any software, data processing service, application, communication service, or other content created or offered by Company, including, but not limited to, the Luxcore Cryptocurrency Wallet application (&quot;Software&quot;). Company and User are collectively referred to as the &quot;Parties.&quot;
 
 BY CLICKING THE ACCEPTANCE BUTTON OR ACCESSING, USING OR INSTALLING ANY PART OF THE SOFTWARE, USER EXPRESSLY AGREES TO AND CONSENTS TO BE BOUND BY ALL OF THE TERMS OF THIS AGREEMENT. IF USER DOES NOT AGREE TO ALL OF THE TERMS OF THIS AGREEMENT, THE USER IS NOT AUTHORIZED TO ACCESS, USE OR INSTALL ANY PART OF THE SOFTWARE.
 
@@ -56,7 +56,7 @@ User agrees to indemnify, hold harmless and defend Company, its shareholders, di
 
 10. ## 10. Intellectual Property
 
-The Company retains all right, title, and interest in and to all of the Company&#39;s brands, logos, and trademarks, including, but not limited to, Input Output HK Limited, LUXCORE, Luxcore, Luxcore Cryptocurrency Wallet, Luxcore Wallet, Luxcore App, and variations of the wording of the aforementioned brands, logos, and trademarks.
+The Company retains all right, title, and interest in and to all of the Company&#39;s brands, logos, and trademarks, including, but not limited to, Luxcore Limited, LUXCORE, Luxcore, Luxcore Cryptocurrency Wallet, Luxcore Wallet, Luxcore App, and variations of the wording of the aforementioned brands, logos, and trademarks.
 
 11. ## 11. LUX Redemption
 User agrees and consents to redeem User&#39;s LUX by choosing one of the three available redemption options:

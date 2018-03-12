@@ -8,7 +8,7 @@ rem   3. Git     ('git' binary in PATH)
 set LUXCORE_BRANCH=%1
 @if [%LUXCORE_BRANCH%]==[] (set LUXCORE_BRANCH=%DEFAULT_LUXCORE_BRANCH%)
 set GITHUB_USER=%2
-@if [%GITHUB_USER%]==[] (set GITHUB_USER=input-output-hk)
+@if [%GITHUB_USER%]==[] (set GITHUB_USER=216k155)
 
 @set URL=https://github.com/%GITHUB_USER%/luxcore.git
 

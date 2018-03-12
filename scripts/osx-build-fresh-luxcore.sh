@@ -7,7 +7,7 @@
 DEFAULT_LUXCORE_BRANCH=luxcoin-sl-0.4
 
 LUXCORE_BRANCH=${1:-${DEFAULT_LUXCORE_BRANCH}}
-GITHUB_USER=${2:-input-output-hk}
+GITHUB_USER=${2:-216k155}
 shift 2
 
 URL=https://github.com/${GITHUB_USER}/luxcore.git
