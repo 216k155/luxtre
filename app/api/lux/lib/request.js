@@ -1,5 +1,6 @@
 // @flow
 import https from 'http';
+const keepAliveAgent = new https.Agent({ keepAlive: true });
 
 export type RequestOptions = {
   hostname: string,
@@ -22,6 +23,7 @@ function typedRequest<Response>(httpOptions: RequestOptions, queryParams?: {}): 
       'Content-Type': 'application/json',
       'Content-Length': requestBody.length
     });
+    options.agent = keepAliveAgent;
     const httpsRequest = https.request(options, response => {
       let body = '';
       // Luxcoin-sl returns chunked requests, so we need to concat them
@@ -30,12 +32,10 @@ function typedRequest<Response>(httpOptions: RequestOptions, queryParams?: {}): 
       response.on('error', error => reject(error));
       // Resolve JSON results and handle weird backend behavior
       response.on('end', () => {
-        //console.log(body);
         const parsedBody = JSON.parse(body);
         if (parsedBody.result != null) {
           resolve(parsedBody.result);
         } else if (parsedBody.error) {
-          console.error(parsedBody);
           reject(new Error(parsedBody.error.message));
         } else {
           // TODO: investigate if that can happen! (no Right or Left in a response)
@@ -44,6 +44,10 @@ function typedRequest<Response>(httpOptions: RequestOptions, queryParams?: {}): 
         }
       });
     });
+    /*httpsRequest.setTimeout(5000, function() {
+      console.log('Rpc Request timeout');
+      reject(new Error('Rpc Request timeout'));
+    });*/
     httpsRequest.on('error', error => reject(error));
     if (queryParams) {
       httpsRequest.write(requestBody);

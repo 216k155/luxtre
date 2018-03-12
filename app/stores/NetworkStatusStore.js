@@ -12,7 +12,7 @@ let cachedDifficulties = null;
 
 // Maximum number of out-of-sync blocks above which we consider to be out-of-sync
 const OUT_OF_SYNC_BLOCKS_LIMIT = 10;
-const SYNC_PROGRESS_INTERVAL = 2000;
+const SYNC_PROGRESS_INTERVAL = 5000;
 
 const STARTUP_STAGES = {
   CONNECTING: 0,

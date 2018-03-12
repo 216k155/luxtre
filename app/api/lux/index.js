@@ -248,9 +248,9 @@ export default class LuxApi {
     Logger.debug('LuxApi::getSyncProgress called');
     try {
       const response: LuxInfo = await getLuxInfo();
-      //Logger.info('LuxApi::getLuxInfo success: ' + stringifyData(response));
+      //console.log('LuxApi::getLuxInfo success: ' + stringifyData(response));
       const peerInfos: LuxPeerInfos = await getLuxPeerInfo();
-      //Logger.info('LuxApi::getLuxPeerInfo success: ' + stringifyData(peerInfos));
+      //console.log('LuxApi::getLuxPeerInfo success: ' + stringifyData(peerInfos));
       var totalBlocks = peerInfos.sort(function(a, b){
         return b.startingheight - a.startingheight;
       })[0].startingheight;
