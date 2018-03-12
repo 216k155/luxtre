@@ -577,7 +577,7 @@ export default class LuxApi {
       return true;
     } catch (error) {
       Logger.error('LuxApi::updateWalletPassword error: ' + stringifyError(error));
-      if (error.message.includes('Could not decrypt key with given passphrase')) {
+      if (error.message.includes('passphrase')) {
         throw new IncorrectWalletPasswordError();
       }
       throw new GenericApiError();
