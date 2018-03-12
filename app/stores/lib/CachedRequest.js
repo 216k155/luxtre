@@ -5,6 +5,7 @@ import Request from './Request';
 import type { ApiCallType } from './Request';
 
 export default class CachedRequest<Result, Error> extends Request<Result, Error> {
+
   _apiCalls: Array<ApiCallType> = [];
   _isInvalidated: boolean = true;
 
@@ -32,11 +33,11 @@ export default class CachedRequest<Result, Error> extends Request<Result, Error>
     // regarding triggering actions as side-effect of getters
     setTimeout(
       action(() => {
-        this.isExecuting = true;
-        // Apply the previous result from this call immediately (cached)
-        if (existingApiCall) {
-          this.result = existingApiCall.result;
-        }
+      this.isExecuting = true;
+      // Apply the previous result from this call immediately (cached)
+      if (existingApiCall) {
+        this.result = existingApiCall.result;
+      }
       }),
       0
     );
@@ -47,13 +48,13 @@ export default class CachedRequest<Result, Error> extends Request<Result, Error>
         .then(result => {
           setTimeout(
             action(() => {
-              this.result = result;
-              if (this._currentApiCall) this._currentApiCall.result = result;
-              this.isExecuting = false;
-              this.wasExecuted = true;
-              this._isInvalidated = false;
-              this._isWaitingForResponse = false;
-              resolve(result);
+            this.result = result;
+            if (this._currentApiCall) this._currentApiCall.result = result;
+            this.isExecuting = false;
+            this.wasExecuted = true;
+            this._isInvalidated = false;
+            this._isWaitingForResponse = false;
+            resolve(result);
             }),
             1
           );
@@ -63,13 +64,13 @@ export default class CachedRequest<Result, Error> extends Request<Result, Error>
           action(error => {
             setTimeout(
               action(() => {
-                this.error = error;
-                this.isExecuting = false;
-                this.isError = true;
-                this.wasExecuted = true;
-                this._isWaitingForResponse = false;
+            this.error = error;
+            this.isExecuting = false;
+            this.isError = true;
+            this.wasExecuted = true;
+            this._isWaitingForResponse = false;
                 this.reset();
-                reject(error);
+            reject(error);
               }),
               1
             );
@@ -110,4 +111,5 @@ export default class CachedRequest<Result, Error> extends Request<Result, Error>
     this._isInvalidated = true;
     return this;
   }
+
 }

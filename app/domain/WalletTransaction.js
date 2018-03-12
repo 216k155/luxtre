@@ -31,6 +31,7 @@ export const transactionTypes: {
 };
 
 export default class WalletTransaction {
+
   @observable id: string = '';
   @observable type: TransactionType;
   @observable title: string = '';
@@ -63,4 +64,5 @@ export default class WalletTransaction {
     }
     return assuranceLevels.HIGH;
   }
+
 }

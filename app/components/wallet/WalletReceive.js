@@ -175,12 +175,6 @@ export default class WalletReceive extends Component<Props, State> {
           />
         }
 
-        <Button
-          className={generateAddressButtonClasses}
-          label={intl.formatMessage(messages.generateNewAddressButtonLabel)}
-          onMouseUp={this.submit.bind(this)}
-          skin={<SimpleButtonSkin />}
-        />
       </div>
     );
 
@@ -192,7 +186,9 @@ export default class WalletReceive extends Component<Props, State> {
 
     return (
       <div className={styles.component}>
-
+	<div className={styles.categoryTitle}>
+          Receive
+        </div>
         <BorderedBox>
 
           <div className={styles.qrCodeAndInstructions}>
@@ -226,45 +222,7 @@ export default class WalletReceive extends Component<Props, State> {
 
               {error ? <p className={styles.error}>{intl.formatMessage(error)}</p> : null}
 
-              {generateAddressForm}
-
             </div>
-          </div>
-
-          <div className={styles.generatedAddresses}>
-            <h2>
-              {intl.formatMessage(messages.generatedAddressesSectionTitle)}
-              <button onClick={this.toggleUsedAddresses}>
-                {intl.formatMessage(messages[showUsed ? 'hideUsedLabel' : 'showUsedLabel'])}
-              </button>
-            </h2>
-
-            {walletAddresses.map((address, index) => {
-              const isAddressVisible = !address.isUsed || showUsed;
-              if (!isAddressVisible) return null;
-
-              const addressClasses = classnames([
-                'generatedAddress-' + (index + 1),
-                styles.walletAddress,
-                address.isUsed ? styles.usedWalletAddress : null,
-              ]);
-              return (
-                <div key={index} className={addressClasses}>
-                  <div className={styles.addressId}>{address.id}</div>
-                  <div className={styles.addressActions}>
-                    <CopyToClipboard
-                      text={address.id}
-                      onCopy={onCopyAddress.bind(this, address.id)}
-                    >
-                      <span className={styles.copyAddress}>
-                        <SvgInline svg={iconCopy} className={styles.copyIcon} />
-                        <span>{intl.formatMessage(messages.copyAddressLabel)}</span>
-                      </span>
-                    </CopyToClipboard>
-                  </div>
-                </div>
-              );
-            })}
           </div>
 
         </BorderedBox>

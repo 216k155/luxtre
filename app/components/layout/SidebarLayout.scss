@@ -1,9 +1,10 @@
-$topBarHeight: 84px;
+$topBarHeight: 64px;
 
 .component {
   background: var(--theme-main-body-background-color);
   height: 100%;
   display: flex;
+  flex-direction: column;
 }
 
 .main {

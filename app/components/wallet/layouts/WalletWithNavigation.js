@@ -9,19 +9,21 @@ type Props = {
   children?: Node,
   isActiveScreen: Function,
   onWalletNavItemClick: Function,
+  amount: string
 };
 
 @observer
 export default class WalletWithNavigation extends Component<Props> {
 
   render() {
-    const { children, isActiveScreen, onWalletNavItemClick } = this.props;
+    const { children, isActiveScreen, onWalletNavItemClick, amount} = this.props;
     return (
       <div className={styles.component}>
         <div className={styles.navigation}>
           <WalletNavigation
             isActiveNavItem={isActiveScreen}
             onNavItemClick={onWalletNavItemClick}
+            amount={amount}
           />
         </div>
         <div className={styles.page}>

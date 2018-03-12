@@ -9,6 +9,7 @@ import LocalizableError from '../../i18n/LocalizableError';
 import type { GetAddressesResponse, CreateAddressResponse } from '../../api/lux/index';
 
 export default class AddressesStore extends Store {
+
   @observable lastGeneratedAddress: ?WalletAddress = null;
   @observable
   addressesRequests: Array<{
@@ -111,4 +112,5 @@ export default class AddressesStore extends Store {
     if (foundRequest && foundRequest.allRequest) return foundRequest.allRequest;
     return new CachedRequest(this.api.lux.getAddresses);
   };
+
 }

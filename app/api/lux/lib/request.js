@@ -1,5 +1,6 @@
 // @flow
 import https from 'http';
+//const keepAliveAgent = new https.Agent({ keepAlive: true });
 
 export type RequestOptions = {
   hostname: string,
@@ -20,8 +21,10 @@ function typedRequest<Response>(httpOptions: RequestOptions, queryParams?: {}): 
     if (queryParams) requestBody = JSON.stringify(queryParams);
     options.headers = Object.assign(options.headers || {}, {
       'Content-Type': 'application/json',
-      'Content-Length': requestBody.length
+      'Content-Length': requestBody.length,
+      'Connection': 'keep-alive'
     });
+    //options.agent = keepAliveAgent;
     const httpsRequest = https.request(options, response => {
       let body = '';
       // Luxcoin-sl returns chunked requests, so we need to concat them
@@ -34,15 +37,18 @@ function typedRequest<Response>(httpOptions: RequestOptions, queryParams?: {}): 
         if (parsedBody.result != null) {
           resolve(parsedBody.result);
         } else if (parsedBody.error) {
-          console.error(parsedBody);
           reject(new Error(parsedBody.error.message));
         } else {
           // TODO: investigate if that can happen! (no Right or Left in a response)
           resolve(parsedBody);
-          // reject(new Error('Unknown response from backend.'));
+          //reject(new Error('Unknown response from backend.'));
         }
       });
     });
+    /*httpsRequest.setTimeout(5000, function() {
+      console.log('Rpc Request timeout');
+      reject(new Error('Rpc Request timeout'));
+    });*/
     httpsRequest.on('error', error => reject(error));
     if (queryParams) {
       httpsRequest.write(requestBody);

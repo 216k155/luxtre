@@ -16,14 +16,15 @@ import environment from '../environment';
  */
 
 export default class WalletsStore extends Store {
-  WALLET_REFRESH_INTERVAL = 15000;
-  WAIT_FOR_SERVER_ERROR_TIME = 5000;
-  MIN_NOTIFICATION_TIME = 1000;
+
+  WALLET_REFRESH_INTERVAL = 5000;
+  WAIT_FOR_SERVER_ERROR_TIME = 2000;
+  MIN_NOTIFICATION_TIME = 500;
 
   @observable active: ?Wallet = null;
   @observable walletsRequest: Request<any>;
   @observable createWalletRequest: Request<any>;
-  @observable deleteWalletRequest: Request<any>;
+  @observable renameWalletRequest: Request<any>;
   @observable getWalletRecoveryPhraseRequest: Request<any>;
   @observable restoreRequest: Request<any>;
   @observable isImportActive: boolean = false;
@@ -32,22 +33,26 @@ export default class WalletsStore extends Store {
   _newWalletDetails: { name: string, mnemonic: string, password: ?string } = {
     name: '',
     mnemonic: '',
-    password: null
+    password: null,
   };
 
   setup() {
     setInterval(this._pollRefresh, this.WALLET_REFRESH_INTERVAL);
     this.registerReactions([
       this._updateActiveWalletOnRouteChanges,
-      this._toggleAddWalletDialogOnWalletsLoaded
+      this._toggleAddWalletDialogOnWalletsLoaded,
     ]);
   }
 
-  _create = async (params: { name: string, password: ?string }) => {
+  _create = async (params: {
+    name: string,
+    password: ?string,
+  }) => {
     Object.assign(this._newWalletDetails, params);
     try {
-      const recoveryPhrase: ?GetWalletRecoveryPhraseResponse = await this.getWalletRecoveryPhraseRequest.execute()
-        .promise;
+      const recoveryPhrase: ?GetWalletRecoveryPhraseResponse = await (
+        this.getWalletRecoveryPhraseRequest.execute().promise
+      );
       if (recoveryPhrase != null) {
         this.actions.walletBackup.initiateWalletBackup.trigger({ recoveryPhrase });
       }
@@ -60,14 +65,12 @@ export default class WalletsStore extends Store {
     this._newWalletDetails.mnemonic = this.stores.walletBackup.recoveryPhrase.join(' ');
     const wallet = await this.createWalletRequest.execute(this._newWalletDetails).promise;
     if (wallet) {
-      await this.walletsRequest.patch(result => {
-        result.push(wallet);
-      });
+      await this.walletsRequest.patch(result => { result.push(wallet); });
       this.actions.dialogs.closeActiveDialog.trigger();
       this.goToWalletRoute(wallet.id);
     } else {
       this.actions.dialogs.open.trigger({
-        dialog: WalletAddDialog
+        dialog: WalletAddDialog,
       });
     }
   };
@@ -76,7 +79,7 @@ export default class WalletsStore extends Store {
     const walletToDelete = this.getWalletById(params.walletId);
     if (!walletToDelete) return;
     const indexOfWalletToDelete = this.all.indexOf(walletToDelete);
-    await this.deleteWalletRequest.execute({ walletId: params.walletId });
+    await this.renameWalletRequest.execute({ walletId: params.walletId });
     await this.walletsRequest.patch(result => {
       result.splice(indexOfWalletToDelete, 1);
     });
@@ -91,14 +94,14 @@ export default class WalletsStore extends Store {
         this.actions.router.goToRoute.trigger({ route: ROUTES.NO_WALLETS });
       }
     });
-    this.deleteWalletRequest.reset();
+    this.renameWalletRequest.reset();
     this.refreshWalletsData();
   };
 
   _restore = async (params: {
     recoveryPhrase: string,
     walletName: string,
-    walletPassword: ?string
+    walletPassword: ?string,
   }) => {
     const restoredWallet = await this.restoreRequest.execute(params).promise;
     if (!restoredWallet) throw new Error('Restored wallet was not received correctly');
@@ -113,54 +116,47 @@ export default class WalletsStore extends Store {
 
   // GETTERS
 
-  @computed
-  get hasActiveWallet(): boolean {
+  @computed get hasActiveWallet(): boolean {
     return !!this.active;
   }
 
-  @computed
-  get hasLoadedWallets(): boolean {
+  @computed get hasLoadedWallets(): boolean {
     return this.walletsRequest.wasExecuted;
   }
 
-  @computed
-  get hasAnyWallets(): boolean {
+  @computed get hasAnyWallets(): boolean {
     if (this.walletsRequest.result == null) return false;
     return this.walletsRequest.wasExecuted && this.walletsRequest.result.length > 0;
   }
 
-  @computed
-  get all(): Array<Wallet> {
+  @computed get all(): Array<Wallet> {
     return this.walletsRequest.result ? this.walletsRequest.result : [];
   }
 
-  @computed
-  get first(): ?Wallet {
+  @computed get first(): ?Wallet {
     return this.all.length > 0 ? this.all[0] : null;
   }
 
-  @computed
-  get hasAnyLoaded(): boolean {
+  @computed get hasAnyLoaded(): boolean {
     return this.all.length > 0;
   }
 
-  @computed
-  get activeWalletRoute(): ?string {
+  @computed get activeWalletRoute(): ?string {
     if (!this.active) return null;
     return this.getWalletRoute(this.active.id);
   }
 
-  getWalletById = (id: string): ?Wallet => this.all.find(w => w.id === id);
+  getWalletById = (id: string): (?Wallet) => this.all.find(w => w.id === id);
 
-  getWalletByName = (name: string): ?Wallet => this.all.find(w => w.name === name);
+  getWalletByName = (name: string): (?Wallet) => this.all.find(w => w.name === name);
 
-  getWalletRoute = (walletId: string, page: string = 'summary'): string =>
-    buildRoute(ROUTES.WALLETS.PAGE, { id: walletId, page });
+  getWalletRoute = (walletId: string, page: string = 'summary'): string => (
+    buildRoute(ROUTES.WALLETS.PAGE, { id: walletId, page })
+  );
 
   // ACTIONS
 
-  @action
-  refreshWalletsData = async () => {
+  @action refreshWalletsData = async () => {
     if (!this.stores.networkStatus.isConnected) return;
     const result = await this.walletsRequest.execute().promise;
     if (!result) return;
@@ -175,23 +171,19 @@ export default class WalletsStore extends Store {
       transactions.transactionsRequests = walletIds.map(walletId => ({
         walletId,
         recentRequest: transactions._getTransactionsRecentRequest(walletId),
-        allRequest: transactions._getTransactionsAllRequest(walletId)
+        allRequest: transactions._getTransactionsAllRequest(walletId),
       }));
       transactions._refreshTransactionData();
     });
   };
 
-  @action
-  _setActiveWallet = ({ walletId }: { walletId: string }) => {
+  @action _setActiveWallet = ({ walletId }: { walletId: string }) => {
     if (this.hasAnyWallets) {
       this.active = this.all.find(wallet => wallet.id === walletId);
     }
   };
 
-  @action
-  _unsetActiveWallet = () => {
-    this.active = null;
-  };
+  @action _unsetActiveWallet = () => { this.active = null; };
 
   goToWalletRoute(walletId: string) {
     const route = this.getWalletRoute(walletId);
@@ -200,8 +192,7 @@ export default class WalletsStore extends Store {
 
   // =================== PRIVATE API ==================== //
 
-  @computed
-  get _canRedirectToWallet(): boolean {
+  @computed get _canRedirectToWallet(): boolean {
     const currentRoute = this.stores.app.currentRoute;
     const isRootRoute = matchRoute(ROUTES.WALLETS.ROOT, currentRoute);
     const isNoWalletsRoute = matchRoute(ROUTES.NO_WALLETS, currentRoute);
@@ -215,8 +206,9 @@ export default class WalletsStore extends Store {
     });
   };
 
-  _pollRefresh = async () =>
-    this.stores.networkStatus.isSynced && (await this.refreshWalletsData());
+  _pollRefresh = async () => {
+    this.stores.networkStatus.isSynced && await this.refreshWalletsData()
+  };
 
   _toggleAddWalletDialogOnWalletsLoaded = () => {
     // Register mobx observers for active import and restore in order to trigger reaction on change
@@ -256,4 +248,5 @@ export default class WalletsStore extends Store {
       }
     });
   };
+
 }

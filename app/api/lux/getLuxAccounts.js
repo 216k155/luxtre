@@ -1,7 +1,7 @@
 // @flow
+import type { LuxAccounts } from './types';
 import { request } from './lib/request';
 import { LUX_API_HOST, LUX_API_PORT, LUX_API_USER, LUX_API_PWD } from './index';
-import type { LuxAccounts } from './types';
 
 export const getLuxAccounts = (
 ): Promise<LuxAccounts> => (

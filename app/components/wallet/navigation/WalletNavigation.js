@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
 import styles from './WalletNavigation.scss';
 import WalletNavButton from './WalletNavButton';
+import WalletLogo from './WalletLogo';
 import summaryIcon from '../../../assets/images/wallet-nav/summary-ic.inline.svg';
 import sendIcon from '../../../assets/images/wallet-nav/send-ic.inline.svg';
 import receiveIcon from '../../../assets/images/wallet-nav/receive-ic.inline.svg';
@@ -41,6 +42,7 @@ const messages = defineMessages({
 type Props = {
   isActiveNavItem: Function,
   onNavItemClick: Function,
+  amount: string
 };
 
 @observer
@@ -51,11 +53,15 @@ export default class WalletNavigation extends Component<Props> {
   };
 
   render() {
-    const { isActiveNavItem, onNavItemClick } = this.props;
+    const { isActiveNavItem, onNavItemClick, amount} = this.props;
     const { intl } = this.context;
     return (
       <div className={styles.component}>
-
+        <div>
+          <WalletLogo 
+ 	    amount={amount}
+ 	  />
+        </div>
         <div className={styles.navItem}>
           <WalletNavButton
             className="summary"

@@ -35,6 +35,7 @@ type Props = {
 
 @observer
 export default class WalletTransactionsList extends Component<Props> {
+
   static contextTypes = {
     intl: intlShape.isRequired
   };
@@ -107,10 +108,13 @@ export default class WalletTransactionsList extends Component<Props> {
             this.loadingSpinner = component;
           }}
         />
-      ) : null;
+    ) : null;
 
     return (
       <div className={styles.component}>
+	<div className={styles.categoryTitle}>
+          Transactions
+        </div>
         {transactionsGroups.map((group, groupIndex) => (
           <div className={styles.group} key={walletId + '-' + groupIndex}>
             <div className={styles.groupDate}>{this.localizedDate(group.date)}</div>
@@ -132,4 +136,5 @@ export default class WalletTransactionsList extends Component<Props> {
       </div>
     );
   }
+
 }
