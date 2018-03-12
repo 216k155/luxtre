@@ -1,6 +1,6 @@
 // @flow
 import https from 'http';
-const keepAliveAgent = new https.Agent({ keepAlive: true });
+//const keepAliveAgent = new https.Agent({ keepAlive: true });
 
 export type RequestOptions = {
   hostname: string,
@@ -21,9 +21,10 @@ function typedRequest<Response>(httpOptions: RequestOptions, queryParams?: {}): 
     if (queryParams) requestBody = JSON.stringify(queryParams);
     options.headers = Object.assign(options.headers || {}, {
       'Content-Type': 'application/json',
-      'Content-Length': requestBody.length
+      'Content-Length': requestBody.length,
+      'Connection': 'keep-alive'
     });
-    options.agent = keepAliveAgent;
+    //options.agent = keepAliveAgent;
     const httpsRequest = https.request(options, response => {
       let body = '';
       // Luxcoin-sl returns chunked requests, so we need to concat them
