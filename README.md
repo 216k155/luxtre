@@ -72,8 +72,6 @@ defaults to 6.x*
 
 ### Development - with Lux Wallet (lux-bridge)
 
-Build and run lux-bridge [using instructions in the repo](https://github.com/216k155/lux-bridge/tree/master/lux)
-
 Symlink the npm package in the subfolder `lux-bridge/lux`:
 * `npm link` (inside the lux sub folder of the Lux client)
 * `npm link lux-client-api` (inside this lux frontend app)
@@ -99,7 +97,7 @@ instead of dev with webpack hot-reload server (which is slow).
 Execute this once before running the tests (which creates the `dist/bundle.js`):
 ```bash
 $ npm run build
-``` 
+```
 
 After that, execute this to run the tests:
 

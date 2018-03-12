@@ -1,4 +1,4 @@
 wallet:
-  relays: [[{"host": "relays.luxcoin-mainnet.iohk.io"}]]
+  relays: [[{"host": "relays.luxcoin-mainnet.luxcore.io"}]]
   valency: 1
   fallbacks: 7

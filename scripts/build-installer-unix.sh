@@ -134,7 +134,7 @@ test -n "$(which stack)"     -a -n "${fast_impure}" ||
 
 cd installers
     if test "${travis_pr}" = "false" -a "${os}" != "linux" # No Linux keys yet.
-    then retry 5 nix-shell -p awscli --run "aws s3 cp --region eu-central-1 s3://iohk-private/${key} macos.p12"
+    then retry 5 nix-shell -p awscli --run "aws s3 cp --region eu-central-1 s3://luxcore-private/${key} macos.p12"
     fi
     retry 5 $(nix-build -j 2)/bin/make-installer
     mkdir -p dist

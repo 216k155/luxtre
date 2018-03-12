@@ -3,9 +3,9 @@ version:             0.1.0.0
 synopsis:            Luxcoin Installer
 description:         Please see README.md
 license:             MIT
-author:              Serokell
-maintainer:          Serokell <hi@serokell.io>
-copyright:           2016 IOHK
+author:              216k155
+maintainer:          216k155 <216K155@luxcore.io>
+copyright:           2018 LUXCORE
 build-type:          Simple
 extra-source-files:  README.md
 cabal-version:       >=1.10

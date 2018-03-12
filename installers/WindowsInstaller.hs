@@ -88,8 +88,8 @@ signFile filename = do
       Just pass -> do
         echo . unsafeTextToLine . pack $ "Signing " <> filename
         -- TODO: Double sign a file, SHA1 for vista/xp and SHA2 for windows 8 and on
-        --procs "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Bin\\signtool.exe" ["sign", "/f", "C:\\iohk-windows-certificate.p12", "/p", pack pass, "/t", "http://timestamp.comodoca.com", "/v", pack filename] mempty
-        exitcode <- proc "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Bin\\signtool.exe" ["sign", "/f", "C:\\iohk-windows-certificate.p12", "/p", pack pass, "/fd", "sha256", "/tr", "http://timestamp.comodoca.com/?td=sha256", "/td", "sha256", "/v", pack filename] mempty
+        --procs "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Bin\\signtool.exe" ["sign", "/f", "C:\\luxcore-windows-certificate.p12", "/p", pack pass, "/t", "http://timestamp.comodoca.com", "/v", pack filename] mempty
+        exitcode <- proc "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Bin\\signtool.exe" ["sign", "/f", "C:\\luxcore-windows-certificate.p12", "/p", pack pass, "/fd", "sha256", "/tr", "http://timestamp.comodoca.com/?td=sha256", "/td", "sha256", "/v", pack filename] mempty
         unless (exitcode == ExitSuccess) $ error "Signing failed"
   else
     error $ "Unable to sign missing file '" <> filename <> "''"
@@ -161,7 +161,7 @@ writeInstallerNSIS fullVersion = do
 
         -- Uninstaller
         writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "InstallLocation" "$INSTDIR\\Luxcore"
-        writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "Publisher" "IOHK"
+        writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "Publisher" "LUXCORE"
         writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "ProductVersion" (str fullVersion)
         writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "VersionMajor" (str . (!! 0). parseVersion $ fullVersion)
         writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "VersionMinor" (str . (!! 1). parseVersion $ fullVersion)

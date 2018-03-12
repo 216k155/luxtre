@@ -1,9 +1,9 @@
 import React from 'react';
 import { storiesOf, action } from '@kadira/storybook';
 import StoryDecorator from './support/StoryDecorator';
-import DeleteWalletConfirmationDialog from '../app/components/wallet/settings/DeleteWalletConfirmationDialog';
+import RenameWalletConfirmationDialog from '../app/components/wallet/settings/RenameWalletConfirmationDialog';
 
-storiesOf('DeleteWalletConfirmationDialog', module)
+storiesOf('RenameWalletConfirmationDialog', module)
 
   .addDecorator((story) => (
     <StoryDecorator>
@@ -15,7 +15,7 @@ storiesOf('DeleteWalletConfirmationDialog', module)
 
   .add('without funds & countdown', () => (
     <div>
-      <DeleteWalletConfirmationDialog
+      <RenameWalletConfirmationDialog
         walletName={"My Wallet"}
         hasWalletFunds={false}
         countdownFn={() => 10}
@@ -25,7 +25,7 @@ storiesOf('DeleteWalletConfirmationDialog', module)
   ))
   .add('without funds - not accepted', () => (
     <div>
-      <DeleteWalletConfirmationDialog
+      <RenameWalletConfirmationDialog
         walletName={"My Wallet"}
         hasWalletFunds={false}
         countdownFn={() => 0}
@@ -35,7 +35,7 @@ storiesOf('DeleteWalletConfirmationDialog', module)
   ))
   .add('without funds - accepted', () => (
     <div>
-      <DeleteWalletConfirmationDialog
+      <RenameWalletConfirmationDialog
         walletName={"My Wallet"}
         hasWalletFunds={false}
         countdownFn={() => 0}
@@ -45,7 +45,7 @@ storiesOf('DeleteWalletConfirmationDialog', module)
   ))
   .add('funds & countdown', () => (
     <div>
-      <DeleteWalletConfirmationDialog
+      <RenameWalletConfirmationDialog
         walletName={"My Wallet"}
         hasWalletFunds={true}
         countdownFn={() => 10}
@@ -55,7 +55,7 @@ storiesOf('DeleteWalletConfirmationDialog', module)
   ))
   .add('funds & accepted', () => (
     <div>
-      <DeleteWalletConfirmationDialog
+      <RenameWalletConfirmationDialog
         walletName={"My Wallet"}
         hasWalletFunds={true}
         countdownFn={() => 0}
@@ -65,7 +65,7 @@ storiesOf('DeleteWalletConfirmationDialog', module)
   ))
   .add('funds & accepted & filled', () => (
     <div>
-      <DeleteWalletConfirmationDialog
+      <RenameWalletConfirmationDialog
         walletName={"My Wallet"}
         hasWalletFunds={true}
         countdownFn={() => 0}
