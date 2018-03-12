@@ -4,9 +4,9 @@
 #   2.  tr -d '\r' < old.sh > new.sh
 #   3.  npm rebuild node-sass
 
-GITHUB_USER=KaceyBolman
-CLONE_DIR=TestLuxCoin
-URL=https://github.com/${GITHUB_USER}/TestLuxCoin.git
+GITHUB_USER=216k155
+CLONE_DIR=luxcore
+URL=https://github.com/${GITHUB_USER}/luxcore.git
 
 #open lux core rpc-daemon
 exec ./run-core-linux.sh &
