@@ -1,6 +1,8 @@
 import { defineMessages } from 'react-intl';
 import LocalizableError from '../i18n/LocalizableError';
-import { WalletTransaction, Wallet } from '../domain/WalletTransaction';
+import { WalletTransaction } from '../domain/WalletTransaction';
+import { Wallet } from '../domain/Wallet';
+import { MasterNode } from '../domain/MasterNode';
 
 const messages = defineMessages({
   genericApiError: {
@@ -55,6 +57,9 @@ export type GetWalletRecoveryPhraseResponse = Array<string>;
 export type RestoreWalletResponse = Wallet;
 export type UpdateWalletResponse = Wallet;
 export type UpdateWalletPasswordResponse = boolean;
+export type CreateMasterNodeResponse = string;
+export type GetMasterNodeGenKeyResponse = string;
+export type GetMasterNodeListResponse = Array<MasterNode>;
 
 export type CreateWalletRequest = {
   name: string,
