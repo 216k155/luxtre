@@ -10,6 +10,7 @@ import { getLuxInfo } from './getLuxInfo';
 import { getLuxPeerInfo } from './getLuxPeerInfo';
 import { LOVELACES_PER_LUX } from '../../config/numbersConfig';
 import Wallet from '../../domain/Wallet';
+import MasterNode from '../../domain/MasterNode';
 
 import { getLuxAccounts } from './getLuxAccounts';
 import { getLuxAccountBalance } from './getLuxAccountBalance';
@@ -96,6 +97,9 @@ import type {
   UpdateWalletResponse,
   UpdateWalletPasswordRequest,
   UpdateWalletPasswordResponse,
+  CreateMasterNodeResponse,
+  GetMasterNodeGenKeyResponse,
+  GetMasterNodeListResponse
 } from '../common';
 
 import {
@@ -792,6 +796,69 @@ export default class LuxApi {
       throw new GenericApiError();
     }
   }
+
+  /////////////////////////////// MASTERNODE API ///////////////////////////////////
+
+  async createMasterNode(alias: string): Promise<CreateMasterNodeResponse> {
+    Logger.debug('LuxApi::createMasterNode called');
+    try {
+      
+      const { walletId} = alias;
+      const response: LuxAddress = await getLuxAccountAddress({ walletId });
+      return response;
+    } catch (error) {
+      Logger.error('LuxApi::createMasterNode error: ' + stringifyError(error));
+      throw new GenericApiError();
+    }
+  }
+
+  async getMasterNodeGenKey(): Promise<GetMasterNodeGenKeyResponse> {
+    Logger.debug('LuxApi::getMasterNodeGenKey called');
+    try {
+      const response = await getLuxMasterNodeGenKey();
+      return response;
+    } catch (error) {
+      Logger.error('LuxApi::getMasterNodeGenKey error: ' + stringifyError(error));
+      throw new GenericApiError();
+    }
+  }
+
+  async getMasterNodeList(): Promise<GetMasterNodeListResponse> {
+    Logger.debug('LuxApi::getMasterNodeList called');
+    try {
+      let attribute = 'rank'
+      const masterNodesRank = await getLuxMasterNodeList({attribute});
+      attribute = 'active'
+      const masterNodesActive = await getLuxMasterNodeList({attribute});
+      attribute = 'activeseconds'
+      const masterNodesActiveSeconds = await getLuxMasterNodeList({attribute});
+      attribute = 'lastseen'
+      const masterNodesLastSeen = await getLuxMasterNodeList({attribute});
+      attribute = 'pubkey'
+      const masterNodesPubkey = await getLuxMasterNodeList({attribute});
+      
+      return await Promise.all(
+        Object.keys(masterNodesRank).map(async id => {
+            const address = id;
+            const rank = masterNodesRank[id];
+            const active = masterNodesActive[id];
+            const activeSeconds = masterNodesActiveSeconds[id];
+            const lastSeen = masterNodesLastSeen[id];
+            const pubkey = masterNodesPubkey[id];
+            return new MasteNode({
+              address,
+              rank,
+              active,
+              activeSeconds,
+              lastSeen,
+              pubKey
+            });
+        })
+      );
+    } catch (error) {
+      Logger.error('LuxApi::getMasterNodeGenKey error: ' + stringifyError(error));
+      throw new GenericApiError();
+    }
 }
 
 // ========== TRANSFORM SERVER DATA INTO FRONTEND MODELS =========

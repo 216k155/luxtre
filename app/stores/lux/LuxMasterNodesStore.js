@@ -1,55 +1,30 @@
 // @flow
 import { observable, action, runInAction } from 'mobx';
+import BigNumber from 'bignumber.js';
 import WalletStore from '../WalletStore';
 import Wallet from '../../domain/Wallet';
 import { matchRoute, buildRoute } from '../../utils/routing';
 import Request from '.././lib/LocalizedRequest';
 import { ROUTES } from '../../routes-config';
-import type { walletExportTypeChoices } from '../../types/walletExportTypes';
-import type { WalletImportFromFileParams } from '../../actions/lux/wallets-actions';
-import type { ImportWalletFromFileResponse } from '../../api/lux/index';
 import type {
-  CreateTransactionResponse,
-  CreateWalletResponse,
-  DeleteWalletResponse,
-  GetWalletsResponse,
-  RestoreWalletResponse,
-  GetWalletRecoveryPhraseResponse
+  CreateMasterNodeResponse, GetMasterNodeGenKeyResponse, RenameWalletResponse,
+  GetWalletsResponse, RestoreWalletResponse,
+  GetWalletRecoveryPhraseResponse,
 } from '../../api/common';
 
-export default class LuxWalletsStore extends WalletStore {
+export default class LuxMasterNodesStore extends Store {
+
   // REQUESTS
-  /* eslint-disable max-len */
-  @observable walletsRequest: Request<GetWalletsResponse> = new Request(this.api.lux.getWallets);
-  @observable
-  importFromFileRequest: Request<ImportWalletFromFileResponse> = new Request(
-    this.api.lux.importWalletFromFile
-  );
-  @observable
-  createWalletRequest: Request<CreateWalletResponse> = new Request(this.api.lux.createWallet);
-  @observable
-  deleteWalletRequest: Request<DeleteWalletResponse> = new Request(this.api.lux.deleteWallet);
-  @observable
-  sendMoneyRequest: Request<CreateTransactionResponse> = new Request(
-    this.api.lux.createTransaction
-  );
-  @observable
-  getWalletRecoveryPhraseRequest: Request<GetWalletRecoveryPhraseResponse> = new Request(
-    this.api.lux.getWalletRecoveryPhrase
-  );
-  @observable
-  restoreRequest: Request<RestoreWalletResponse> = new Request(this.api.lux.restoreWallet);
-  /* eslint-enable max-len */
+  @observable createMasterNodeRequest: Request<CreateMasterNodeResponse> = new Request(this.api.lux.createMasterNode);
+  @observable createMasterNodeRequest: Request<GetMasterNodeGenKeyResponse> = new Request(this.api.lux.getLuxMasterNodeGenKey);
 
-  @observable walletExportType: walletExportTypeChoices = 'paperWallet';
-  @observable walletExportMnemonic = 'marine joke dry silk ticket thing sugar stereo aim';
-
+  
   setup() {
     super.setup();
     const { router, walletBackup, lux } = this.actions;
     const { wallets } = lux;
     wallets.createWallet.listen(this._create);
-    wallets.deleteWallet.listen(this._delete);
+    wallets.renameWallet.listen(this._delete);
     wallets.sendMoney.listen(this._sendMoney);
     wallets.restoreWallet.listen(this._restoreWallet);
     wallets.importWalletFromFile.listen(this._importWalletFromFile);
@@ -65,11 +40,12 @@ export default class LuxWalletsStore extends WalletStore {
   }) => {
     const wallet = this.active;
     if (!wallet) throw new Error('Active wallet required before sending.');
-    const accountId = this.stores.lux.addresses._getAccountIdByWalletId(wallet.id);
-    if (!accountId) throw new Error('Active account required before sending.');
+    const { receiver, amount, password } = transactionDetails;
     await this.sendMoneyRequest.execute({
-      ...transactionDetails,
-      sender: accountId
+      from: wallet.id,
+      to: receiver,
+      value: new BigNumber(amount),
+      password: password != null ? password : ''
     });
     this.refreshWalletsData();
     this.actions.dialogs.closeActiveDialog.trigger();
@@ -82,10 +58,9 @@ export default class LuxWalletsStore extends WalletStore {
   isValidMnemonic = (mnemonic: string) => this.api.lux.isValidMnemonic(mnemonic);
 
   // TODO - call endpoint to check if private key is valid
-  isValidPrivateKey = () => true; // eslint-disable-line
+  isValidPrivateKey = () => { return true; }; // eslint-disable-line
 
-  @action
-  refreshWalletsData = async () => {
+  @action refreshWalletsData = async () => {
     if (this.stores.networkStatus.isConnected) {
       const result = await this.walletsRequest.execute().promise;
       if (!result) return;
@@ -94,36 +69,34 @@ export default class LuxWalletsStore extends WalletStore {
           this._setActiveWallet({ walletId: this.active.id });
         }
       });
-      runInAction('refresh address data', () => {
+      /*runInAction('refresh address data', () => {
         const walletIds = result.map((wallet: Wallet) => wallet.id);
         this.stores.lux.addresses.addressesRequests = walletIds.map(walletId => ({
           walletId,
-          allRequest: this.stores.lux.addresses._getAddressesAllRequest(walletId)
+          allRequest: this.stores.lux.addresses._getAddressesAllRequest(walletId),
         }));
         this.stores.lux.addresses._refreshAddresses();
-      });
+      });*/
       runInAction('refresh transaction data', () => {
         const walletIds = result.map((wallet: Wallet) => wallet.id);
         this.stores.lux.transactions.transactionsRequests = walletIds.map(walletId => ({
           walletId,
           recentRequest: this.stores.lux.transactions._getTransactionsRecentRequest(walletId),
-          allRequest: this.stores.lux.transactions._getTransactionsAllRequest(walletId)
+          allRequest: this.stores.lux.transactions._getTransactionsAllRequest(walletId),
         }));
         this.stores.lux.transactions._refreshTransactionData();
       });
     }
   };
 
-  @action
-  _setIsRestoreActive = (active: boolean) => {
+  @action _setIsRestoreActive = (active: boolean) => {
     this.isRestoreActive = active;
   };
 
-  @action
-  _restoreWallet = async (params: {
+  @action _restoreWallet = async (params: {
     recoveryPhrase: string,
     walletName: string,
-    walletPassword: ?string
+    walletPassword: ?string,
   }) => {
     this.restoreRequest.reset();
     this._setIsRestoreActive(true);
@@ -145,13 +118,11 @@ export default class LuxWalletsStore extends WalletStore {
     this.refreshWalletsData();
   };
 
-  @action
-  _setIsImportActive = (active: boolean) => {
+  @action _setIsImportActive = (active: boolean) => {
     this.isImportActive = active;
   };
 
-  @action
-  _importWalletFromFile = async (params: WalletImportFromFileParams) => {
+  @action _importWalletFromFile = async (params: WalletImportFromFileParams) => {
     this.importFromFileRequest.reset();
     this._setIsImportActive(true);
     // Hide import wallet dialog some time after import has been started
@@ -163,9 +134,7 @@ export default class LuxWalletsStore extends WalletStore {
 
     const { filePath, walletName, walletPassword } = params;
     const importedWallet = await this.importFromFileRequest.execute({
-      filePath,
-      walletName,
-      walletPassword
+      filePath, walletName, walletPassword,
     }).promise;
     setTimeout(() => {
       this._setIsImportActive(false);
@@ -177,8 +146,7 @@ export default class LuxWalletsStore extends WalletStore {
     this.refreshWalletsData();
   };
 
-  @action
-  _setActiveWallet = ({ walletId }: { walletId: string }) => {
+  @action _setActiveWallet = ({ walletId }: { walletId: string }) => {
     if (this.hasAnyWallets) {
       const activeWalletId = this.active ? this.active.id : null;
       const activeWalletChange = activeWalletId !== walletId;
@@ -187,24 +155,24 @@ export default class LuxWalletsStore extends WalletStore {
     }
   };
 
-  @action
-  _unsetActiveWallet = () => {
+  @action _unsetActiveWallet = () => {
     this.active = null;
     this.stores.lux.addresses.lastGeneratedAddress = null;
   };
 
-  @action
-  _onRouteChange = (options: { route: string, params: ?Object }) => {
+  @action _onRouteChange = (options: { route: string, params: ?Object }) => {
     // Reset the send request anytime we visit the send page (e.g: to remove any previous errors)
     if (matchRoute(ROUTES.WALLETS.SEND, buildRoute(options.route, options.params))) {
       this.sendMoneyRequest.reset();
     }
   };
 
-  @action
-  _chooseWalletExportType = (params: { walletExportType: walletExportTypeChoices }) => {
+  @action _chooseWalletExportType = (params: {
+    walletExportType: walletExportTypeChoices,
+  }) => {
     if (this.walletExportType !== params.walletExportType) {
       this.walletExportType = params.walletExportType;
     }
   };
+
 }
