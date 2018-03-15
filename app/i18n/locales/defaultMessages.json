@@ -1767,9 +1767,56 @@
           "column": 12,
           "line": 34
         }
+      },
+      {
+        "defaultMessage": "!!!Masternodes",
+        "description": "Label for the \"Masternodes\" nav button in the wallet navigation.",
+        "end": {
+          "column": 3,
+          "line": 43
+        },
+        "file": "app/components/wallet/navigation/WalletNavigation.js",
+        "id": "wallet.navigation.masternodes",
+        "start": {
+          "column": 12,
+          "line": 34
+        }
       }
     ],
     "path": "app/components/wallet/navigation/WalletNavigation.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "!!!Lux Masternodes Network",
+        "description": "Label for the \"Lux Masternodes Network\" nav button in the wallet navigation.",
+        "end": {
+          "column": 3,
+          "line": 17
+        },
+        "file": "app/components/wallet/masternodes/MasternodeNavigation.js",
+        "id": "wallet.navigation.masternet",
+        "start": {
+          "column": 12,
+          "line": 34
+        }
+      },
+      {
+        "defaultMessage": "!!!My Lux Masternode",
+        "description": "Label for the \"My Lux Masternode\" nav button in the wallet navigation.",
+        "end": {
+          "column": 3,
+          "line": 22
+        },
+        "file": "app/components/wallet/masternodes/MasternodeNavigation.js",
+        "id": "wallet.navigation.mymasterlux",
+        "start": {
+          "column": 12,
+          "line": 34
+        }
+      }
+    ],
+    "path": "app/components/wallet/masternodes/WalletNavigation.json"
   },
   {
     "descriptors": [

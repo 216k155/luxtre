@@ -1,19 +1,16 @@
 // @flow
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
-import MainLayout from '../MainLayout';
-import WalletWithNavigation from '../../components/wallet/layouts/WalletWithNavigation';
-import LoadingSpinner from '../../components/widgets/LoadingSpinner';
-import LuxRedemptionSuccessOverlay from '../../components/wallet/lux-redemption/LuxRedemptionSuccessOverlay';
+import MasternodeWithNavigation from '../../components/wallet/masternodes/MasternodeWithNavigation';
 import { buildRoute } from '../../utils/routing';
 import { ROUTES } from '../../routes-config';
 import type { InjectedContainerProps } from '../../types/injectedPropsType';
-import { DECIMAL_PLACES_IN_LUX } from '../../config/numbersConfig';
 
 type Props = InjectedContainerProps;
 
-@inject('stores', 'actions') @observer
-export default class Wallet extends Component<Props> {
+@inject('stores', 'actions')
+@observer
+export default class MasternodesPage extends Component<Props> {
 
   static defaultProps = { actions: null, stores: null };
 
@@ -35,20 +32,18 @@ export default class Wallet extends Component<Props> {
   };
 
   render() {
-    const { wallets, luxRedemption } = this.props.stores.lux;
+    const { /*masternodes, */wallets } = this.props.stores.lux;
     const { actions } = this.props;
-    const { showLuxRedemptionSuccessMessage, amountRedeemed } = luxRedemption;
-    if (!wallets.active) return <MainLayout><LoadingSpinner /></MainLayout>;
+    const activeWallet = wallets.active;
+
     return (
-      <MainLayout>
-        <WalletWithNavigation
+      <MasternodeWithNavigation
           isActiveScreen={this.isActiveScreen}
           onWalletNavItemClick={this.handleWalletNavItemClick}
-	  amount={wallets.active.amount.toFormat(DECIMAL_PLACES_IN_LUX)}
-        >
-          {this.props.children}
-        </WalletWithNavigation>
-      </MainLayout>
+      >
+      //	{this.props.children}
+      </MasternodeWithNavigation>
     );
   }
+
 }
