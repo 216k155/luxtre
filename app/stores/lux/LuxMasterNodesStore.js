@@ -1,7 +1,7 @@
 // @flow
 import { observable, action, runInAction } from 'mobx';
 import BigNumber from 'bignumber.js';
-import WalletStore from '../WalletStore';
+import Store from '../lib/Store';
 import Wallet from '../../domain/Wallet';
 import { matchRoute, buildRoute } from '../../utils/routing';
 import Request from '.././lib/LocalizedRequest';
@@ -35,8 +35,8 @@ export default class LuxMasterNodesStore extends Store {
     super.setup();
     const { router, lux } = this.actions;
     const { masternodes } = lux;
-    masternodes.createMasterNode.listen(this._create);
-    router.goToRoute.listen(this._onRouteChange);
+    //masternodes.createMasterNode.listen(this._create);
+    //router.goToRoute.listen(this._onRouteChange);
   }
 
 }

@@ -366,13 +366,13 @@ export default class LuxApi {
     try {
       //const walletId = request.walletId;
       const walletId = '';//default account
-
+      const { count, skip} = request;
       //const mostRecentBlockNumber: LuxBlockNumber = await getLuxBlockNumber();
 
       let transactions: LuxTransactions = await getLuxTransactions({
         walletId,
-        count: 1000,
-        skip: 0
+        count,
+        skip
       });
       /*const sendTransactions: LuxTransactions = await getLuxTransactions({
         walletId: '',

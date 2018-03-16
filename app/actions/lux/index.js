@@ -5,7 +5,7 @@ import TransactionsActions from './transactions-actions';
 import NodeUpdateActions from './node-update-actions';
 import WalletSettingsActions from './wallet-settings-actions';
 import AddressesActions from './addresses-actions';
-import MasterNodesActions from './wallets-actions';
+import MasterNodesActions from './masternodes-actions';
 
 export type LuxActionsMap = {
   wallets: WalletsActions,

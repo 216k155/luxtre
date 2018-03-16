@@ -132,7 +132,8 @@ export default class TransactionsStore extends Store {
       for (const wallet of allWallets) {
         const requestParams = {
           walletId: wallet.id,
-          limit: this.RECENT_TRANSACTIONS_LIMIT,
+          //count: this.RECENT_TRANSACTIONS_LIMIT,
+          count: 1000,
           skip: 0,
           searchTerm: '',
         };
