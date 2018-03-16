@@ -86,7 +86,7 @@ export default class WalletReceivePage extends Component<Props, State> {
         />
       ),
     };
-
+    
     return (
       <VerticalFlexContainer>
 
