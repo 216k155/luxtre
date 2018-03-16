@@ -21,6 +21,11 @@
   }
 }
 
+.listRegion {
+  height: 70%;
+}
+
+
 .tbTitle {
   border-radius: 4px;
   background-color: #2f4a63;
@@ -39,7 +44,6 @@
   width: 5%;
 } 
 
-.Alias,
 .Address,
 .ActiveTime,
 .LastSeen {
@@ -54,6 +58,13 @@
   word-wrap: break-word;
 }
 
+.Alias {
+  width: 15%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .ip {
   width: 30%;
   white-space: nowrap;
@@ -66,8 +77,12 @@
 } 
 
 .Collateral {
-  width: 40%;
+  width: 30%;
   word-wrap: break-word;
+}
+
+.iconRegion {
+  width: 15%;
 }
 
 
@@ -93,15 +108,29 @@
 }
 
 .button {
-  &:only-child {
-    margin: auto;
-    width: 65%;
-  }
-  
-  display: block !important;
-  margin: 30px auto 0;
+  color:white;
+  background-color: #2f4a63;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 20px 30px 20px 0px;
+  width: 20%;
+  cursor: pointer;
+}
 
-  & + button {
-    margin-left: 20px;
-  }
+.buttonStyle {
+  color:white;
+  background-color: #2f4a63;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 20px 20px 20px 0px;
+  width: 14%;
+  cursor: pointer;
+}
+
+
+.copyIconBig,
+.copyIcon {
+  margin-left: 5px;
+  cursor: pointer;
+  object-fit: contain;
 }

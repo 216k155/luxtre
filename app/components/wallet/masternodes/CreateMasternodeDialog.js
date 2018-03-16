@@ -13,7 +13,7 @@ import Dialog from '../../widgets/Dialog';
 import { isValidWalletPassword, isValidRepeatPassword } from '../../../utils/validations';
 import globalMessages from '../../../i18n/global-messages';
 import LocalizableError from '../../../i18n/LocalizableError';
-import styles from './CreateMasternodeDialog.scss';
+import styles from './MasternodeDialog.scss';
 
 const messages = defineMessages({
   createMasternodeTitle: {
@@ -27,17 +27,17 @@ const messages = defineMessages({
     description: 'Description for the "Create luxnodes node" dialog.',
   },
   nodeDescription2: {
-    id: 'wallet.masternode.create.dialog.description3',
-    defaultMessage: '!!!A masternode pribate key and a collateral address will both be automatically generated for you',
+    id: 'wallet.masternode.create.dialog.description2',
+    defaultMessage: '!!!A masternode private key and a collateral address will both be automatically generated for you',
     description: 'Description for the "Create luxnodes node" dialog.',
   },
   nodeDescription3: {
-    id: 'wallet.masternode.create.dialog.description4',
+    id: 'wallet.masternode.create.dialog.description3',
     defaultMessage: '!!!You must send exactly 16120 LUX to collateral address',
     description: 'Description for the "Create luxnodes node" dialog.',
   },
   addressFieldPlaceholder: {
-    id: 'wallet.masternode.create.dialog.description2',
+    id: 'wallet.masternode.create.dialog.addressFieldPlaceholder',
     defaultMessage: '!!!Format : 123.456.789.123:9999 or akjdsafxjkhasdf.onion:9999',
     description: 'Description for the "Create luxnodes node" dialog.',
   },
@@ -56,7 +56,7 @@ const messages = defineMessages({
 type Props = {
   aliasValue: string,
   addressValue: string,
-  onSave: Function,
+  onCreate: Function,
   onCancel: Function,
   onDataChange: Function,
   isSubmitting: boolean,
@@ -120,7 +120,7 @@ export default class CreateMasternodeDialog extends Component<Props, State> {
           alias: alias,
           address: address,
         };
-        this.props.onSave(masterData);
+        this.props.onCreate(masterData);
       },
       onError: () => {},
     });
@@ -163,6 +163,9 @@ export default class CreateMasternodeDialog extends Component<Props, State> {
         closeButton={<DialogCloseButton onClose={onCancel} />}
       >
         <div className={styles.inputFields}>
+          <p className={styles.instructions}>
+            {intl.formatMessage(messages.nodeDescription1)}
+          </p>
           <Input
             type="text"
             className={styles.inputString}
@@ -182,10 +185,6 @@ export default class CreateMasternodeDialog extends Component<Props, State> {
             error={addressField.error}
             skin={<SimpleInputSkin />}
           />
-
-          <p className={styles.instructions}>
-            {intl.formatMessage(globalMessages.passwordInstructions)}
-          </p>
         </div>
 
         {error ? <p className={styles.error}>{intl.formatMessage(error)}</p> : null}
