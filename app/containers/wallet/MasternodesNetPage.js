@@ -35,7 +35,7 @@ export default class MasternodesNetPage extends Component<Props> {
     const masternetlist = <MasternodeActivates/>;
 //    }
     return (
-      {masternetlist}
+      <MasternodeActivates/>
     );
   }
 

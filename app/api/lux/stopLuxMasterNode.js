@@ -2,13 +2,13 @@
 import { request } from './lib/request';
 import { LUX_API_HOST, LUX_API_PORT, LUX_API_USER, LUX_API_PWD } from './index';
 
-export type StartLuxMasterNodeParams = {
+export type StopLuxMasterNodeParams = {
   alias: string,
   password: string
 };
 
-export const startLuxMasterNode = (
-  { alias, password }: StartLuxMasterNodeParams
+export const stopLuxMasterNode = (
+  { alias, password }: StopLuxMasterNodeParams
 ): Promise<string> => (
   request({
     hostname: LUX_API_HOST,
@@ -19,7 +19,7 @@ export const startLuxMasterNode = (
     jsonrpc: '2.0',
     method: 'masternode',
     params:[
-      'start-alias',
+      'stop-alias',
       alias,
       password
     ]

@@ -60,6 +60,7 @@ export type UpdateWalletPasswordResponse = boolean;
 export type CreateMasterNodeResponse = string;
 export type GetMasterNodeGenKeyResponse = string;
 export type GetMasterNodeListResponse = Array<MasterNode>;
+export type GetMasterNodeOutputsResponse = string;
 
 export type CreateWalletRequest = {
   name: string,
@@ -99,3 +100,31 @@ export type GetTransactionsResponse = {
   transactions: Array<WalletTransaction>,
   total: number,
 };
+
+export type StartMasterNodeRequest = {
+  alias: string,
+  password: string
+};
+
+export type StartMasterNodeResponse = {
+  alias: string,
+  result: string
+};
+
+export type StartManyMasterNodeResponse = Array<StartMasterNodeResponse>;
+
+export type StopMasterNodeRequest = {
+  alias: string,
+  password: string
+};
+
+export type StopMasterNodeResponse = {
+  alias: string,
+  result: string
+};
+
+export type StopManyMasterNodeResponse = Array<StopMasterNodeResponse>;
+
+
+
+

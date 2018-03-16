@@ -34,11 +34,12 @@
   }
 }
 
-.Rank,
-.Activate {
+.Activate,
+.Rank {
   width: 5%;
 } 
 
+.Alias,
 .Address,
 .ActiveTime,
 .LastSeen {
@@ -50,6 +51,22 @@
 
 .Pubkey {
   width: 30%;
+  word-wrap: break-word;
+}
+
+.ip {
+  width: 30%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.Status {
+  width: 10%;
+} 
+
+.Collateral {
+  width: 40%;
   word-wrap: break-word;
 }
 
@@ -73,4 +90,18 @@
   opacity: 0.5;
   margin-bottom: 10px;
   margin-left: 20px;
+}
+
+.button {
+  &:only-child {
+    margin: auto;
+    width: 65%;
+  }
+  
+  display: block !important;
+  margin: 30px auto 0;
+
+  & + button {
+    margin-left: 20px;
+  }
 }
