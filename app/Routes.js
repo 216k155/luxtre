@@ -25,6 +25,9 @@ const WalletSendPage = resolver('containers/wallet/WalletSendPage');
 const WalletReceivePage = resolver('containers/wallet/WalletReceivePage');
 const WalletTransactionsPage = resolver('containers/wallet/WalletTransactionsPage');
 const WalletSettingsPage = resolver('containers/wallet/WalletSettingsPage');
+const MasternodesPage = resolver('containers/wallet/MasternodesPage');
+const MasternodesNetPage = resolver('containers/wallet/MasternodesNetPage');
+const MasternodesLuxPage = resolver('containers/wallet/MasternodesLuxPage');
 
 export const Routes = (
   <div>
@@ -41,6 +44,10 @@ export const Routes = (
       <Route path={ROUTES.WALLETS.SEND} component={WalletSendPage} />
       <Route path={ROUTES.WALLETS.RECEIVE} component={WalletReceivePage} />
       <Route path={ROUTES.WALLETS.SETTINGS} component={WalletSettingsPage} />
+      <Route path={ROUTES.WALLETS.MASTERNODES} component={MasternodesPage}>
+        <Route path={ROUTES.WALLETS.MASTERNODESNET} component={MasternodesNetPage}/>
+        <Route path={ROUTES.WALLETS.MASTERNODESLUX} component={MasternodesLuxPage}/>
+      </Route>
     </Route>
     <Route path="/settings" component={Settings}>
       <IndexRedirect to="general" />

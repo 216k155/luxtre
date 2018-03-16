@@ -1,4 +1,6 @@
-# References:
+#!/usr/bin/env bash
+
+# DEPENDENCIES & REFERENCES:
 #   0. 'git'
 #   1. 'node.js 6.x'
 #   2.  tr -d '\r' < old.sh > new.sh
@@ -17,9 +19,15 @@ git clone ${URL}
 cd ${CLONE_DIR}
 
 #install node-modules
+if [ -d ~/.nvm ]; then
+  source $HOME/.nvm/nvm.sh;
+  nvm install 6.5.0
+fi
+
 npm install
 
 #run wallet-gui
-npm run dev
-
+#npm run dev
+npm run hot-server &
+npm run start-hot
 exec /bin/bash
