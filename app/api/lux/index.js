@@ -859,8 +859,8 @@ export default class LuxApi {
       Logger.error('LuxApi::getMasterNodeGenKey error: ' + stringifyError(error));
       throw new GenericApiError();
     }
+  }
 }
-
 // ========== TRANSFORM SERVER DATA INTO FRONTEND MODELS =========
 
 const _createWalletTransactionFromServerData = async (

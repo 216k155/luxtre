@@ -18,19 +18,19 @@ export default class MasternodesLuxPage extends Component<Props> {
     const actions = this.props.actions;
     const { masternodes, wallets } = this.props.stores.lux;
     const activeWallet = wallets.active;
-    const { searchOptions, hasAny, totalAvailable, filtered } = masternodes;
+    //const { searchOptions, hasAny, totalAvailable, filtered } = masternodes;
 
     // Guard against potential null values
-    if (!searchOptions || !activeWallet) return null;
+    //if (!searchOptions || !activeWallet) return null;
 
   //  const { searchLimit, searchTerm } = searchOptions;
   //  const wasSearched = searchTerm !== '';
-    const noActiveLabel = intl.formatMessage(messages.noTransactions);
+    //const noActiveLabel = intl.formatMessage(messages.noTransactions);
   //  const noTransactionsFoundLabel = intl.formatMessage(messages.noTransactionsFound);
 
     // Guard against potential null values
 //    if (!hasAny) {
-      masternetlist = <MasternodeNoActives label={noActiveLabel} />;
+      const masternetlist = <MasternodeNoActives label="aaaaaaaaaaaaa" />;
 //    }
     return (
       <VerticalFlexContainer>
