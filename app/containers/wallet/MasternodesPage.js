@@ -41,7 +41,7 @@ export default class MasternodesPage extends Component<Props> {
           isActiveScreen={this.isActiveScreen}
           onWalletNavItemClick={this.handleWalletNavItemClick}
       >
-      //	{this.props.children}
+      	{this.props.children}
       </MasternodeWithNavigation>
     );
   }
