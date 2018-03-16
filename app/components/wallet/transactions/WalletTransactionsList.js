@@ -112,7 +112,7 @@ export default class WalletTransactionsList extends Component<Props> {
 
     return (
       <div className={styles.component}>
-	<div className={styles.categoryTitle}>
+        <div className={styles.categoryTitle}>
           Transactions
         </div>
         {transactionsGroups.map((group, groupIndex) => (

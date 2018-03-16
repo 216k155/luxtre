@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
 import MasternodeNoActives from '../../components/wallet/masternodes/MasternodeNoActives';
+import MasternodeActivates from '../../components/wallet/masternodes/MasternodeActivates';
 import type { InjectedProps } from '../../types/injectedPropsType';
 import VerticalFlexContainer from '../../components/layout/VerticalFlexContainer';
 
@@ -30,12 +31,11 @@ export default class MasternodesNetPage extends Component<Props> {
 
     // Guard against potential null values
 //    if (!hasAny) {
-    const masternetlist = <MasternodeNoActives label='aaaaaaaaaaaaaaaaaaaaaaaa' />;
+//    const masternetlist = <MasternodeNoActives label='aaaaaaaaaaaaaaaaaaaaaaaa' />;
+    const masternetlist = <MasternodeActivates/>;
 //    }
     return (
-      <VerticalFlexContainer>
-        {masternetlist}
-      </VerticalFlexContainer>  
+      {masternetlist}
     );
   }
 
