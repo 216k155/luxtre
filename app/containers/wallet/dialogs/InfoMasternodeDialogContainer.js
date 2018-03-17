@@ -23,7 +23,7 @@ export default class InfoMasternodeDialogContainer extends Component<InjectedPro
       <InfoMasternodeDialog
         onCancel={() => {
           actions.dialogs.closeActiveDialog.trigger();
-        //  CreateMasterNodeResponse.reset();
+        //  CreateMasternodeResponse.reset();
         }}
       />
     );

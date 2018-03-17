@@ -27,7 +27,7 @@ const WalletTransactionsPage = resolver('containers/wallet/WalletTransactionsPag
 const WalletSettingsPage = resolver('containers/wallet/WalletSettingsPage');
 const MasternodesPage = resolver('containers/wallet/MasternodesPage');
 const MasternodesNetPage = resolver('containers/wallet/MasternodesNetPage');
-const MasternodesLuxPage = resolver('containers/wallet/MasternodesLuxPage');
+const MyMasternodePage = resolver('containers/wallet/MyMasternodePage');
 
 export const Routes = (
   <div>
@@ -46,7 +46,7 @@ export const Routes = (
       <Route path={ROUTES.WALLETS.SETTINGS} component={WalletSettingsPage} />
       <Route path={ROUTES.WALLETS.MASTERNODES} component={MasternodesPage}>
         <Route path={ROUTES.WALLETS.MASTERNODESNET} component={MasternodesNetPage}/>
-        <Route path={ROUTES.WALLETS.MASTERNODESLUX} component={MasternodesLuxPage}/>
+        <Route path={ROUTES.WALLETS.MYMASTERNODE} component={MyMasternodePage}/>
       </Route>
     </Route>
     <Route path="/settings" component={Settings}>

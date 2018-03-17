@@ -10,7 +10,7 @@ import { getLuxInfo } from './getLuxInfo';
 import { getLuxPeerInfo } from './getLuxPeerInfo';
 import { LOVELACES_PER_LUX } from '../../config/numbersConfig';
 import Wallet from '../../domain/Wallet';
-import MasterNode from '../../domain/MasterNode';
+import Masternode from '../../domain/Masternode';
 
 import { getLuxAccounts } from './getLuxAccounts';
 import { getLuxAccountBalance } from './getLuxAccountBalance';
@@ -39,13 +39,13 @@ import { getLuxWalletAccounts } from './getLuxWalletAccounts';
 import { luxTxFee } from './luxTxFee';
 import {getLuxUnspentTransactions} from './getLuxUnspentTransactions';
 import {getLuxEstimatedFee} from './getLuxEstimatedFee';
-import {getLuxMasterNodeGenKey} from './getLuxMasterNodeGenKey';
-import {getLuxMasterNodeList} from './getLuxMasterNodeList';
-import {startLuxMasterNode} from './startLuxMasterNode';
-import {startManyLuxMasterNode} from './startManyLuxMasterNode';
-import {stopLuxMasterNode} from './stopLuxMasterNode';
-import {stopManyLuxMasterNode} from './stopManyLuxMasterNode';
-import {getLuxMasterNodeOutputs} from './getLuxMasterNodeOutputs';
+import {getLuxMasternodeGenkey} from './getLuxMasternodeGenkey';
+import {getLuxMasternodeList} from './getLuxMasternodeList';
+import {startLuxMasternode} from './startLuxMasternode';
+import {startManyLuxMasternode} from './startManyLuxMasternode';
+import {stopLuxMasternode} from './stopLuxMasternode';
+import {stopManyLuxMasternode} from './stopManyLuxMasternode';
+import {getLuxMasternodeOutputs} from './getLuxMasternodeOutputs';
 
 //masternode
 import {encryptLuxWallet} from './encryptLuxWallet';
@@ -96,16 +96,16 @@ import type {
   UpdateWalletResponse,
   UpdateWalletPasswordRequest,
   UpdateWalletPasswordResponse,
-  CreateMasterNodeResponse,
-  GetMasterNodeGenKeyResponse,
-  GetMasterNodeListResponse,
-  StartMasterNodeRequest,
-  StartMasterNodeResponse,
-  StartManyMasterNodeResponse,
-  StopMasterNodeRequest,
-  StopMasterNodeResponse,
-  StopManyMasterNodeResponse,
-  GetMasterNodeOutputsResponse
+  CreateMasternodeResponse,
+  GetMasternodeGenkeyResponse,
+  GetMasternodeListResponse,
+  StartMasternodeRequest,
+  StartMasternodeResponse,
+  StartManyMasternodeResponse,
+  StopMasternodeRequest,
+  StopMasternodeResponse,
+  StopManyMasternodeResponse,
+  GetMasternodeOutputsResponse
 } from '../common';
 
 import {
@@ -805,53 +805,53 @@ export default class LuxApi {
 
   /////////////////////////////// MASTERNODE API ///////////////////////////////////
 
-  async createMasterNode(alias: string): Promise<CreateMasterNodeResponse> {
-    Logger.debug('LuxApi::createMasterNode called');
+  async createMasternode(alias: string): Promise<CreateMasternodeResponse> {
+    Logger.debug('LuxApi::createMasternode called');
     try {
       
       const { walletId} = alias;
       const response: LuxAddress = await getLuxAccountAddress({ walletId });
       return response;
     } catch (error) {
-      Logger.error('LuxApi::createMasterNode error: ' + stringifyError(error));
+      Logger.error('LuxApi::createMasternode error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
-  async getMasterNodeGenKey(): Promise<GetMasterNodeGenKeyResponse> {
-    Logger.debug('LuxApi::getMasterNodeGenKey called');
+  async getMasternodeGenkey(): Promise<GetMasternodeGenkeyResponse> {
+    Logger.debug('LuxApi::getMasternodeGenkey called');
     try {
-      const response = await getLuxMasterNodeGenKey();
+      const response = await getLuxMasternodeGenkey();
       return response;
     } catch (error) {
-      Logger.error('LuxApi::getMasterNodeGenKey error: ' + stringifyError(error));
+      Logger.error('LuxApi::getMasternodeGenkey error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
-  async getMasterNodeList(): Promise<GetMasterNodeListResponse> {
-    Logger.debug('LuxApi::getMasterNodeList called');
+  async getMasternodeList(): Promise<GetMasternodeListResponse> {
+    Logger.debug('LuxApi::getMasternodeList called');
     try {
       let attribute = 'rank'
-      const masterNodesRank = await getLuxMasterNodeList({attribute});
+      const masterNodesRank = await getLuxMasternodeList({attribute});
       attribute = 'active'
-      const masterNodesActive = await getLuxMasterNodeList({attribute});
+      const masterNodesActive = await getLuxMasternodeList({attribute});
       attribute = 'activeseconds'
-      const masterNodesActiveSeconds = await getLuxMasterNodeList({attribute});
+      const masterNodesActiveSeconds = await getLuxMasternodeList({attribute});
       attribute = 'lastseen'
-      const masterNodesLastSeen = await getLuxMasterNodeList({attribute});
+      const masterNodesLastSeen = await getLuxMasternodeList({attribute});
       attribute = 'pubkey'
-      const masterNodesPubkey = await getLuxMasterNodeList({attribute});
+      const masterNodesPubkey = await getLuxMasternodeList({attribute});
       
-      return await Promise.all(
+      const allMasternodes = await Promise.all(
         Object.keys(masterNodesRank).map(async id => {
             const address = id;
             const rank = masterNodesRank[id];
             const active = masterNodesActive[id];
             const activeSeconds = masterNodesActiveSeconds[id];
             const lastSeen = masterNodesLastSeen[id];
-            const pubkey = masterNodesPubkey[id];
-            return new MasteNode({
+            const pubKey = masterNodesPubkey[id];
+            return new Masternode({
               address,
               rank,
               active,
@@ -861,31 +861,36 @@ export default class LuxApi {
             });
         })
       );
+
+      return {
+        masternodes: allMasternodes,
+        total: allMasternodes.length
+      };
     } catch (error) {
-      Logger.error('LuxApi::getMasterNodeGenKey error: ' + stringifyError(error));
+      Logger.error('LuxApi::getMasternodeList error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
-  async startMasterNode(request: StartMasterNodeRequest): Promise<StartMasterNodeResponse> {
-    Logger.debug('LuxApi::startMasterNode called');
+  async startMasternode(request: StartMasternodeRequest): Promise<StartMasternodeResponse> {
+    Logger.debug('LuxApi::startMasternode called');
     try {
       const {alias, password} = request;
-      const result = await startLuxMasterNode({alias, password});
+      const result = await startLuxMasternode({alias, password});
       return new Promise((resolve) => resolve({
         alias: alias,
         result: result
       }));
     } catch (error) {
-      Logger.error('LuxApi::startMasterNode error: ' + stringifyError(error));
+      Logger.error('LuxApi::startMasternode error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
-  async startManyMasterNode(password: string): Promise<StartManyMasterNodeResponse> {
-    Logger.debug('LuxApi::startManyMasterNode called');
+  async startManyMasternode(password: string): Promise<StartManyMasternodeResponse> {
+    Logger.debug('LuxApi::startManyMasternode called');
     try {
-      const response = await startManyLuxMasterNode({password});
+      const response = await startManyLuxMasternode({password});
       const details = response.detail;
       return await Promise.all(
         Object.entries(details).map(async detail => {
@@ -898,30 +903,30 @@ export default class LuxApi {
         })
       );
     } catch (error) {
-      Logger.error('LuxApi::startManyMasterNode error: ' + stringifyError(error));
+      Logger.error('LuxApi::startManyMasternode error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
-  async stopMasterNode(request: StopMasterNodeRequest): Promise<StopMasterNodeResponse> {
-    Logger.debug('LuxApi::stopMasterNode called');
+  async stopMasternode(request: StopMasternodeRequest): Promise<StopMasternodeResponse> {
+    Logger.debug('LuxApi::stopMasternode called');
     try {
       const {alias, password} = request;
-      const result = await stopLuxMasterNode({alias, password});
+      const result = await stopLuxMasternode({alias, password});
       return new Promise((resolve) => resolve({
         alias: alias,
         result: result
       }));
     } catch (error) {
-      Logger.error('LuxApi::stopMasterNode error: ' + stringifyError(error));
+      Logger.error('LuxApi::stopMasternode error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
-  async stopManyMasterNode(password: string): Promise<StopManyMasterNodeResponse> {
-    Logger.debug('LuxApi::stopManyMasterNode called');
+  async stopManyMasternode(password: string): Promise<StopManyMasternodeResponse> {
+    Logger.debug('LuxApi::stopManyMasternode called');
     try {
-      const response = await stopManyLuxMasterNode({password});
+      const response = await stopManyLuxMasternode({password});
       const details = response.detail;
       
       return await Promise.all(
@@ -935,18 +940,18 @@ export default class LuxApi {
         })
       );
     } catch (error) {
-      Logger.error('LuxApi::stopManyMasterNode error: ' + stringifyError(error));
+      Logger.error('LuxApi::stopManyMasternode error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }
 
-  async getMasterNodeOutputs(): Promise<GetMasterNodeOutputsResponse> {
-    Logger.debug('LuxApi::getMasterNodeOutputs called');
+  async getMasternodeOutputs(): Promise<GetMasternodeOutputsResponse> {
+    Logger.debug('LuxApi::getMasternodeOutputs called');
     try {
-      const response = await getLuxMasterNodeOutputs();
+      const response = await getLuxMasternodeOutputs();
       return stringifyData(response);
     } catch (error) {
-      Logger.error('LuxApi::getMasterNodeOutputs error: ' + stringifyError(error));
+      Logger.error('LuxApi::getMasternodeOutputs error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }

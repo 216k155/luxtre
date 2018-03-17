@@ -1,14 +1,14 @@
 // @flow
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import styles from './MasternodeNoActives.scss';
+import styles from './NoMasternodes.scss';
 
 type Props = {
   label: string,
 };
 
 @observer
-export default class MasternodeNoActives extends Component<Props> {
+export default class NoMasternodes extends Component<Props> {
 
   render() {
     return (

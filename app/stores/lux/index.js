@@ -6,7 +6,7 @@ import LuxRedemptionStore from './LuxRedemptionStore';
 import NodeUpdateStore from './NodeUpdateStore';
 import LuxWalletSettingsStore from './LuxWalletSettingsStore';
 import AddressesStore from './AddressesStore';
-import MasterNodesStore from './LuxMasterNodesStore';
+import MasternodesStore from './LuxMasternodesStore';
 
 export const luxStoreClasses = {
   wallets: LuxWalletsStore,
@@ -15,7 +15,7 @@ export const luxStoreClasses = {
   nodeUpdate: NodeUpdateStore,
   walletSettings: LuxWalletSettingsStore,
   addresses: AddressesStore,
-  masternodes: MasterNodesStore
+  masternodes: MasternodesStore
 };
 
 export type LuxStoresMap = {
@@ -25,7 +25,7 @@ export type LuxStoresMap = {
   nodeUpdate: NodeUpdateStore,
   walletSettings: LuxWalletSettingsStore,
   addresses: AddressesStore,
-  masternodes: MasterNodesStore
+  masternodes: MasternodesStore
 };
 
 const luxStores = observable({

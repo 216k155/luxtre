@@ -5,7 +5,7 @@ import TransactionsActions from './transactions-actions';
 import NodeUpdateActions from './node-update-actions';
 import WalletSettingsActions from './wallet-settings-actions';
 import AddressesActions from './addresses-actions';
-import MasterNodesActions from './masternodes-actions';
+import MasternodesActions from './masternodes-actions';
 
 export type LuxActionsMap = {
   wallets: WalletsActions,
@@ -14,7 +14,7 @@ export type LuxActionsMap = {
   nodeUpdate: NodeUpdateActions,
   walletSettings: WalletSettingsActions,
   addresses: AddressesActions,
-  masternodes: MasterNodesActions,
+  masternodes: MasternodesActions,
 };
 
 const luxActionsMap: LuxActionsMap = {
@@ -24,7 +24,7 @@ const luxActionsMap: LuxActionsMap = {
   nodeUpdate: new NodeUpdateActions(),
   walletSettings: new WalletSettingsActions(),
   addresses: new AddressesActions(),
-  masternodes: new MasterNodesActions(),
+  masternodes: new MasternodesActions(),
 };
 
 export default luxActionsMap;

@@ -18,8 +18,8 @@ export const ROUTES = {
     RECEIVE: '/wallets/:id/receive',
     SETTINGS: '/wallets/:id/settings',
     MASTERNODES: '/wallets/:id/masternodes',
-    MASTERNODESNET: '/wallets/:id/masternet',
-    MASTERNODESLUX: '/wallets/:id/mymasterlux',
+    MASTERNODESNET: '/wallets/:id/masternodesnet',
+    MYMASTERNODE: '/wallets/:id/mymasternode',
   },
   SETTINGS: {
     ROOT: '/settings',

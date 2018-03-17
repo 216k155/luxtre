@@ -2,13 +2,13 @@
 import { request } from './lib/request';
 import { LUX_API_HOST, LUX_API_PORT, LUX_API_USER, LUX_API_PWD } from './index';
 
-export type StartLuxMasterNodeParams = {
+export type StartLuxMasternodeParams = {
   alias: string,
   password: string
 };
 
-export const startLuxMasterNode = (
-  { alias, password }: StartLuxMasterNodeParams
+export const startLuxMasternode = (
+  { alias, password }: StartLuxMasternodeParams
 ): Promise<string> => (
   request({
     hostname: LUX_API_HOST,

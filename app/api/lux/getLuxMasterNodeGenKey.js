@@ -2,7 +2,7 @@
 import { request } from './lib/request';
 import { LUX_API_HOST, LUX_API_PORT, LUX_API_USER, LUX_API_PWD } from './index';
 
-export const getLuxMasterNodeGenKey = (
+export const getLuxMasternodeGenkey = (
 ): Promise<string> => (
   request({
     hostname: LUX_API_HOST,

@@ -2,8 +2,8 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
-import MasternodeNoActives from '../../components/wallet/masternodes/MasternodeNoActives';
-import MasternodeActivates from '../../components/wallet/masternodes/MasternodeActivates';
+import NoMasternodes from '../../components/wallet/masternodes/NoMasternodes';
+import MasternodesList from '../../components/wallet/masternodes/MasternodesList';
 import type { InjectedProps } from '../../types/injectedPropsType';
 import VerticalFlexContainer from '../../components/layout/VerticalFlexContainer';
 
@@ -17,10 +17,10 @@ export default class MasternodesNetPage extends Component<Props> {
   render() {
     const { intl } = this.context;
     const actions = this.props.actions;
-    const { masternodes, wallets } = this.props.stores.lux;
-    const activeWallet = wallets.active;
-    //const { searchOptions, hasAny, totalAvailable, filtered } = masternodes;
+    const { masternodes} = this.props.stores.lux;
+    const { totalActivated, masternodeslist } = masternodes;
 
+    //console.log(masternodeslist);
     // Guard against potential null values
     //if (!searchOptions || !activeWallet) return null;
 
@@ -31,11 +31,14 @@ export default class MasternodesNetPage extends Component<Props> {
 
     // Guard against potential null values
 //    if (!hasAny) {
-//    const masternetlist = <MasternodeNoActives label='aaaaaaaaaaaaaaaaaaaaaaaa' />;
-    const masternetlist = <MasternodeActivates/>;
+//    const masternodesnet = <MasternodeNoActives label='aaaaaaaaaaaaaaaaaaaaaaaa' />;
+    const masternodesnet = <MasternodesList/>;
 //    }
     return (
-      <MasternodeActivates/>
+      <MasternodesList
+        masternodes = {masternodeslist}
+        totalActivated = {totalActivated} 
+      />
     );
   }
 

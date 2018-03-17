@@ -4,7 +4,6 @@ import { observer } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
 import moment from 'moment';
 import styles from './MasternodeListStyle.scss';
-import WalletTransaction from '../../../domain/WalletTransaction';
 import LoadingSpinner from '../../widgets/LoadingSpinner';
 import CreateMasternodeDialog from './CreateMasternodeDialog';
 import CreateMasternodeDialogContainer from '../../../containers/wallet/dialogs/CreateMasternodeDialogContainer';
@@ -19,14 +18,10 @@ import iconInfo from '../../../assets/images/info.inline.svg';
 type Props = {
   openDialogAction: Function,
   isDialogOpen: Function,
-  hasMoreToLoad: boolean,
-  onLoadMore: Function,
-  assuranceMode: AssuranceMode,
-  walletId: string
 };
 
 @observer
-export default class MasternodeLux extends Component<Props> {
+export default class Masternode extends Component<Props> {
 
   render() {
     const activates = [

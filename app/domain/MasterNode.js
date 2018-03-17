@@ -1,13 +1,13 @@
 // @flow
 import { observable } from 'mobx';
 
-export default class MasterNode {
+export default class Masternode {
 
   @observable address: string = '';
   @observable rank: number;
   @observable active: number;
   @observable activeSeconds: number;
-  @observable lastSeen: Date;
+  @observable lastSeen: number;
   @observable pubKey: string;
 
   constructor(data: {
@@ -15,7 +15,7 @@ export default class MasterNode {
     rank: number,
     active: number,
     activeSeconds: number,
-    lastSeen: Date,
+    lastSeen: number,
     pubKey: string
   }) {
     Object.assign(this, data);

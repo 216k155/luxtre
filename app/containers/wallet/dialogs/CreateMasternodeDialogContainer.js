@@ -16,7 +16,7 @@ export default class CreateMasternodeDialogContainer extends Component<InjectedP
     const { wallets, masternodes } = this.props.stores[environment.API];
     const dialogData = uiDialogs.dataForActiveDialog;
     const activeWallet = wallets.active;
-    const { CreateMasterNodeResponse } = masternodes;
+    const { CreateMasternodeResponse } = masternodes;
 
     if (!activeWallet) throw new Error('Active wallet required for CreateMasternodeDialogContainer.');
 
@@ -33,10 +33,10 @@ export default class CreateMasternodeDialogContainer extends Component<InjectedP
         }}
         onCancel={() => {
           actions.dialogs.closeActiveDialog.trigger();
-        //  CreateMasterNodeResponse.reset();
+        //  CreateMasternodeResponse.reset();
         }}
-      //  isSubmitting={CreateMasterNodeResponse.isExecuting}
-      //  error={CreateMasterNodeResponse.error}
+      //  isSubmitting={CreateMasternodeResponse.isExecuting}
+      //  error={CreateMasternodeResponse.error}
       />
     );
   }

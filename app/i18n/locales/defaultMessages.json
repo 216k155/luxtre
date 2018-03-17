@@ -1795,7 +1795,7 @@
           "line": 17
         },
         "file": "app/components/wallet/masternodes/MasternodeNavigation.js",
-        "id": "wallet.navigation.masternet",
+        "id": "wallet.navigation.masternodesnet",
         "start": {
           "column": 12,
           "line": 34
@@ -1809,7 +1809,7 @@
           "line": 22
         },
         "file": "app/components/wallet/masternodes/MasternodeNavigation.js",
-        "id": "wallet.navigation.mymasterlux",
+        "id": "wallet.navigation.mymasternode",
         "start": {
           "column": 12,
           "line": 34

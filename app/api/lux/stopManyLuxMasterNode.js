@@ -2,12 +2,12 @@
 import { request } from './lib/request';
 import { LUX_API_HOST, LUX_API_PORT, LUX_API_USER, LUX_API_PWD } from './index';
 
-export type StopManyLuxMasterNodeParams = {
+export type StopManyLuxMasternodeParams = {
   password: string
 };
 
-export const stopManyLuxMasterNode = (
-  { password }: StopManyLuxMasterNodeParams
+export const stopManyLuxMasternode = (
+  { password }: StopManyLuxMasternodeParams
 ): Promise<object> => (
   request({
     hostname: LUX_API_HOST,

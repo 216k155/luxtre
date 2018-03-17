@@ -2,7 +2,7 @@ import { defineMessages } from 'react-intl';
 import LocalizableError from '../i18n/LocalizableError';
 import { WalletTransaction } from '../domain/WalletTransaction';
 import { Wallet } from '../domain/Wallet';
-import { MasterNode } from '../domain/MasterNode';
+import { Masternode } from '../domain/Masternode';
 
 const messages = defineMessages({
   genericApiError: {
@@ -57,10 +57,10 @@ export type GetWalletRecoveryPhraseResponse = Array<string>;
 export type RestoreWalletResponse = Wallet;
 export type UpdateWalletResponse = Wallet;
 export type UpdateWalletPasswordResponse = boolean;
-export type CreateMasterNodeResponse = string;
-export type GetMasterNodeGenKeyResponse = string;
-export type GetMasterNodeListResponse = Array<MasterNode>;
-export type GetMasterNodeOutputsResponse = string;
+export type CreateMasternodeResponse = string;
+export type GetMasternodeGenkeyResponse = string;
+export type GetMasternodeListResponse = Array<Masternode>;
+export type GetMasternodeOutputsResponse = string;
 
 export type CreateWalletRequest = {
   name: string,
@@ -101,29 +101,29 @@ export type GetTransactionsResponse = {
   total: number,
 };
 
-export type StartMasterNodeRequest = {
+export type StartMasternodeRequest = {
   alias: string,
   password: string
 };
 
-export type StartMasterNodeResponse = {
+export type StartMasternodeResponse = {
   alias: string,
   result: string
 };
 
-export type StartManyMasterNodeResponse = Array<StartMasterNodeResponse>;
+export type StartManyMasternodeResponse = Array<StartMasternodeResponse>;
 
-export type StopMasterNodeRequest = {
+export type StopMasternodeRequest = {
   alias: string,
   password: string
 };
 
-export type StopMasterNodeResponse = {
+export type StopMasternodeResponse = {
   alias: string,
   result: string
 };
 
-export type StopManyMasterNodeResponse = Array<StopMasterNodeResponse>;
+export type StopManyMasternodeResponse = Array<StopMasternodeResponse>;
 
 
 

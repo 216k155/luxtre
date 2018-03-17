@@ -2,15 +2,15 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
-import MasternodeNoActives from '../../components/wallet/masternodes/MasternodeNoActives';
-import MasternodeLux from '../../components/wallet/masternodes/MasternodeLux';
+import NoMasternodes from '../../components/wallet/masternodes/NoMasternodes';
+import Masternode from '../../components/wallet/masternodes/Masternode';
 import type { InjectedProps } from '../../types/injectedPropsType';
 import VerticalFlexContainer from '../../components/layout/VerticalFlexContainer';
 
 type Props = InjectedProps
 
 @inject('stores', 'actions') @observer
-export default class MasternodesLuxPage extends Component<Props> {
+export default class MyMasternodePage extends Component<Props> {
 
   static defaultProps = { actions: null, stores: null };
 
@@ -32,10 +32,10 @@ export default class MasternodesLuxPage extends Component<Props> {
 
     // Guard against potential null values
 //    if (!hasAny) {
-      const masternetlist = <MasternodeLux label="aaaaaaaaaaaaa" />;
+      const mymasternode = <Masternode label="aaaaaaaaaaaaa" />;
 //    }
     return (
-      <MasternodeLux
+      <Masternode
         openDialogAction={actions.dialogs.open.trigger}  
         isDialogOpen={uiDialogs.isOpen}
       />
