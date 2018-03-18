@@ -300,13 +300,16 @@
   "wallet.transactions.no.transactions": "No transactions",
   "wallet.transactions.no.transactions.found": "No transactions found",
   "wallet.transactions.search.hint": "!!!Search transaction",
-  "wallet.masternode.create.dialog.title":"Create LuxNodes Node",
-  "wallet.masternode.create.dialog.description1":"Enter an Alias(friendly name) for your LuxNodes Node and its Address(either clearnet IP and port or Tor onion address and port)",
-  "wallet.masternode.create.dialog.description2":"A masternode private key and a collateral address will both be automatically generated for you",
-  "wallet.masternode.create.dialog.description3":"You must send exactly 16120 LUX to collateral address",
+  "wallet.masternode.create.dialog.title":"Add/Edit LuxNodes Node",
+  "wallet.masternode.create.dialog.description1":"Enter an Alias(friendly name) for your LuxNodes Node and its Address(either clearnet IP and port or Tor onion address and port).",
+  "wallet.masternode.create.dialog.description2":"A masternode private key and a collateral address will both be automatically generated for you.",
+  "wallet.masternode.create.dialog.description3":"You must send exactly 16120 LUX to collateral address.",
   "wallet.masternode.create.dialog.addressFieldPlaceholder":"Format : 123.456.789.123:9999 or akjdsafxjkhasdf.onion:9999",
   "wallet.masternode.create.dialog.luxnodeAlias":"Alias",
   "wallet.masternode.create.dialog.luxnodeAddress":"Address",
+  "wallet.masternode.remove.dialog.title":"Delete Adrenaline Node?",
+  "wallet.masternode.remove.dialog.description":"Are you sure you want to delete this adrenaline node configuration?",
+
   "wallet.masternode.info.dialog.title":"LuxNodes Node Configuration Template",
   "window.about.title": "Luxcore"
 }

@@ -5,13 +5,20 @@ import InfoMasternodeDialog from '../../../components/wallet/masternodes/InfoMas
 import type { InjectedProps } from '../../../types/injectedPropsType';
 import environment from '../../../environment';
 
+type Props = {
+  stores: any | StoresMap,
+  actions: any | ActionsMap,
+  address: string,
+  privateKey: string
+};
+
 @inject('actions', 'stores') @observer
 export default class InfoMasternodeDialogContainer extends Component<InjectedProps> {
 
   static defaultProps = { actions: null, stores: null };
 
   render() {
-    const { actions } = this.props;
+    const { actions, address, privateKey } = this.props;
     const { uiDialogs } = this.props.stores;
     const { wallets, masternodes } = this.props.stores[environment.API];
     const dialogData = uiDialogs.dataForActiveDialog;
@@ -21,6 +28,8 @@ export default class InfoMasternodeDialogContainer extends Component<InjectedPro
 
     return (
       <InfoMasternodeDialog
+        masternodeaddr = {address}
+        masternodeprivkey = {privateKey}
         onCancel={() => {
           actions.dialogs.closeActiveDialog.trigger();
         //  CreateMasternodeResponse.reset();

@@ -1,12 +1,12 @@
 // @flow
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import CreateMasternodeDialog from '../../../components/wallet/masternodes/CreateMasternodeDialog';
+import RemoveMasternodeDialog from '../../../components/wallet/masternodes/RemoveMasternodeDialog';
 import type { InjectedProps } from '../../../types/injectedPropsType';
 import environment from '../../../environment';
 
 @inject('actions', 'stores') @observer
-export default class CreateMasternodeDialogContainer extends Component<InjectedProps> {
+export default class RemoveMasternodeDialogContainer extends Component<InjectedProps> {
 
   static defaultProps = { actions: null, stores: null };
 
@@ -15,21 +15,21 @@ export default class CreateMasternodeDialogContainer extends Component<InjectedP
     const { uiDialogs } = this.props.stores;
     const { masternodes } = this.props.stores[environment.API];
     const dialogData = uiDialogs.dataForActiveDialog;
-    const { createMasternodeRequest } = masternodes;
+    //const { removeMasternodeRequest } = masternodes;
 
     return (
-      <CreateMasternodeDialog
+      <RemoveMasternodeDialog
         aliasValue={dialogData.aliasValue}
         addressValue={dialogData.addressValue}
-        onCreate={(values: { alias: string, address: string }) => {
-          actions[environment.API].masternodes.createMasternode.trigger(values);
+        onRemove={(values: { alias: string}) => {
+          actions[environment.API].masternodes.removeMasternode.trigger(values);
         }}
         onCancel={() => {
           actions.dialogs.closeActiveDialog.trigger();
-          createMasternodeRequest.reset();
+          //removeMasternodeRequest.reset();
         }}
-        isSubmitting={createMasternodeRequest.isExecuting}
-        error={createMasternodeRequest.error}
+        //isSubmitting={removeMasternodeRequest.isExecuting}
+        //error={removeMasternodeRequest.error}
       />
     );
   }

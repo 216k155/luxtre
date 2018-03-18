@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
+import MyMasternode from '../../../domain/MyMasternode';
 import moment from 'moment';
 import styles from './MasternodeListStyle.scss';
 import LoadingSpinner from '../../widgets/LoadingSpinner';
@@ -9,36 +10,51 @@ import CreateMasternodeDialog from './CreateMasternodeDialog';
 import CreateMasternodeDialogContainer from '../../../containers/wallet/dialogs/CreateMasternodeDialogContainer';
 import InfoMasternodeDialog from './InfoMasternodeDialog';
 import InfoMasternodeDialogContainer from '../../../containers/wallet/dialogs/InfoMasternodeDialogContainer';
+import RemoveMasternodeDialog from './RemoveMasternodeDialog';
+import RemoveMasternodeDialogContainer from '../../../containers/wallet/dialogs/RemoveMasternodeDialogContainer';
 import SvgInline from 'react-svg-inline';
 import CopyToClipboard from 'react-copy-to-clipboard';
-import iconCopy from '../../../assets/images/copy.inline.svg';
+//import iconCopy from '../../../assets/images/copy.inline.svg';
+import iconCopy from '../../../assets/images/clipboard-ic.inline.svg';
 import iconRemove from '../../../assets/images/trash.inline.svg';
 import iconInfo from '../../../assets/images/info.inline.svg';
 
 type Props = {
   openDialogAction: Function,
   isDialogOpen: Function,
+  myMasternodeList: Array<MyMasternode>
 };
 
 @observer
 export default class Masternode extends Component<Props> {
 
-  render() {
-    const activates = [
-      {
-        Alias: 'mm1',
-        IP: '168.100.90.123:26868',
-        Status: "ok",
-        Collateral: 'LqqJaEkUS5BHtqZbnYdhQe5gqL1FwG74vQ',
-      },
-      {
-        Alias: 'mm2',
-        IP: '168.100.90.123:26868',
-        Status: "ok",
-        Collateral: 'LqqJaEkUS5BHtqZbnYdhQe5gqL1FwG74vQ',
-      },
-    ];
+  state = {
+    alias: '',
+    address: '',
+    privateKey: ''
+  };
 
+  handleInfoClick(address, privateKey) {
+    const { openDialogAction } = this.props;
+
+    this.setState({ 
+      address: address,
+      privateKey: privateKey
+     });
+
+     openDialogAction({dialog: InfoMasternodeDialog});
+  }
+
+  handleRemoveClick(alias) {
+    const { openDialogAction } = this.props;
+
+    this.setState({ alias: alias });
+
+     openDialogAction({dialog: RemoveMasternodeDialog});
+  }
+
+  render() {
+    const {myMasternodeList} = this.props;
     const {
       openDialogAction, 
       isDialogOpen,
@@ -63,32 +79,36 @@ export default class Masternode extends Component<Props> {
               dialog: CreateMasternodeDialog,
             })}
           >
-            Create...
+            Create
         </button>
         <div className={styles.listRegion}>
-          {activates.map((activate, index) => (
-            <div className={styles.list}>
-              <div className={styles.Alias}> {activate.Alias} </div>
-              <div className={styles.ip}> {activate.IP} </div>
-              <div className={styles.Status}> {activate.Status} </div>
-              <div className={styles.Collateral}> {activate.Collateral}</div>
-              <div className={styles.iconRegion}>
-                <CopyToClipboard text={activate.Collateral}>
+          {myMasternodeList.map((myMasternode, index) => (
+            <div key={index} className={styles.list}>
+              <div className={styles.Alias} onClick={this.handleInfoClick.bind(this, myMasternode.address, myMasternode.privateKey)}> 
+                <u>{myMasternode.alias}</u>
+              </div>
+              <div className={styles.IP} onClick={this.handleInfoClick.bind(this, myMasternode.address, myMasternode.privateKey)}> 
+                <u>{myMasternode.address}</u> 
+              </div>
+              <div className={styles.Status} onClick={this.handleInfoClick.bind(this, myMasternode.address, myMasternode.privateKey)}> 
+                {myMasternode.status} 
+              </div>
+              <div className={styles.Collateral}> 
+                {myMasternode.collateralAddress}
+                <CopyToClipboard
+                  text={myMasternode.collateralAddress}
+                  onCopy={CopyToClipboard.bind(this, myMasternode.collateralAddress)}
+                >
                   <SvgInline svg={iconCopy} className={styles.copyIconBig} />
                 </CopyToClipboard>
+              </div>
+              <div className={styles.iconRegion}>
                 <button
                     onClick={() => openDialogAction({
-                      dialog: CreateMasternodeDialog,
+                      dialog: RemoveMasternodeDialog,
                     })}
-                  >
-                    <SvgInline svg={iconRemove} className={styles.copyIconBig} />
-                </button>
-                <button
-                    onClick={() => openDialogAction({
-                      dialog: InfoMasternodeDialog,
-                    })}
-                  >
-                    <SvgInline svg={iconInfo} className={styles.copyIconBig} />
+                >
+                  <SvgInline svg={iconRemove} className={styles.copyIconBigger} />
                 </button>
               </div>
             </div>
@@ -114,7 +134,7 @@ export default class Masternode extends Component<Props> {
         <button
             className={styles.buttonStyle}
             onClick={() => {
-              console.log("All Start");
+              console.log("Start All");
             }}
           >
             All Start
@@ -139,7 +159,15 @@ export default class Masternode extends Component<Props> {
           <CreateMasternodeDialogContainer />
         ) : null}
         {isDialogOpen(InfoMasternodeDialog) ? (
-          <InfoMasternodeDialogContainer />
+          <InfoMasternodeDialogContainer 
+            address = {this.state.address}
+            privateKey = {this.state.privateKey}
+          />
+        ) : null}
+        {isDialogOpen(RemoveMasternodeDialog) ? (
+          <RemoveMasternodeDialogContainer 
+            alias = {this.state.alias}
+          />
         ) : null}
       </div>
     );

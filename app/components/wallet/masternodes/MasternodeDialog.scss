@@ -34,10 +34,9 @@
   }
 
   .inputFields {
-    max-height: 300px;
+    max-height: 360px;
     overflow: hidden;
     transition: all 400ms ease;
-
     &.hidden {
       max-height: 0;
       opacity: 0;
