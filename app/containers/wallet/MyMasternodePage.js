@@ -18,9 +18,8 @@ export default class MyMasternodePage extends Component<Props> {
     const { uiDialogs } = this.props.stores;
     const { intl } = this.context;
     const actions = this.props.actions;
-    const { masternodes, wallets } = this.props.stores.lux;
-    const activeWallet = wallets.active;
-    //const { searchOptions, hasAny, totalAvailable, filtered } = masternodes;
+    const { masternodes} = this.props.stores.lux;
+    const { myMasternodeList } = masternodes;
 
     // Guard against potential null values
     //if (!searchOptions || !activeWallet) return null;
@@ -38,6 +37,7 @@ export default class MyMasternodePage extends Component<Props> {
       <Masternode
         openDialogAction={actions.dialogs.open.trigger}  
         isDialogOpen={uiDialogs.isOpen}
+        myMasternodeList = {myMasternodeList}
       />
     );
   }
