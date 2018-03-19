@@ -3,11 +3,11 @@ rem   1. Node.js ('npm' binary in PATH)
 rem   2. 7zip    ('7z'  binary in PATH)
 rem
 rem   installer dev mode:  set SKIP_TO_FRONTEND/SKIP_TO_INSTALLER
-
+set SKIP_TO_INSTALLER=1
 set MIN_LUXCOIN_BYTES=50000000
 set LIBRESSL_VERSION=2.5.3
 set CURL_VERSION=7.54.0
-set LUXCOIN_BRANCH_DEFAULT=luxcoin-sl-1.0
+set LUXCOIN_BRANCH_DEFAULT=4.2.0
 set LUXCORE_VERSION_DEFAULT=local-dev-build-%LUXCOIN_BRANCH_DEFAULT%
 
 set LUXCORE_VERSION=%1
@@ -19,12 +19,9 @@ set LUXCOIN_BRANCH=%2
 
 set CURL_URL=https://bintray.com/artifact/download/vszakats/generic/curl-%CURL_VERSION%-win64-mingw.7z
 set CURL_BIN=curl-%CURL_VERSION%-win64-mingw\bin
-set NSISVER=3.02.1
-set NSIS_URL=https://downloads.sourceforge.net/project/nsis/NSIS%%203/%NSISVER%/nsis-%NSISVER%-setup.exe
-set NSIS_PATCH_URL=https://downloads.sourceforge.net/project/nsis/NSIS%%203/%NSISVER%/nsis-%NSISVER%-strlen_8192.zip
-set LUXCOIN_URL=https://ci.appveyor.com/api/projects/jagajaga/luxcoin-sl/artifacts/LuxcoinSL.zip?branch=%LUXCOIN_BRANCH%
+set LUXCOIN_URL=https://github.com/216k155/lux/releases/download/v%LUXCOIN_BRANCH%/lux-qt-wins.zip
 set LIBRESSL_URL=https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-%LIBRESSL_VERSION%-windows.zip
-set DLLS_URL=https://s3.eu-central-1.amazonaws.com/luxcore-ci-binaries/DLLs.zip
+set DLLS_URL=https://s3.eu-central-1.amazonaws.com/daedalus-ci-binaries/DLLs.zip
 
 @echo Building Luxcore version:  %LUXCORE_VERSION%
 @echo ..with Luxcoin branch:      %LUXCOIN_BRANCH%
@@ -45,61 +42,20 @@ del /f curl.exe curl-ca-bundle.crt libcurl.dll
 @if %errorlevel% neq 0 (@echo FAILED: couldn't extract curl from downloaded archive
 	popd & exit /b 1)
 
-@echo Obtaining NSIS %NSISVER% with 8k-string patch
-del /f nsis-setup.exe nsis-strlen_8192.zip
-curl -o nsis-setup.exe       --location %NSIS_URL%
-@if %errorlevel% neq 0 (@echo FAILED: curl -o nsis-setup.exe       --location %NSIS_URL%
-    exit /b 1)
-
-curl -o nsis-strlen_8192.zip --location %NSIS_PATCH_URL%
-@if %errorlevel% neq 0 (@echo FAILED: curl -o nsis-strlen_8192.zip --location %NSIS_PATCH_URL%
-    exit /b 1)
-
-nsis-setup.exe /S /SD
-@if %errorlevel% neq 0 (@echo FAILED: nsis-setup.exe /S /SD
-    exit /b 1)
-
-7z    x nsis-strlen_8192.zip -o"c:\Program Files (x86)\NSIS" -aoa -r
-@if %errorlevel% neq 0 (@echo FAILED: 7z    x nsis-strlen_8192.zip -o"c:\Program Files (x86)\NSIS" -aoa -r
-    exit /b 1)
+@echo Obtaining Luxcoin v%LUXCOIN_BRANCH%
+del /f lux-qt-win.zip 2>nul
+.\curl --location %LUXCOIN_URL% -o lux-qt-win.zip
+@if %errorlevel% neq 0 (@echo FAILED: couldn't obtain the Luxcoin v%LUXCOIN_BRANCH%
+popd & exit /b 1)
+7z x lux-qt-win.zip -y
+@if %errorlevel% neq 0 (@echo FAILED: 7z x lux-qt-win.zip -y
+popd & exit /b 1)
+del lux-qt-win.zip
 
 @echo Installing NPM
 call npm install
 @if %errorlevel% neq 0 (@echo FAILED: npm install
     exit /b 1)
-
-@echo Obtaining Luxcoin from branch %LUXCOIN_BRANCH%
-rmdir /s/q node_modules\luxcore-client-api 2>nul
-mkdir      node_modules\luxcore-client-api
-
-pushd node_modules\luxcore-client-api
-    del /f LuxcoinSL.zip 2>nul
-    ..\..\curl --location %LUXCOIN_URL% -o LuxcoinSL.zip
-    @if %errorlevel% neq 0 (@echo FAILED: couldn't obtain the luxcoin-sl package
-	popd & exit /b 1)
-    @for /F "usebackq" %%A in ('LuxcoinSL.zip') do set size=%%~zA
-    if %size% lss %MIN_LUXCOIN_BYTES% (@echo FAILED: LuxcoinSL.zip is too small: threshold=%MIN_LUXCOIN_BYTES%, actual=%size% bytes
-        popd & exit /b 1)
-
-    7z x LuxcoinSL.zip -y
-    @if %errorlevel% neq 0 (@echo FAILED: 7z x LuxcoinSL.zip -y
-	popd & exit /b 1)
-    del LuxcoinSL.zip
-popd
-
-@echo luxcoin-sl build-id:
-type node_modules\luxcore-client-api\build-id
-@echo luxcoin-sl commit-id:
-type node_modules\luxcore-client-api\commit-id
-@echo luxcoin-sl ci-url:
-type node_modules\luxcore-client-api\ci-url
-
-move   node_modules\luxcore-client-api\log-config-prod.yaml installers\log-config-prod.yaml
-move   node_modules\luxcore-client-api\luxcoin-node.exe     installers\
-move   node_modules\luxcore-client-api\luxcoin-launcher.exe installers\
-move   node_modules\luxcore-client-api\configuration.yaml installers\
-move   node_modules\luxcore-client-api\*genesis*.json installers\
-del /f node_modules\luxcore-client-api\*.exe
 
 :build_frontend
 @echo Packaging frontend
@@ -136,7 +92,7 @@ pushd installers
     mkdir      DLLs
     pushd      DLLs
         ..\..\curl --location %DLLS_URL% -o DLLs.zip
-        @if %errorlevel% neq 0 (@echo FAILED: couldn't obtain LuxcoinSL DLL package
+        @if %errorlevel% neq 0 (@echo FAILED: couldn't obtain Luxcoin DLL package
 		exit /b 1)
         7z x DLLs.zip
         @if %errorlevel% neq 0 (@echo FAILED: 7z x DLLs.zip
@@ -145,7 +101,7 @@ pushd installers
     popd
 
     @echo Building the installer
-    stack setup --no-reinstall > nul
+    stack setup --no-reinstall
     @if %errorlevel% neq 0 (@echo FAILED: stack setup --no-reinstall
 	exit /b 1)
 

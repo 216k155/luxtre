@@ -1,38 +1,30 @@
-module WindowsInstaller where
+module WindowsInstaller
+    ( main
+    ) where
 
+import           Universum hiding (pass, writeFile)
 import           Control.Monad      (unless)
 import qualified Data.List          as L
 import           Data.Maybe         (fromJust, fromMaybe)
 import           Data.Monoid        ((<>))
-import           Data.Text          (pack, split, unpack)
-import           Development.NSIS
+import qualified Data.Text as T
+import qualified Data.Text.IO as TIO
+import           Development.NSIS (Attrib (IconFile, IconIndex, OName, RebootOK, Recursive, Required, StartOptions, Target),
+                                   HKEY (HKLM), Level (Highest), Page (Directory, InstFiles), abort,
+                                   constant, constantStr, createDirectory, createShortcut, delete,
+                                   deleteRegKey, execWait, file, iff_, installDir, installDirRegKey,
+                                   name, nsis, onPagePre, outFile, page, readRegStr,
+                                   requestExecutionLevel, rmdir, section, setOutPath, str,
+                                   strLength, uninstall, unsafeInject, unsafeInjectGlobal,
+                                   writeRegDWORD, writeRegStr, (%/=))
+import           Prelude ((!!))
 import           System.Directory   (doesFileExist)
 import           System.Environment (lookupEnv)
+import           System.IO (writeFile)
 import           Turtle             (ExitCode (..), echo, proc, procs)
 import           Turtle.Line        (unsafeTextToLine)
 
-import           Launcher
 
-launcherScript :: [String]
-launcherScript =
-  [ "@echo off"
-  , "SET LUXCORE_DIR=%~dp0"
-  , "start /D \"%LUXCORE_DIR%\" luxcoin-launcher.exe " <> args
-  ]
-  where
-    args = launcherArgs $ Launcher
-      { nodePath = "%LUXCORE_DIR%\\luxcoin-node.exe"
-      , nodeLogPath = "%APPDATA%\\Luxcore\\Logs\\luxcoin-node.log"
-      , walletPath = "%LUXCORE_DIR%\\Luxcore.exe"
-      , launcherLogPath = "%APPDATA%\\Luxcore\\Logs\\pub"
-      , windowsInstallerPath = Just "%APPDATA%\\Luxcore\\Installer.bat"
-      , updater =
-          SelfUnpacking
-            { updArchivePath = "%APPDATA%\\Luxcore\\Installer.exe"
-            , updArgs = []
-            }
-      , runtimePath = "%APPDATA%\\Luxcore\\"
-      }
 
 luxcoreShortcut :: [Attrib]
 luxcoreShortcut =
@@ -84,27 +76,32 @@ signFile filename = do
   if exists then do
     maybePass <- lookupEnv "CERT_PASS"
     case maybePass of
-      Nothing -> echo . unsafeTextToLine . pack $ "Skipping signing " <> filename <> " due to lack of password"
+            Nothing -> echo . unsafeTextToLine . toText $ "Skipping signing " <> filename <> " due to lack of password"
       Just pass -> do
-        echo . unsafeTextToLine . pack $ "Signing " <> filename
+                echo . unsafeTextToLine . toText $ "Signing " <> filename
         -- TODO: Double sign a file, SHA1 for vista/xp and SHA2 for windows 8 and on
-        --procs "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Bin\\signtool.exe" ["sign", "/f", "C:\\iohk-windows-certificate.p12", "/p", pack pass, "/t", "http://timestamp.comodoca.com", "/v", pack filename] mempty
-        exitcode <- proc "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Bin\\signtool.exe" ["sign", "/f", "C:\\iohk-windows-certificate.p12", "/p", pack pass, "/fd", "sha256", "/tr", "http://timestamp.comodoca.com/?td=sha256", "/td", "sha256", "/v", pack filename] mempty
+                --procs "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Bin\\signtool.exe" ["sign", "/f", "C:\\iohk-windows-certificate.p12", "/p", toText pass, "/t", "http://timestamp.comodoca.com", "/v", toText filename] mempty
+                exitcode <- proc "C:\\Program Files (x86)\\Microsoft SDKs\\Windows\\v7.1A\\Bin\\signtool.exe" ["sign", "/f", "C:\\iohk-windows-certificate.p12", "/p", toText pass, "/fd", "sha256", "/tr", "http://timestamp.comodoca.com/?td=sha256", "/td", "sha256", "/v", toText filename] mempty
         unless (exitcode == ExitSuccess) $ error "Signing failed"
   else
-    error $ "Unable to sign missing file '" <> filename <> "''"
+        error $ "Unable to sign missing file '" <> (toText filename) <> "''"
 
 parseVersion :: String -> [String]
 parseVersion ver =
-  case split (== '.') (pack ver) of
-    v@[_, _, _, _] -> map unpack v
+    case T.split (== '.') (toText ver) of
+        v@[_, _, _, _] -> map toString v
     _              -> ["0", "0", "0", "0"]
 
+fileSubstString :: Text -> Text -> FilePath -> FilePath -> IO ()
+fileSubstString from to src dst =
+    TIO.writeFile dst =<< T.replace from to <$> TIO.readFile src
 writeInstallerNSIS :: String -> IO ()
 writeInstallerNSIS fullVersion = do
   tempDir <- fmap fromJust $ lookupEnv "TEMP"
   let viProductVersion = L.intercalate "." $ parseVersion fullVersion
-  echo $ unsafeTextToLine $ pack $ "VIProductVersion: " <> viProductVersion
+    echo $ unsafeTextToLine $ toText $ "VIProductVersion: " <> viProductVersion
+    forM_ ["ca.conf", "server.conf", "client.conf"] $
+        \f-> fileSubstString "OPENSSL_MD" "sha256" f (f <> ".windows")
   writeFile "luxcore.nsi" $ nsis $ do
     _ <- constantStr "Version" (str fullVersion)
     name "Luxcore ($Version)"                  -- The name of the installer
@@ -146,7 +143,7 @@ writeInstallerNSIS fullVersion = do
         file [] "wallet-topology.yaml"
         file [] "configuration.yaml"
         file [] "*genesis*.json"
-        writeFileLines "$INSTDIR\\luxcore.bat" (map str launcherScript)
+                file [OName (str "launcher-config.yaml")] "launcher-config-windows.yaml"
         file [Recursive] "dlls\\"
         file [Recursive] "libressl\\"
         file [Recursive] "..\\release\\win32-x64\\Luxcore-win32-x64\\"

@@ -1,16 +1,15 @@
-import           Data.Text as T
-import           Data.Monoid ((<>))
-import           System.Info
-import           Turtle
+import           Universum
+import           System.Info (arch, os)
+import           Turtle (echo)
 import           Turtle.Line          (unsafeTextToLine)
 
-import qualified WindowsInstaller
-import qualified MacInstaller
+import qualified MacInstaller (main)
+import qualified WindowsInstaller (main)
 
 
 main :: IO ()
 main = do
-  echo $ unsafeTextToLine . T.pack $ "Generating installer for " <>  os <> "-" <> arch
+  echo $ unsafeTextToLine . toText $ "Generating installer for " <>  os <> "-" <> arch
   case os of
     "linux" -> echo "No installer yet"
     "darwin" -> MacInstaller.main
