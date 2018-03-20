@@ -29,14 +29,14 @@ Feature: Add Wallet via Sidebar
     And I should have newly created "New wallet" wallet loaded
     And I should be on the "New wallet" wallet "summary" screen
 
-  Scenario: Successfully Adding a Wallet with spending password
+  Scenario: Successfully Adding a Wallet with wallet password
     Given The sidebar shows the "wallets" category
     When I click on the add wallet button in the sidebar
     And I see the add wallet dialog
     And I click on the create wallet button in add wallet dialog
     And I see the create wallet dialog
     And I toggle "Activate to create password" switch on the create wallet dialog
-    And I submit the create wallet with spending password dialog with the following inputs:
+    And I submit the create wallet with wallet password dialog with the following inputs:
     | walletName | password  | repeatedPassword |
     | New wallet | Secret123 | Secret123        |
     And I see the create wallet privacy dialog

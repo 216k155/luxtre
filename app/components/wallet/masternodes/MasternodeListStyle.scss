@@ -75,7 +75,7 @@
 }
 
 .Status {
-  width: 9%;
+  width: 8%;
 } 
 
 .Collateral {
@@ -84,7 +84,7 @@
 }
 
 .iconRegion {
-  width: 10%;
+  width: 12%;
 }
 
 
@@ -138,11 +138,11 @@
 }
 
 .copyIconBigger {
-  margin-left: 4px;
+  margin-left: 6px;
   cursor: pointer;
   & > svg {
-    height: 25px;
-    width: 20px;
+    height: 27px;
+    width: 22px;
     path {
       fill: var(--theme-icon-copy-address-color);
     }

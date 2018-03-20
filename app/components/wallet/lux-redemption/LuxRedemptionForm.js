@@ -152,12 +152,12 @@ where Lux should be redeemed and enter 9 word mnemonic passphrase.</p>`,
   walletPasswordPlaceholder: {
     id: 'wallet.redeem.dialog.walletPasswordPlaceholder',
     defaultMessage: '!!!Password',
-    description: 'Placeholder for "spending password"',
+    description: 'Placeholder for "wallet password"',
   },
   walletPasswordLabel: {
     id: 'wallet.redeem.dialog.walletPasswordLabel',
     defaultMessage: '!!!Password',
-    description: 'Label for "spending password"',
+    description: 'Label for "wallet password"',
   },
 });
 

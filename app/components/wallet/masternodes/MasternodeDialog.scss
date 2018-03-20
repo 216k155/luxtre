@@ -56,6 +56,18 @@
     }
   }
 
+  .info{
+    border-radius: 4px;
+    border: solid 1px grey;
+    padding: 10px;
+    overflow: auto;
+  }
+
+  .info::-webkit-scrollbar {
+      width: 10px;
+      height: 5px;
+  }
+
   .removeButton {
     background: var(--theme-input-remove-color-light) !important;
     &:hover {
@@ -65,7 +77,7 @@
       background: var(--theme-input-remove-color-dark) !important;
     }
   }
-
+  
   .error {
     @include error-message;
     text-align: center;

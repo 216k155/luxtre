@@ -90,7 +90,7 @@ Changelog
 - Fixed Numeric component caret position bug on wallet send screen ([PR 394](https://github.com/input-output-hk/luxcore/pull/394))
 - Fixed all design implementation issues ([PR 397](https://github.com/input-output-hk/luxcore/pull/397))
 - Fixed eslint syntax warnings ([PR 403](https://github.com/input-output-hk/luxcore/pull/403))
-- Fixed wallet spending password fields error messages positioning on wallet create/restore/import dialogs ([PR 407](https://github.com/input-output-hk/luxcore/pull/407))
+- Fixed wallet wallet password fields error messages positioning on wallet create/restore/import dialogs ([PR 407](https://github.com/input-output-hk/luxcore/pull/407))
 - Fixed inline-editing success-messages on wallet settings screen ([PR 408](https://github.com/input-output-hk/luxcore/pull/408))
 - Fixed dialogs cut-off content on smaller screens ([PR 370](https://github.com/input-output-hk/luxcore/pull/398))
 - Fixed the issue of dialogs being closable while wallet import/creation/restoring is happening ([PR 393](https://github.com/input-output-hk/luxcore/pull/414))
@@ -135,7 +135,7 @@ Changelog
 - When user opens or closes the sidebar using the hamburger icon it stays open or closed
 - Optionally setting a password during wallet creation
 - "Terms of use" screen on first application start
-- Spending password on "Send money" form
+- Wallet password on "Send money" form
 - Optionally setting a password during wallet restore
 - Lux redemption disclaimer
 - "Terms of use" page in settings section
@@ -146,15 +146,15 @@ Changelog
 - Lux redemption acceptance tests
 - Show BTC and LUX currencies as coming soon in create wallet dialog
 - Remove currencies dropdown on create wallet dialog
-- Spending password on wallet receive page
+- Wallet password on wallet receive page
 - Prepared UI dialogs for exporting paper wallets
 - Prepared UI dialogs for importing paper wallets
-- Spending password on "Import wallet" dialog
-- Spending password on "Lux redemption" forms
-- Acceptance test for "Restore wallet with and without spending password" feature
-- Acceptance test for "Create wallet with spending password" feature
-- Acceptance test for "Import wallet with/without spending password" feature
-- Acceptance test for "Send money from a wallet with spending password" feature
+- Wallet password on "Import wallet" dialog
+- Wallet password on "Lux redemption" forms
+- Acceptance test for "Restore wallet with and without wallet password" feature
+- Acceptance test for "Create wallet with wallet password" feature
+- Acceptance test for "Import wallet with/without wallet password" feature
+- Acceptance test for "Send money from a wallet with wallet password" feature
 - Acceptance test for "Generate wallet address" feature
 - Acceptance test for "Wallet settings management" features
 - Final version of Luxcore logo added on the loading screen
@@ -186,7 +186,7 @@ Changelog
 - Polling for wallet data and system update should be disabled while node is syncing with the blockchain
 - Prevent syncing icon from being always stuck in syncing state by refactoring in-sync state calculation
 - Acceptance test for "Sending money" feature should check receiver wallet's balance
-- Improved spending password validation rules
+- Improved wallet password validation rules
 - Improved acceptance tests for generating new addresses
 - Removed temporary workaround for creating new accounts during wallet create and wallet restore
 - Prevent React key duplicates in transaction from/to addresses lists

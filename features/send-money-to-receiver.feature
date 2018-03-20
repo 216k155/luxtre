@@ -24,7 +24,7 @@ Feature: Send Money to Receiver
       | balance  |
       | 0.000010 |
 
-  Scenario: User Sends Money from wallet with spending password to Receiver
+  Scenario: User Sends Money from wallet with wallet password to Receiver
     Given I have a wallet with funds and password
     And I am on the "Genesis wallet" wallet "send" screen
     When I fill out the send form with a transaction to "first" wallet:
@@ -33,7 +33,7 @@ Feature: Send Money to Receiver
     And the transaction fees are calculated
     And I click on the next button in the wallet send form
     And I see send money confirmation dialog
-    And I enter wallet spending password in confirmation dialog "Secret123"
+    And I enter wallet wallet password in confirmation dialog "Secret123"
     And I submit the wallet send form
     Then I should be on the "Genesis wallet" wallet "summary" screen
     And the latest transaction should show:
