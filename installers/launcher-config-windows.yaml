@@ -1,15 +1,15 @@
-nodePath: ! '%DAEDALUS_DIR%\cardano-node.exe'
+nodePath: ! '%LUXCORE_DIR%\luxcoin-node.exe'
 nodeArgs:
 - --update-latest-path
-- ! '%APPDATA%\Daedalus\Installer.exe'
+- ! '%APPDATA%\Luxcore\Installer.exe'
 - --keyfile
-- ! '%APPDATA%\Daedalus\Secrets-1.0\secret.key'
+- ! '%APPDATA%\Luxcore\Secrets-1.0\secret.key'
 - --logs-prefix
-- ! '%APPDATA%\Daedalus\Logs'
+- ! '%APPDATA%\Luxcore\Logs'
 - --wallet-db-path
-- ! '%APPDATA%\Daedalus\Wallet-1.0'
+- ! '%APPDATA%\Luxcore\Wallet-1.0'
 - --update-server
-- https://update-cardano-mainnet.iohk.io
+- https://update-luxcoin-mainnet.iohk.io
 - --update-with-package
 - --no-ntp
 - --tlscert
@@ -20,21 +20,21 @@ nodeArgs:
 - ! 'tls\ca\ca.crt'
 - --topology
 - wallet-topology.yaml
-nodeDbPath: ! '%APPDATA%\Daedalus\DB-1.0'
+nodeDbPath: ! '%APPDATA%\Luxcore\DB-1.0'
 nodeLogConfig: log-config-prod.yaml
-nodeLogPath: ! '%APPDATA%\Daedalus\Logs\cardano-node.log'
+nodeLogPath: ! '%APPDATA%\Luxcore\Logs\luxcoin-node.log'
 
-walletPath: ! '%DAEDALUS_DIR%\Daedalus.exe'
+walletPath: ! '%LUXCORE_DIR%\Luxcore.exe'
 walletArgs: []
 
-updaterPath: ! '%APPDATA%\Daedalus\Installer.exe'
+updaterPath: ! '%APPDATA%\Luxcore\Installer.exe'
 updaterArgs: []
 updateArchive: null
-updateWindowsRunner: ! '%APPDATA%\Daedalus\Installer.bat'
+updateWindowsRunner: ! '%APPDATA%\Luxcore\Installer.bat'
 
 nodeTimeoutSec: 30
-reportServer: http://report-server.cardano-mainnet.iohk.io:8080
-launcherLogsPrefix: ! '%APPDATA%\Daedalus\Logs\pub'
+reportServer: http://report-server.luxcoin-mainnet.iohk.io:8080
+launcherLogsPrefix: ! '%APPDATA%\Luxcore\Logs\pub'
 
 configuration:
   filePath: configuration.yaml

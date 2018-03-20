@@ -3,7 +3,7 @@ rem   1. Node.js ('npm' binary in PATH)
 rem   2. 7zip    ('7z'  binary in PATH)
 rem
 rem   installer dev mode:  set SKIP_TO_FRONTEND/SKIP_TO_INSTALLER
-set SKIP_TO_INSTALLER=1
+
 set MIN_LUXCOIN_BYTES=50000000
 set LIBRESSL_VERSION=2.5.3
 set CURL_VERSION=7.54.0

@@ -40,7 +40,7 @@ data InstallerConfig = InstallerConfig {
 }
 -- In both Travis and Buildkite, the environment variable is set to
 -- the pull request number if the current job is a pull request build,
--- or "false" if it’s not.
+-- or "false" if itï¿½s not.
 pullRequestFromEnv :: IO (Maybe String)
 pullRequestFromEnv = liftM2 (<|>) (getPR "BUILDKITE_PULL_REQUEST") (getPR "TRAVIS_PULL_REQUEST")
   where
@@ -54,14 +54,14 @@ installerConfigFromEnv :: IO InstallerConfig
 installerConfigFromEnv = mkEnv <$> envAPI <*> envVersion
   where
     envAPI = fromMaybe "luxcoin" <$> lookupEnv "API"
-    envVersion = fromMaybe "dev" <$> lookupEnv "DAEDALUS_VERSION"
+    envVersion = fromMaybe "dev" <$> lookupEnv "LUXCORE_VERSION"
     mkEnv "luxcoin" ver = InstallerConfig
       { icApi = "luxcoin"
       , predownloadChain = False
       , appNameLowercase = "luxcore"
       , appName = "Luxcore"
-      , pkg = "dist/Daedalus-installer-" <> T.pack ver <> ".pkg"
-      , appRoot = "../release/darwin-x64/Daedalus-darwin-x64/Daedalus.app"
+      , pkg = "dist/Luxcore-installer-" <> T.pack ver <> ".pkg"
+      , appRoot = "../release/darwin-x64/Luxcore-darwin-x64/Luxcore.app"
       }
 main :: IO ()
 main = do
@@ -124,7 +124,7 @@ makeInstaller cfg = do
 
   -- Prepare launcher
   de <- doesFileExist (dir </> "Frontend")
-  unless de $ renameFile (dir </> "Daedalus") (dir </> "Frontend")
+  unless de $ renameFile (dir </> "Luxcore") (dir </> "Frontend")
   run "chmod" ["+x", toText (dir </> "Frontend")]
   writeLauncherFile dir cfg
 
@@ -160,12 +160,12 @@ writeLauncherFile dir _ = do
   run "chmod" ["+x", toText path]
   pure path
   where
-    path = dir </> "Daedalus"
+    path = dir </> "Luxcore"
     contents =
       [ "#!/usr/bin/env bash"
       , "cd \"$(dirname $0)\""
-      , "mkdir -p \"$HOME/Library/Application Support/Daedalus/Secrets-1.0\""
-      , "mkdir -p \"$HOME/Library/Application Support/Daedalus/Logs/pub\""
+      , "mkdir -p \"$HOME/Library/Application Support/Luxcore/Secrets-1.0\""
+      , "mkdir -p \"$HOME/Library/Application Support/Luxcore/Logs/pub\""
       , "./luxcoin-launcher"
       ]
 
