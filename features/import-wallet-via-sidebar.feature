@@ -26,7 +26,7 @@ Feature: Import Wallet via Sidebar
     And I should not see the import status notification anymore
 
   @skip
-  Scenario: Successfully Importing a Wallet with spending password
+  Scenario: Successfully Importing a Wallet with wallet password
     Given The sidebar shows the "wallets" category
     When I click on the add wallet button in the sidebar
     And I see the add wallet dialog
@@ -34,8 +34,8 @@ Feature: Import Wallet via Sidebar
     And I see the import wallet dialog
     And I select a valid wallet import key file
     And I toggle "Activate to create password" switch on the import wallet key dialog
-    And I should see wallet spending password inputs
-    And I enter wallet spending password:
+    And I should see wallet wallet password inputs
+    And I enter wallet wallet password:
     | password  | repeatedPassword |
     | Secret123 | Secret123        |
     And I click on the import wallet button in import wallet dialog

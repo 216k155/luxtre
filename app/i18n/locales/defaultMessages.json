@@ -1320,7 +1320,7 @@
       },
       {
         "defaultMessage": "!!!Password",
-        "description": "Placeholder for \"spending password\"",
+        "description": "Placeholder for \"wallet password\"",
         "end": {
           "column": 3,
           "line": 156
@@ -1334,7 +1334,7 @@
       },
       {
         "defaultMessage": "!!!Password",
-        "description": "Label for \"spending password\"",
+        "description": "Label for \"wallet password\"",
         "end": {
           "column": 3,
           "line": 161
@@ -3274,7 +3274,7 @@
       },
       {
         "defaultMessage": "!!!Password",
-        "description": "Placeholder for \"spending password\" on the wallet \"Receive page\"",
+        "description": "Placeholder for \"wallet password\" on the wallet \"Receive page\"",
         "end": {
           "column": 3,
           "line": 56
@@ -3507,8 +3507,8 @@
         }
       },
       {
-        "defaultMessage": "!!!Spending password",
-        "description": "Label for the \"Spending password\" input in the wallet send confirmation dialog.",
+        "defaultMessage": "!!!Wallet password",
+        "description": "Label for the \"Wallet password\" input in the wallet send confirmation dialog.",
         "end": {
           "column": 3,
           "line": 25
@@ -3577,8 +3577,8 @@
         }
       },
       {
-        "defaultMessage": "!!!Type your spending password",
-        "description": "Placeholder for the \"Spending password\" inputs in the wallet send confirmation dialog.",
+        "defaultMessage": "!!!Type your wallet password",
+        "description": "Placeholder for the \"Wallet password\" inputs in the wallet send confirmation dialog.",
         "end": {
           "column": 3,
           "line": 50
@@ -3620,6 +3620,81 @@
       }
     ],
     "path": "app/components/wallet/WalletSendConfirmationDialog.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "!!!Unlock wallet",
+        "description": "Title for the \"Unlock wallet\" dialog.",
+        "end": {
+          "column": 3,
+          "line": 20
+        },
+        "file": "app/components/wallet/WalletUnlockDialog.js",
+        "id": "wallet.unlockDialog.title",
+        "start": {
+          "column": 15,
+          "line": 16
+        }
+      },
+      {
+        "defaultMessage": "!!!Wallet password",
+        "description": "Label for the \"Wallet password\" input in the unlock wallet dialog.",
+        "end": {
+          "column": 3,
+          "line": 25
+        },
+        "file": "app/components/wallet/WalletUnlockDialog.js",
+        "id": "wallet.unlockDialog.walletPasswordLabel",
+        "start": {
+          "column": 23,
+          "line": 21
+        }
+      },
+      {
+        "defaultMessage": "!!!Type your wallet password",
+        "description": "Placeholder for the \"Wallet password\" inputs in the unlock wallet dialog.",
+        "end": {
+          "column": 3,
+          "line": 50
+        },
+        "file": "app/components/wallet/WalletUnlockDialog.js",
+        "id": "wallet.unlockDialog.walletPasswordFieldPlaceholder",
+        "start": {
+          "column": 34,
+          "line": 46
+        }
+      },
+      {
+        "defaultMessage": "!!!Ok",
+        "description": "Label for the ok button in the unlock wallet dialog.",
+        "end": {
+          "column": 3,
+          "line": 55
+        },
+        "file": "app/components/wallet/WalletUnlockDialog.js",
+        "id": "wallet.unlockDialog.submit",
+        "start": {
+          "column": 19,
+          "line": 51
+        }
+      },
+      {
+        "defaultMessage": "!!!Cancel",
+        "description": "Label for the cancel button in the unlock wallet dialog.",
+        "end": {
+          "column": 3,
+          "line": 60
+        },
+        "file": "app/components/wallet/WalletUnlockDialog.js",
+        "id": "wallet.unlockDialog.cancel",
+        "start": {
+          "column": 19,
+          "line": 56
+        }
+      }
+    ],
+    "path": "app/components/wallet/WalletUnlockDialog.json"
   },
   {
     "descriptors": [

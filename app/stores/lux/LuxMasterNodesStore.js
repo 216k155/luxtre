@@ -44,6 +44,10 @@ export default class LuxMasternodesStore extends Store {
     const { masternodes } = lux;
     masternodes.createMasternode.listen(this._createMasternode);
     masternodes.removeMasternode.listen(this._removeMasternode);
+    masternodes.startMasternode.listen(this._startMasternode);
+    masternodes.stopMasternode.listen(this._stopMasternode);
+    masternodes.startManyMasternode.listen(this._startManyMasternode);
+    masternodes.stopManyMasternode.listen(this._stopManyMasternode);
     //router.goToRoute.listen(this._onRouteChange);
   }
 
@@ -59,6 +63,36 @@ export default class LuxMasternodesStore extends Store {
     }));
     this.actions.dialogs.closeActiveDialog.trigger();
     this.createMasternodeRequest.reset();
+  };
+
+  _startMasternode = async ( params: {alias: string, password: string }) => {
+    const response: StartMasternodeResponse = await this.startMasternodeRequest.execute(params).promise;
+    //console.log(response);
+    this.actions.dialogs.closeActiveDialog.trigger();
+    this.startMasternodeRequest.reset();
+  };
+
+  _stopMasternode = async ( params: { alias: string, password: string  }) => {
+    const response: StopMasternodeResponse = await this.stopMasternodeRequest.execute(params).promise;
+    //console.log(response);
+    this.actions.dialogs.closeActiveDialog.trigger();
+    this.stopMasternodeRequest.reset();
+  };
+
+  _startManyMasternode = async ( params: { password: string }) => {
+    const { password } = params;
+    const response: StartManyMasternodeResponse = await this.startManyMasternodeRequest.execute(password).promise;
+    //console.log(response);
+    this.actions.dialogs.closeActiveDialog.trigger();
+    this.startManyMasternodeRequest.reset();
+  };
+
+  _stopManyMasternode = async ( params: { password: string  }) => {
+    const { password } = params;
+    const response: StopManyMasternodeResponse = await this.stopManyMasternodeRequest.execute(password).promise;
+    //console.log(response);
+    this.actions.dialogs.closeActiveDialog.trigger();
+    this.stopManyMasternodeRequest.reset();
   };
 
   _removeMasternode = async ( params: {alias: string}) => {
@@ -89,6 +123,14 @@ export default class LuxMasternodesStore extends Store {
   }
   
   @action _addMyMasternode = (masternode: MyMasternode) => {
+    for(var i=0; i < this.myMasternodes.length; i++)
+    {
+      if(this.myMasternodes[i].alias === masternode.alias)
+      {
+        this.myMasternodes[i] = masternode;    
+        return;
+      }
+    }
     this.myMasternodes.push(masternode);
   };
 
@@ -105,6 +147,10 @@ export default class LuxMasternodesStore extends Store {
 
   _pollRefresh = async () => {
     this.stores.networkStatus.isSynced && await this.refreshMasternodesData()
+  }
+
+  getMasternodeOutputs = () => {
+    return this.api.lux.getMasternodeOutputs();
   }
 
 }

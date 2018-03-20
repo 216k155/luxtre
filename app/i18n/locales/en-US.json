@@ -232,8 +232,13 @@
   "wallet.send.confirmationDialog.submit": "Send",
   "wallet.send.confirmationDialog.title": "Confirm transaction",
   "wallet.send.confirmationDialog.totalLabel": "Total",
-  "wallet.send.confirmationDialog.walletPasswordFieldPlaceholder": "Type your spending password",
-  "wallet.send.confirmationDialog.walletPasswordLabel": "Spending password",
+  "wallet.send.confirmationDialog.walletPasswordFieldPlaceholder": "Type your wallet password",
+  "wallet.send.confirmationDialog.walletPasswordLabel": "Wallet password",
+  "wallet.unlockDialog.cancel": "Cancel",
+  "wallet.unlockDialog.submit": "Ok",
+  "wallet.unlockDialog.title": "Unlock wallet",
+  "wallet.unlockDialog.walletPasswordFieldPlaceholder": "Type your wallet passphrase",
+  "wallet.unlockDialog.walletPasswordLabel": "Wallet passphrase",
   "wallet.send.form.amount.equalsLux": "equals {amount} LUX",
   "wallet.send.form.amount.label": "Amount",
   "wallet.send.form.description.hint": "You can type a message here, if you want.",
@@ -310,6 +315,7 @@
   "wallet.masternode.remove.dialog.title":"Delete Adrenaline Node?",
   "wallet.masternode.remove.dialog.description":"Are you sure you want to delete this adrenaline node configuration?",
 
-  "wallet.masternode.info.dialog.title":"LuxNodes Node Configuration Template",
+  "wallet.masternode.info.dialog.title":"LuxNode Configuration Template",
+  "wallet.masternode.outputs.dialog.title":"LuxNode Outputs",
   "window.about.title": "Luxcore"
 }

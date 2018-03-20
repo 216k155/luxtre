@@ -6,33 +6,60 @@ import MyMasternode from '../../../domain/MyMasternode';
 import moment from 'moment';
 import styles from './MasternodeListStyle.scss';
 import LoadingSpinner from '../../widgets/LoadingSpinner';
+import LocalizableError from '../../../i18n/LocalizableError';
 import CreateMasternodeDialog from './CreateMasternodeDialog';
 import CreateMasternodeDialogContainer from '../../../containers/wallet/dialogs/CreateMasternodeDialogContainer';
 import InfoMasternodeDialog from './InfoMasternodeDialog';
 import InfoMasternodeDialogContainer from '../../../containers/wallet/dialogs/InfoMasternodeDialogContainer';
 import RemoveMasternodeDialog from './RemoveMasternodeDialog';
 import RemoveMasternodeDialogContainer from '../../../containers/wallet/dialogs/RemoveMasternodeDialogContainer';
+import OutputsMasternodeDialog from './OutputsMasternodeDialog';
+import OutputsMasternodeDialogContainer from '../../../containers/wallet/dialogs/OutputsMasternodeDialogContainer';
+import WalletUnlockDialog from '../../../components/wallet/WalletUnlockDialog';
+import WalletUnlockDialogContainer from '../../../containers/wallet/dialogs/WalletUnlockDialogContainer';
 import SvgInline from 'react-svg-inline';
 import CopyToClipboard from 'react-copy-to-clipboard';
-//import iconCopy from '../../../assets/images/copy.inline.svg';
 import iconCopy from '../../../assets/images/clipboard-ic.inline.svg';
-import iconRemove from '../../../assets/images/trash.inline.svg';
+import iconRemove from '../../../assets/images/masternode-remove.inline.svg';
 import iconInfo from '../../../assets/images/info.inline.svg';
+import iconStart from '../../../assets/images/masternode-start.inline.svg';
+import iconStop from '../../../assets/images/masternode-stop.inline.svg';
 
 type Props = {
+  getMasternodeOutputs: Function,
+  masternodeAction: Function,
   openDialogAction: Function,
   isDialogOpen: Function,
-  myMasternodeList: Array<MyMasternode>
+  isWalletPasswordSet: Boolean,
+  myMasternodeList: Array<MyMasternode>,
+  error: ?LocalizableError
 };
 
 @observer
 export default class Masternode extends Component<Props> {
 
+  static contextTypes = {
+    intl: intlShape.isRequired,
+  };
+
   state = {
     alias: '',
     address: '',
-    privateKey: ''
+    privateKey: '',
+    outputs: '',
+    outputsError: null,
+    actionType: ''
   };
+
+  _isMounted = false;
+  
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
   handleInfoClick(address, privateKey) {
     const { openDialogAction } = this.props;
@@ -53,13 +80,39 @@ export default class Masternode extends Component<Props> {
      openDialogAction({dialog: RemoveMasternodeDialog});
   }
 
+  handelMasternodeAction(actionType, values){
+    this.props.masternodeAction(actionType, values);
+  }
+
+  async _getMasternodeOutputs() {
+    try {
+      const outputs = await this.props.getMasternodeOutputs();
+      if (this._isMounted) {
+        this.setState({
+          outputs: outputs,
+          outputsError: null,
+        });
+      }
+    } catch (error) {
+      if (this._isMounted) {
+        this.setState({
+          outputsError: this.context.intl.formatMessage(error)
+        });
+      }
+    }
+  }
+
   render() {
-    const {myMasternodeList} = this.props;
+
+    const { intl } = this.context;
+
     const {
       openDialogAction, 
       isDialogOpen,
+      isWalletPasswordSet,
+      myMasternodeList,
+      error
     } = this.props;
-
 
 /*
         <div className={styles.tbTitle}>
@@ -80,6 +133,47 @@ export default class Masternode extends Component<Props> {
             })}
           >
             Create
+        </button>
+        <button
+            className={styles.button}
+            onClick={() => {
+              this._getMasternodeOutputs();
+              openDialogAction({dialog: OutputsMasternodeDialog});
+            }}
+          >
+            Get Outputs
+        </button>
+        <button
+            className={styles.button}
+            onClick={() => {
+              if(isWalletPasswordSet)
+              {
+                this.setState({ actionType: 'startMany' });
+                openDialogAction({dialog: WalletUnlockDialog});
+              }
+              else
+              {
+                this.props.masternodeAction('startMany', {password:''});
+              }
+            }}
+          >
+            Start All
+        </button>
+        <button
+            className={styles.button}
+            onClick={() => {
+              if(isWalletPasswordSet)
+              {
+                this.setState({ actionType: 'stopMany' });
+                openDialogAction({dialog: WalletUnlockDialog});
+              }
+              else
+              {
+                this.props.masternodeAction('stopMany', {password:''});
+              }
+            }}
+          >
+            Stop All
         </button>
         <div className={styles.listRegion}>
           {myMasternodeList.map((myMasternode, index) => (
@@ -104,6 +198,42 @@ export default class Masternode extends Component<Props> {
               </div>
               <div className={styles.iconRegion}>
                 <button
+                    onClick={() => {
+                      if(isWalletPasswordSet)
+                      {
+                        this.setState({ 
+                          actionType: 'start',
+                          alias: myMasternode.alias 
+                        });
+                        openDialogAction({dialog: WalletUnlockDialog});
+                      }
+                      else
+                      {
+                        this.props.masternodeAction('start', {alias: myMasternode.alias, password:''});
+                      }
+                    }}
+                >
+                  <SvgInline svg={iconStart} className={styles.copyIconBigger} />
+                </button>
+                <button
+                    onClick={() => {
+                      if(isWalletPasswordSet)
+                      {
+                        this.setState({ 
+                          actionType: 'stop',
+                          alias: myMasternode.alias 
+                        });
+                        openDialogAction({dialog: WalletUnlockDialog});
+                      }
+                      else
+                      {
+                        this.props.masternodeAction('stop', {alias: myMasternode.alias, password:''});
+                      }
+                    }}
+                >
+                  <SvgInline svg={iconStop} className={styles.copyIconBigger} />
+                </button>
+                <button
                     onClick={() => openDialogAction({
                       dialog: RemoveMasternodeDialog,
                     })}
@@ -114,47 +244,6 @@ export default class Masternode extends Component<Props> {
             </div>
           ))}
         </div>
-
-        <button
-            className={styles.buttonStyle}
-            onClick={() => {
-              console.log("start");
-            }}
-          >
-            Start
-        </button>
-        <button
-            className={styles.buttonStyle}
-            onClick={() => {
-              console.log("Stop");
-            }}
-          >
-            Stop
-        </button>
-        <button
-            className={styles.buttonStyle}
-            onClick={() => {
-              console.log("Start All");
-            }}
-          >
-            All Start
-        </button>
-        <button
-            className={styles.buttonStyle}
-            onClick={() => {
-              console.log("Stop All");
-            }}
-          >
-            Stop All
-        </button>
-        <button
-            className={styles.buttonStyle}
-            onClick={() => {
-              console.log("Get Outputs");
-            }}
-          >
-            Get Outputs
-        </button>
         {isDialogOpen(CreateMasternodeDialog) ? (
           <CreateMasternodeDialogContainer />
         ) : null}
@@ -169,6 +258,22 @@ export default class Masternode extends Component<Props> {
             alias = {this.state.alias}
           />
         ) : null}
+        {isDialogOpen(OutputsMasternodeDialog) ? (
+          <OutputsMasternodeDialogContainer 
+            outputs = {this.state.outputs}
+            error = {this.state.outputsError}
+          />
+        ) : null}
+        {isDialogOpen(WalletUnlockDialog) ? (
+          <WalletUnlockDialogContainer 
+            alias = {this.state.alias}
+            actionType = {this.state.actionType}
+            masternodeAction = {(actionType, values) => (
+              this.handelMasternodeAction(actionType, values)
+            )}
+          />
+        ) : null}
+
       </div>
     );
   }

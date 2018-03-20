@@ -11,39 +11,37 @@ import LocalizableError from '../../../i18n/LocalizableError';
 import styles from './MasternodeDialog.scss';
 
 const messages = defineMessages({
-  infoMasternodeTitle: {
-    id: 'wallet.masternode.info.dialog.title',
-    defaultMessage: '!!!LuxNode Configuration Template',
-    description: 'Title for the "luxnode Configurateion Template" dialog.',
+  outputsMasternodeTitle: {
+    id: 'wallet.masternode.outputs.dialog.title',
+    defaultMessage: '!!!LuxNode Outputs',
+    description: 'Title for the "luxnode Outputs" dialog.',
   },
 });
 
 type Props = {
-  masternodeaddr: string,
-  masternodeprivkey: string,
-  onCancel: Function,
+  outputs: string,
   error: ?LocalizableError,
+  onCancel: Function
 };
 
 @observer
-export default class InfoMasternodeDialog extends Component<Props> {
+export default class OutputsMasternodeDialog extends Component<Props> {
 
   static contextTypes = {
     intl: intlShape.isRequired,
   };
   
   static defaultProps = {
-    masternodeaddr: '',
-    masternodeprivkey: '',
+    outputs: '',
+    error: null,
   };
  
   render() {
     const { intl } = this.context;
     const {
-      onCancel,
-      masternodeaddr,
-      masternodeprivkey,
+      outputs,
       error,
+      onCancel
     } = this.props;
 
     const actions = [
@@ -55,7 +53,7 @@ export default class InfoMasternodeDialog extends Component<Props> {
 
     return (
       <Dialog
-        title={intl.formatMessage(messages.infoMasternodeTitle)}
+        title={intl.formatMessage(messages.outputsMasternodeTitle)}
         actions={actions}
         closeOnOverlayClick
         onClose={onCancel}
@@ -63,16 +61,7 @@ export default class InfoMasternodeDialog extends Component<Props> {
         closeButton={<DialogCloseButton onClose={onCancel} />}
       >
         <div className={styles.info}>
-          <div> rpcallowip=127.0.0.1</div>
-          <div> rpcuser=REPLACEME</div>
-          <div> rpcpassword=REPLACEME</div>
-          <div> staking=0</div>
-          <div> server=1</div>
-          <div> listen=1</div>
-          <div> port=REPLACEMEWITHYOURPORT</div>
-          <div> masternode=1</div>
-          <div> masternodeaddr={masternodeaddr}</div>
-          <div> masternodeprivkey={masternodeprivkey}</div>
+          <div> {outputs}</div>
         </div>
         {error ? <p className={styles.error}>{intl.formatMessage(error)}</p> : null}
 

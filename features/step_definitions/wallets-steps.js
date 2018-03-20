@@ -121,7 +121,7 @@ When(/^I toggle "Activate to create password" switch on the import wallet key di
   return this.waitAndClick('.WalletFileImportDialog .SimpleSwitch_switch');
 });
 
-When(/^I enter wallet spending password:$/, async function (table) {
+When(/^I enter wallet wallet password:$/, async function (table) {
   const fields = table.hashes()[0];
   await this.client.setValue('.WalletFileImportDialog .walletPassword input', fields.password);
   await this.client.setValue('.WalletFileImportDialog .repeatedPassword input', fields.repeatedPassword);
@@ -131,7 +131,7 @@ When(/^I click on the import wallet button in import wallet dialog$/, function (
   return importWalletDialog.clickImport(this.client);
 });
 
-When(/^I should see wallet spending password inputs$/, function () {
+When(/^I should see wallet wallet password inputs$/, function () {
   return this.client.waitForVisible('.WalletFileImportDialog .walletPassword input');
 });
 
@@ -139,7 +139,7 @@ When(/^I have one wallet address$/, function () {
   return this.client.waitForVisible('.generatedAddress-1');
 });
 
-When(/^I enter spending password "([^"]*)"$/, function (password) {
+When(/^I enter wallet password "([^"]*)"$/, function (password) {
   return this.client.setValue('.WalletReceive_spendingPassword input', password);
 });
 
@@ -194,7 +194,7 @@ When(/^I see send money confirmation dialog$/, function () {
   return this.client.waitForVisible('.WalletSendConfirmationDialog_dialog');
 });
 
-When(/^I enter wallet spending password in confirmation dialog "([^"]*)"$/, async function (password) {
+When(/^I enter wallet wallet password in confirmation dialog "([^"]*)"$/, async function (password) {
   await this.client.setValue('.WalletSendConfirmationDialog_walletPassword input', password);
 });
 
@@ -217,7 +217,7 @@ When(/^I submit the create wallet dialog with the following inputs:$/, async fun
   return this.client.click('.WalletCreateDialog .primary');
 });
 
-When(/^I submit the create wallet with spending password dialog with the following inputs:$/, async function (table) {
+When(/^I submit the create wallet with wallet password dialog with the following inputs:$/, async function (table) {
   const fields = table.hashes()[0];
   await this.client.setValue('.WalletCreateDialog .walletName input', fields.walletName);
   await this.client.setValue('.WalletCreateDialog .walletPassword input', fields.password);
