@@ -808,8 +808,7 @@ export default class LuxApi {
   async createMasternode(alias: string): Promise<CreateMasternodeResponse> {
     Logger.debug('LuxApi::createMasternode called');
     try {
-      
-      const { walletId} = alias;
+      const walletId = alias;
       const response: LuxAddress = await getLuxAccountAddress({ walletId });
       return response;
     } catch (error) {

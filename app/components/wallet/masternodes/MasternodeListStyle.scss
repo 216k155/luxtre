@@ -59,30 +59,32 @@
 }
 
 .Alias {
-  width: 15%;
+  width: 10%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
 }
 
-.ip {
-  width: 30%;
+.IP {
+  width: 20%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  cursor: pointer;
 }
 
 .Status {
-  width: 10%;
+  width: 8%;
 } 
 
 .Collateral {
-  width: 30%;
+  width: 50%;
   word-wrap: break-word;
 }
 
 .iconRegion {
-  width: 15%;
+  width: 12%;
 }
 
 
@@ -133,4 +135,38 @@
   margin-left: 5px;
   cursor: pointer;
   object-fit: contain;
+}
+
+.copyIconBigger {
+  margin-left: 6px;
+  cursor: pointer;
+  & > svg {
+    height: 27px;
+    width: 22px;
+    path {
+      fill: var(--theme-icon-copy-address-color);
+    }
+  }
+}
+
+.copyIconBig {
+  margin-left: 6px;
+  & > svg {
+    height: 14.5px;
+    width: 11.5px;
+    path {
+      fill: var(--theme-icon-copy-address-color);
+    }
+  }
+}
+
+.copyIcon {
+  margin-left: 4px;
+  & > svg {
+    height: 12px;
+    width: 10px;
+    path {
+      fill: var(--theme-icon-copy-address-color);
+    }
+  }
 }

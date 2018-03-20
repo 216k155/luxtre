@@ -29,7 +29,7 @@ storiesOf('WalletExportToFileDialog', module)
     </div>
   ))
 
-  .add('spending password', () => (
+  .add('wallet password', () => (
     <div>
       <WalletExportToFileDialog
         walletName="Test Wallet"

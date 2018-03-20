@@ -21,8 +21,8 @@ export const messages = defineMessages({
   },
   walletPasswordLabel: {
     id: 'wallet.send.confirmationDialog.walletPasswordLabel',
-    defaultMessage: '!!!Spending password',
-    description: 'Label for the "Spending password" input in the wallet send confirmation dialog.',
+    defaultMessage: '!!!Wallet password',
+    description: 'Label for the "Wallet password" input in the wallet send confirmation dialog.',
   },
   addressToLabel: {
     id: 'wallet.send.confirmationDialog.addressToLabel',
@@ -46,8 +46,8 @@ export const messages = defineMessages({
   },
   walletPasswordFieldPlaceholder: {
     id: 'wallet.send.confirmationDialog.walletPasswordFieldPlaceholder',
-    defaultMessage: '!!!Type your spending password',
-    description: 'Placeholder for the "Spending password" inputs in the wallet send confirmation dialog.',
+    defaultMessage: '!!!Type your wallet password',
+    description: 'Placeholder for the "Wallet password" inputs in the wallet send confirmation dialog.',
   },
   sendButtonLabel: {
     id: 'wallet.send.confirmationDialog.submit',

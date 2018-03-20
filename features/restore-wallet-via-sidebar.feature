@@ -22,7 +22,7 @@ Feature: Add Wallet via Sidebar
     And I should not see the restore status notification once restore is finished
     And I should have newly created "Restored wallet" wallet loaded
 
-  Scenario: Successfully Restoring a Wallet with spending password
+  Scenario: Successfully Restoring a Wallet with wallet password
     Given The sidebar shows the "wallets" category
     When I click on the add wallet button in the sidebar
     And I see the add wallet dialog

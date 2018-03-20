@@ -52,7 +52,7 @@ const messages = defineMessages({
   spendingPasswordPlaceholder: {
     id: 'wallet.receive.page.spendingPasswordPlaceholder',
     defaultMessage: '!!!Password',
-    description: 'Placeholder for "spending password" on the wallet "Receive page"',
+    description: 'Placeholder for "wallet password" on the wallet "Receive page"',
   },
   copyAddressLabel: {
     id: 'wallet.receive.page.copyAddressLabel',

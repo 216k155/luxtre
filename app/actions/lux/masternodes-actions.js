@@ -4,7 +4,8 @@ import Action from '../lib/Action';
 // ======= WALLET ACTIONS =======
 
 export default class MasternodesActions {
-  createMasternode: Action<{ alias: string}> = new Action();
+  createMasternode: Action<{ alias: string, address: string}> = new Action();
+  removeMasternode: Action<{ alias: string}> = new Action();
   getMasternodeGenkey: Action<any> = new Action();
   startMasternode: Action<{ alias: string, password: string}> = new Action();
   startManyMasternode: Action<{ password: string}> = new Action();
