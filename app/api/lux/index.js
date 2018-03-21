@@ -46,6 +46,7 @@ import {startManyLuxMasternode} from './startManyLuxMasternode';
 import {stopLuxMasternode} from './stopLuxMasternode';
 import {stopManyLuxMasternode} from './stopManyLuxMasternode';
 import {getLuxMasternodeOutputs} from './getLuxMasternodeOutputs';
+import {isLuxWalletEncrypted} from './isLuxWalletEncrypted';
 
 //masternode
 import {encryptLuxWallet} from './encryptLuxWallet';
@@ -124,8 +125,7 @@ import {
   getLuxWalletData,
   setLuxWalletData,
   unsetLuxWalletData,
-  updateLuxWalletData,
-  initLuxWalletsDummyData
+  updateLuxWalletData
 } from './luxLocalStorage';
 
 
@@ -278,67 +278,60 @@ export default class LuxApi {
   getWallets = async (): Promise<GetWalletsResponse> => {
     Logger.debug('LuxApi::getWallets called');
     try {
-      const accounts: LuxAccounts = await getLuxAccounts();
-      accounts['Main'] = accounts[''];
-      delete accounts[''];
-      // Logger.error('LuxApi::getWallets success: ' + stringifyData(accounts));
-      return await Promise.all(
-        Object.keys(accounts).map(async id => {
-          //let amount = await this.getAccountBalance('');
-          //const walletId = id;
-          const walletId = '';
-          const confirmations = 0;
-          let amount = await getLuxAccountBalance({
-            walletId,
-            confirmations
-          });
-          amount = quantityToBigNumber(amount);
+      const response = await isLuxWalletEncrypted();
+      const hasPassword = response.indexOf('unknown command') !== -1 ? false : true;
+      const walletId = '';
+      const confirmations = 0;
+      let amount = await getLuxAccountBalance({
+        walletId,
+        confirmations
+      });
+      amount = quantityToBigNumber(amount);
+      const address = await getLuxAccountAddress({ walletId });
 
-          const address = await getLuxAccountAddress({ walletId });
-          try {
-            // use wallet data from local storage
-            const walletData = await getLuxWalletData(id); // fetch wallet data from local storage
-            const { name, assurance, hasPassword, passwordUpdateDate } = walletData;
-            return new Wallet({
-              id,
-              address,
-              name,
-              amount,
-              assurance,
-              hasPassword,
-              passwordUpdateDate
-            });
-          } catch (error) {
-            // there is no wallet data in local storage - use fallback data
-            const fallbackWalletData = {
-              id,
-              address,
-              name: 'Main',
-              assurance: 'CWANormal',
-              hasPassword: false,
-              passwordUpdateDate: new Date()
-            };
-            const { name, assurance, hasPassword, passwordUpdateDate } = fallbackWalletData;
-            await setLuxWalletData({
-              id,
-              address,
-              name,
-              assurance,
-              hasPassword,
-              passwordUpdateDate
-            });
-            return new Wallet({
-              id,
-              address,
-              name,
-              amount,
-              assurance,
-              hasPassword,
-              passwordUpdateDate
-            });
-          }
-        })
-      );
+      const id = 'Main';
+      let Wallets = [];
+      try {
+        // use wallet data from local storage
+        const walletData = await getLuxWalletData(id); // fetch wallet data from local storage
+        const { name, assurance, passwordUpdateDate } = walletData;
+        Wallets.push(new Wallet({
+          id,
+          address,
+          name,
+          amount,
+          assurance,
+          hasPassword,
+          passwordUpdateDate
+        }));
+      } catch (error) {
+        // there is no wallet data in local storage - use fallback data
+        const fallbackWalletData = {
+          id,
+          name: 'Main',
+          assurance: 'CWANormal',
+          hasPassword,
+          passwordUpdateDate: new Date()
+        };
+        const { name, assurance, passwordUpdateDate } = fallbackWalletData;
+        await setLuxWalletData({
+          id,
+          name,
+          assurance,
+          hasPassword,
+          passwordUpdateDate
+        });
+        Wallets.push(new Wallet({
+          id,
+          address,
+          name,
+          amount,
+          assurance,
+          hasPassword,
+          passwordUpdateDate
+        }));
+      }
+      return Wallets;
     } catch (error) {
       Logger.error('LuxApi::getWallets error: ' + stringifyError(error));
       throw new GenericApiError();
