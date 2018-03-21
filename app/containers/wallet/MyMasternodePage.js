@@ -1,18 +1,42 @@
 // @flow
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
-import { defineMessages, intlShape } from 'react-intl';
+import { ellipsis } from '../../utils/strings';
+import config from '../../config';
+import { defineMessages, FormattedHTMLMessage } from 'react-intl';
 import NoMasternodes from '../../components/wallet/masternodes/NoMasternodes';
 import Masternode from '../../components/wallet/masternodes/Masternode';
+import NotificationMessage from '../../components/widgets/NotificationMessage';
+import successIcon from '../../assets/images/success-small.inline.svg';
 import type { InjectedProps } from '../../types/injectedPropsType';
 import VerticalFlexContainer from '../../components/layout/VerticalFlexContainer';
 
+export const messages = defineMessages({
+  message: {
+    id: 'wallet.receive.page.addressCopyNotificationMessage',
+    defaultMessage: '!!!You have successfully copied wallet address',
+    description: 'Message for the wallet address copy success notification.',
+  },
+});
+
 type Props = InjectedProps
+
+type State = {
+  copiedAddress: string,
+};
 
 @inject('stores', 'actions') @observer
 export default class MyMasternodePage extends Component<Props> {
 
   static defaultProps = { actions: null, stores: null };
+
+  state = {
+    copiedAddress: '',
+  };
+
+  componentWillUnmount() {
+    this.closeNotification();
+  }
 
   handleMasternodeAction = (actionType: string, values: object) => {
     switch (actionType){
@@ -44,39 +68,65 @@ export default class MyMasternodePage extends Component<Props> {
      
   }
 
+  closeNotification = () => {
+    const { wallets } = this.props.stores.lux;
+    const wallet = wallets.active;
+    if (wallet) {
+      const notificationId = `${wallet.id}-copyNotification`;
+      this.props.actions.notifications.closeActiveNotification.trigger({ id: notificationId });
+    }
+  };
+
   render() {
-    const { uiDialogs } = this.props.stores;
+    const { copiedAddress } = this.state;
+    const { uiDialogs, uiNotifications } = this.props.stores;
     const { intl } = this.context;
     const actions = this.props.actions;
     const { masternodes, wallets} = this.props.stores.lux;
     const { getMasternodeOutputs, myMasternodeList } = masternodes;
     const activeWallet = wallets.active;
-    // Guard against potential null values
-    //if (!searchOptions || !activeWallet) return null;
 
-  //  const { searchLimit, searchTerm } = searchOptions;
-  //  const wasSearched = searchTerm !== '';
-    //const noActiveLabel = intl.formatMessage(messages.noTransactions);
-  //  const noTransactionsFoundLabel = intl.formatMessage(messages.noTransactionsFound);
+    const notification = {
+      id: `${activeWallet.id}-copyNotification`,
+      duration: config.wallets.ADDRESS_COPY_NOTIFICATION_DURATION,
+      message: (
+        <FormattedHTMLMessage
+          {...messages.message}
+          values={{ walletAddress: ellipsis(copiedAddress, 8) }}
+        />
+      ),
+    };
 
-    // Guard against potential null values
-//    if (!hasAny) {
-      const mymasternode = <Masternode label="aaaaaaaaaaaaa" />;
-//    }
     return (
-      <Masternode
-        getMasternodeOutputs={() => (
-          getMasternodeOutputs()
-        )}
-        masternodeAction={(actionType, values) => (
-          this.handleMasternodeAction(actionType, values)
-        )}
-        error={this.getMasternodeError}
-        openDialogAction={actions.dialogs.open.trigger}  
-        isDialogOpen={uiDialogs.isOpen}
-        isWalletPasswordSet={activeWallet.hasPassword}
-        myMasternodeList = {myMasternodeList}
-      />
+      <VerticalFlexContainer>
+        <Masternode
+          getMasternodeOutputs={() => (
+            getMasternodeOutputs()
+          )}
+          masternodeAction={(actionType, values) => (
+            this.handleMasternodeAction(actionType, values)
+          )}
+          onCopyAddress={(address) => {
+            this.setState({ copiedAddress: address });
+            actions.notifications.open.trigger({
+              id: notification.id,
+              duration: notification.duration,
+            });
+          }}
+          error={this.getMasternodeError}
+          openDialogAction={actions.dialogs.open.trigger}  
+          isDialogOpen={uiDialogs.isOpen}
+          isWalletPasswordSet={activeWallet.hasPassword}
+          myMasternodeList = {myMasternodeList}
+        />
+
+        <NotificationMessage
+            icon={successIcon}
+            show={uiNotifications.isOpen(notification.id)}
+        >
+          {notification.message}
+        </NotificationMessage>
+      </VerticalFlexContainer>
     );
   }
 

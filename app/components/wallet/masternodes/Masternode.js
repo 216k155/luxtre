@@ -30,6 +30,7 @@ type Props = {
   masternodeAction: Function,
   openDialogAction: Function,
   isDialogOpen: Function,
+  onCopyAddress: Function,
   isWalletPasswordSet: Boolean,
   myMasternodeList: Array<MyMasternode>,
   error: ?LocalizableError
@@ -109,6 +110,7 @@ export default class Masternode extends Component<Props> {
     const {
       openDialogAction, 
       isDialogOpen,
+      onCopyAddress,
       isWalletPasswordSet,
       myMasternodeList,
       error
@@ -191,7 +193,7 @@ export default class Masternode extends Component<Props> {
                 {myMasternode.collateralAddress}
                 <CopyToClipboard
                   text={myMasternode.collateralAddress}
-                  onCopy={CopyToClipboard.bind(this, myMasternode.collateralAddress)}
+                  onCopy={onCopyAddress.bind(this, myMasternode.collateralAddress)}
                 >
                   <SvgInline svg={iconCopy} className={styles.copyIconBig} />
                 </CopyToClipboard>
