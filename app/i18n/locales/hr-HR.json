@@ -297,5 +297,6 @@
   "wallet.transactions.no.transactions": "Nema transakcija",
   "wallet.transactions.no.transactions.found": "Ne postoje transakcije koje zadovoljavaju uvjete pretraživanja",
   "wallet.transactions.search.hint": "!!!Search transaction",
+  "wallet.encrypted": "!!!Wallet encrypted",
   "window.about.title": "!!!About Luxcore"
 }

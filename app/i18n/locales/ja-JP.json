@@ -297,5 +297,6 @@
   "wallet.transactions.no.transactions": "トランザクションはありません",
   "wallet.transactions.no.transactions.found": "トランザクションが見つかりません",
   "wallet.transactions.search.hint": "!!!Search transaction",
+  "wallet.encrypted": "!!!Wallet encrypted",
   "window.about.title": "ダイダロス"
 }

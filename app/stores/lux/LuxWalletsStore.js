@@ -29,7 +29,7 @@ export default class LuxWalletsStore extends WalletStore {
   /* eslint-enable max-len */
 
   @observable walletExportType: walletExportTypeChoices = 'paperWallet';
-  @observable walletExportMnemonic = 'marine joke dry silk ticket thing sugar stereo aim';
+  @observable walletExportMnemonic = 'buble air rabbit marble hobby mass sound guita soup';
 
   setup() {
     super.setup();
@@ -171,6 +171,8 @@ export default class LuxWalletsStore extends WalletStore {
     this.active = null;
     this.stores.lux.addresses.lastGeneratedAddress = null;
   };
+
+  @action _unsetActiveWallet = () => { this.active = null; };
 
   @action _onRouteChange = (options: { route: string, params: ?Object }) => {
     // Reset the send request anytime we visit the send page (e.g: to remove any previous errors)

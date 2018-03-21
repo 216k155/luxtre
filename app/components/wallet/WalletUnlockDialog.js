@@ -20,7 +20,7 @@ export const messages = defineMessages({
   },
   walletPasswordLabel: {
     id: 'wallet.unlockDialog.walletPasswordLabel',
-    defaultMessage: '!!!Wallet password',
+    defaultMessage: '!!!This operation needs your wallet passphrase to unlock the wallet.',
     description: 'Label for the "Wallet password" input in the unlock wallet dialog.',
   },
   walletPasswordFieldPlaceholder: {

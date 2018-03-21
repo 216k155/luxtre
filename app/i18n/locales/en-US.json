@@ -238,7 +238,7 @@
   "wallet.unlockDialog.submit": "Ok",
   "wallet.unlockDialog.title": "Unlock wallet",
   "wallet.unlockDialog.walletPasswordFieldPlaceholder": "Type your wallet passphrase",
-  "wallet.unlockDialog.walletPasswordLabel": "Wallet passphrase",
+  "wallet.unlockDialog.walletPasswordLabel": "This operation needs your wallet passphrase to unlock the wallet.",
   "wallet.send.form.amount.equalsLux": "equals {amount} LUX",
   "wallet.send.form.amount.label": "Amount",
   "wallet.send.form.description.hint": "You can type a message here, if you want.",
@@ -317,5 +317,6 @@
 
   "wallet.masternode.info.dialog.title":"LuxNode Configuration Template",
   "wallet.masternode.outputs.dialog.title":"LuxNode Outputs",
+  "wallet.encrypted": "Wallet encrypted",
   "window.about.title": "Luxcore"
 }
