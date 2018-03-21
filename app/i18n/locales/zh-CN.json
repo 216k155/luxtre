@@ -297,5 +297,6 @@
   "wallet.transactions.no.transactions": "!!!No transactions",
   "wallet.transactions.no.transactions.found": "!!!No transactions found",
   "wallet.transactions.search.hint": "!!!Search transaction",
+  "wallet.encrypted": "!!!Wallet encrypted",
   "window.about.title": "!!!About Luxcore"
 }

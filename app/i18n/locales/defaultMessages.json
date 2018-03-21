@@ -3638,7 +3638,7 @@
         }
       },
       {
-        "defaultMessage": "!!!Wallet password",
+        "defaultMessage": "!!!This operation needs your wallet passphrase to unlock the wallet.",
         "description": "Label for the \"Wallet password\" input in the unlock wallet dialog.",
         "end": {
           "column": 3,
@@ -4089,6 +4089,25 @@
       }
     ],
     "path": "app/components/widgets/NodeSyncStatusIcon.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "!!!Wallet encrypted",
+        "description": "Label for the wallet encrypted info overlay on wallet encrypt status icon.",
+        "end": {
+          "column": 3,
+          "line": 13
+        },
+        "file": "app/components/widgets/WalletLockStatusIcon.js",
+        "id": "wallet.encrypted",
+        "start": {
+          "column": 16,
+          "line": 9
+        }
+      }
+    ],
+    "path": "app/components/widgets/WalletLockStatusIcon.json"
   },
   {
     "descriptors": [
