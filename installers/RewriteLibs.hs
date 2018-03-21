@@ -2,7 +2,7 @@
 #! nix-shell -j 4 -i runhaskell -p 'pkgs.haskellPackages.ghcWithPackages (hp: with hp; [ turtle megaparsec text directory universum ])'
 
 {-# LANGUAGE NoImplicitPrelude #-}
-{-# LANGUAGE OverloadedStrings   #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module RewriteLibs
     ( chain
@@ -15,7 +15,7 @@ import           Data.Text (isPrefixOf, isSuffixOf, splitOn)
 import           System.Directory (copyFile, getPermissions, setOwnerWritable, setPermissions)
 import           Text.Megaparsec (anyChar, eof, eol, manyTill, parse, someTill, spaceChar)
 import           Text.Megaparsec.Text (Parser)
-import Turtle (procStrict, procs)
+import           Turtle (procStrict, procs)
 
 
 {- Given a binary file on MacOS, rewrite some of the dynamic libraries to relative paths.
@@ -30,23 +30,22 @@ import Turtle (procStrict, procs)
 systemLibs :: [Text]
 systemLibs = ["libSystem.B.dylib"]
 
-
 -- dir: final path of the files
 -- args: libraries to process
 -- returns processed libraries
 chain :: FilePath -> [Text] -> IO [Text]
 chain dir args@(x:xs) = do
-  (_, output) <- procStrict "otool" ["-L", x] mempty
+    (_, output) <- procStrict "otool" ["-L", x] mempty
     case (parse parseOTool (toString x) output) of
-    Left err -> do
-      print err
-      return []
-    Right files -> do
-      -- parse again all libraries pointing to nix store that we haven't processed yet
+        Left err -> do
+            print err
+            return []
+        Right files -> do
+            -- parse again all libraries pointing to nix store that we haven't processed yet
             let libs = filter (isPrefixOf "/nix/store/") files
-      filtered <- traverse (patchLib x dir) libs
+            filtered <- traverse (patchLib x dir) libs
             chained <- chain dir (xs ++ (filter (\f -> notElem f args) $ catMaybes filtered))
-      return $ x : chained
+            return $ x : chained
 chain _ [] = return []
 
 
@@ -76,13 +75,13 @@ filename path = last $ splitOn "/" path
 
 parseLibLine :: Parser Text
 parseLibLine = do
-  _ <- many spaceChar
-  path <- someTill anyChar spaceChar
-  _ <- someTill anyChar eol
+    _ <- many spaceChar
+    path <- someTill anyChar spaceChar
+    _ <- someTill anyChar eol
     return (toText path)
 
 
 parseOTool :: Parser [Text]
 parseOTool = do
-  _ <- manyTill anyChar eol
-  manyTill parseLibLine eof
+    _ <- manyTill anyChar eol
+    manyTill parseLibLine eof

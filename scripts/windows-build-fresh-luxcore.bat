@@ -3,7 +3,7 @@ rem   1. Node.js ('npm' binary in PATH)
 rem   2. 7zip    ('7z'  binary in PATH)
 rem   3. Git     ('git' binary in PATH)
 
-@set DEFAULT_LUXCORE_BRANCH=develop
+@set DEFAULT_LUXCORE_BRANCH=master
 
 set LUXCORE_BRANCH=%1
 @if [%LUXCORE_BRANCH%]==[] (set LUXCORE_BRANCH=%DEFAULT_LUXCORE_BRANCH%)

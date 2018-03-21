@@ -7,7 +7,7 @@ rem   installer dev mode:  set SKIP_TO_FRONTEND/SKIP_TO_INSTALLER
 set MIN_LUXCOIN_BYTES=50000000
 set LIBRESSL_VERSION=2.5.3
 set CURL_VERSION=7.54.0
-set LUXCOIN_BRANCH_DEFAULT=4.2.0
+set LUXCOIN_BRANCH_DEFAULT=1.0.0
 set LUXCORE_VERSION_DEFAULT=local-dev-build-%LUXCOIN_BRANCH_DEFAULT%
 
 set LUXCORE_VERSION=%1
@@ -19,9 +19,8 @@ set LUXCOIN_BRANCH=%2
 
 set CURL_URL=https://bintray.com/artifact/download/vszakats/generic/curl-%CURL_VERSION%-win64-mingw.7z
 set CURL_BIN=curl-%CURL_VERSION%-win64-mingw\bin
-set LUXCOIN_URL=https://github.com/216k155/lux/releases/download/v%LUXCOIN_BRANCH%/lux-qt-wins.zip
+set LUXD_URL=https://github.com/216k155/luxcore/releases/download/v%LUXCOIN_BRANCH%/luxd-wins.zip
 set LIBRESSL_URL=https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-%LIBRESSL_VERSION%-windows.zip
-set DLLS_URL=https://s3.eu-central-1.amazonaws.com/daedalus-ci-binaries/DLLs.zip
 
 @echo Building Luxcore version:  %LUXCORE_VERSION%
 @echo ..with Luxcoin branch:      %LUXCOIN_BRANCH%
@@ -43,14 +42,19 @@ del /f curl.exe curl-ca-bundle.crt libcurl.dll
 	popd & exit /b 1)
 
 @echo Obtaining Luxcoin v%LUXCOIN_BRANCH%
-del /f lux-qt-win.zip 2>nul
-.\curl --location %LUXCOIN_URL% -o lux-qt-win.zip
+del /f luxd-wins.zip 2>nul
+.\curl --location %LUXD_URL% -o luxd-wins.zip
 @if %errorlevel% neq 0 (@echo FAILED: couldn't obtain the Luxcoin v%LUXCOIN_BRANCH%
 popd & exit /b 1)
-7z x lux-qt-win.zip -y
-@if %errorlevel% neq 0 (@echo FAILED: 7z x lux-qt-win.zip -y
+7z x luxd-wins.zip -y
+@if %errorlevel% neq 0 (@echo FAILED: 7z x luxd-wins.zip -y
 popd & exit /b 1)
-del lux-qt-win.zip
+move luxd-wins\luxd.exe     installers\
+rmdir /s/q luxd-wins 2>nul
+del luxd-wins.zip
+
+@echo Launcher.cmd
+copy /y scripts\launcher-win.cmd installers\launcher.cmd
 
 @echo Installing NPM
 call npm install
@@ -85,20 +89,6 @@ pushd installers
     @if %errorlevel% neq 0 (@echo FAILED: couldn't extract stack from the distribution package
 	exit /b 1)
     del stack.zip
-
-    @echo Copying DLLs
-    @rem TODO: get rocksdb from rocksdb-haskell
-    rmdir /s/q DLLs 2>nul
-    mkdir      DLLs
-    pushd      DLLs
-        ..\..\curl --location %DLLS_URL% -o DLLs.zip
-        @if %errorlevel% neq 0 (@echo FAILED: couldn't obtain Luxcoin DLL package
-		exit /b 1)
-        7z x DLLs.zip
-        @if %errorlevel% neq 0 (@echo FAILED: 7z x DLLs.zip
-		popd & popd & exit /b 1)
-        del DLLs.zip
-    popd
 
     @echo Building the installer
     stack setup --no-reinstall

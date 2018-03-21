@@ -11,22 +11,23 @@ module MacInstaller
     ) where
 
 ---
---- An overview of Mac .pkg internals:  http://www.peachpit.com/articles/article.aspx?p=605381&seqNum=2
+--- An overview of Mac .pkg internals:    http://www.peachpit.com/articles/article.aspx?p=605381&seqNum=2
 ---
 
 import           Universum
+
 import           Control.Monad (unless, liftM2)
-import           Data.Maybe           (fromMaybe)
-import qualified Data.Text            as T
+import           Data.Maybe (fromMaybe)
+import qualified Data.Text as T
 import           System.Directory (copyFile, createDirectoryIfMissing, doesFileExist, renameFile)
-import           System.Environment   (lookupEnv)
+import           System.Environment (lookupEnv)
 import           System.FilePath ((</>), FilePath)
 import           System.FilePath.Glob (glob)
 import           Filesystem.Path.CurrentOS (encodeString)
 import           Turtle (ExitCode (..), echo, proc, procs, which, Managed, with)
-import           Turtle.Line          (unsafeTextToLine)
+import           Turtle.Line (unsafeTextToLine)
 
-import           RewriteLibs          (chain)
+import           RewriteLibs (chain)
 
 import           System.IO (hSetBuffering, BufferMode(NoBuffering))
 
@@ -38,9 +39,10 @@ data InstallerConfig = InstallerConfig {
   , predownloadChain :: Bool
   , appRoot :: String
 }
+
 -- In both Travis and Buildkite, the environment variable is set to
 -- the pull request number if the current job is a pull request build,
--- or "false" if it�s not.
+-- or "false" if it’s not.
 pullRequestFromEnv :: IO (Maybe String)
 pullRequestFromEnv = liftM2 (<|>) (getPR "BUILDKITE_PULL_REQUEST") (getPR "TRAVIS_PULL_REQUEST")
   where
@@ -48,8 +50,10 @@ pullRequestFromEnv = liftM2 (<|>) (getPR "BUILDKITE_PULL_REQUEST") (getPR "TRAVI
     interpret Nothing        = Nothing
     interpret (Just "false") = Nothing
     interpret (Just num)     = Just num
+
 travisJobIdFromEnv :: IO (Maybe String)
 travisJobIdFromEnv = lookupEnv "TRAVIS_JOB_ID"
+
 installerConfigFromEnv :: IO InstallerConfig
 installerConfigFromEnv = mkEnv <$> envAPI <*> envVersion
   where
@@ -63,6 +67,7 @@ installerConfigFromEnv = mkEnv <$> envAPI <*> envVersion
       , pkg = "dist/Luxcore-installer-" <> T.pack ver <> ".pkg"
       , appRoot = "../release/darwin-x64/Luxcore-darwin-x64/Luxcore.app"
       }
+
 main :: IO ()
 main = do
   hSetBuffering stdout NoBuffering
@@ -81,16 +86,19 @@ main = do
 
   run "rm" [toText tempInstaller]
   echo $ "Generated " <> unsafeTextToLine (pkg cfg)
+
 -- | When on travis, only sign installer if for non-PR builds.
 shouldSignDecision :: IO Bool
 shouldSignDecision = do
   pr <- pullRequestFromEnv
   isTravis <- isJust <$> travisJobIdFromEnv
   pure (not isTravis || pr == Nothing)
+
 makeScriptsDir :: InstallerConfig -> Managed T.Text
 makeScriptsDir cfg = case icApi cfg of
   "luxcoin" -> pure "data/scripts"
   "etc" -> pure "[DEVOPS-533]"
+
 makeInstaller :: InstallerConfig -> IO FilePath
 makeInstaller cfg = do
   let dir     = appRoot cfg </> "Contents/MacOS"
@@ -107,7 +115,7 @@ makeInstaller cfg = do
       copyFile "luxcoin-node" (dir </> "luxcoin-node")
       copyFile "wallet-topology.yaml" (dir </> "wallet-topology.yaml")
       copyFile "configuration.yaml" (dir </> "configuration.yaml")
-  genesisFiles <- glob "*genesis*.json"
+      genesisFiles <- glob "*genesis*.json"
       procs "cp" (fmap toText (genesisFiles <> [dir])) mempty
       copyFile "log-config-prod.yaml" (dir </> "log-config-prod.yaml")
       copyFile "build-certificates-unix.sh" (dir </> "build-certificates-unix.sh")
@@ -117,7 +125,8 @@ makeInstaller cfg = do
 
       let launcherConfigFileName = "launcher-config.yaml"
       copyFile "launcher-config-mac.yaml" (dir </> launcherConfigFileName)
-  -- Rewrite libs paths and bundle them
+
+      -- Rewrite libs paths and bundle them
       _ <- chain dir $ fmap toText [dir </> "luxcoin-launcher", dir </> "luxcoin-node"]
       pure ()
     _ -> pure () -- DEVOPS-533
@@ -132,24 +141,23 @@ makeInstaller cfg = do
     let
       pkgargs :: [ T.Text ]
       pkgargs =
-       [ "--identifier"
+           [ "--identifier"
            , "org." <> appNameLowercase cfg <> ".pkg"
            -- data/scripts/postinstall is responsible for running build-certificates
            , "--scripts", scriptsDir
-       , "--component"
+           , "--component"
            , T.pack $ appRoot cfg
-       , "--install-location"
-       , "/Applications"
-       , "dist/temp.pkg"
-       ]
+           , "--install-location"
+           , "/Applications"
+           , "dist/temp.pkg"
+           ]
     run "ls" [ "-ltrh", scriptsDir ]
-  run "pkgbuild" pkgargs
+    run "pkgbuild" pkgargs
 
   run "productbuild" [ "--product", "data/plist"
                      , "--package", "dist/temp.pkg"
-       , "dist/temp2.pkg"
-       ]
-
+                     , "dist/temp2.pkg"
+                     ]
 
   run "rm" ["dist/temp.pkg"]
   pure "dist/temp2.pkg"
@@ -180,7 +188,7 @@ signingConfig = SigningConfig
   { signingIdentity = "Developer ID Installer: Input Output HK Limited (89TW38X994)"
   , signingKeyChain = Nothing
   , signingKeyChainPassword = Nothing
-        }
+  }
 
 -- | Runs "security import -x"
 importCertificate :: SigningConfig -> FilePath -> Maybe Text -> IO ExitCode
@@ -192,10 +200,11 @@ importCertificate SigningConfig{..} cert password = do
   let args = ["import", toText cert, "-x"] ++ keyChain ++ certPass ++ productSign
   -- echoCmd "security" args
   proc "security" args mempty
+
 --- | Remove our certificate from the keychain
 deleteCertificate :: SigningConfig -> IO ExitCode
 deleteCertificate SigningConfig{..} = run' "security" args
-    where
+  where
     args = ["delete-certificate", "-c", signingIdentity] ++ keychain
     keychain = maybe [] pure signingKeyChain
 
@@ -210,16 +219,19 @@ signInstaller SigningConfig{..} src dst =
 -- | Use pkgutil to verify that signing worked.
 checkSignature :: T.Text -> IO ()
 checkSignature pkg = run "pkgutil" ["--check-signature", pkg]
+
 -- | Print the command then run it. Raises an exception on exit
 -- failure.
 run :: T.Text -> [T.Text] -> IO ()
 run cmd args = do
     echoCmd cmd args
-  procs cmd args mempty
+    procs cmd args mempty
+
 -- | Print the command then run it.
 run' :: T.Text -> [T.Text] -> IO ExitCode
 run' cmd args = do
     echoCmd cmd args
     proc cmd args mempty
+
 echoCmd :: T.Text -> [T.Text] -> IO ()
 echoCmd cmd args = echo . unsafeTextToLine $ T.intercalate " " (cmd : args)
