@@ -121,7 +121,7 @@ export default class LuxMasternodesStore extends Store {
   @computed get myMasternodeList(): Array<MyMasternode> {
     return this.myMasternodes;
   }
-  
+
   @action _addMyMasternode = (masternode: MyMasternode) => {
     for(var i=0; i < this.myMasternodes.length; i++)
     {
