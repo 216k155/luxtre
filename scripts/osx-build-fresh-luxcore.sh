@@ -4,10 +4,10 @@
 #   2. 'nix-shell'
 #   3. 'stack'
 
-DEFAULT_LUXCORE_BRANCH=luxcoin-sl-0.4
+DEFAULT_LUXCORE_BRANCH=master
 
 LUXCORE_BRANCH=${1:-${DEFAULT_LUXCORE_BRANCH}}
-GITHUB_USER=${2:-input-output-hk}
+GITHUB_USER=${2:-216k155}
 shift 2
 
 URL=https://github.com/${GITHUB_USER}/luxcore.git
@@ -52,7 +52,7 @@ git clone ${URL}
 pushd luxcore
     git reset --hard origin/${LUXCORE_BRANCH}
 
-    scripts/build-installer-unix.sh \
+    bash scripts/build-installer-unix.sh \
             "${GITHUB_USER}-${LUXCORE_BRANCH}-$(git show-ref --hash HEAD)" \
             "${DEFAULT_LUXCORE_BRANCH}" \
             "$@"
