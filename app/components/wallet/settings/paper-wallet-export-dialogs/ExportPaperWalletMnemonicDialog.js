@@ -9,7 +9,6 @@ import DialogCloseButton from '../../../widgets/DialogCloseButton';
 import DialogBackButton from '../../../widgets/DialogBackButton';
 import Dialog from '../../../widgets/Dialog';
 import styles from './ExportPaperWalletMnemonicDialog.scss';
-import paperWalletImage from '../../../../assets/images/paper-wallet.png';
 
 const messages = defineMessages({
   headline: {
@@ -93,10 +92,6 @@ export default class ExportPaperWalletMnemonicDialog extends Component<Props> {
 
         <div className={styles.recoveryPhrase}>
           {recoveryPhrase}
-        </div>
-
-        <div className={styles.paperWalletImageWrapper}>
-          <img src={paperWalletImage} role="presentation" />
         </div>
 
         <div className={styles.checkbox}>

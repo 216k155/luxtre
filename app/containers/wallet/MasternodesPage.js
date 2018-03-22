@@ -18,7 +18,7 @@ export default class MasternodesPage extends Component<Props> {
     const { app } = this.props.stores;
     const { wallets } = this.props.stores.lux;
     if (!wallets.active) return false;
-    const screenRoute = buildRoute(ROUTES.WALLETS.PAGE, { id: wallets.active.id, page });
+    const screenRoute = buildRoute(ROUTES.WALLETS.MASTERNODES.PAGE, { id: wallets.active.id, page });
     return app.currentRoute === screenRoute;
   };
 
@@ -26,7 +26,7 @@ export default class MasternodesPage extends Component<Props> {
     const { wallets } = this.props.stores.lux;
     if (!wallets.active) return;
     this.props.actions.router.goToRoute.trigger({
-      route: ROUTES.WALLETS.PAGE,
+      route: ROUTES.WALLETS.MASTERNODES.PAGE,
       params: { id: wallets.active.id, page },
     });
   };
