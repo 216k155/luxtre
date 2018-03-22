@@ -17,10 +17,16 @@ export const ROUTES = {
     SEND: '/wallets/:id/send',
     RECEIVE: '/wallets/:id/receive',
     SETTINGS: '/wallets/:id/settings',
-    MASTERNODES: '/wallets/:id/masternodes',
-    MASTERNODESNET: '/wallets/:id/masternodesnet',
-    MYMASTERNODE: '/wallets/:id/mymasternode',
+    MASTERNODES: {
+      ROOT: '/wallets/:id/masternodes',
+      PAGE: '/wallets/:id/masternodes/:page',
+      MASTERNODESNET: '/wallets/:id/masternodes/masternodesnet',
+      MYMASTERNODE: '/wallets/:id/masternodes/mymasternode',
+    }
+    //MASTERNODESNET: '/wallets/:id/masternodesnet',
+    //MYMASTERNODE: '/wallets/:id/mymasternode',
   },
+  
   SETTINGS: {
     ROOT: '/settings',
     GENERAL: '/settings/general',

@@ -44,11 +44,12 @@ export const Routes = (
       <Route path={ROUTES.WALLETS.SEND} component={WalletSendPage} />
       <Route path={ROUTES.WALLETS.RECEIVE} component={WalletReceivePage} />
       <Route path={ROUTES.WALLETS.SETTINGS} component={WalletSettingsPage} />
-      <Route path={ROUTES.WALLETS.MASTERNODES} component={MasternodesPage}>
-        <Route path={ROUTES.WALLETS.MASTERNODESNET} component={MasternodesNetPage}/>
-        <Route path={ROUTES.WALLETS.MYMASTERNODE} component={MyMasternodePage}/>
+      <Route path={ROUTES.WALLETS.MASTERNODES.ROOT} component={MasternodesPage}>
+        <Route path={ROUTES.WALLETS.MASTERNODES.MASTERNODESNET} component={MasternodesNetPage}/>
+        <Route path={ROUTES.WALLETS.MASTERNODES.MYMASTERNODE} component={MyMasternodePage}/>
       </Route>
     </Route>
+    
     <Route path="/settings" component={Settings}>
       <IndexRedirect to="general" />
       <Route path="general" component={GeneralSettingsPage} />
