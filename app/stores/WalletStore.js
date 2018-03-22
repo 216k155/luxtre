@@ -41,6 +41,7 @@ export default class WalletsStore extends Store {
     this.registerReactions([
       this._updateActiveWalletOnRouteChanges,
       this._toggleAddWalletDialogOnWalletsLoaded,
+      this._updateMasternodeOnRouteChanges
     ]);
   }
 
@@ -199,6 +200,21 @@ export default class WalletsStore extends Store {
     return isRootRoute || isNoWalletsRoute;
   }
 
+  getMasternodeRoute = (walletId: string, page: string = 'masternodesnet'): string => (
+    buildRoute(ROUTES.WALLETS.MASTERNODES.PAGE, { id: walletId, page })
+  );
+
+  goToMasternodeRoute(walletId: string) {
+    const route = this.getMasternodeRoute(walletId);
+    this.actions.router.goToRoute.trigger({ route });
+  }
+
+  @computed get _canRedirectToMasternode(): boolean {
+    const currentRoute = this.stores.app.currentRoute;
+    const isRootRoute = matchRoute(ROUTES.WALLETS.MASTERNODES.ROOT, currentRoute);
+    return isRootRoute;
+  }
+
   _patchWalletRequestWithNewWallet = async (wallet: Wallet) => {
     // Only add the new wallet if it does not exist yet in the result!
     await this.walletsRequest.patch(result => {
@@ -245,6 +261,15 @@ export default class WalletsStore extends Store {
           this._setActiveWallet({ walletId: this.all[0].id });
         }
         if (this.active) this.goToWalletRoute(this.active.id);
+      }
+    });
+  };
+
+  _updateMasternodeOnRouteChanges = () => {
+    const currentRoute = this.stores.app.currentRoute;
+    runInAction('WalletsStore::_updateMasternodeOnRouteChanges', () => {
+      if(this._canRedirectToMasternode) {
+        if (this.active) this.goToMasternodeRoute(this.active.id);
       }
     });
   };
