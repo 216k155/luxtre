@@ -44,7 +44,7 @@ export default class Wallet extends Component<Props> {
         <WalletWithNavigation
           isActiveScreen={this.isActiveScreen}
           onWalletNavItemClick={this.handleWalletNavItemClick}
-	  amount={wallets.active.amount.toFormat(DECIMAL_PLACES_IN_LUX)}
+	        amount={wallets.active.amount.toFormat(DECIMAL_PLACES_IN_LUX)}
         >
           {this.props.children}
         </WalletWithNavigation>
