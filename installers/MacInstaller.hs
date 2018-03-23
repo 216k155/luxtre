@@ -84,7 +84,7 @@ main = do
       echo "Pull request, not signing the installer."
       run "cp" [toText tempInstaller, pkg cfg]
 
-  run "rm" [toText tempInstaller]
+  -- run "rm" [toText tempInstaller]
   echo $ "Generated " <> unsafeTextToLine (pkg cfg)
 
 -- | When on travis, only sign installer if for non-PR builds.
@@ -111,23 +111,16 @@ makeInstaller cfg = do
   echo "Preparing files ..."
   case icApi cfg of
     "luxcoin" -> do
-      copyFile "luxcoin-launcher" (dir </> "luxcoin-launcher")
-      copyFile "luxcoin-node" (dir </> "luxcoin-node")
-      copyFile "wallet-topology.yaml" (dir </> "wallet-topology.yaml")
-      copyFile "configuration.yaml" (dir </> "configuration.yaml")
-      genesisFiles <- glob "*genesis*.json"
-      procs "cp" (fmap toText (genesisFiles <> [dir])) mempty
-      copyFile "log-config-prod.yaml" (dir </> "log-config-prod.yaml")
       copyFile "build-certificates-unix.sh" (dir </> "build-certificates-unix.sh")
       copyFile "ca.conf"     (dir </> "ca.conf")
       copyFile "server.conf" (dir </> "server.conf")
       copyFile "client.conf" (dir </> "client.conf")
+      copyFile "luxd" (dir </> "luxd")
 
       let launcherConfigFileName = "launcher-config.yaml"
       copyFile "launcher-config-mac.yaml" (dir </> launcherConfigFileName)
 
       -- Rewrite libs paths and bundle them
-      _ <- chain dir $ fmap toText [dir </> "luxcoin-launcher", dir </> "luxcoin-node"]
       pure ()
     _ -> pure () -- DEVOPS-533
 
@@ -144,7 +137,7 @@ makeInstaller cfg = do
            [ "--identifier"
            , "org." <> appNameLowercase cfg <> ".pkg"
            -- data/scripts/postinstall is responsible for running build-certificates
-           , "--scripts", scriptsDir
+          --  , "--scripts", scriptsDir
            , "--component"
            , T.pack $ appRoot cfg
            , "--install-location"
@@ -159,7 +152,7 @@ makeInstaller cfg = do
                      , "dist/temp2.pkg"
                      ]
 
-  run "rm" ["dist/temp.pkg"]
+  -- run "rm" ["dist/temp.pkg"]
   pure "dist/temp2.pkg"
 
 writeLauncherFile :: FilePath -> InstallerConfig -> IO FilePath
@@ -174,7 +167,8 @@ writeLauncherFile dir _ = do
       , "cd \"$(dirname $0)\""
       , "mkdir -p \"$HOME/Library/Application Support/Luxcore/Secrets-1.0\""
       , "mkdir -p \"$HOME/Library/Application Support/Luxcore/Logs/pub\""
-      , "./luxcoin-launcher"
+      , "./luxd -daemon -rpcuser=rpcuser -rpcpassword=rpcpwd"
+      , "./Frontend"
       ]
 
 data SigningConfig = SigningConfig
@@ -211,14 +205,15 @@ deleteCertificate SigningConfig{..} = run' "security" args
 -- | Creates a new installer package with signature added.
 signInstaller :: SigningConfig -> T.Text -> T.Text -> IO ()
 signInstaller SigningConfig{..} src dst =
-  run "productsign" $ sign ++ keychain ++ [ src, dst ]
-  where
-    sign = [ "--sign", signingIdentity ]
-    keychain = maybe [] (\k -> [ "--keychain", k]) signingKeyChain
+  run "echo" ["NOT SIGNING INSTALLER"]
+  -- run "productsign" $ sign ++ [ src, dst ]
+  -- where
+  --   sign = [ "--sign", signingIdentity ]
+    -- keychain = maybe [] (\k -> [ "--keychain", k]) signingKeyChain
 
 -- | Use pkgutil to verify that signing worked.
 checkSignature :: T.Text -> IO ()
-checkSignature pkg = run "pkgutil" ["--check-signature", pkg]
+checkSignature pkg = run "echo" ["NOT CHECKING SIGNATURE"]
 
 -- | Print the command then run it. Raises an exception on exit
 -- failure.

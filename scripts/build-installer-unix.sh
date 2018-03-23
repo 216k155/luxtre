@@ -30,6 +30,7 @@ usage() {
     
 EOF
     test -z "$1" || exit 1
+    test -z "nix-shell" || { echo "ERROR: Please curl https://nixos.org/nix/install | sh"; }
 }
 
 arg2nz() { test $# -ge 2 -a ! -z "$2" || usage "empty value for" $1; }
@@ -113,11 +114,10 @@ rm -rf luxd-mac
 
 cp -rf scripts/launcher-unix.sh installers/launcher.sh
 
-test "$(find node_modules/ | wc -l)" -gt 100 -a -n "${fast_impure}" ||
-        nix-shell --run "npm install"
+test "$(find node_modules/ | wc -l)" -gt 100 -a -n "${fast_impure}" || npm install
 
 test -d "release/darwin-x64/Luxcore-darwin-x64" -a -n "${fast_impure}" || {
-        nix-shell --run "npm run package -- --icon installers/icons/256x256.png"
+        npm run package -- --icon installers/icons/256x256.png
         echo "Size of Electron app is $(du -sh release)"
 }
 
