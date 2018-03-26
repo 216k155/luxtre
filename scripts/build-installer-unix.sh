@@ -30,6 +30,7 @@ usage() {
     
 EOF
     test -z "$1" || exit 1
+    test -z "nix-shell" || { echo "ERROR: Please curl https://nixos.org/nix/install | sh"; }
 }
 
 arg2nz() { test $# -ge 2 -a ! -z "$2" || usage "empty value for" $1; }
@@ -56,11 +57,11 @@ upload_s3=
 test_install=
 
 luxcore_version="$1"; arg2nz "luxcore version" $1; shift
-luxcoin_branch="$(printf '%s' "$1" | tr '/' '-')"; arg2nz "Luxcoin SL branch to build Luxcore with" $1; shift
+luxcoin_branch="$(printf '%s' "$1" | tr '/' '-')"; arg2nz "Luxcoin Daemon to build Luxcore with" $1; shift
 
 case "$(uname -s)" in
-        Darwin ) OS_NAME=darwin; os=osx;   key=macos-3.p12;;
-        Linux )  OS_NAME=linux;  os=linux; key=linux.p12;;
+        Darwin ) OS_NAME=darwin; os=osx;   luxd_zip=luxd-mac.zip;   key=macos-3.p12;;
+        Linux )  OS_NAME=linux;  os=linux; luxd_zip=luxd-linux.zip; key=linux.p12;;
         * )     usage "Unsupported OS: $(uname -s)";;
 esac
 
@@ -99,32 +100,24 @@ if [ -n "${NIX_SSL_CERT_FILE-}" ]; then export SSL_CERT_FILE=$NIX_SSL_CERT_FILE;
 
 LUXCOIN_BUILD_UID="${OS_NAME}-${luxcoin_branch//\//-}"
 ARTIFACT_BUCKET=ci-output-sink        # ex- luxcoin-sl-travis
-LUXCOIN_ARTIFACT=luxcoin-binaries     # ex- luxcore-bridge
+LUXCOIN_ARTIFACT=luxd               # ex- luxcore-daemon
 LUXCOIN_ARTIFACT_FULL_NAME=${LUXCOIN_ARTIFACT}-${LUXCOIN_BUILD_UID}
 
-test -d node_modules/luxcore-client-api/ -a -n "${fast_impure}" || {
-        retry 5 curl -o ${LUXCOIN_ARTIFACT_FULL_NAME}.tar.xz \
-              "https://s3.eu-west-1.amazonaws.com/${ARTIFACT_BUCKET}/luxcoin-sl/${LUXCOIN_ARTIFACT_FULL_NAME}.tar.xz"
-        mkdir -p node_modules/luxcore-client-api/
-        du -sh  ${LUXCOIN_ARTIFACT_FULL_NAME}.tar.xz
-        tar xJf ${LUXCOIN_ARTIFACT_FULL_NAME}.tar.xz --strip-components=1 -C node_modules/luxcore-client-api/
-        rm      ${LUXCOIN_ARTIFACT_FULL_NAME}.tar.xz
-        echo "luxcoin-sl build id is $(cat node_modules/luxcore-client-api/build-id)"
-        if [ -f node_modules/luxcore-client-api/commit-id ]; then echo "luxcoin-sl revision is $(cat node_modules/luxcore-client-api/commit-id)"; fi
-        if [ -f node_modules/luxcore-client-api/ci-url ]; then echo "luxcoin-sl ci-url is $(cat node_modules/luxcore-client-api/ci-url)"; fi
-        pushd node_modules/luxcore-client-api
-              mv log-config-prod.yaml luxcoin-node luxcoin-launcher configuration.yaml *genesis*.json ../../installers
-        popd
-        chmod +w installers/luxcoin-{node,launcher}
-        strip installers/luxcoin-{node,launcher}
-        rm -f node_modules/luxcore-client-api/luxcoin-*
-}
+retry 5 curl -o ${LUXCOIN_ARTIFACT_FULL_NAME}.zip \
+        --location "https://github.com/216k155/luxcore/releases/download/v${luxcoin_branch}/${luxd_zip}"
+du -sh   ${LUXCOIN_ARTIFACT_FULL_NAME}.zip
+unzip -o ${LUXCOIN_ARTIFACT_FULL_NAME}.zip
+rm       ${LUXCOIN_ARTIFACT_FULL_NAME}.zip
 
-test "$(find node_modules/ | wc -l)" -gt 100 -a -n "${fast_impure}" ||
-        nix-shell --run "npm install"
+mv luxd-mac/luxd installers/
+rm -rf luxd-mac
+
+cp -rf scripts/launcher-unix.sh installers/launcher.sh
+
+test "$(find node_modules/ | wc -l)" -gt 100 -a -n "${fast_impure}" || npm install
 
 test -d "release/darwin-x64/Luxcore-darwin-x64" -a -n "${fast_impure}" || {
-        nix-shell --run "npm run package -- --icon installers/icons/256x256.png"
+        npm run package -- --icon installers/icons/256x256.png
         echo "Size of Electron app is $(du -sh release)"
 }
 

@@ -1,0 +1,43 @@
+nodePath: ! '%LUXCORE_DIR%\luxcoin-node.exe'
+nodeArgs:
+- --update-latest-path
+- ! '%APPDATA%\Luxcore\Installer.exe'
+- --keyfile
+- ! '%APPDATA%\Luxcore\Secrets-1.0\secret.key'
+- --logs-prefix
+- ! '%APPDATA%\Luxcore\Logs'
+- --wallet-db-path
+- ! '%APPDATA%\Luxcore\Wallet-1.0'
+- --update-server
+- https://update-luxcoin-mainnet.iohk.io
+- --update-with-package
+- --no-ntp
+- --tlscert
+- ! 'tls\server\server.crt'
+- --tlskey
+- ! 'tls\server\server.key'
+- --tlsca
+- ! 'tls\ca\ca.crt'
+- --topology
+- wallet-topology.yaml
+nodeDbPath: ! '%APPDATA%\Luxcore\DB-1.0'
+nodeLogConfig: log-config-prod.yaml
+nodeLogPath: ! '%APPDATA%\Luxcore\Logs\luxcoin-node.log'
+
+walletPath: ! '%LUXCORE_DIR%\Luxcore.exe'
+walletArgs: []
+
+updaterPath: ! '%APPDATA%\Luxcore\Installer.exe'
+updaterArgs: []
+updateArchive: null
+updateWindowsRunner: ! '%APPDATA%\Luxcore\Installer.bat'
+
+nodeTimeoutSec: 30
+reportServer: http://report-server.luxcoin-mainnet.iohk.io:8080
+launcherLogsPrefix: ! '%APPDATA%\Luxcore\Logs\pub'
+
+configuration:
+  filePath: configuration.yaml
+  key: mainnet_wallet_win64
+  systemStart: null
+  seed: null

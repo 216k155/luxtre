@@ -1,124 +1,232 @@
-module MacInstaller where
+{-# LANGUAGE RecordWildCards, LambdaCase #-}
+module MacInstaller
+    ( main
+    , SigningConfig(..)
+    , signingConfig
+    , signInstaller
+    , importCertificate
+    , deleteCertificate
+    , run
+    , run'
+    ) where
 
 ---
---- An overview of Mac .pkg internals:  http://www.peachpit.com/articles/article.aspx?p=605381&seqNum=2
+--- An overview of Mac .pkg internals:    http://www.peachpit.com/articles/article.aspx?p=605381&seqNum=2
 ---
 
-import           Control.Monad        (unless)
-import           Data.Maybe           (fromMaybe)
-import           Data.Monoid          ((<>))
-import qualified Data.Text            as T
-import           System.Directory
-import           System.Environment   (lookupEnv)
+import           Universum
+
+import           Control.Monad (unless, liftM2)
+import           Data.Maybe (fromMaybe)
+import qualified Data.Text as T
+import           System.Directory (copyFile, createDirectoryIfMissing, doesFileExist, renameFile)
+import           System.Environment (lookupEnv)
+import           System.FilePath ((</>), FilePath)
 import           System.FilePath.Glob (glob)
-import           Turtle               (ExitCode (..), echo, procs, shell, shells)
-import           Turtle.Line          (unsafeTextToLine)
+import           Filesystem.Path.CurrentOS (encodeString)
+import           Turtle (ExitCode (..), echo, proc, procs, which, Managed, with)
+import           Turtle.Line (unsafeTextToLine)
 
-import           Launcher
-import           RewriteLibs          (chain)
+import           RewriteLibs (chain)
 
+import           System.IO (hSetBuffering, BufferMode(NoBuffering))
+
+data InstallerConfig = InstallerConfig {
+    icApi :: String
+  , appNameLowercase :: T.Text
+  , appName :: String
+  , pkg :: T.Text
+  , predownloadChain :: Bool
+  , appRoot :: String
+}
+
+-- In both Travis and Buildkite, the environment variable is set to
+-- the pull request number if the current job is a pull request build,
+-- or "false" if it’s not.
+pullRequestFromEnv :: IO (Maybe String)
+pullRequestFromEnv = liftM2 (<|>) (getPR "BUILDKITE_PULL_REQUEST") (getPR "TRAVIS_PULL_REQUEST")
+  where
+    getPR = fmap interpret . lookupEnv
+    interpret Nothing        = Nothing
+    interpret (Just "false") = Nothing
+    interpret (Just num)     = Just num
+
+travisJobIdFromEnv :: IO (Maybe String)
+travisJobIdFromEnv = lookupEnv "TRAVIS_JOB_ID"
+
+installerConfigFromEnv :: IO InstallerConfig
+installerConfigFromEnv = mkEnv <$> envAPI <*> envVersion
+  where
+    envAPI = fromMaybe "luxcoin" <$> lookupEnv "API"
+    envVersion = fromMaybe "dev" <$> lookupEnv "LUXCORE_VERSION"
+    mkEnv "luxcoin" ver = InstallerConfig
+      { icApi = "luxcoin"
+      , predownloadChain = False
+      , appNameLowercase = "luxcore"
+      , appName = "Luxcore"
+      , pkg = "dist/Luxcore-installer-" <> T.pack ver <> ".pkg"
+      , appRoot = "../release/darwin-x64/Luxcore-darwin-x64/Luxcore.app"
+      }
 
 main :: IO ()
 main = do
-  version <- fromMaybe "dev" <$> lookupEnv "LUXCORE_VERSION"
+  hSetBuffering stdout NoBuffering
 
-  let appRoot = "../release/darwin-x64/Luxcore-darwin-x64/Luxcore.app"
-      dir     = appRoot <> "/Contents/MacOS"
-      -- resDir  = appRoot <> "/Contents/Resources"
-      pkg     = "dist/Luxcore-installer-" <> version <> ".pkg"
+  cfg <- installerConfigFromEnv
+  tempInstaller <- makeInstaller cfg
+  shouldSign <- shouldSignDecision
+
+  if shouldSign
+    then do
+      signInstaller signingConfig (toText tempInstaller) (pkg cfg)
+      checkSignature (pkg cfg)
+    else do
+      echo "Pull request, not signing the installer."
+      run "cp" [toText tempInstaller, pkg cfg]
+
+  -- run "rm" [toText tempInstaller]
+  echo $ "Generated " <> unsafeTextToLine (pkg cfg)
+
+-- | When on travis, only sign installer if for non-PR builds.
+shouldSignDecision :: IO Bool
+shouldSignDecision = do
+  pr <- pullRequestFromEnv
+  isTravis <- isJust <$> travisJobIdFromEnv
+  pure (not isTravis || pr == Nothing)
+
+makeScriptsDir :: InstallerConfig -> Managed T.Text
+makeScriptsDir cfg = case icApi cfg of
+  "luxcoin" -> pure "data/scripts"
+  "etc" -> pure "[DEVOPS-533]"
+
+makeInstaller :: InstallerConfig -> IO FilePath
+makeInstaller cfg = do
+  let dir     = appRoot cfg </> "Contents/MacOS"
+      resDir  = appRoot cfg </> "Contents/Resources"
   createDirectoryIfMissing False "dist"
 
   echo "Creating icons ..."
-  procs "iconutil" ["--convert", "icns", "--output", T.pack dir <> "/../Resources/electron.icns", "icons/electron.iconset"] mempty
+  procs "iconutil" ["--convert", "icns", "--output", toText (resDir </> "electron.icns"), "icons/electron.iconset"] mempty
 
   echo "Preparing files ..."
-  copyFile "luxcoin-launcher" (dir <> "/luxcoin-launcher")
-  copyFile "luxcoin-node" (dir <> "/luxcoin-node")
-  copyFile "wallet-topology.yaml" (dir <> "/wallet-topology.yaml")
-  copyFile "configuration.yaml" (dir <> "/configuration.yaml")
-  genesisFiles <- glob "*genesis*.json"
-  procs "cp" (fmap T.pack (genesisFiles <> [dir])) mempty
-  copyFile "log-config-prod.yaml" (dir <> "/log-config-prod.yaml")
-  copyFile "build-certificates-unix.sh" (dir <> "/build-certificates-unix.sh")
-  copyFile "ca.conf"     (dir <> "/ca.conf")
-  copyFile "server.conf" (dir <> "/server.conf")
-  copyFile "client.conf" (dir <> "/client.conf")
+  case icApi cfg of
+    "luxcoin" -> do
+      copyFile "build-certificates-unix.sh" (dir </> "build-certificates-unix.sh")
+      copyFile "ca.conf"     (dir </> "ca.conf")
+      copyFile "server.conf" (dir </> "server.conf")
+      copyFile "client.conf" (dir </> "client.conf")
+      copyFile "luxd" (dir </> "luxd")
 
-  -- Rewrite libs paths and bundle them
-  _ <- chain dir $ fmap T.pack [dir <> "/luxcoin-launcher", dir <> "/luxcoin-node"]
+      let launcherConfigFileName = "launcher-config.yaml"
+      copyFile "launcher-config-mac.yaml" (dir </> launcherConfigFileName)
+
+      -- Rewrite libs paths and bundle them
+      pure ()
+    _ -> pure () -- DEVOPS-533
 
   -- Prepare launcher
-  de <- doesFileExist (dir <> "/Frontend")
-  unless de $ renameFile (dir <> "/Luxcore") (dir <> "/Frontend")
-  run "chmod" ["+x", T.pack (dir <> "/Frontend")]
-  writeFile (dir <> "/Luxcore") $ unlines
-    [ "#!/usr/bin/env bash"
-    , "cd \"$(dirname $0)\""
-    , "mkdir -p \"$HOME/Library/Application Support/Luxcore/Secrets-1.0\""
-    , "mkdir -p \"$HOME/Library/Application Support/Luxcore/Logs/pub\""
-    , doLauncher
-    ]
-  run "chmod" ["+x", T.pack (dir <> "/Luxcore")]
+  de <- doesFileExist (dir </> "Frontend")
+  unless de $ renameFile (dir </> "Luxcore") (dir </> "Frontend")
+  run "chmod" ["+x", toText (dir </> "Frontend")]
+  writeLauncherFile dir cfg
 
-  let pkgargs =
-       [ "--identifier"
-       , "org.luxcore.pkg"
-       , "--scripts", "data/scripts"
-       , "--component"
-       , "../release/darwin-x64/Luxcore-darwin-x64/Luxcore.app"
-       , "--install-location"
-       , "/Applications"
-       , "dist/temp.pkg"
-       ]
-  run "pkgbuild" pkgargs
+  with (makeScriptsDir cfg) $ \scriptsDir -> do
+    let
+      pkgargs :: [ T.Text ]
+      pkgargs =
+           [ "--identifier"
+           , "org." <> appNameLowercase cfg <> ".pkg"
+           -- data/scripts/postinstall is responsible for running build-certificates
+          --  , "--scripts", scriptsDir
+           , "--component"
+           , T.pack $ appRoot cfg
+           , "--install-location"
+           , "/Applications"
+           , "dist/temp.pkg"
+           ]
+    run "ls" [ "-ltrh", scriptsDir ]
+    run "pkgbuild" pkgargs
 
-  let productargs =
-       [ "--product"
-       , "data/plist"
-       , "--package"
-       , "dist/temp.pkg"
-       , "dist/temp2.pkg"
-       ]
-  run "productbuild" productargs
+  run "productbuild" [ "--product", "data/plist"
+                     , "--package", "dist/temp.pkg"
+                     , "dist/temp2.pkg"
+                     ]
 
-  isPullRequest <- fromMaybe "true" <$> lookupEnv "TRAVIS_PULL_REQUEST"
-  if isPullRequest == "false" then do
-    -- Sign the installer with a special macOS dance
-    run "security" ["create-keychain", "-p", "travis", "macos-build.keychain"]
-    run "security" ["default-keychain", "-s", "macos-build.keychain"]
-    exitcode <- shell "security import macos.p12 -P \"$CERT_PASS\" -k macos-build.keychain -T `which productsign`" mempty
-    unless (exitcode == ExitSuccess) $ error "Signing failed"
-    run "security" ["set-key-partition-list", "-S", "apple-tool:,apple:", "-s", "-k", "travis", "macos-build.keychain"]
-    run "security" ["unlock-keychain", "-p", "travis", "macos-build.keychain"]
-    shells ("productsign --sign \"Developer ID Installer: Input Output HK Limited (89TW38X994)\" --keychain macos-build.keychain dist/temp2.pkg " <> T.pack pkg) mempty
-  else do
-    echo "Pull request, not signing the installer."
-    run "cp" ["dist/temp2.pkg", T.pack pkg]
+  -- run "rm" ["dist/temp.pkg"]
+  pure "dist/temp2.pkg"
 
-  run "rm" ["dist/temp.pkg"]
-  run "rm" ["dist/temp2.pkg"]
+writeLauncherFile :: FilePath -> InstallerConfig -> IO FilePath
+writeLauncherFile dir _ = do
+  writeFile path $ unlines contents
+  run "chmod" ["+x", toText path]
+  pure path
+  where
+    path = dir </> "Luxcore"
+    contents =
+      [ "#!/usr/bin/env bash"
+      , "cd \"$(dirname $0)\""
+      , "mkdir -p \"$HOME/Library/Application Support/Luxcore/Secrets-1.0\""
+      , "mkdir -p \"$HOME/Library/Application Support/Luxcore/Logs/pub\""
+      , "./luxd -daemon -rpcuser=rpcuser -rpcpassword=rpcpwd"
+      , "./Frontend"
+      ]
 
-  echo $ "Generated " <> unsafeTextToLine (T.pack pkg)
+data SigningConfig = SigningConfig
+  { signingIdentity         :: T.Text
+  , signingKeyChain         :: Maybe T.Text
+  , signingKeyChainPassword :: Maybe T.Text
+  } deriving (Show, Eq)
 
-doLauncher :: String
-doLauncher = "./luxcoin-launcher " <> (launcherArgs $ Launcher
-  { nodePath = "./luxcoin-node"
-  , walletPath = "./Frontend"
-  , nodeLogPath = appdata <> "Logs/luxcoin-node.log"
-  , launcherLogPath = appdata <> "Logs/pub/"
-  , windowsInstallerPath = Nothing
-  , runtimePath = appdata
-  , updater =
-      WithUpdater
-        { updArchivePath = appdata <> "installer.pkg"
-        , updExec = "/usr/bin/open"
-        , updArgs = ["-FW"]
-        }
-  })
-    where
-      appdata = "$HOME/Library/Application Support/Luxcore/"
+signingConfig :: SigningConfig
+signingConfig = SigningConfig
+  { signingIdentity = "Developer ID Installer: Luxcore Limited (89TW38X994)"
+  , signingKeyChain = Nothing
+  , signingKeyChainPassword = Nothing
+  }
 
+-- | Runs "security import -x"
+importCertificate :: SigningConfig -> FilePath -> Maybe Text -> IO ExitCode
+importCertificate SigningConfig{..} cert password = do
+  let optArg s = map toText . maybe [] (\p -> [s, p])
+      certPass = optArg "-P" password
+      keyChain = optArg "-k" signingKeyChain
+  productSign <- optArg "-T" . fmap (toText . encodeString) <$> which "productsign"
+  let args = ["import", toText cert, "-x"] ++ keyChain ++ certPass ++ productSign
+  -- echoCmd "security" args
+  proc "security" args mempty
+
+--- | Remove our certificate from the keychain
+deleteCertificate :: SigningConfig -> IO ExitCode
+deleteCertificate SigningConfig{..} = run' "security" args
+  where
+    args = ["delete-certificate", "-c", signingIdentity] ++ keychain
+    keychain = maybe [] pure signingKeyChain
+
+-- | Creates a new installer package with signature added.
+signInstaller :: SigningConfig -> T.Text -> T.Text -> IO ()
+signInstaller SigningConfig{..} src dst =
+  run "echo" ["NOT SIGNING INSTALLER"]
+  -- run "productsign" $ sign ++ [ src, dst ]
+  -- where
+  --   sign = [ "--sign", signingIdentity ]
+    -- keychain = maybe [] (\k -> [ "--keychain", k]) signingKeyChain
+
+-- | Use pkgutil to verify that signing worked.
+checkSignature :: T.Text -> IO ()
+checkSignature pkg = run "echo" ["NOT CHECKING SIGNATURE"]
+
+-- | Print the command then run it. Raises an exception on exit
+-- failure.
 run :: T.Text -> [T.Text] -> IO ()
 run cmd args = do
-  echo . unsafeTextToLine $ T.intercalate " " (cmd : args)
-  procs cmd args mempty
+    echoCmd cmd args
+    procs cmd args mempty
+
+-- | Print the command then run it.
+run' :: T.Text -> [T.Text] -> IO ExitCode
+run' cmd args = do
+    echoCmd cmd args
+    proc cmd args mempty
+
+echoCmd :: T.Text -> [T.Text] -> IO ()
+echoCmd cmd args = echo . unsafeTextToLine $ T.intercalate " " (cmd : args)

@@ -1,0 +1,44 @@
+nodePath: ./luxcoin-node
+nodeArgs:
+- --update-latest-path
+- $HOME/Library/Application Support/Luxcore/installer.pkg
+- --keyfile
+- $HOME/Library/Application Support/Luxcore/Secrets-1.0/secret.key
+- --logs-prefix
+- $HOME/Library/Application Support/Luxcore/Logs
+- --wallet-db-path
+- $HOME/Library/Application Support/Luxcore/Wallet-1.0
+- --update-server
+- https://update-luxcoin-mainnet.iohk.io
+- --update-with-package
+- --no-ntp
+- --tlscert
+- ./tls/server/server.crt
+- --tlskey
+- ./tls/server/server.key
+- --tlsca
+- ./tls/ca/ca.crt
+- --topology
+- ./wallet-topology.yaml
+nodeDbPath: $HOME/Library/Application Support/Luxcore/DB-1.0
+nodeLogConfig: log-config-prod.yaml
+nodeLogPath: $HOME/Library/Application Support/Luxcore/Logs/luxcoin-node.log
+
+walletPath: ./Frontend
+walletArgs: []
+
+updaterPath: /usr/bin/open
+updaterArgs:
+- -FW
+updateArchive: $HOME/Library/Application Support/Luxcore/installer.pkg
+updateWindowsRunner: null
+
+nodeTimeoutSec: 30
+reportServer: http://report-server.luxcoin-mainnet.iohk.io:8080
+launcherLogsPrefix: $HOME/Library/Application Support/Luxcore/Logs/pub/
+
+configuration:
+  filePath: ./configuration.yaml
+  key: mainnet_wallet_macos64
+  systemStart: null
+  seed: null

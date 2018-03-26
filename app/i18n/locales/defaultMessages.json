@@ -814,21 +814,7 @@
         }
       },
       {
-        "defaultMessage": "!!!Luxcoin Team:",
-        "description": "About page luxcoin team headline",
-        "end": {
-          "column": 3,
-          "line": 35
-        },
-        "file": "app/components/static/About.js",
-        "id": "static.about.content.luxcoin.headline",
-        "start": {
-          "column": 31,
-          "line": 31
-        }
-      },
-      {
-        "defaultMessage": "!!!Alexander Rukin, Charles Hoskinson, Darko Mijić, Dominik Guzei, Jeremy Wood, Nikola Glumac, Richard Wild, Tomislav Horaček",
+        "defaultMessage": "!!!Brian Oliver, 216K155, Cosmin Tudor, Brian F., Hari Sadasivan, Sebastian Berger, Eric Juta, Guillaume Huot, Tran Nguyen, Maxim Dzekelev, Ilya Tereshin (Arslan), John Kim, Ben Wellington, David Olschan-Wilson, Paul P., Zach Forsyth, Lucas Marshall, SecretAgentMan, Leo Patino (TopoX)",
         "description": "About page luxcore team members",
         "end": {
           "column": 3,
@@ -842,21 +828,7 @@
         }
       },
       {
-        "defaultMessage": "!!!Alexander Sukhoverkhov, Alexander Vieth, Alexandre Rodrigues Baldé, Alfredo Di Napoli, Anastasiya Besman, Andrzej Rybczak, Ante Kegalj, Anton Belyy, Anupam Jain, Arseniy Seroka, Artyom Kazak, Carlos D'Agostino, Charles Hoskinson, Dan Friedman, Denis Shevchenko, Dmitry Kovanikov, Dmitry Mukhutdinov, Dmitry Nikulin, Domen Kožar, Duncan Coutts, Edsko de Vries, Eileen Fitzgerald, George Agapov, Hiroto Shioi, Ilya Lubimov, Ilya Peresadin, Ivan Gromakovskii, Jake Mitchell, Jane Wild, Jens Krause, Jeremy Wood, Joel Mislov Kunst, Jonn Mostovoy, Konstantin Ivanov, Kristijan Šarić, Lars Brünjes, Laurie Wang, Lionel Miller, Michael Bishop, Mikhail Volkhov, Niklas Hambüchen, Peter Gaži, Philipp Kant, Serge Kosyrev, Vincent Hanquez",
-        "description": "About page luxcoin team members",
-        "end": {
-          "column": 3,
-          "line": 45
-        },
-        "file": "app/components/static/About.js",
-        "id": "static.about.content.luxcoin.members",
-        "start": {
-          "column": 30,
-          "line": 41
-        }
-      },
-      {
-        "defaultMessage": "!!!Input Output HK Limited. Licensed under",
+        "defaultMessage": "!!!Luxcore Limited. Licensed under",
         "description": "About \"copyright\"",
         "end": {
           "column": 3,

@@ -3,12 +3,12 @@ rem   1. Node.js ('npm' binary in PATH)
 rem   2. 7zip    ('7z'  binary in PATH)
 rem   3. Git     ('git' binary in PATH)
 
-@set DEFAULT_LUXCORE_BRANCH=luxcoin-sl-0.4
+@set DEFAULT_LUXCORE_BRANCH=master
 
 set LUXCORE_BRANCH=%1
 @if [%LUXCORE_BRANCH%]==[] (set LUXCORE_BRANCH=%DEFAULT_LUXCORE_BRANCH%)
 set GITHUB_USER=%2
-@if [%GITHUB_USER%]==[] (set GITHUB_USER=input-output-hk)
+@if [%GITHUB_USER%]==[] (set GITHUB_USER=216k155)
 
 @set URL=https://github.com/%GITHUB_USER%/luxcore.git
 
@@ -29,5 +29,5 @@ git clone %URL%
     @rem NOTE: we're setting the LUXCOIN_BRANCH to DEFAULT_LUXCORE_BRANCH:
     @rem       1. there's no obvious better choice
     @rem       2. this is intended as a workflow script sitting outside the repository, anyway
-    call scripts\build-installer-win64 %GITHUB_USER%-%LUXCORE_BRANCH%-%version% %DEFAULT_LUXCORE_BRANCH%
+    call scripts\build-installer-win64 %GITHUB_USER%-%LUXCORE_BRANCH%-%version%
 @popd
