@@ -179,7 +179,7 @@ data SigningConfig = SigningConfig
 
 signingConfig :: SigningConfig
 signingConfig = SigningConfig
-  { signingIdentity = "Developer ID Installer: Input Output HK Limited (89TW38X994)"
+  { signingIdentity = "Developer ID Installer: Luxcore Limited (89TW38X994)"
   , signingKeyChain = Nothing
   , signingKeyChainPassword = Nothing
   }

@@ -28,24 +28,14 @@ const messages = defineMessages({
     defaultMessage: '!!!Luxcore Team:',
     description: 'About page luxcore team headline',
   },
-  aboutContentLuxcoinHeadline: {
-    id: 'static.about.content.luxcoin.headline',
-    defaultMessage: '!!!Luxcoin Team:',
-    description: 'About page luxcoin team headline',
-  },
   aboutContentLuxcoreMembers: {
     id: 'static.about.content.luxcore.members',
-    defaultMessage: '!!!Alexander Rukin, Charles Hoskinson, Darko Mijić, Dominik Guzei, Jeremy Wood, Nikola Glumac, Richard Wild, Tomislav Horaček',
+    defaultMessage: '!!!Brian Oliver, 216K155, Cosmin Tudor, Brian F., Hari Sadasivan, Sebastian Berger, Eric Juta, Guillaume Huot, Tran Nguyen, Maxim Dzekelev, Ilya Tereshin (Arslan), John Kim, Ben Wellington, David Olschan-Wilson, Paul P., Zach Forsyth, Lucas Marshall, SecretAgentMan, Leo Patino (TopoX)',
     description: 'About page luxcore team members',
-  },
-  aboutContentLuxcoinMembers: {
-    id: 'static.about.content.luxcoin.members',
-    defaultMessage: '!!!Alexander Sukhoverkhov, Alexander Vieth, Alexandre Rodrigues Baldé, Alfredo Di Napoli, Anastasiya Besman, Andrzej Rybczak, Ante Kegalj, Anton Belyy, Anupam Jain, Arseniy Seroka, Artyom Kazak, Carlos D\'Agostino, Charles Hoskinson, Dan Friedman, Denis Shevchenko, Dmitry Kovanikov, Dmitry Mukhutdinov, Dmitry Nikulin, Domen Kožar, Duncan Coutts, Edsko de Vries, Eileen Fitzgerald, George Agapov, Hiroto Shioi, Ilya Lubimov, Ilya Peresadin, Ivan Gromakovskii, Jake Mitchell, Jane Wild, Jens Krause, Jeremy Wood, Joel Mislov Kunst, Jonn Mostovoy, Konstantin Ivanov, Kristijan Šarić, Lars Brünjes, Laurie Wang, Lionel Miller, Michael Bishop, Mikhail Volkhov, Niklas Hambüchen, Peter Gaži, Philipp Kant, Serge Kosyrev, Vincent Hanquez',
-    description: 'About page luxcoin team members',
   },
   aboutCopyright: {
     id: 'static.about.copyright',
-    defaultMessage: '!!!Input Output HK Limited. Licensed under',
+    defaultMessage: '!!!Luxcore Limited. Licensed under',
     description: 'About "copyright"',
   },
   licenseLink: {
@@ -95,19 +85,13 @@ export default class About extends Component<any> {
             {intl.formatMessage(messages.aboutContentLuxcoreMembers)}
           </div>
 
-          <h2>{intl.formatMessage(messages.aboutContentLuxcoinHeadline)}</h2>
-
-          <div className={styles.contentLuxcoinMembers}>
-            {intl.formatMessage(messages.aboutContentLuxcoinMembers)}
-          </div>
-
         </div>
 
         <div className={styles.footerWrapper}>
-          <a href="http://luxcorewallet.io">http://luxcorewallet.io</a>
+          <a href="https://luxcore.io">https://luxcore.io</a>
           <div className={styles.copyright}>
             {intl.formatMessage(messages.aboutCopyright)}&nbsp;
-            <a href="https://github.com/input-output-hk/luxcore/blob/master/LICENSE">
+            <a href="https://github.com/216k155/luxcore/blob/master/LICENSE">
               {intl.formatMessage(messages.licenseLink)}
             </a>
           </div>
