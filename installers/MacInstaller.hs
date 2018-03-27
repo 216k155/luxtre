@@ -136,18 +136,18 @@ makeInstaller cfg = do
            , T.pack $ appRoot cfg
            , "--install-location"
            , "/Applications"
-           , "dist/temp.pkg"
+           , "dist/mac_installer.pkg"
            ]
     run "ls" [ "-ltrh", scriptsDir ]
     run "pkgbuild" pkgargs
 
   run "productbuild" [ "--product", "data/plist"
-                     , "--package", "dist/temp.pkg"
-                     , "dist/temp2.pkg"
+                     , "--package", "dist/mac_installer.pkg"
+                     , "dist/mac_installer_product.pkg"
                      ]
 
   -- run "rm" ["dist/temp.pkg"]
-  pure "dist/temp2.pkg"
+  pure "dist/mac_installer_product.pkg"
 
 writeLauncherFile :: FilePath -> InstallerConfig -> IO FilePath
 writeLauncherFile dir _ = do
