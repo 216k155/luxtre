@@ -111,16 +111,10 @@ makeInstaller cfg = do
   echo "Preparing files ..."
   case icApi cfg of
     "luxcoin" -> do
-      copyFile "build-certificates-unix.sh" (dir </> "build-certificates-unix.sh")
-      copyFile "ca.conf"     (dir </> "ca.conf")
-      copyFile "server.conf" (dir </> "server.conf")
-      copyFile "client.conf" (dir </> "client.conf")
       copyFile "luxd" (dir </> "luxd")
 
       let launcherConfigFileName = "launcher-config.yaml"
       copyFile "launcher-config-mac.yaml" (dir </> launcherConfigFileName)
-
-      -- Rewrite libs paths and bundle them
       pure ()
     _ -> pure () -- DEVOPS-533
 
@@ -137,7 +131,7 @@ makeInstaller cfg = do
            [ "--identifier"
            , "org." <> appNameLowercase cfg <> ".pkg"
            -- data/scripts/postinstall is responsible for running build-certificates
-          --  , "--scripts", scriptsDir
+           -- "--scripts", scriptsDir
            , "--component"
            , T.pack $ appRoot cfg
            , "--install-location"

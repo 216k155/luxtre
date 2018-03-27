@@ -5,9 +5,11 @@
 #   3. 'stack'
 
 DEFAULT_LUXCORE_BRANCH=master
+DEFAULT_LUXDAEMON_VERSION=1.0.0
 
 LUXCORE_BRANCH=${1:-${DEFAULT_LUXCORE_BRANCH}}
 GITHUB_USER=${2:-216k155}
+LUX_DAEMON=${3:-${DEFAULT_LUXDAEMON_VERSION}}
 shift 2
 
 URL=https://github.com/${GITHUB_USER}/luxcore.git
@@ -54,6 +56,6 @@ pushd luxcore
 
     bash scripts/build-installer-unix.sh \
             "${GITHUB_USER}-${LUXCORE_BRANCH}-$(git show-ref --hash HEAD)" \
-            "${DEFAULT_LUXCORE_BRANCH}" \
+        "${LUX_DAEMON}" \
             "$@"
 popd
