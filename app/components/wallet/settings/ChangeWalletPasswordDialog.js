@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import classnames from 'classnames';
 import Input from 'react-polymorph/lib/components/Input';
-import SimpleInputSkin from 'react-polymorph/lib/skins/simple/InputSkin';
+import SimpleInputSkin from 'react-polymorph/lib/skins/simple/raw/InputSkin';
 import Checkbox from 'react-polymorph/lib/components/Checkbox';
-import SimpleSwitchSkin from 'react-polymorph/lib/skins/simple/SwitchSkin';
+import SimpleSwitchSkin from 'react-polymorph/lib/skins/simple/raw/SwitchSkin';
 import { defineMessages, intlShape } from 'react-intl';
 import ReactToolboxMobxForm from '../../../utils/ReactToolboxMobxForm';
 import DialogCloseButton from '../../widgets/DialogCloseButton';
@@ -248,18 +248,6 @@ export default class ChangeWalletPasswordDialog extends Component<Props, State> 
 
         {isWalletPasswordSet ? (
           <div className={styles.walletPassword}>
-            <div className={styles.walletPasswordSwitch}>
-              <div className={styles.passwordLabel}>
-                {intl.formatMessage(messages.passwordSwitchLabel)}
-              </div>
-              <Checkbox
-                onChange={this.handlePasswordSwitchToggle}
-                label={intl.formatMessage(messages.passwordSwitchPlaceholder)}
-                checked={removePassword}
-                skin={<SimpleSwitchSkin />}
-              />
-            </div>
-
             <Input
               type="password"
               className="currentPassword"
