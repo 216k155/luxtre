@@ -20,6 +20,7 @@ export default class WalletSettingsPage extends Component<Props> {
     const {
       WALLET_ASSURANCE_LEVEL_OPTIONS,
       updateWalletRequest,
+      unlockWalletRequest,
       lastUpdatedWalletField,
       walletFieldBeingEdited,
     } = walletSettings;
@@ -28,6 +29,8 @@ export default class WalletSettingsPage extends Component<Props> {
       stopEditingWalletField,
       cancelEditingWalletField,
       updateWalletField,
+      unlockWallet,
+      lockWallet,
     } = actions.lux.walletSettings;
 
     // Guard against potential null values
@@ -37,19 +40,22 @@ export default class WalletSettingsPage extends Component<Props> {
       <WalletSettings
         assuranceLevels={WALLET_ASSURANCE_LEVEL_OPTIONS}
         walletAssurance={activeWallet.assurance}
-        error={updateWalletRequest.error}
+        error={updateWalletRequest.error || unlockWalletRequest.error}
         openDialogAction={actions.dialogs.open.trigger}
         isWalletPasswordSet={activeWallet.hasPassword}
+        isWalletLocked={activeWallet.isLocked}
         walletPasswordUpdateDate={activeWallet.passwordUpdateDate}
         isDialogOpen={uiDialogs.isOpen}
         walletName={activeWallet.name}
-        isSubmitting={updateWalletRequest.isExecuting}
+        isSubmitting={updateWalletRequest.isExecuting || unlockWalletRequest.isExecuting}
         isInvalid={updateWalletRequest.wasExecuted && updateWalletRequest.result === false}
         lastUpdatedField={lastUpdatedWalletField}
         onFieldValueChange={(field, value) => updateWalletField.trigger({ field, value })}
         onStartEditing={field => startEditingWalletField.trigger({ field })}
         onStopEditing={stopEditingWalletField.trigger}
         onCancelEditing={cancelEditingWalletField.trigger}
+        onUnlockWallet={(password) => unlockWallet.trigger({ password })}
+        onLockWallet={lockWallet.trigger}
         activeField={walletFieldBeingEdited}
         nameValidator={name => isValidWalletName(name)}
       />

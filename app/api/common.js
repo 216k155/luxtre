@@ -52,6 +52,8 @@ export class WalletAlreadyRestoredError extends LocalizableError {
 export type CreateTransactionResponse = WalletTransaction;
 export type CreateWalletResponse = Wallet;
 export type RenameWalletResponse = boolean;
+export type UnlockWalletResponse = boolean;
+export type LockWalletResponse = boolean;
 export type GetWalletsResponse = Array<Wallet>;
 export type GetWalletRecoveryPhraseResponse = Array<string>;
 export type RestoreWalletResponse = Wallet;
@@ -65,40 +67,44 @@ export type GetMasternodeOutputsResponse = string;
 export type CreateWalletRequest = {
   name: string,
   mnemonic: string,
-  password: ?string,
+  password: ?string
 };
 
 export type UpdateWalletPasswordRequest = {
   walletId: string,
   oldPassword: ?string,
-  newPassword: ?string,
+  newPassword: ?string
 };
 
 export type RenameWalletRequest = {
-  walletId: string,
+  walletId: string
+};
+
+export type UnlockWalletRequest = {
+  password: string
 };
 
 export type RestoreWalletRequest = {
   recoveryPhrase: string,
   walletName: string,
-  walletPassword: ?string,
+  walletPassword: ?string
 };
 
 export type GetSyncProgressResponse = {
   localDifficulty: ?number,
-  networkDifficulty: ?number,
+  networkDifficulty: ?number
 };
 
 export type GetTransactionsRequest = {
   walletId: string,
   searchTerm: string,
   skip: number,
-  limit: number,
+  limit: number
 };
 
 export type GetTransactionsResponse = {
   transactions: Array<WalletTransaction>,
-  total: number,
+  total: number
 };
 
 export type StartMasternodeRequest = {
