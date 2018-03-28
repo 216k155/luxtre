@@ -12,6 +12,8 @@ export default class Wallet {
   @observable amount: BigNumber;
   @observable assurance: AssuranceModeOption;
   @observable hasPassword: boolean;
+  @observable isLocked: boolean;
+  @observable isStaking: boolean;
   @observable passwordUpdateDate: ?Date;
 
   constructor(data: {
@@ -21,6 +23,8 @@ export default class Wallet {
     amount: BigNumber,
     assurance: AssuranceModeOption,
     hasPassword: boolean,
+    isLocked: boolean,
+    isStaking: boolean,
     passwordUpdateDate: ?Date,
   }) {
     Object.assign(this, data);
