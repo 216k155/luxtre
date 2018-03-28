@@ -20,6 +20,7 @@ export default class TopBarContainer extends Component<Props> {
     const { sidebar, app, networkStatus } = stores;
     const isMainnet = environment.isMainnet();
     const isLuxApi = environment.isLuxApi();
+    const activeWallet = stores[environment.API].wallets.active;
     const testnetLabel = (
       isLuxApi && !isMainnet ? <WalletTestEnvironmentLabel /> : null
     );
@@ -27,12 +28,13 @@ export default class TopBarContainer extends Component<Props> {
     return (
       <TopBar
         onToggleSidebar={actions.sidebar.toggleSubMenus.trigger}
-        activeWallet={stores[environment.API].wallets.active}
+        activeWallet={activeWallet}
         currentRoute={app.currentRoute}
         showSubMenus={sidebar.isShowingSubMenus}
       >
-        {stores[environment.API].wallets.active && stores[environment.API].wallets.active.hasPassword == true ? 
+        {activeWallet && activeWallet.hasPassword == true ? 
           <WalletLockStatusIcon
+            isLocked={activeWallet.isLocked}
           />
           : null
         }

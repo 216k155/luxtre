@@ -116,7 +116,7 @@ export default class MyMasternodePage extends Component<Props> {
           error={this.getMasternodeError}
           openDialogAction={actions.dialogs.open.trigger}  
           isDialogOpen={uiDialogs.isOpen}
-          isWalletPasswordSet={activeWallet.hasPassword}
+          isWalletPasswordSet={activeWallet.hasPassword && activeWallet.isLocked}
           myMasternodeList = {myMasternodeList}
         />
 

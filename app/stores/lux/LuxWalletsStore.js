@@ -12,7 +12,7 @@ import type { ImportWalletFromFileResponse } from '../../api/lux/index';
 import type {
   CreateTransactionResponse, CreateWalletResponse, RenameWalletResponse,
   GetWalletsResponse, RestoreWalletResponse,
-  GetWalletRecoveryPhraseResponse,
+  GetWalletRecoveryPhraseResponse
 } from '../../api/common';
 
 export default class LuxWalletsStore extends WalletStore {
@@ -26,6 +26,7 @@ export default class LuxWalletsStore extends WalletStore {
   @observable sendMoneyRequest: Request<CreateTransactionResponse> = new Request(this.api.lux.createTransaction);
   @observable getWalletRecoveryPhraseRequest: Request<GetWalletRecoveryPhraseResponse> = new Request(this.api.lux.getWalletRecoveryPhrase);
   @observable restoreRequest: Request<RestoreWalletResponse> = new Request(this.api.lux.restoreWallet);
+
   /* eslint-enable max-len */
 
   @observable walletExportType: walletExportTypeChoices = 'paperWallet';
@@ -188,5 +189,4 @@ export default class LuxWalletsStore extends WalletStore {
       this.walletExportType = params.walletExportType;
     }
   };
-
 }

@@ -18,7 +18,6 @@ export type LuxWalletData = {
   id: string,
   name: string,
   assurance: AssuranceModeOption,
-  hasPassword: boolean,
   passwordUpdateDate: ?Date,
 };
 
@@ -70,7 +69,6 @@ export const updateLuxWalletData = (
     id: string,
     name?: string,
     assurance?: AssuranceModeOption,
-    hasPassword?: boolean,
     passwordUpdateDate?: ?Date,
   }
 ): Promise<void> => new Promise(async (resolve, reject) => {
