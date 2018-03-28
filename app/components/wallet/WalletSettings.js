@@ -1,10 +1,13 @@
 // @flow
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
+import classnames from 'classnames';
 import { defineMessages, intlShape } from 'react-intl';
 import moment from 'moment';
 import environment from '../../environment';
 import LocalizableError from '../../i18n/LocalizableError';
+import Button from 'react-polymorph/lib/components/Button';
+import SimpleButtonSkin from 'react-polymorph/lib/skins/simple/raw/ButtonSkin';
 import BorderedBox from '../widgets/BorderedBox';
 import InlineEditingInput from '../widgets/forms/InlineEditingInput';
 import InlineEditingDropdown from '../widgets/forms/InlineEditingDropdown';
@@ -68,6 +71,11 @@ export const messages = defineMessages({
     defaultMessage: '!!!Unlock',
     description: 'Label for the unlock button on wallet settings.'
   },
+  lockButtonLabel: {
+    id: 'wallet.settings.lockWallet',
+    defaultMessage: '!!!Lock',
+    description: 'Label for the lock button on wallet settings.'
+  },
 });
 
 type Props = {
@@ -75,6 +83,7 @@ type Props = {
   walletName: string,
   walletAssurance: string,
   isWalletPasswordSet: boolean,
+  isWalletLocked: boolean,
   walletPasswordUpdateDate: ?Date,
   error?: ?LocalizableError,
   openDialogAction: Function,
@@ -83,6 +92,8 @@ type Props = {
   onStartEditing: Function,
   onStopEditing: Function,
   onCancelEditing: Function,
+  onUnlockWallet: Function,
+  onLockWallet: Function,
   nameValidator: Function,
   activeField: ?string,
   isSubmitting: boolean,
@@ -110,10 +121,11 @@ export default class WalletSettings extends Component<Props> {
       walletPasswordUpdateDate, error,
       openDialogAction, isDialogOpen,
       onFieldValueChange, onStartEditing,
-      onStopEditing, onCancelEditing,
+      onStopEditing, onCancelEditing, 
       nameValidator, activeField,
       isSubmitting, isInvalid,
-      lastUpdatedField,
+      lastUpdatedField,isWalletLocked,
+      onUnlockWallet, onLockWallet
     } = this.props;
 
     const assuranceLevelOptions = assuranceLevels.map(assurance => ({
@@ -126,6 +138,11 @@ export default class WalletSettings extends Component<Props> {
         lastUpdated: moment(walletPasswordUpdateDate).fromNow(),
       })
     ) : intl.formatMessage(messages.passwordNotSet);
+
+    const buttonClasses = classnames([
+      'primary',
+      styles.nextButton,
+    ]);
 
     return (
       <div className={styles.component}>
@@ -164,6 +181,23 @@ export default class WalletSettings extends Component<Props> {
           */}
 
           {error && <p className={styles.error}>{intl.formatMessage(error)}</p>}
+
+          {isWalletPasswordSet ? 
+              <Button
+                className={buttonClasses}
+                label={isWalletLocked ? intl.formatMessage(messages.unlockButtonLabel) : intl.formatMessage(messages.lockButtonLabel)}
+                onMouseUp={() => {
+                  if(isWalletLocked)
+                    openDialogAction({dialog: WalletUnlockDialog});
+                  else
+                    onLockWallet();
+                }}
+                skin={<SimpleButtonSkin />}
+              />
+            :
+            null
+          }
+          
           
         </BorderedBox>
 
@@ -177,6 +211,15 @@ export default class WalletSettings extends Component<Props> {
 
         {isDialogOpen(WalletExportDialog) ? (
           <WalletExportToFileDialogContainer />
+        ) : null}
+
+        {isDialogOpen(WalletUnlockDialog) ? (
+          <WalletUnlockDialogContainer
+            actionType = 'unlock' 
+            unlockWallet = {(password) => (
+              onUnlockWallet(password)
+            )}
+          />
         ) : null}
 
         {/*
