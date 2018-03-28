@@ -14,6 +14,8 @@ import RenameWalletConfirmationDialog from './settings/RenameWalletConfirmationD
 import RenameWalletDialogContainer from '../../containers/wallet/dialogs/RenameWalletDialogContainer';
 import WalletExportDialog from './settings/export-to-file/WalletExportToFileDialog';
 import WalletExportToFileDialogContainer from '../../containers/wallet/settings/WalletExportToFileDialogContainer';
+import WalletUnlockDialog from '../../components/wallet/WalletUnlockDialog';
+import WalletUnlockDialogContainer from '../../containers/wallet/dialogs/WalletUnlockDialogContainer';
 /* eslint-disable max-len */
 // import ExportPaperWalletPrinterCopyDialog from './settings/paper-wallet-export-dialogs/ExportPaperWalletPrinterCopyDialog';
 // import ExportPaperWalletPrinterCopyDialogContainer from '../../containers/wallet/dialogs/paper-wallet-export/ExportPaperWalletPrinterCopyDialogContainer';
@@ -60,6 +62,11 @@ export const messages = defineMessages({
     id: 'wallet.settings.exportWalletButtonLabel',
     defaultMessage: '!!!Export wallet',
     description: 'Label for the export button on wallet settings.',
+  },
+  unlockButtonLabel: {
+    id: 'wallet.settings.unlockWallet',
+    defaultMessage: '!!!Unlock',
+    description: 'Label for the unlock button on wallet settings.'
   },
 });
 
@@ -158,8 +165,17 @@ export default class WalletSettings extends Component<Props> {
 
           {error && <p className={styles.error}>{intl.formatMessage(error)}</p>}
 
-
-
+          <Button
+            className={buttonClasses}
+            label={intl.formatMessage(messages.unlockButtonLabel)}
+            onMouseUp={() => openDialogAction({
+              dialog: WalletUnlockDialog,
+            })}
+            // Form can't be submitted in case transaction fees are not calculated
+            disabled={!isTransactionFeeCalculated}
+            skin={<SimpleButtonSkin />}
+          />
+          
         </BorderedBox>
 
         {isDialogOpen(ChangeWalletPasswordDialog) ? (
@@ -172,6 +188,14 @@ export default class WalletSettings extends Component<Props> {
 
         {isDialogOpen(WalletExportDialog) ? (
           <WalletExportToFileDialogContainer />
+        ) : null}
+
+        {isDialogOpen(WalletUnlockDialog) ? (
+          <WalletUnlockDialogContainer 
+            masternodeAction = {(actionType, values) => (
+              this.handelMasternodeAction(actionType, values)
+            )}
+          />
         ) : null}
 
         {/*

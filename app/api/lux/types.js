@@ -75,7 +75,8 @@ export type LuxTransaction = {
   blockhash: string,
   // blockNumber: LuxBlockNumber,
   blockindex: string,
-  blocktime: number
+  blocktime: number,
+  time: number
   // value: string,
   // gasPrice: LuxGasPrice,
   // gas: LuxGas,

@@ -954,20 +954,20 @@ const _createWalletTransactionFromServerData = async (
   type: TransactionType,
   txData: LuxTransaction
 ): Promise<WalletTransaction> => {
-  const { txid, blockHash, amount, address, confirmations, blocktime } = txData;
+  const { txid, blockHash, amount, address, confirmations, time } = txData;
   // const txBlock: ?LuxBlock = blockHash ? await getLuxBlockByHash({
   //  blockHash,
   // }) : null;
 
   //blocktime isn't returned right after a transaction is sent
-  const blockDate = blocktime !== null && blocktime !== undefined ? unixTimestampToDate(blocktime) : unixTimestampToDate(Date.now() / 1000 | 0);
+  //const blockDate = blocktime !== null && blocktime !== undefined ? unixTimestampToDate(blocktime) : unixTimestampToDate(Date.now() / 1000 | 0);
   return new WalletTransaction({
     id: txid,
     type,
     title: '',
     description: '',
     amount: quantityToBigNumber(amount),
-    date: blockDate,
+    date: unixTimestampToDate(time),
     numberOfConfirmations: confirmations,
     address,
     addresses: null,
