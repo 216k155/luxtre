@@ -164,17 +164,6 @@ export default class WalletSettings extends Component<Props> {
           */}
 
           {error && <p className={styles.error}>{intl.formatMessage(error)}</p>}
-
-          <Button
-            className={buttonClasses}
-            label={intl.formatMessage(messages.unlockButtonLabel)}
-            onMouseUp={() => openDialogAction({
-              dialog: WalletUnlockDialog,
-            })}
-            // Form can't be submitted in case transaction fees are not calculated
-            disabled={!isTransactionFeeCalculated}
-            skin={<SimpleButtonSkin />}
-          />
           
         </BorderedBox>
 
@@ -188,14 +177,6 @@ export default class WalletSettings extends Component<Props> {
 
         {isDialogOpen(WalletExportDialog) ? (
           <WalletExportToFileDialogContainer />
-        ) : null}
-
-        {isDialogOpen(WalletUnlockDialog) ? (
-          <WalletUnlockDialogContainer 
-            masternodeAction = {(actionType, values) => (
-              this.handelMasternodeAction(actionType, values)
-            )}
-          />
         ) : null}
 
         {/*
