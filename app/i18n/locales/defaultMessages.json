@@ -1741,11 +1741,25 @@
         }
       },
       {
+        "defaultMessage": "!!!Utilities",
+        "description": "Label for the \"Utilities\" nav button in the wallet navigation.",
+        "end": {
+          "column": 3,
+          "line": 43
+        },
+        "file": "app/components/wallet/navigation/WalletNavigation.js",
+        "id": "wallet.navigation.utilities",
+        "start": {
+          "column": 12,
+          "line": 34
+        }
+      },
+      {
         "defaultMessage": "!!!Masternodes",
         "description": "Label for the \"Masternodes\" nav button in the wallet navigation.",
         "end": {
           "column": 3,
-          "line": 43
+          "line": 48
         },
         "file": "app/components/wallet/navigation/WalletNavigation.js",
         "id": "wallet.navigation.masternodes",
@@ -1789,6 +1803,25 @@
       }
     ],
     "path": "app/components/wallet/masternodes/WalletNavigation.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "!!!POS Calculator",
+        "description": "Label for the \"Pos Calculator\" nav button in the wallet navigation.",
+        "end": {
+          "column": 3,
+          "line": 17
+        },
+        "file": "app/components/wallet/utilities/UtilityNavigation.js",
+        "id": "wallet.navigation.utilityposcalc",
+        "start": {
+          "column": 12,
+          "line": 34
+        }
+      }
+    ],
+    "path": "app/components/wallet/utilities/WalletNavigation.json"
   },
   {
     "descriptors": [

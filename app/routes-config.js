@@ -17,6 +17,11 @@ export const ROUTES = {
     SEND: '/wallets/:id/send',
     RECEIVE: '/wallets/:id/receive',
     SETTINGS: '/wallets/:id/settings',
+    UTILITIES: {
+      ROOT: '/wallets/:id/utilities',
+      PAGE: '/wallets/:id/utilities/:page',
+      POSCALCULATOR: '/wallets/:id/utilities/poscalculator',
+    },
     MASTERNODES: {
       ROOT: '/wallets/:id/masternodes',
       PAGE: '/wallets/:id/masternodes/:page',

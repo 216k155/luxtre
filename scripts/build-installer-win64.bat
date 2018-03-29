@@ -1,6 +1,5 @@
 rem DEPENDENCIES:
 rem   1. Node.js ('npm' binary in PATH)
-rem   2. 7zip    ('7z'  binary in PATH)
 rem
 rem   installer dev mode:  set SKIP_TO_FRONTEND/SKIP_TO_INSTALLER
 
@@ -37,7 +36,7 @@ powershell -Command "try { Import-Module BitsTransfer; Start-BitsTransfer -Sourc
 @if %errorlevel% neq 0 (@echo FAILED: couldn't obtain curl from %CURL_URL% using BITS
 	popd & exit /b 1)
 del /f curl.exe curl-ca-bundle.crt libcurl.dll
-7z e curl.7z %CURL_BIN%\curl.exe %CURL_BIN%\curl-ca-bundle.crt %CURL_BIN%\libcurl.dll
+7z\7z e curl.7z %CURL_BIN%\curl.exe %CURL_BIN%\curl-ca-bundle.crt %CURL_BIN%\libcurl.dll
 @if %errorlevel% neq 0 (@echo FAILED: couldn't extract curl from downloaded archive
 	popd & exit /b 1)
 
@@ -46,7 +45,7 @@ del /f luxd-wins.zip 2>nul
 .\curl --location %LUXD_URL% -o luxd-wins.zip
 @if %errorlevel% neq 0 (@echo FAILED: couldn't obtain the Luxcoin v%LUXCOIN_BRANCH%
 popd & exit /b 1)
-7z x luxd-wins.zip -y
+7z\7z x luxd-wins.zip -y
 @if %errorlevel% neq 0 (@echo FAILED: 7z x luxd-wins.zip -y
 popd & exit /b 1)
 move luxd-wins\luxd.exe     installers\
@@ -73,7 +72,7 @@ pushd installers
     ..\curl %LIBRESSL_URL% -o LibreSSL.zip
     @if %errorlevel% neq 0 (@echo FAILED: LibreSSL couldn't be obtained
 	popd & exit /b 1)
-    7z x LibreSSL.zip
+    ..\7z\7z x LibreSSL.zip
     @if %errorlevel% neq 0 (@echo FAILED: LibreSSL couldn't be extracted from downloaded archive
 	popd & exit /b 1)
     del LibreSSL.zip
@@ -85,7 +84,7 @@ pushd installers
     @if %errorlevel% neq 0 (@echo FAILED: stack couldn't be obtained
 	popd & exit /b 1)
     del /f stack.exe 2>nul
-    7z x stack.zip stack.exe
+    ..\7z\7z x stack.zip stack.exe
     @if %errorlevel% neq 0 (@echo FAILED: couldn't extract stack from the distribution package
 	exit /b 1)
     del stack.zip
