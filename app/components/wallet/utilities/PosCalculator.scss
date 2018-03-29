@@ -1,0 +1,73 @@
+.component {
+  height: 90%;
+  align-items: center;
+  justify-content: center;
+  color: #ddd;
+}
+
+.categoryTitle {
+  font-size: 26px;
+  letter-spacing: 0.5px;
+  color: var(--theme-bordered-box-text-color);
+  margin-bottom: 30px;
+}
+
+.label {
+  opacity: 0.5;
+  font-size: 16px;
+  line-height: 1.38;
+  font-family: var(--font-regular);
+  color: var(--theme-main-body-messages-color);
+}
+
+.row {
+  margin: 10px 0px,
+}
+
+.line {
+  width: 200px;
+  display:inline-block;
+}
+
+.description {
+  margin-bottom: 50px;
+}
+
+.intentliContent {
+  text-indent: -1.4em;
+  margin-left: 1.7em;
+}
+
+input[type=number] {
+  color: var(--theme-input-text-color);
+  border: 0px;
+  background-color: var(--theme-input-background-color);
+  font-family: var(--font-light), sans-serif;
+  font-size: 14px;
+  padding: 3px 2px;
+  outline: none;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 0.2s;
+}
+
+input[type=number]::-webkit-inner-spin-button {
+  opacity: 1
+}
+
+/*
+input[type=number]:hover::-webkit-inner-spin-button { 
+  background: #eee url('http://i.stack.imgur.com/YYySO.png') no-repeat 50% 50%;  
+  width: 14px;
+  height: 14px;
+  padding: 4px;
+  position: relative;
+  right: 4px;
+  border-radius: 28px;
+}
+*/
+table.result, table.result th, table.result td, table.result td.num { border: 1px solid #677575; padding: 5px; }
+table.result { border-collapse: collapse; width: 100%; }
+table.result th { height: 50px; vertical-align: middle; background-color:rgb(43, 69, 96)}
+table.result td { text-align: left; }
+table.result th.side { height: 30px;  }
+table.result td.num { text-align: right; }
