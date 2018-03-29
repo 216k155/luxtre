@@ -10,6 +10,7 @@ const WalletUnlockDialog = resolver('components/wallet/WalletUnlockDialog');
 
 type Props = {
   masternodeAction: Function,
+  unlockWallet: Function,
   stores: any | StoresMap,
   actions: any | ActionsMap,
   actionType: string,
@@ -35,13 +36,15 @@ export default class WalletUnlockDialogContainer extends Component<Props> {
       case 'stopMany':
         this.props.masternodeAction('stopMany', {password: password});
         break;
+      case 'unlock':
+        this.props.unlockWallet(password);
+        break;
     }
-    
   };
 
   handleUnlockWalletCancel = () => {
     const {actionType} = this.props;
-    const { masternodes } = this.props.stores[environment.API];
+    const { masternodes, walletSettings } = this.props.stores[environment.API];
     const { 
       startMasternodeRequest,
       stopMasternodeRequest,
@@ -49,6 +52,7 @@ export default class WalletUnlockDialogContainer extends Component<Props> {
       stopManyMasternodeRequest,
      } = masternodes;
 
+     const {unlockWalletRequest} = walletSettings;
      switch (actionType){
       case 'start':
         startMasternodeRequest.reset();
@@ -62,8 +66,10 @@ export default class WalletUnlockDialogContainer extends Component<Props> {
       case 'stopMany':
         stopMasternodeRequest.reset();
         break;
+      case 'unlock':
+        unlockWalletRequest.reset();
+        break;
     }
-     
   }
 
   render() {

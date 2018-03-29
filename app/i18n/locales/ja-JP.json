@@ -261,6 +261,8 @@
   "wallet.settings.delete.dialog.wantToRenameWalletQuestion": "本当に<strong>{walletName}</strong>を削除しますか?",
   "wallet.settings.renameWalletButtonLabel": "ウォレット削除",
   "wallet.settings.exportWalletButtonLabel": "ウォレットのエクスポート",
+  "wallet.settings.unlockWallet": "Unlock Wallet",
+  "wallet.settings.lockWallet": "Lock Wallet",
   "wallet.settings.name.label": "ウォレット名",
   "wallet.settings.password": "パスワード",
   "wallet.settings.passwordLastUpdated": "最終更新 {lastUpdated}",

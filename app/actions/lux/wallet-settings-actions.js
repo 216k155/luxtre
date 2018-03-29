@@ -16,4 +16,6 @@ export default class WalletSettingsActions {
   // eslint-disable-next-line max-len
   updateWalletPassword: Action<{ walletId: string, oldPassword: ?string, newPassword: ?string }> = new Action();
   exportToFile: Action<WalletExportToFileParams> = new Action();
+  unlockWallet: Action<{ password: ?string }> = new Action();
+  lockWallet: Action<any> = new Action();
 }

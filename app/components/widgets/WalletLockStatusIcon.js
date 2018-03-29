@@ -12,6 +12,10 @@ const messages = defineMessages({
   },
 });
 
+type Props = {
+  isLocked: boolean,
+};
+
 export default class WalletLockStatusIcon extends Component<Props> {
 
   static contextTypes = {
@@ -20,8 +24,10 @@ export default class WalletLockStatusIcon extends Component<Props> {
 
   render() {
     const { intl } = this.context;
+    const { isLocked } = this.props;
     const componentClasses = classNames([
-      styles.component
+      styles.component,
+      isLocked ? styles.locked : styles.unlocked,
     ]);
     return (
       <div className={componentClasses}>

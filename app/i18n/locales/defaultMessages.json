@@ -3973,6 +3973,34 @@
           "column": 21,
           "line": 59
         }
+      },
+      {
+        "defaultMessage": "!!!Unlock wallet",
+        "description": "Label for the wallet unlock button on wallet settings.",
+        "end": {
+          "column": 3,
+          "line": 70
+        },
+        "file": "app/components/wallet/WalletSettings.js",
+        "id": "wallet.settings.unlockWallet",
+        "start": {
+          "column": 21,
+          "line": 66
+        }
+      },
+      {
+        "defaultMessage": "!!!Lock wallet",
+        "description": "Label for the wallet lock button on wallet settings.",
+        "end": {
+          "column": 3,
+          "line": 75
+        },
+        "file": "app/components/wallet/WalletSettings.js",
+        "id": "wallet.settings.lockWallet",
+        "start": {
+          "column": 21,
+          "line": 71
+        }
       }
     ],
     "path": "app/components/wallet/WalletSettings.json"

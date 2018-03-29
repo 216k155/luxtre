@@ -74,6 +74,11 @@
   }
 }
 
+.nextButton {
+  display: block !important;
+  margin: 30px auto 0;
+}
+
 .error {
   @include error-message;
   text-align: center;

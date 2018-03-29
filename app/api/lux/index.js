@@ -17,6 +17,7 @@ import { getLuxAccountBalance } from './getLuxAccountBalance';
 import { getLuxAccountRecoveryPhrase } from './getLuxAccountRecoveryPhrase';
 import { sendLuxTransaction } from './sendLuxTransaction';
 import { getLuxTransactionByHash } from './getLuxTransaction';
+import { lockLuxWallet } from './lockLuxWallet';
 import { unlockLuxWallet } from './unlockLuxWallet';
 import { changeLuxWalletPassphrase } from './changeLuxWalletPassphrase';
 import { getLuxTransactions } from './getLuxTransactions';
@@ -47,6 +48,7 @@ import {stopLuxMasternode} from './stopLuxMasternode';
 import {stopManyLuxMasternode} from './stopManyLuxMasternode';
 import {getLuxMasternodeOutputs} from './getLuxMasternodeOutputs';
 import {isLuxWalletEncrypted} from './isLuxWalletEncrypted';
+import {isLuxWalletLocked} from './isLuxWalletLocked';
 
 //masternode
 import {encryptLuxWallet} from './encryptLuxWallet';
@@ -87,6 +89,9 @@ import type {
   CreateTransactionResponse,
   RenameWalletRequest,
   RenameWalletResponse,
+  UnlockWalletRequest,
+  UnlockWalletResponse,
+  LockWalletResponse,
   GetSyncProgressResponse,
   GetTransactionsRequest,
   GetTransactionsResponse,
@@ -278,8 +283,9 @@ export default class LuxApi {
   getWallets = async (): Promise<GetWalletsResponse> => {
     Logger.debug('LuxApi::getWallets called');
     try {
-      const response = await isLuxWalletEncrypted();
+      let response = await isLuxWalletEncrypted();
       const hasPassword = response.indexOf('unknown command') !== -1 ? false : true;
+
       const walletId = '';
       const confirmations = 0;
       let amount = await getLuxAccountBalance({
@@ -289,6 +295,19 @@ export default class LuxApi {
       amount = quantityToBigNumber(amount);
       const address = await getLuxAccountAddress({ walletId });
 
+      let isLocked = false;
+      if(hasPassword)
+      {
+        try{
+          response = await isLuxWalletLocked({address});
+          isLocked = false;
+        }catch (error) {
+          if (error.message.includes('walletpassphrase')) {
+            isLocked = true;
+          }
+        }
+      }
+      
       const id = 'Main';
       let Wallets = [];
       try {
@@ -302,6 +321,7 @@ export default class LuxApi {
           amount,
           assurance,
           hasPassword,
+          isLocked,
           passwordUpdateDate
         }));
       } catch (error) {
@@ -310,7 +330,6 @@ export default class LuxApi {
           id,
           name: 'Main',
           assurance: 'CWANormal',
-          hasPassword,
           passwordUpdateDate: new Date()
         };
         const { name, assurance, passwordUpdateDate } = fallbackWalletData;
@@ -318,7 +337,6 @@ export default class LuxApi {
           id,
           name,
           assurance,
-          hasPassword,
           passwordUpdateDate
         });
         Wallets.push(new Wallet({
@@ -328,6 +346,7 @@ export default class LuxApi {
           amount,
           assurance,
           hasPassword,
+          isLocked,
           passwordUpdateDate
         }));
       }
@@ -436,7 +455,6 @@ export default class LuxApi {
           id,
           name,
           assurance,
-          hasPassword,
           passwordUpdateDate
         });
         ImportWallet = new Wallet({
@@ -514,6 +532,12 @@ export default class LuxApi {
         to,
         value: value.toNumber()
       });
+
+      if(password !== '')
+      {
+        await lockLuxWallet();
+      }
+
       Logger.debug('LuxApi::createTransaction success: ' + stringifyData(txHash));
       return _createTransaction(senderAccount, txHash);
     } catch (error) {
@@ -534,7 +558,6 @@ export default class LuxApi {
         id,
         name,
         assurance,
-        hasPassword,
         passwordUpdateDate
       });
       Logger.debug('LuxApi::updateWallet success: ' + stringifyData(request));
@@ -550,9 +573,9 @@ export default class LuxApi {
   ): Promise<UpdateWalletPasswordResponse> {
     Logger.debug('LuxApi::updateWalletPassword called');
     const { walletId, oldPassword, newPassword } = request;
-    console.log('walletId' + walletId);
-    console.log('oldPassword' + oldPassword);
-    console.log('newPassword' + newPassword);
+    //console.log('walletId: ' + walletId);
+    //console.log('oldPassword: ' + oldPassword);
+    //console.log('newPassword: ' + newPassword);
     try {
       if(oldPassword !== null)
       {
@@ -574,7 +597,6 @@ export default class LuxApi {
       const passwordUpdateDate = hasPassword ? new Date() : null;
       await updateLuxWalletData({
         id: walletId,
-        hasPassword,
         passwordUpdateDate
       });
       return true;
@@ -585,6 +607,43 @@ export default class LuxApi {
       }
       throw new GenericApiError();
     }
+  }
+
+  async lockWallet(): Promise<LockWalletResponse> {
+    Logger.debug('LuxApi::lockWallet called');
+    try {
+      await lockLuxWallet();
+      Logger.debug('LuxApi::lockWallet success');
+      return true;
+    } catch (error) {
+      Logger.error('LuxApi::lockWallet error: ' + stringifyError(error));
+      throw new GenericApiError();
+    }
+    return false;
+  }
+
+  async unlockWallet(
+    request: UnlockWalletRequest
+  ): Promise<UnlockWalletResponse> {
+    Logger.debug('LuxApi::unlockWallet called');
+    const { password } = request;
+    const timeout = 0;
+    //console.log('password: ' + password);
+    try {
+        await unlockLuxWallet({
+          password,
+          timeout
+        });
+      Logger.debug('LuxApi::unlockWallet success');
+      return true;
+    } catch (error) {
+      Logger.error('LuxApi::unlockWallet error: ' + stringifyError(error));
+      if (error.message.includes('passphrase')) {
+        throw new IncorrectWalletPasswordError();
+      }
+      throw new GenericApiError();
+    }
+    return false;
   }
 
   async renameWallet(request: RenameWalletRequest): Promise<RenameWalletResponse> {
@@ -954,20 +1013,20 @@ const _createWalletTransactionFromServerData = async (
   type: TransactionType,
   txData: LuxTransaction
 ): Promise<WalletTransaction> => {
-  const { txid, blockHash, amount, address, confirmations, blocktime } = txData;
+  const { txid, blockHash, amount, address, confirmations, time } = txData;
   // const txBlock: ?LuxBlock = blockHash ? await getLuxBlockByHash({
   //  blockHash,
   // }) : null;
 
   //blocktime isn't returned right after a transaction is sent
-  const blockDate = blocktime !== null && blocktime !== undefined ? unixTimestampToDate(blocktime) : unixTimestampToDate(Date.now() / 1000 | 0);
+  //const blockDate = blocktime !== null && blocktime !== undefined ? unixTimestampToDate(blocktime) : unixTimestampToDate(Date.now() / 1000 | 0);
   return new WalletTransaction({
     id: txid,
     type,
     title: '',
     description: '',
     amount: quantityToBigNumber(amount),
-    date: blockDate,
+    date: unixTimestampToDate(time),
     numberOfConfirmations: confirmations,
     address,
     addresses: null,
