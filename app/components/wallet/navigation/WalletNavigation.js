@@ -10,6 +10,7 @@ import sendIcon from '../../../assets/images/wallet-nav/send-ic.inline.svg';
 import receiveIcon from '../../../assets/images/wallet-nav/receive-ic.inline.svg';
 import transactionsIcon from '../../../assets/images/wallet-nav/transactions-ic.inline.svg';
 import settingsIcon from '../../../assets/images/wallet-nav/wallet-settings-2-ic.inline.svg';
+import utillityIcon from '../../../assets/images/wallet-nav/utility-ic.inline.svg';
 import masternodeIcon from '../../../assets/images/wallet-nav/masternode-ic.inline.svg';
 
 const messages = defineMessages({
@@ -37,6 +38,11 @@ const messages = defineMessages({
     id: 'wallet.navigation.settings',
     defaultMessage: '!!!Settings',
     description: 'Label for the "Settings" nav button in the wallet navigation.'
+  },
+  utilities: {
+    id: 'wallet.navigation.utilities',
+    defaultMessage: '!!!Utilities',
+    description: 'Label for the "Utilities" nav button in the wallet navigation.'
   },
   masternodes: {
     id: 'wallet.navigation.masternodes',
@@ -113,6 +119,15 @@ export default class WalletNavigation extends Component<Props> {
             icon={settingsIcon}
             isActive={isActiveNavItem('settings')}
             onClick={() => onNavItemClick('settings')}
+          />
+        </div>
+
+        <div className={styles.navItem}>
+          <WalletNavButton
+            label={intl.formatMessage(messages.utilities)}
+            icon={utillityIcon}
+            isActive={isActiveNavItem('utilities')}
+            onClick={() => onNavItemClick('utilities')}
           />
         </div>
 

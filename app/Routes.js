@@ -28,6 +28,8 @@ const WalletSettingsPage = resolver('containers/wallet/WalletSettingsPage');
 const MasternodesPage = resolver('containers/wallet/MasternodesPage');
 const MasternodesNetPage = resolver('containers/wallet/MasternodesNetPage');
 const MyMasternodePage = resolver('containers/wallet/MyMasternodePage');
+const UtilityPage = resolver('containers/wallet/UtilityPage');
+const UtilityPosCalcPage = resolver('containers/wallet/UtilityPosCalcPage');
 
 export const Routes = (
   <div>
@@ -44,6 +46,9 @@ export const Routes = (
       <Route path={ROUTES.WALLETS.SEND} component={WalletSendPage} />
       <Route path={ROUTES.WALLETS.RECEIVE} component={WalletReceivePage} />
       <Route path={ROUTES.WALLETS.SETTINGS} component={WalletSettingsPage} />
+      <Route path={ROUTES.WALLETS.UTILITIES.ROOT} component={UtilityPage}>
+        <Route path={ROUTES.WALLETS.UTILITIES.POSCALCULATOR} component={UtilityPosCalcPage}/>
+      </Route>
       <Route path={ROUTES.WALLETS.MASTERNODES.ROOT} component={MasternodesPage}>
         <Route path={ROUTES.WALLETS.MASTERNODES.MASTERNODESNET} component={MasternodesNetPage}/>
         <Route path={ROUTES.WALLETS.MASTERNODES.MYMASTERNODE} component={MyMasternodePage}/>

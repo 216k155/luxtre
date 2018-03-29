@@ -165,6 +165,8 @@
   "wallet.navigation.transactions": "Transactions",
   "wallet.navigation.masternodesnet": "Lux Masternodes Network",
   "wallet.navigation.mymasternode": "My Lux Masternode",
+  "wallet.navigation.utilities": "Utilities",
+  "wallet.navigation.utilityposcalc": "POS Calculator",
   "wallet.receive.page.addressCopyNotificationMessage": "Address: <strong>{walletAddress}</strong> copied to clipboard",
   "wallet.receive.page.copyAddressLabel": "Copy address",
   "wallet.receive.page.generateNewAddressButtonLabel": "Generate new address",
