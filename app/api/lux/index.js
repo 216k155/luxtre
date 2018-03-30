@@ -49,6 +49,7 @@ import {stopManyLuxMasternode} from './stopManyLuxMasternode';
 import {getLuxMasternodeOutputs} from './getLuxMasternodeOutputs';
 import {isLuxWalletEncrypted} from './isLuxWalletEncrypted';
 import {isLuxWalletLocked} from './isLuxWalletLocked';
+import {getLuxStakingStatus} from './getLuxStakingStatus';
 
 //masternode
 import {encryptLuxWallet} from './encryptLuxWallet';
@@ -308,6 +309,8 @@ export default class LuxApi {
         }
       }
       
+      const isStaking = await getLuxStakingStatus();
+
       const id = 'Main';
       let Wallets = [];
       try {
@@ -322,6 +325,7 @@ export default class LuxApi {
           assurance,
           hasPassword,
           isLocked,
+          isStaking,
           passwordUpdateDate
         }));
       } catch (error) {
@@ -347,6 +351,7 @@ export default class LuxApi {
           assurance,
           hasPassword,
           isLocked,
+          isStaking,
           passwordUpdateDate
         }));
       }
