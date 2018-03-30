@@ -1,7 +1,7 @@
 .component {
   overflow: visible;
   position: absolute;
-  right: 68px;
+  right: 40px;
   &:hover {
     .info {
       opacity: 1;
@@ -10,17 +10,17 @@
 }
 
 .icon {
-  height: 19px;
-  width: 19px;
+  height: 22px;
+  width: 22px;
 }
 
-.unlocked {
+.inactive {
   .icon :global {
     opacity: 0.2;
   }
 }
 
-.locked {}
+.active {}
 
 .info {
   opacity: 0;

@@ -4,6 +4,7 @@ import { observer, inject } from 'mobx-react';
 import TopBar from '../components/layout/TopBar';
 import NodeSyncStatusIcon from '../components/widgets/NodeSyncStatusIcon';
 import WalletLockStatusIcon from '../components/widgets/WalletLockStatusIcon';
+import WalletStakingStatusIcon from '../components/widgets/WalletStakingStatusIcon';
 import WalletTestEnvironmentLabel from '../components/widgets/WalletTestEnvironmentLabel';
 import type { InjectedProps } from '../types/injectedPropsType';
 import environment from '../environment';
@@ -38,6 +39,9 @@ export default class TopBarContainer extends Component<Props> {
           />
           : null
         }
+        <WalletStakingStatusIcon
+          isStaking={activeWallet.isStaking}
+        />
         <NodeSyncStatusIcon
           networkStatus={networkStatus}
           isMainnet={isMainnet}
