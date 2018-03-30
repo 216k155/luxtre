@@ -297,6 +297,9 @@
   "wallet.transactions.no.transactions": "!!!No transactions",
   "wallet.transactions.no.transactions.found": "!!!No transactions found",
   "wallet.transactions.search.hint": "!!!Search transaction",
-  "wallet.encrypted": "!!!Wallet encrypted",
+  "wallet.locked": "!!!Wallet encrypted and currently locked",
+  "wallet.unlocked": "!!!Wallet encrypted and currently unlocked",
+  "wallet.stakingActive": "!!!Staking is active",
+  "wallet.stakingInactive": "!!!Staking is not active",
   "window.about.title": "!!!About Luxcore"
 }

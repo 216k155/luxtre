@@ -5,9 +5,14 @@ import lockedIcon from '../../assets/images/top-bar/wallet-locked.png';
 import styles from './WalletLockStatusIcon.scss';
 
 const messages = defineMessages({
-  walletEncrypted: {
-    id: 'wallet.encrypted',
-    defaultMessage: '!!!Wallet encrypted',
+  walletLocked: {
+    id: 'wallet.locked',
+    defaultMessage: '!!!Wallet encrypted and currently locked',
+    description: 'Label for the wallet encrypted info overlay on wallet lock status icon.'
+  },
+  walletUnlocked: {
+    id: 'wallet.unlocked',
+    defaultMessage: '!!!Wallet encrypted and currently unlocked',
     description: 'Label for the wallet encrypted info overlay on wallet lock status icon.'
   },
 });
@@ -33,7 +38,7 @@ export default class WalletLockStatusIcon extends Component<Props> {
       <div className={componentClasses}>
         <img className={styles.icon} src={lockedIcon} role="presentation" />
         <div className={styles.info}>
-          {intl.formatMessage(messages.walletEncrypted)}
+          {isLocked ? intl.formatMessage(messages.walletLocked) : intl.formatMessage(messages.walletUnlocked)}
         </div>
       </div>
     );

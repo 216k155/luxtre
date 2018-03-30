@@ -4093,14 +4093,14 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "!!!Wallet encrypted",
+        "defaultMessage": "!!!Wallet encrypted and currently locked",
         "description": "Label for the wallet encrypted info overlay on wallet encrypt status icon.",
         "end": {
           "column": 3,
           "line": 13
         },
         "file": "app/components/widgets/WalletLockStatusIcon.js",
-        "id": "wallet.encrypted",
+        "id": "wallet.locked",
         "start": {
           "column": 16,
           "line": 9
@@ -4108,6 +4108,63 @@
       }
     ],
     "path": "app/components/widgets/WalletLockStatusIcon.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "!!!Wallet encrypted and currently unlocked",
+        "description": "Label for the wallet encrypted info overlay on wallet encrypt status icon.",
+        "end": {
+          "column": 3,
+          "line": 18
+        },
+        "file": "app/components/widgets/WalletLockStatusIcon.js",
+        "id": "wallet.unlocked",
+        "start": {
+          "column": 16,
+          "line": 14
+        }
+      }
+    ],
+    "path": "app/components/widgets/WalletLockStatusIcon.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "!!!Staking is active",
+        "description": "Label for the wallet staking info overlay on wallet staking status icon.",
+        "end": {
+          "column": 3,
+          "line": 13
+        },
+        "file": "app/components/widgets/WalletStakingStatusIcon.js",
+        "id": "wallet.stakingActive",
+        "start": {
+          "column": 16,
+          "line": 9
+        }
+      }
+    ],
+    "path": "app/components/widgets/WalletStakingStatusIcon.json"
+  },
+  {
+    "descriptors": [
+      {
+        "defaultMessage": "!!!Staking is not active",
+        "description": "Label for the wallet staking info overlay on wallet staking status icon.",
+        "end": {
+          "column": 3,
+          "line": 18
+        },
+        "file": "app/components/widgets/WalletStakingStatusIcon.js",
+        "id": "wallet.stakingInactive",
+        "start": {
+          "column": 16,
+          "line": 14
+        }
+      }
+    ],
+    "path": "app/components/widgets/WalletStakingStatusIcon.json"
   },
   {
     "descriptors": [
