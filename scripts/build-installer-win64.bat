@@ -48,7 +48,7 @@ popd & exit /b 1)
 7z\7z x luxd-wins.zip -y
 @if %errorlevel% neq 0 (@echo FAILED: 7z x luxd-wins.zip -y
 popd & exit /b 1)
-move luxd-wins\luxd.exe     installers\
+move luxd.exe     installers\
 rmdir /s/q luxd-wins 2>nul
 del luxd-wins.zip
 
