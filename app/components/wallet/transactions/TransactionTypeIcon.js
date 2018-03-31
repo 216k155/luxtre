@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 import SvgInline from 'react-svg-inline';
+import generateIcon from '../../../assets/images/wallet-nav/generate-ic.inline.svg';
 import expendIcon from '../../../assets/images/wallet-nav/send-ic.inline.svg';
 import incomeIcon from '../../../assets/images/wallet-nav/receive-ic.inline.svg';
 import exchangeIcon from '../../../assets/images/exchange-ic.inline.svg';
@@ -24,6 +25,9 @@ export default class TransactionTypeIcon extends Component<Props> {
 
     let icon;
     switch (iconType) {
+      case 'generate':
+        icon = generateIcon;
+        break;
       case 'expend':
         icon = expendIcon;
         break;

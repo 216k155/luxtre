@@ -300,7 +300,7 @@
   "wallet.transaction.transactionAmount": "Transaction amount",
   "wallet.transaction.transactionId": "Transaction ID",
   "wallet.transaction.type": "{currency} transaction",
-  "wallet.transaction.type.card": "Card Payment",
+  "wallet.transaction.type.generated": "{currency} generated",
   "wallet.transaction.type.exchange": "Exchange",
   "wallet.transactions.no.transactions": "No transactions",
   "wallet.transactions.no.transactions.found": "No transactions found",

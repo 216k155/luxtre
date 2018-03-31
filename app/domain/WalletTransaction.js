@@ -6,7 +6,7 @@ import { assuranceLevels } from '../config/transactionAssuranceConfig';
 
 export type TransactionState = 'pending' | 'failed' | 'ok';
 export type TrasactionAddresses = ?{ from: Array<string>, to: Array<string> };
-export type TransactionType = 'card' | 'expend' | 'income' | 'exchange';
+export type TransactionType = 'generate' | 'expend' | 'income' | 'exchange';
 
 export const transactionStates: {
   PENDING: TransactionState,
@@ -19,12 +19,12 @@ export const transactionStates: {
 };
 
 export const transactionTypes: {
-  CARD: TransactionType,
+  GENERATE: TransactionType,
   EXPEND: TransactionType,
   INCOME: TransactionType,
   EXCHANGE: TransactionType
 } = {
-  CARD: 'card',
+  GENERATE: 'generate',
   EXPEND: 'expend',
   INCOME: 'income',
   EXCHANGE: 'exchange'
@@ -57,12 +57,23 @@ export default class WalletTransaction {
   }
 
   getAssuranceLevelForMode(mode: AssuranceMode): AssuranceLevel {
-    if (this.numberOfConfirmations < mode.low) {
-      return assuranceLevels.LOW;
-    } else if (this.numberOfConfirmations < mode.medium) {
-      return assuranceLevels.MEDIUM;
+    if(this.type === transactionTypes.GENERATE)
+    {//staking coin
+      if (this.numberOfConfirmations < 80) {
+        return assuranceLevels.LOW;
+      } else if (this.numberOfConfirmations < 2160) {
+        return assuranceLevels.MEDIUM;
+      }
+      return assuranceLevels.HIGH;
     }
-    return assuranceLevels.HIGH;
+    else{
+      if (this.numberOfConfirmations < mode.low) {
+        return assuranceLevels.LOW;
+      } else if (this.numberOfConfirmations < mode.medium) {
+        return assuranceLevels.MEDIUM;
+      }
+      return assuranceLevels.HIGH;
+    }
   }
 
 }

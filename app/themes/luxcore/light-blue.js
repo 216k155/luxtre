@@ -201,6 +201,7 @@ export default {
   '--theme-transactions-priority-medium-background-color': '#e6aa00',
   '--theme-transactions-priority-heigh-background-color': '#007600',
   '--theme-transactions-search-background-color': '#fafbfc',
+  '--theme-transactions-icon-type-generate-background-color': '#05bdd3',
   '--theme-transactions-icon-type-expend-background-color': '#84a2d2',
   '--theme-transactions-icon-type-income-background-color': '#2dc06c',
   '--theme-transactions-icon-type-exchange-background-color': '#10aca4',
