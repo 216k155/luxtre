@@ -76,7 +76,8 @@ export type LuxTransaction = {
   // blockNumber: LuxBlockNumber,
   blockindex: string,
   blocktime: number,
-  time: number
+  time: number,
+  generated: boolean
   // value: string,
   // gasPrice: LuxGasPrice,
   // gas: LuxGas,

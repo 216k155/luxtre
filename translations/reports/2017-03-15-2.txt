@@ -241,7 +241,7 @@ Added keys:
   wallet.summary.page.transactionsLabel: !!!Number of transactions
   wallet.transaction.pendingLabel: !!!Pending
   wallet.transaction.type.lux: !!!LUX transaction
-  wallet.transaction.type.card: !!!Card payment
+  wallet.transaction.type.generated: !!!Generated
   wallet.transaction.type.exchange: !!!Exchange transaction
   wallet.transaction.verificationsLabel: !!!verifications
   wallet.transactions.no.transactions: !!!No transactions
@@ -336,7 +336,7 @@ Added keys:
   wallet.summary.page.transactionsLabel: !!!Number of transactions
   wallet.transaction.pendingLabel: !!!Pending
   wallet.transaction.type.lux: !!!LUX transaction
-  wallet.transaction.type.card: !!!Card payment
+  wallet.transaction.type.generated: !!!Lux generated
   wallet.transaction.type.exchange: !!!Exchange transaction
   wallet.transaction.verificationsLabel: !!!verifications
   wallet.transactions.no.transactions: !!!No transactions

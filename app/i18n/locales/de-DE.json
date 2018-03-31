@@ -292,7 +292,7 @@
   "wallet.transaction.transactionAmount": "!!!Transaction amount",
   "wallet.transaction.transactionId": "!!!Transaction ID",
   "wallet.transaction.type": "!!!{currency} transaction",
-  "wallet.transaction.type.card": "Kreditkartenzahlung",
+  "wallet.transaction.type.generated": "!!!{currency} generated",
   "wallet.transaction.type.exchange": "Währungsumtausch",
   "wallet.transactions.no.transactions": "Keine Transaktionen vorhanden",
   "wallet.transactions.no.transactions.found": "Keine Transaktionen gefunden",

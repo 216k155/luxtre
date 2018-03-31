@@ -292,7 +292,7 @@
   "wallet.transaction.transactionAmount": "取引手数料",
   "wallet.transaction.transactionId": "トランザクションID",
   "wallet.transaction.type": "{currency}トランザクション",
-  "wallet.transaction.type.card": "カード支払い",
+  "wallet.transaction.type.generated": "!!!{currency} generated",
   "wallet.transaction.type.exchange": "換金",
   "wallet.transactions.no.transactions": "トランザクションはありません",
   "wallet.transactions.no.transactions.found": "トランザクションが見つかりません",

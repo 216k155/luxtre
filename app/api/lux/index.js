@@ -399,6 +399,11 @@ export default class LuxApi {
       //transactions = transactions.concat(...sendTransactions);
       const allTxs = await Promise.all(
         transactions.filter( (tx: LuxTransaction) => tx.category !== 'move').map(async (tx: LuxTransaction) => {
+          if(tx.generated)
+          {
+            return _createWalletTransactionFromServerData(transactionTypes.GENERATE, tx);
+          }
+
           if (tx.category === 'receive') {
             return _createWalletTransactionFromServerData(transactionTypes.INCOME, tx);
           }
@@ -1030,7 +1035,7 @@ const _createWalletTransactionFromServerData = async (
     type,
     title: '',
     description: '',
-    amount: quantityToBigNumber(amount),
+    amount: type === transactionTypes.GENERATE ? quantityToBigNumber(0.6) : quantityToBigNumber(amount),
     date: unixTimestampToDate(time),
     numberOfConfirmations: confirmations,
     address,
