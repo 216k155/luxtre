@@ -20,10 +20,10 @@ import resolver from '../../../utils/imports';
 const { formattedWalletAmount } = resolver('utils/formatters');
 
 const messages = defineMessages({
-  card: {
-    id: 'wallet.transaction.type.card',
-    defaultMessage: '!!!Card payment',
-    description: 'Transaction type shown for credit card payments.'
+  generated: {
+    id: 'wallet.transaction.type.generated',
+    defaultMessage: '!!!{currency} generated',
+    description: 'Label "{currency} generated" for the transaction.'
   },
   type: {
     id: 'wallet.transaction.type',
@@ -188,9 +188,9 @@ export default class Transaction extends Component<Props, State> {
           <div className={styles.togglerContent}>
             <div className={styles.header}>
               <div className={styles.title}>
-                {data.type === transactionTypes.EXPEND
-                  ? intl.formatMessage(messages.sent, { currency })
-                  : intl.formatMessage(messages.received, { currency })}
+                {data.type === transactionTypes.GENERATE
+                  ? intl.formatMessage(messages.generated, { currency })
+                  : data.type === transactionTypes.EXPEND ? intl.formatMessage(messages.sent, { currency }): intl.formatMessage(messages.received, { currency })}
               </div>
               <div className={styles.amount}>
                 {// hide currency (we are showing symbol instead)

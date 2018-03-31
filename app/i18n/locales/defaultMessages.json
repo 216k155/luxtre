@@ -2609,14 +2609,14 @@
   {
     "descriptors": [
       {
-        "defaultMessage": "!!!Card payment",
-        "description": "Transaction type shown for credit card payments.",
+        "defaultMessage": "!!!{currency} generated",
+        "description": "Transaction type shown for {currency} generated.",
         "end": {
           "column": 3,
           "line": 24
         },
         "file": "app/components/wallet/transactions/Transaction.js",
-        "id": "wallet.transaction.type.card",
+        "id": "wallet.transaction.type.generated",
         "start": {
           "column": 8,
           "line": 20

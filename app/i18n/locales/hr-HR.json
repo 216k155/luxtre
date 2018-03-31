@@ -292,7 +292,7 @@
   "wallet.transaction.transactionAmount": "!!!Transaction amount",
   "wallet.transaction.transactionId": "ID transakcije",
   "wallet.transaction.type": "!!!{currency} transaction",
-  "wallet.transaction.type.card": "Plaćanje karticom",
+  "wallet.transaction.type.generated": "{currency} generated",
   "wallet.transaction.type.exchange": "Konverzija",
   "wallet.transactions.no.transactions": "Nema transakcija",
   "wallet.transactions.no.transactions.found": "Ne postoje transakcije koje zadovoljavaju uvjete pretraživanja",
