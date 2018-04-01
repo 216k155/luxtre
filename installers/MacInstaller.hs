@@ -161,7 +161,7 @@ writeLauncherFile dir _ = do
       , "cd \"$(dirname $0)\""
       , "mkdir -p \"$HOME/Library/Application Support/Luxcore/Secrets-1.0\""
       , "mkdir -p \"$HOME/Library/Application Support/Luxcore/Logs/pub\""
-      , "./luxd -daemon -rpcuser=rpcuser -rpcpassword=rpcpwd"
+      , "(ps aux | grep \"[l]uxd\") || ./luxd -daemon -rpcuser=rpcuser -rpcpassword=rpcpwd"
       , "./Frontend"
       ]
 
