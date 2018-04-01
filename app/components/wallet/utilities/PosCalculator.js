@@ -5,7 +5,6 @@ import styles from './PosCalculator.scss';
 
 type State = {
   numberOfCoinsStart: number,
-  hours: number,
   ageOfTransaction: number,
   posDifficulty: number,
 };
@@ -14,7 +13,6 @@ type State = {
 export default class PosCalculator extends Component<State> {
   state = {
     numberOfCoinsStart: 1000,
-    hours:36,
     ageOfTransaction: 31,
     posDifficulty: 10,
   };
@@ -33,18 +31,18 @@ export default class PosCalculator extends Component<State> {
 
   calculateProbStake = (days:number, coins:number, difficulty:number) => {
     var prob = 0;
-  //  if (days > 30) {
+    if (days > 30) {
         var maxTarget = Math.pow(2, 224);
         var target = maxTarget / difficulty;
         var dayWeight = Math.min(days, 90) - 30;
         prob = (target * coins * dayWeight) / Math.pow(2, 256);
-  //  }
+    }
     return prob;
   };
 
-  calculateProbNextBlock = (days:number, hours:numbers, coins:number, difficulty:number) => {
+  calculateProbNextBlock = (days:number, coins:number, difficulty:number) => {
     var prob = this.calculateProbStake(days, coins, difficulty);
-    var res = 1 - Math.pow(1 - prob, 60 * 10 * 6 * hours);
+    var res = 1 - Math.pow(1 - prob, 60 * 10);
     return res;
   };
 
@@ -98,10 +96,6 @@ export default class PosCalculator extends Component<State> {
           <input value={this.state.numberOfCoinsStart} type="number" min="0" max="1000000000" onChange={event => this.setState({numberOfCoinsStart: event.target.value.replace(/\D/,'')})}/>
         </div>
         <div className={styles.row}> 
-          <label className={styles.line}> Elapsed Time (Hours) </label>
-          <input value={this.state.hours} type="number" min="0" max="1000000000" onChange={event => this.setState({hours: event.target.value.replace(/\D/,'')})}/>
-        </div>
-        <div className={styles.row}> 
           <label className={styles.line}> Age of transaction (days) </label>
           <input value={this.state.ageOfTransaction} type="number" min="0" max="1000000000" onChange={event => this.setState({ageOfTransaction: event.target.value.replace(/\D/,'')})}/>
         </div>
@@ -109,10 +103,30 @@ export default class PosCalculator extends Component<State> {
           <label className={styles.line}> POS difficulty </label>
           <input value={this.state.posDifficulty} type="number" min="0" max="1000000000" onChange={event => this.setState({posDifficulty: event.target.value.replace(/\D/,'')})}/>
         </div>
-        <div className={styles.result}> 
-          <label className={styles.line}>  </label>
-          <label className={styles.num}> {this.toFixed(this.calculateProbNextBlock(this.state.ageOfTransaction, this.state.hours, this.state.numberOfCoinsStart, this.state.posDifficulty) * 100, 6)} %</label>
-        </div>
+        <table className={styles.result}>
+          <thead>
+            <tr>
+                <th><label id="prob_mint">Minting POS block within</label></th>
+                <th><label id="prob_24h">24 hours</label></th>
+                <th><label id="prob_31d">31 days</label></th>
+                <th><label id="prob_1y">1 year</label></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+                <th className={styles.side}><label id="prob_prob">Probability</label></th>
+                <td className={styles.num}><label id="probBlockToday">{this.toFixed(this.calculateProbBlockToday(this.state.ageOfTransaction, this.state.numberOfCoinsStart, this.state.posDifficulty) * 100, 6)}%</label></td>
+                <td className={styles.num}><label id="probBlock31d">{this.toFixed(this.calculateProbBlockNDays(this.state.ageOfTransaction, this.state.numberOfCoinsStart, this.state.posDifficulty, 31) * 100, 6)}%</label></td>
+                <td className={styles.num}><label id="probBlockYear">{this.toFixed(this.calculateProbBlockNDays(this.state.ageOfTransaction, this.state.numberOfCoinsStart, this.state.posDifficulty, 365) * 100, 6)}%</label></td>
+            </tr>
+            <tr>
+                <th className={styles.side}><label id="reward_block">Reward</label></th>
+                <td className={styles.num}><label id="rewardBlockToday">{this.calculateReward(parseFloat(this.state.ageOfTransaction) + 1, this.state.numberOfCoinsStart)}LUX</label></td>
+                <td className={styles.num}><label id="rewardBlock31d">{this.calculateReward(parseFloat(this.state.ageOfTransaction) + 31, this.state.numberOfCoinsStart)}LUX</label></td>
+                <td className={styles.num}><label id="rewardBlockYear">{this.calculateReward(parseFloat(this.state.ageOfTransaction) + 365, this.state.numberOfCoinsStart)}LUX</label></td>
+            </tr>
+        </tbody>
+        </table>
       </div>
     );
   }
