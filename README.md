@@ -1,6 +1,12 @@
-# luxcore
+![LUX Logo](https://github.com/216k155/lux/blob/master/src/qt/res/images/lux_logo_horizontal.png)
 
-Luxcore - cryptocurrency wallet
+# LUXtre Wallet
+
+Luxcore aims to deploy Smart Contracts, LuxGate and Parallel Masternodes as part of its technical and business roadmap. A QT based wallet supporting these modules brings its own share of complexities in terms of scalability of the platform, ease of adding additional plug-ins, dApps and functionalities.
+LUXtre (a take on the latin word, Lustre, meaning – to brighten) a hierarchical deterministic wallet client was born out of this desire to simplify both the end user experience and enhance the technical capabilities. Based on Daedalus, LUXtre goes one step ahead to enable Hybrid coin support and Masternode features.
+
+It combines Javascript, HTML and CSS as it is built on the Electron platform (https://electronjs.org/). While it opens up the amazing capability of adding multiple home-grown and other plugins, it also ensures secure API connectivity.
+LUXtre is platform agnostic and will form the base for our upcoming technical features like LuxGate and ParallelMasternodes, while actively supporting Smart Contract functionality.
 
 ## Automated build
 
@@ -32,15 +38,15 @@ Dependencies:
    - on Windows: `Node.js`, `7zip`
 
 Location:
-   - on OS X:    https://github.com/input-output-hk/luxcore/blob/master/scripts/osx-build-fresh-luxcore.sh
-   - on Windows: https://github.com/input-output-hk/luxcore/blob/master/scripts/windows-build-fresh-luxcore.bat
+   - on OS X:    https://github.com/216k155/luxcore/blob/master/scripts/osx-build-fresh-luxcore.sh
+   - on Windows: https://github.com/216k155/luxcore/blob/master/scripts/windows-build-fresh-luxcore.bat
 
 Invocation:
    ```shell
    {osx,windows}-build-fresh-luxcore.{sh,bat} [BRANCH] [GITHUB-USER] [OPTIONS...]
    ```
    ..where `BRANCH` defaults to the current release branch, and `GITHUB-USER`
-   defaults to `input-output-hk`.
+   defaults to `216k155`.
 
    The remaining `OPTIONS` are passed as-is to the respective build scripts.
 
@@ -72,7 +78,7 @@ defaults to 6.x*
 
 ### Development - with Luxcoin Wallet (luxcore-bridge)
 
-Build and run luxcore-bridge [using instructions in the repo](https://github.com/input-output-hk/pos-haskell-prototype/tree/master/luxcore)
+Build and run luxcore-bridge [using instructions in the repo](https://github.com/216k155/luxcore)
 
 Symlink the npm package in the subfolder `pos-haskell-prototype/luxcore`:
 * `npm link` (inside the luxcore sub folder of the Luxcoin client)
@@ -121,7 +127,7 @@ and then this:
 $ npm run test-watch
 ```
 
-You can find more details regarding tests setup within [Running Luxcore acceptance tests](https://github.com/input-output-hk/luxcore/blob/master/features/README.md) README file.
+You can find more details regarding tests setup within [Running Luxcore acceptance tests](https://github.com/216k155/luxcore/README.md) README file.
 
 ### CSS Modules
 
