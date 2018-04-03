@@ -24,6 +24,7 @@ import { getLuxTransactions } from './getLuxTransactions';
 import { getLuxBlockNumber } from './getLuxBlockNumber';
 import { getLuxAddressesByAccount } from './getLuxAddressesByAccount';
 import { importLuxPrivateKey } from './importLuxPrivateKey';
+import { exportLuxPrivateKey } from './exportLuxPrivateKey';
 import { setLuxAccount } from './setLuxAccount';
 import { getLuxAccountAddress } from './getLuxAccountAddress';
 import { isValidLuxAddress } from './isValidLuxAddress';
@@ -93,6 +94,8 @@ import type {
   UnlockWalletRequest,
   UnlockWalletResponse,
   LockWalletResponse,
+  ImportPrivateKeyResponse,
+  ExportPrivateKeyResponse,
   GetSyncProgressResponse,
   GetTransactionsRequest,
   GetTransactionsResponse,
@@ -829,6 +832,33 @@ export default class LuxApi {
         throw new WalletAlreadyImportedError();
       }
       throw new WalletFileImportError();
+    }
+  }
+
+  async importPrivateKey(privateKey: string): Promise<ImportPrivateKeyResponse> {
+    Logger.debug('LuxApi::importPrivateKey called');
+    try {
+      const label = '';
+      const rescan = false;
+      await importLuxPrivateKey({privateKey, label, rescan});
+      Logger.debug('LuxApi::importPrivateKey success');
+      return true;
+    } catch (error) {
+      Logger.error('LuxApi::importPrivateKey error: ' + stringifyError(error));
+      throw new GenericApiError();
+    }
+    return false;
+  }
+
+  async exportPrivateKey(address: string): Promise<ExportPrivateKeyResponse> {
+    Logger.debug('LuxApi::exportPrivateKey called');
+    try {
+      const privateKey = await exportLuxPrivateKey({address});
+      Logger.debug('LuxApi::exportPrivateKey success');
+      return privateKey;
+    } catch (error) {
+      Logger.error('LuxApi::exportPrivateKey error: ' + stringifyError(error));
+      throw new GenericApiError();
     }
   }
 
