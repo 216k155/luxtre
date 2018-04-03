@@ -32,6 +32,7 @@ import { isValidMnemonic } from '../../../lib/decrypt';
 import WalletAddress from '../../domain/WalletAddress';
 import { newLuxWallet } from './newLuxWallet';
 import { getLuxNewAddress } from './getLuxNewAddress';
+import { backupLuxWallet } from './backupLuxWallet';
 import { restoreLuxWallet } from './restoreLuxWallet';
 import { updateLuxWallet } from './updateLuxWallet';
 import { exportLuxBackupJSON } from './exportLuxBackupJSON';
@@ -96,6 +97,7 @@ import type {
   LockWalletResponse,
   ImportPrivateKeyResponse,
   ExportPrivateKeyResponse,
+  BackupWalletResponse,
   GetSyncProgressResponse,
   GetTransactionsRequest,
   GetTransactionsResponse,
@@ -860,6 +862,19 @@ export default class LuxApi {
       Logger.error('LuxApi::exportPrivateKey error: ' + stringifyError(error));
       throw new GenericApiError();
     }
+  }
+
+  async backupWallet(destination: string): Promise<BackupWalletResponse> {
+    Logger.debug('LuxApi::backupWallet called');
+    try {
+      await backupLuxWallet({destination});
+      Logger.debug('LuxApi::backupWallet success');
+      return true;
+    } catch (error) {
+      Logger.error('LuxApi::backupWallet error: ' + stringifyError(error));
+      throw new GenericApiError();
+    }
+    return false;
   }
 
   async nextUpdate(): Promise<NextUpdateResponse> {

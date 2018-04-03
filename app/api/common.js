@@ -56,6 +56,7 @@ export type UnlockWalletResponse = boolean;
 export type LockWalletResponse = boolean;
 export type ImportPrivateKeyResponse = boolean;
 export type ExportPrivateKeyResponse = string;
+export type BackupWalletResponse = boolean;
 export type GetWalletsResponse = Array<Wallet>;
 export type GetWalletRecoveryPhraseResponse = Array<string>;
 export type RestoreWalletResponse = Wallet;
