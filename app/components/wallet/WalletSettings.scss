@@ -1,3 +1,4 @@
+@import '../../themes/mixins/loading-spinner';
 @import '../../themes/mixins/error-message';
 
 .component {
@@ -61,10 +62,24 @@
   }
 }
 
+.nextButton {
+  display: block !important;
+  margin: 30px auto 0;
+}
+
 .actionButtons {
   display: flex;
   justify-content: space-around;
   margin-bottom: 10px;
+
+  .button {
+    height: 50px;
+    font-size: 14px;
+
+    &.submitButtonSpinning {
+      @include loading-spinner("../../assets/images/spinner-light.svg");
+    }
+  }
 
   .exportLink {
     color: var(--theme-bordered-box-text-color);
@@ -72,11 +87,6 @@
     font-family: var(--font-medium);
     font-size: 16px;
   }
-}
-
-.nextButton {
-  display: block !important;
-  margin: 30px auto 0;
 }
 
 .error {
