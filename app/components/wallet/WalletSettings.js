@@ -19,6 +19,8 @@ import WalletExportDialog from './settings/export-to-file/WalletExportToFileDial
 import WalletExportToFileDialogContainer from '../../containers/wallet/settings/WalletExportToFileDialogContainer';
 import WalletUnlockDialog from '../../components/wallet/WalletUnlockDialog';
 import WalletUnlockDialogContainer from '../../containers/wallet/dialogs/WalletUnlockDialogContainer';
+import ImportPrivateKeyDialog from '../../components/wallet/ImportPrivateKeyDialog';
+import ImportPrivateKeyDialogContainer from '../../containers/wallet/dialogs/ImportPrivateKeyDialogContainer';
 /* eslint-disable max-len */
 // import ExportPaperWalletPrinterCopyDialog from './settings/paper-wallet-export-dialogs/ExportPaperWalletPrinterCopyDialog';
 // import ExportPaperWalletPrinterCopyDialogContainer from '../../containers/wallet/dialogs/paper-wallet-export/ExportPaperWalletPrinterCopyDialogContainer';
@@ -94,6 +96,8 @@ type Props = {
   onCancelEditing: Function,
   onUnlockWallet: Function,
   onLockWallet: Function,
+  onExportPrivateKey: Function,
+  onImportPrivateKey: Function,
   nameValidator: Function,
   activeField: ?string,
   isSubmitting: boolean,
@@ -106,6 +110,10 @@ export default class WalletSettings extends Component<Props> {
 
   static contextTypes = {
     intl: intlShape.isRequired,
+  };
+
+  state = {
+    actionType: ''
   };
 
   componentWillUnmount() {
@@ -144,9 +152,23 @@ export default class WalletSettings extends Component<Props> {
       styles.nextButton,
     ]);
 
+    const exportButtonClasses = classnames([
+      'primary',
+      'exportButton',
+      styles.button,
+      isSubmitting ? styles.submitButtonSpinning : null,
+    ]);
+
+    const importButtonClasses = classnames([
+      'flat',
+      'importButton',
+      styles.button,
+      isSubmitting ? styles.submitButtonSpinning : null,
+    ]);
+
     return (
       <div className={styles.component}>
-	<div className={styles.categoryTitle}>
+	      <div className={styles.categoryTitle}>
           Settings
         </div>
         <BorderedBox>
@@ -187,8 +209,10 @@ export default class WalletSettings extends Component<Props> {
                 className={buttonClasses}
                 label={isWalletLocked ? intl.formatMessage(messages.unlockButtonLabel) : intl.formatMessage(messages.lockButtonLabel)}
                 onMouseUp={() => {
-                  if(isWalletLocked)
+                  if(isWalletLocked){
+                    this.setState({ actionType: 'unlock' });  
                     openDialogAction({dialog: WalletUnlockDialog});
+                  }
                   else
                     onLockWallet();
                 }}
@@ -199,6 +223,40 @@ export default class WalletSettings extends Component<Props> {
           }
           
           
+        </BorderedBox>
+
+        <BorderedBox>
+          <div className={styles.export}>
+            <h2>Export / Import Private Key</h2>
+          </div>
+
+          {error && <p className={styles.error}>{intl.formatMessage(error)}</p>}
+
+          
+          <div className={styles.actionButtons}>
+            <Button
+              className={exportButtonClasses}
+              label='Export'
+              onMouseUp={() => {
+                if(isWalletLocked){
+                  this.setState({ actionType: 'exportPrivateKey' });
+                  openDialogAction({dialog: WalletUnlockDialog});
+                }
+                else
+                  onExportPrivateKey();
+              }}
+              skin={<SimpleButtonSkin />}
+            />
+
+            <Button
+              className={importButtonClasses}
+              label="Import"
+              onMouseUp={() => {
+                openDialogAction({dialog: ImportPrivateKeyDialog});
+              }}
+              skin={<SimpleButtonSkin />}
+            />
+          </div>
         </BorderedBox>
 
         {isDialogOpen(ChangeWalletPasswordDialog) ? (
@@ -215,9 +273,21 @@ export default class WalletSettings extends Component<Props> {
 
         {isDialogOpen(WalletUnlockDialog) ? (
           <WalletUnlockDialogContainer
-            actionType = 'unlock' 
+            actionType = {this.state.actionType}
             unlockWallet = {(password) => (
               onUnlockWallet(password)
+            )}
+
+            exportPrivateKey = {(password) => (
+              onExportPrivateKey(password)
+            )}
+          />
+        ) : null}
+
+        {isDialogOpen(ImportPrivateKeyDialog) ? (
+          <ImportPrivateKeyDialogContainer
+            importPrivateKey = {(privateKey) => (
+              onImportPrivateKey(privateKey)
             )}
           />
         ) : null}

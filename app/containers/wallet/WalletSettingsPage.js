@@ -30,6 +30,8 @@ export default class WalletSettingsPage extends Component<Props> {
       cancelEditingWalletField,
       updateWalletField,
       unlockWallet,
+      exportPrivateKey,
+      importPrivateKey,
       lockWallet,
     } = actions.lux.walletSettings;
 
@@ -56,6 +58,8 @@ export default class WalletSettingsPage extends Component<Props> {
         onCancelEditing={cancelEditingWalletField.trigger}
         onUnlockWallet={(password) => unlockWallet.trigger({ password })}
         onLockWallet={lockWallet.trigger}
+        onExportPrivateKey={(password) => exportPrivateKey.trigger({ password })}
+        onImportPrivateKey={(privateKey) => importPrivateKey.trigger({ privateKey })}
         activeField={walletFieldBeingEdited}
         nameValidator={name => isValidWalletName(name)}
       />

@@ -11,6 +11,7 @@ const WalletUnlockDialog = resolver('components/wallet/WalletUnlockDialog');
 type Props = {
   masternodeAction: Function,
   unlockWallet: Function,
+  exportPrivateKey: Function,
   stores: any | StoresMap,
   actions: any | ActionsMap,
   actionType: string,
@@ -39,6 +40,9 @@ export default class WalletUnlockDialogContainer extends Component<Props> {
       case 'unlock':
         this.props.unlockWallet(password);
         break;
+      case 'exportPrivateKey':
+        this.props.exportPrivateKey(password);
+        break;
     }
   };
 
@@ -52,7 +56,7 @@ export default class WalletUnlockDialogContainer extends Component<Props> {
       stopManyMasternodeRequest,
      } = masternodes;
 
-     const {unlockWalletRequest} = walletSettings;
+     const {unlockWalletRequest, exportPrivateKeyRequest} = walletSettings;
      switch (actionType){
       case 'start':
         startMasternodeRequest.reset();
@@ -68,6 +72,9 @@ export default class WalletUnlockDialogContainer extends Component<Props> {
         break;
       case 'unlock':
         unlockWalletRequest.reset();
+        break;
+      case 'exportPrivateKey':
+        exportPrivateKeyRequest.reset();
         break;
     }
   }
