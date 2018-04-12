@@ -259,6 +259,33 @@ export default class WalletSettings extends Component<Props> {
           </div>
         </BorderedBox>
 
+        <BorderedBox>
+          <div className={styles.export}>
+            <h2>Backup / Restore Wallet</h2>
+          </div>
+
+          {error && <p className={styles.error}>{intl.formatMessage(error)}</p>}
+
+          
+          <div className={styles.actionButtons}>
+            <Button
+              className={exportButtonClasses}
+              label='Backup'
+              onMouseUp={() => {
+              }}
+              skin={<SimpleButtonSkin />}
+            />
+
+            <Button
+              className={importButtonClasses}
+              label="Restore"
+              onMouseUp={() => {
+              }}
+              skin={<SimpleButtonSkin />}
+            />
+          </div>
+        </BorderedBox>
+
         {isDialogOpen(ChangeWalletPasswordDialog) ? (
           <ChangeWalletPasswordDialogContainer />
         ) : null}
