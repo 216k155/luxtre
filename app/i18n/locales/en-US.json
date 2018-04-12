@@ -112,7 +112,7 @@
   "static.about.content.luxcore.members": "Brian Oliver, 216K155, Cosmin Tudor, Brian F., Hari Sadasivan, Sebastian Berger, Eric Juta, Guillaume Huot, Tran Nguyen, Maxim Dzekelev, Ilya Tereshin (Arslan), John Kim, Ben Wellington, David Olschan-Wilson, Paul P., Zach Forsyth, Lucas Marshall, SecretAgentMan, Leo Patino (TopoX)",
   "static.about.copyright": "Luxcore Limited. Licensed under",
   "static.about.license": "MIT licence",
-  "static.about.release.version": "4.3.0",
+  "static.about.release.version": "4.3.1",
   "static.about.title": "Luxcore",
   "test.environment.testnetLabel": "Release candidate",
   "wallet.add.dialog.create.description": "Create a new wallet",
