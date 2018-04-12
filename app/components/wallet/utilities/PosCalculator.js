@@ -107,28 +107,22 @@ export default class PosCalculator extends Component<State> {
           <thead>
             <tr>
                 <th><label id="prob_mint">Minting POS block within</label></th>
-                <th><label id="prob_10m">10 min</label></th>
                 <th><label id="prob_24h">24 hours</label></th>
                 <th><label id="prob_31d">31 days</label></th>
-                <th><label id="prob_90d">90 days</label></th>
                 <th><label id="prob_1y">1 year</label></th>
             </tr>
           </thead>
           <tbody>
             <tr>
                 <th className={styles.side}><label id="prob_prob">Probability</label></th>
-                <td className={styles.num}><label id="probNextBlock">{this.toFixed(this.calculateProbNextBlock(this.state.ageOfTransaction, this.state.numberOfCoinsStart, this.state.posDifficulty) * 100, 6)}%</label></td>
                 <td className={styles.num}><label id="probBlockToday">{this.toFixed(this.calculateProbBlockToday(this.state.ageOfTransaction, this.state.numberOfCoinsStart, this.state.posDifficulty) * 100, 6)}%</label></td>
                 <td className={styles.num}><label id="probBlock31d">{this.toFixed(this.calculateProbBlockNDays(this.state.ageOfTransaction, this.state.numberOfCoinsStart, this.state.posDifficulty, 31) * 100, 6)}%</label></td>
-                <td className={styles.num}><label id="probBlock90d">{this.toFixed(this.calculateProbBlockNDays(this.state.ageOfTransaction, this.state.numberOfCoinsStart, this.state.posDifficulty, 90) * 100, 6)}%</label></td>
                 <td className={styles.num}><label id="probBlockYear">{this.toFixed(this.calculateProbBlockNDays(this.state.ageOfTransaction, this.state.numberOfCoinsStart, this.state.posDifficulty, 365) * 100, 6)}%</label></td>
             </tr>
             <tr>
                 <th className={styles.side}><label id="reward_block">Reward</label></th>
-                <td className={styles.num}><label id="rewardNextBlock">{this.calculateReward(parseFloat(this.state.ageOfTransaction), this.state.numberOfCoinsStart)}LUX</label></td>
                 <td className={styles.num}><label id="rewardBlockToday">{this.calculateReward(parseFloat(this.state.ageOfTransaction) + 1, this.state.numberOfCoinsStart)}LUX</label></td>
                 <td className={styles.num}><label id="rewardBlock31d">{this.calculateReward(parseFloat(this.state.ageOfTransaction) + 31, this.state.numberOfCoinsStart)}LUX</label></td>
-                <td className={styles.num}><label id="rewardBlock90d">{this.calculateReward(parseFloat(this.state.ageOfTransaction) + 90, this.state.numberOfCoinsStart)}LUX</label></td>
                 <td className={styles.num}><label id="rewardBlockYear">{this.calculateReward(parseFloat(this.state.ageOfTransaction) + 365, this.state.numberOfCoinsStart)}LUX</label></td>
             </tr>
         </tbody>

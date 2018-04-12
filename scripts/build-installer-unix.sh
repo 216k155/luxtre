@@ -109,7 +109,7 @@ du -sh   ${LUXCOIN_ARTIFACT_FULL_NAME}.zip
 unzip -o ${LUXCOIN_ARTIFACT_FULL_NAME}.zip
 rm       ${LUXCOIN_ARTIFACT_FULL_NAME}.zip
 
-mv luxd-mac/luxd installers/
+mv luxd installers/
 rm -rf luxd-mac
 
 cp -rf scripts/launcher-unix.sh installers/launcher.sh
