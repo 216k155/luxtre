@@ -14,7 +14,7 @@ import SelectSkin from 'react-polymorph/lib/skins/simple/raw/SelectSkin';
 import Autocomplete from 'react-polymorph/lib/components/Autocomplete';
 import SimpleAutocompleteSkin from 'react-polymorph/lib/skins/simple/raw/AutocompleteSkin';
 import ReactToolboxMobxForm from '../../../utils/ReactToolboxMobxForm';
-import LuxCertificateUploadWidget from '../../widgets/forms/LuxCertificateUploadWidget';
+//import LuxCertificateUploadWidget from '../../widgets/forms/LuxCertificateUploadWidget';
 import LuxRedemptionChoices from './LuxRedemptionChoices';
 import LuxRedemptionDisclaimer from './LuxRedemptionDisclaimer';
 import BorderedBox from '../../widgets/BorderedBox';
@@ -480,7 +480,7 @@ export default class LuxRedemptionForm extends Component<Props> {
                 />
               </div>
 
-              {showUploadWidget ? (
+              {/*showUploadWidget ? (
                 <div className={styles.certificate}>
                   <LuxCertificateUploadWidget
                     {...certificateField.bind()}
@@ -499,7 +499,7 @@ export default class LuxRedemptionForm extends Component<Props> {
                     }}
                   />
                 </div>
-              ) : null}
+              ) : null*/}
             </div>
 
             {walletHasPassword ? (
