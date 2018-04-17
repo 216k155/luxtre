@@ -35,19 +35,28 @@ export default class Wallet extends Component<Props> {
   };
 
   render() {
+    const { sidebar } = this.props.stores;
     const { wallets, luxRedemption } = this.props.stores.lux;
     const { actions } = this.props;
     const { showLuxRedemptionSuccessMessage, amountRedeemed } = luxRedemption;
+    const {isShowingSubMenus} = sidebar;
     if (!wallets.active) return <MainLayout><LoadingSpinner /></MainLayout>;
+
     return (
       <MainLayout>
-        <WalletWithNavigation
-          isActiveScreen={this.isActiveScreen}
-          onWalletNavItemClick={this.handleWalletNavItemClick}
-	        amount={wallets.active.amount.toFormat(DECIMAL_PLACES_IN_LUX)}
-        >
-          {this.props.children}
-        </WalletWithNavigation>
+        {isShowingSubMenus ?
+          <WalletWithNavigation
+            isActiveScreen={this.isActiveScreen}
+            onWalletNavItemClick={this.handleWalletNavItemClick}
+            amount={wallets.active.amount.toFormat(DECIMAL_PLACES_IN_LUX)}
+          >
+            {this.props.children}
+          </WalletWithNavigation>
+          :
+          <div>
+            {/*code Exchange UI here */}
+          </div>  
+        }
       </MainLayout>
     );
   }

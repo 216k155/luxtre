@@ -21,7 +21,6 @@ import SvgInline from 'react-svg-inline';
 import CopyToClipboard from 'react-copy-to-clipboard';
 import iconCopy from '../../../assets/images/clipboard-ic.inline.svg';
 import iconRemove from '../../../assets/images/masternode-remove.inline.svg';
-import iconInfo from '../../../assets/images/info.inline.svg';
 import iconStart from '../../../assets/images/masternode-start.inline.svg';
 import iconStop from '../../../assets/images/masternode-stop.inline.svg';
 

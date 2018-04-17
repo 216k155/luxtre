@@ -5,8 +5,8 @@ import type { Node } from 'react';
 import classNames from 'classnames';
 import { observer } from 'mobx-react';
 import Wallet from '../../domain/Wallet';
-import menuIconOpened from '../../assets/images/menu-opened-ic.inline.svg';
-import menuIconClosed from '../../assets/images/menu-ic.inline.svg';
+import menuIconClosed from '../../assets/images/exchange-closed.inline.svg';
+import menuIconOpened from '../../assets/images/exchange-opened.inline.svg';
 import styles from './TopBar.scss';
 import resolver from '../../utils/imports';
 import { matchRoute } from '../../utils/routing';
@@ -31,13 +31,22 @@ export default class TopBar extends Component<Props> {
     const showWalletInfo = walletRoutesMatch && activeWallet != null;
     const topBarStyles = classNames([
       styles.topBar,
-      styles.withoutWallet,
+      showSubMenus ? styles.withoutExchange : styles.withExchange
     ]);
 
 
+    const sidebarToggleIcon = (
+      <SvgInline
+        svg={showSubMenus ? menuIconOpened : menuIconClosed}
+        className={styles.sidebarIcon}
+      />
+    );
 
     return (
       <header className={topBarStyles}>
+        <button className={styles.leftIcon} onClick={onToggleSidebar}>
+          {sidebarToggleIcon}
+        </button>
         {this.props.children}
       </header>
     );
