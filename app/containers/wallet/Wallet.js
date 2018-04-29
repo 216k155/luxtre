@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import MainLayout from '../MainLayout';
 import WalletWithNavigation from '../../components/wallet/layouts/WalletWithNavigation';
+import ExchangePage from '../../components/exchange/ExchangePage';
 import LoadingSpinner from '../../components/widgets/LoadingSpinner';
 import LuxRedemptionSuccessOverlay from '../../components/wallet/lux-redemption/LuxRedemptionSuccessOverlay';
 import { buildRoute } from '../../utils/routing';
@@ -53,9 +54,9 @@ export default class Wallet extends Component<Props> {
             {this.props.children}
           </WalletWithNavigation>
           :
-          <div>
+          <ExchangePage>
             {/*code Exchange UI here */}
-          </div>  
+          </ExchangePage>  
         }
       </MainLayout>
     );
