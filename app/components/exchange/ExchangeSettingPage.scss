@@ -1,10 +1,14 @@
 .component {
   display: flex;
-  padding: 10px;
+  padding: 7px;
   :global .SimpleFormField_root {
+    .SimpleFormField_error{
+      display:none;
+    }
     .SimpleFormField_inputWrapper { 
       .SimpleInput_input {
         padding:7px;
+        font-weight: bold;
       }
     }
     &:after {
@@ -17,8 +21,14 @@
       .SimpleFormField_inputWrapper {
         .SimpleInput_input{
           padding-left: 38px;
-        //  background-color: transparent;
+          //  background-color: transparent;
         //  border: 0px;
+        }
+        .SimpleOptions_ul {
+          font-size: 14px;
+          .SimpleOptions_option{
+            padding: 10px;
+          }
         }
       }
     }
@@ -28,7 +38,7 @@
 //Exchange Setting
 
 .selectWidth {
-  width: 40%;
+  width: 45%;
 }
 
 .span {
@@ -37,6 +47,9 @@
   padding-top: 7px;
 }
 
+.divTotal {
+  margin-top: 20px;
+}
 
 .imageStyle {
   width: 20px;
@@ -52,11 +65,9 @@
   padding: 20px;
 }
 
-
 .numericInput {
   width:35%;
 }
-
 
 .half {
   display: inline-block;
@@ -72,6 +83,10 @@
   margin: 0px 30px;
 }
 
+.spanMargin36 {
+  margin: 0px 36px;
+}
+
 .customOptionStyle {
   height: 30px;
 }
@@ -84,6 +99,8 @@
 .swapbutton {
   :global .SimpleButton_root  {
     width: 50%;
+    margin-top: 40px;
+    margin-bottom: 40px;
     margin-left: 25%;
   }
 }
@@ -94,23 +111,39 @@
 
 .checkboxTab{
   width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
+  margin-bottom: 30px;
+}
+
+.divStatus {
+  display: inline-block;
+  width: calc(66% - 14px);
+  height: 80px;
+  font: bold 14px/30px Georgia, serif;
+  padding-left: 30px;
+  border: solid 1px var(--theme-bordered-box-background-color);
+  margin-right:20px;
+  margin-bottom: 20px;
+}
+
+.divBalance {
+  display: inline-block;
+  width: calc(33% - 6px);
+  height: 80px;
+  font: bold 14px/30px Georgia, serif;
+  padding-left: 20px;
+  border: solid 1px var(--theme-bordered-box-background-color);
+  margin-bottom: 20px;
 }
 
 .div {
   margin-bottom: 20px;
+  border: solid 1px var(--theme-bordered-box-background-color);
 }
 
-.coinStyle {
-  width: 20px;
-  height: 20px;
-  border-radius: 3px;
-  display: inline-block;  
-  margin-right: 10px;
-  position: relative;
-  top:-2px;
-  vertical-align: middle;
+.setting {
+  display: inline-block;
+  vertical-align: top;
+  width: calc(33% - 6px);
 }
 
 // table style
@@ -125,14 +158,14 @@
 
 .orderTable {
   display: inline-block;
-  width: calc(30% - 3px);
+  width: calc(33% - 3px);
   padding: 5px;
   border: solid 1px var(--theme-bordered-box-background-color);
 }
 
 .historyTable {
   display: inline-block;
-  width: calc(40% - 20px);
+  width: calc(33% - 4px);
   margin-left: 20px;
   padding: 5px;
   border: solid 1px var(--theme-bordered-box-background-color);
@@ -140,6 +173,10 @@
 
 :global .ReactTable{
   .rt-table {
+    .rt-thead{
+	    font: bold 14px/30px Georgia, serif;
+      border-bottom: 1px solid #434754;
+    }
     .rt-tbody {
       font-size: 13px;
       text-align: center;
@@ -151,24 +188,35 @@
 }
 
 .margetTable {
-  width:100%;
   height:40%;
-  padding-right: 20px;
+  padding-right: 10px;
   padding-bottom: 20px;
 }
 
-// chart
+
+// chart 
+
 .graph {
-  width:60%;
+  border: solid 1px var(--theme-bordered-box-background-color);
+  display: inline-block;
+  width: calc(66% - 14px);
   height:40%;
-  padding-right: 20px;
   padding-bottom: 20px;
+  margin-right:20px;
 }
 
-.setting {
-  width:38%;
-  position: absolute;
-  top: 40px;
-  right: 40px;
-  margin-left: 45%;
+
+//coin image
+
+.coinStyle {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  display: inline-block;  
+  margin-right: 10px;
+  position: relative;
+  top:-2px;
+  vertical-align: middle;
 }
+
+

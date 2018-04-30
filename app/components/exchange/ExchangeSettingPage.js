@@ -154,15 +154,17 @@ export default class ExchangeSettingPage extends Component<Props, State>{
 
         return (
             <div>
+                <div className={styles.divStatus}>
+                    <span>{Coin1}/{Coin2}</span>
+                </div>
+                <div className={styles.divBalance}>    
+                    <span className={styles.spanBalance}>Balance</span>
+                </div>   
                 <div>
                     <div className={styles.graph}>
                         <ExchangeChartPage/>
                     </div>
                     <div className={styles.setting}>
-                        <div className={styles.div}>
-                            <span>Balance</span>
-                            <span className={styles.spanRight}>{Coin1}/{Coin2}</span>
-                        </div>    
                         <div className={styles.div}>
                             <Checkbox
                                 className={styles.checkboxTab}
@@ -212,18 +214,17 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                                     onChange={this.chnageValueInput.bind(this)}
                                 />
                             </div>
-                            <div className={styles.component}>
-                                <span className={styles.spanMargin30}> Total: </span>
+                            <div className={styles.divTotal}>
+                                <span className={styles.spanMargin36}> Total: </span>
                                 <span> {this.calculateTotal(AmountInput, ValueInput)} {Coin2} </span>
                             </div>
+                            <div className={styles.swapbutton}>
+                                <Button
+                                    label="SWAP NOW"
+                                    skin={<ButtonSkin/>}
+                                />
+                            </div>
                         </div>
-                        <div className={styles.swapbutton}>
-                            <Button
-                                label="SWAP NOW"
-                                skin={<ButtonSkin/>}
-                            />
-                        </div>
-
                     </div>
                 </div>
                 <div className={styles.margetTable}>
