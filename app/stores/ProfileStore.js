@@ -35,6 +35,8 @@ export default class SettingsStore extends Store {
   @observable setProfileLocaleRequest: Request<string> = new Request(this.api.localStorage.setUserLocale);
   @observable getTermsOfUseAcceptanceRequest: Request<string> = new Request(this.api.localStorage.getTermsOfUseAcceptance);
   @observable setTermsOfUseAcceptanceRequest: Request<string> = new Request(this.api.localStorage.setTermsOfUseAcceptance);
+  @observable getTermsOfUseForLuxgateAcceptanceRequest: Request<string> = new Request(this.api.localStorage.getTermsOfUseForLuxgateAcceptance);
+  @observable setTermsOfUseForLuxgateAcceptanceRequest: Request<string> = new Request(this.api.localStorage.setTermsOfUseForLuxgateAcceptance);
   @observable getSendLogsChoiceRequest: Request<boolean> = new Request(this.api.localStorage.getSendLogsChoice);
   @observable setSendLogsChoiceRequest: Request = new Request(this.api.localStorage.setSendLogsChoice);
   @observable getThemeRequest: Request<string> = new Request(this.api.localStorage.getUserTheme);
@@ -45,6 +47,7 @@ export default class SettingsStore extends Store {
     this.actions.profile.updateLocale.listen(this._updateLocale);
     this.actions.profile.setSendLogsChoice.listen(this._setSendLogsChoice);
     this.actions.profile.acceptTermsOfUse.listen(this._acceptTermsOfUse);
+    this.actions.profile.acceptTermsOfUseForLuxgate.listen(this._acceptTermsOfUseForLuxgate);
     this.actions.profile.updateTheme.listen(this._updateTheme);
     this.registerReactions([
       this._setBigNumberFormat,
@@ -52,10 +55,12 @@ export default class SettingsStore extends Store {
       this._reloadAboutWindowOnLocaleChange,
       this._redirectToLanguageSelectionIfNoLocaleSet,
       this._redirectToTermsOfUseScreenIfTermsNotAccepted,
+      this._redirectToTermsOfUseForLuxgateScreenIfTermsNotAccepted,
       this._redirectToSendLogsChoiceScreenIfSendLogsChoiceNotSet,
-      this._redirectToMainUiAfterSetSendLogsChoice,
+      this._redirectToMainUi,
     ]);
     this._getTermsOfUseAcceptance();
+    this._getTermsOfUseForLuxgateAcceptance();
     this._sendLogsChoiceToMainProcess();
   }
 
@@ -110,6 +115,21 @@ export default class SettingsStore extends Store {
     return this.getTermsOfUseAcceptanceRequest.result === true;
   }
 
+  @computed get termsOfUseForLuxgate(): string {
+    return require(`../i18n/locales/terms-of-use-for-luxgate/mainnet/${this.currentLocale}.md`);
+  }
+
+  @computed get hasLoadedTermsOfUseForLuxgateAcceptance(): boolean {
+    return (
+      this.getTermsOfUseForLuxgateAcceptanceRequest.wasExecuted &&
+      this.getTermsOfUseForLuxgateAcceptanceRequest.result !== null
+    );
+  }
+
+  @computed get areTermsOfUseForLuxgateAccepted(): boolean {
+    return this.getTermsOfUseForLuxgateAcceptanceRequest.result === true;
+  }
+
   @computed get isSendLogsChoiceSet(): boolean {
     return this.getSendLogsChoiceRequest.result !== null;
   }
@@ -141,6 +161,15 @@ export default class SettingsStore extends Store {
     this.getTermsOfUseAcceptanceRequest.execute();
   };
 
+  _acceptTermsOfUseForLuxgate = async () => {
+    await this.setTermsOfUseForLuxgateAcceptanceRequest.execute();
+    await this.getTermsOfUseForLuxgateAcceptanceRequest.execute();
+  };
+
+  _getTermsOfUseForLuxgateAcceptance = () => {
+    this.getTermsOfUseForLuxgateAcceptanceRequest.execute();
+  };
+
   _getSendLogsChoice = async () => await this.getSendLogsChoiceRequest.execute().promise;
 
   _setSendLogsChoice = async ({ sendLogs }: { sendLogs: boolean }) => {
@@ -168,6 +197,14 @@ export default class SettingsStore extends Store {
     }
   };
 
+  _redirectToTermsOfUseForLuxgateScreenIfTermsNotAccepted = () => {
+    const { isShowingSubMenus } = this.stores.sidebar;
+    if (!isShowingSubMenus &&
+      this.hasLoadedTermsOfUseForLuxgateAcceptance && !this.areTermsOfUseForLuxgateAccepted) {
+      this.actions.router.goToRoute.trigger({ route: ROUTES.PROFILE.TERMS_OF_USE_FOR_LUXGATE });
+    }
+  };
+
   _redirectToSendLogsChoiceScreenIfSendLogsChoiceNotSet = () => {
     const { isConnected } = this.stores.networkStatus;
     if (isConnected && this.isCurrentLocaleSet && this.areTermsOfUseAccepted &&
@@ -178,8 +215,14 @@ export default class SettingsStore extends Store {
 
   _isOnSendLogsChoicePage = () => this.stores.app.currentRoute === ROUTES.PROFILE.SEND_LOGS;
 
-  _redirectToMainUiAfterSetSendLogsChoice = () => {
+  _isOnTermsOfUseForLuxgatePage = () => this.stores.app.currentRoute === ROUTES.PROFILE.TERMS_OF_USE_FOR_LUXGATE;
+
+  _redirectToMainUi = () => {
     if (this.isSendLogsChoiceSet && this._isOnSendLogsChoicePage()) {
+      this._redirectToRoot();
+    }
+
+    if (this.areTermsOfUseForLuxgateAccepted && this._isOnTermsOfUseForLuxgatePage()) {
       this._redirectToRoot();
     }
   };
