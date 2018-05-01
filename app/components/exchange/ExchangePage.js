@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import ExchangeOrderPage from "./ExchangeOrderPage";
 import ExchangeSettingPage from "./ExchangeSettingPage";
 import styles from "./ExchangePage.scss";
 
