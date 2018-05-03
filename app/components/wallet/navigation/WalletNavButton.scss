@@ -27,6 +27,7 @@
   font-family: var(--font-regular);
   display: block;
   overflow: visible;
+  color: var(--theme-nav-item-text-color);
 }
 
 .icon {
@@ -71,7 +72,7 @@
 
 .active {
   .container {
-    background: linear-gradient(90deg, #263345, #506577);
+    background: linear-gradient(90deg, var(--theme-nav-item-text-gradient-1), var(--theme-nav-item-text-gradient-2));
     color: var(--theme-nav-item-text-color-active);
   }
 

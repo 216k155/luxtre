@@ -6,7 +6,8 @@
 .navigation {
   width: 280px;
   height: 100%;
-  background: #263345;
+//  background: #263345;
+  background: var(--theme-sidebar-menu-background-color);
   flex-shrink: 0;
 }
 

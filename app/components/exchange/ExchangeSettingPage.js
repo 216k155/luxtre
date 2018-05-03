@@ -153,7 +153,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
         }
 
         return (
-            <div>
+            <div className={styles.pageContainer}>
                 <div className={styles.divStatus}>
                     <span>{Coin1}/{Coin2}</span>
                 </div>
@@ -166,14 +166,6 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                     </div>
                     <div className={styles.setting}>
                         <div className={styles.div}>
-                            <Checkbox
-                                className={styles.checkboxTab}
-                                labelLeft="BUY"
-                                labelRight="SELL"
-                                onChange={this.toggleBuySell.bind(this)}
-                                checked={isBuy}
-                                skin={<TogglerSkin/>}
-                            />
                             <div className={styles.component}>
                                 { !isBuy ? (
                                     <img src={sendImage} className={styles.imageStyle}/>

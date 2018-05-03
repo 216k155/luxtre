@@ -1,3 +1,16 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+.pageContainer {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  line-height: normal;
+  z-index: 0;
+  -webkit-tap-highlight-color: transparent;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+}
 .component {
   display: flex;
   padding: 7px;
@@ -118,11 +131,14 @@
   display: inline-block;
   width: calc(66% - 14px);
   height: 80px;
-  font: bold 14px/30px Georgia, serif;
+  
+  font: bold 14px/30px Montserrat;
   padding-left: 30px;
-  border: solid 1px var(--theme-bordered-box-background-color);
   margin-right:20px;
   margin-bottom: 20px;
+  background: var(--theme-luxgate-statusbar-background-color);
+  border: var(--theme-bordered-box-border);
+  border-radius: 7px;
 }
 
 .divBalance {
@@ -131,7 +147,9 @@
   height: 80px;
   font: bold 14px/30px Georgia, serif;
   padding-left: 20px;
-  border: solid 1px var(--theme-bordered-box-background-color);
+  background: var(--theme-luxgate-statusbar-background-color);
+  border: var(--theme-bordered-box-border);
+  border-radius: 7px;
   margin-bottom: 20px;
 }
 
