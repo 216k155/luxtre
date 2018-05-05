@@ -9,7 +9,9 @@ import UiDialogsStore from './UiDialogsStore';
 import UiNotificationsStore from './UiNotificationsStore';
 import NetworkStatusStore from './NetworkStatusStore';
 import setupLuxStores from './lux/index';
+import setupLuxgateStores from './luxgate/index';
 import type { LuxStoresMap } from './lux/index';
+import type { LuxgateStoresMap } from './luxgate/index';
 import environment from '../environment';
 
 export const storeClasses = {
@@ -34,6 +36,7 @@ export type StoresMap = {
   uiNotifications: UiNotificationsStore,
   networkStatus: NetworkStatusStore,
   lux: LuxStoresMap,
+  luxgate: LuxgateStoresMap,
 };
 
 // Constant that does never change during lifetime
@@ -48,6 +51,7 @@ const stores = observable({
   uiNotifications: null,
   networkStatus: null,
   lux: null,
+  luxgate: null,
 });
 
 // Set up and return the stores for this app -> also used to reset all stores to defaults
@@ -62,6 +66,7 @@ export default action((api, actions, router): StoresMap => {
 
   // Add currency specific stores
   if (environment.API === 'lux') stores.lux = setupLuxStores(stores, api, actions);
+  if (environment.API === 'luxgate') stores.luxgate = setupLuxgateStores(stores, api, actions);
 
   return stores;
 });

@@ -8,7 +8,9 @@ import ProfileActions from './profile-actions';
 import DialogsActions from './dialogs-actions';
 import NotificationsActions from './notifications-actions';
 import luxActionsMap from './lux/index';
+import luxgateActionsMap from './luxgate/index';
 import type { LuxActionsMap } from './lux/index';
+import type { LuxgateActionsMap } from './luxgate/index';
 
 export type ActionsMap = {
   router: RouterActions,
@@ -19,7 +21,8 @@ export type ActionsMap = {
   profile: ProfileActions,
   dialogs: DialogsActions,
   notifications: NotificationsActions,
-  lux: LuxActionsMap
+  lux: LuxActionsMap,
+  luxgate: LuxActionsMap
 };
 
 const actionsMap: ActionsMap = {
@@ -31,7 +34,8 @@ const actionsMap: ActionsMap = {
   profile: new ProfileActions(),
   dialogs: new DialogsActions(),
   notifications: new NotificationsActions(),
-  lux: luxActionsMap
+  lux: luxActionsMap,
+  luxgate: luxActionsMap
 };
 
 export default actionsMap;
