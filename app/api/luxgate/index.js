@@ -1,5 +1,6 @@
 import { split, get } from 'lodash';
 import { action } from 'mobx';
+import environment from '../../environment';
 import { getCoinBalance } from './getCoinBalance';
 
 export const LUXGATE_API_HOST = 'localhost';

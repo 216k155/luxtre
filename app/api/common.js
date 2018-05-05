@@ -139,3 +139,4 @@ export type StopManyMasternodeResponse = Array<StopMasternodeResponse>;
 export type GetCoinBalanceResponse = string;
 
 
+

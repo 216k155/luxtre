@@ -271,6 +271,8 @@ export default {
   '--theme-terms-of-use-text-color': '#5e6066',
 
   '--theme-wallet-password-switch-label-color': '#5e6066',
+
   '--theme-luxgate-statusbar-background-color': '#40c2dc',
   '--theme-luxgate-statusbar-color': '#40c2dc',
+
 };
