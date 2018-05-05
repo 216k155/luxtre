@@ -38,6 +38,7 @@ export default class Wallet extends Component<Props> {
   render() {
     const { sidebar } = this.props.stores;
     const { wallets, luxRedemption } = this.props.stores.lux;
+    const luxgate = this.props.stores.luxgate;
     const { actions } = this.props;
     const { showLuxRedemptionSuccessMessage, amountRedeemed } = luxRedemption;
     const {isShowingSubMenus} = sidebar;
@@ -54,7 +55,7 @@ export default class Wallet extends Component<Props> {
             {this.props.children}
           </WalletWithNavigation>
           :
-          <ExchangePage>
+          <ExchangePage luxgate={luxgate}>
             {/*code Exchange UI here */}
           </ExchangePage>  
         }

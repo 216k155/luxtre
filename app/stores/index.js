@@ -65,8 +65,11 @@ export default action((api, actions, router): StoresMap => {
   storeNames.forEach(name => { if (stores[name]) stores[name].initialize(); });
 
   // Add currency specific stores
-  if (environment.API === 'lux') stores.lux = setupLuxStores(stores, api, actions);
-  if (environment.API === 'luxgate') stores.luxgate = setupLuxgateStores(stores, api, actions);
+  if (environment.API === 'lux') 
+  {
+    stores.lux = setupLuxStores(stores, api, actions);
+    stores.luxgate = setupLuxgateStores(stores, api, actions);
+  }
 
   return stores;
 });

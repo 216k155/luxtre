@@ -7,6 +7,7 @@ import NumericInput from 'react-polymorph/lib/components/NumericInput';
 import InputSkin from 'react-polymorph/lib/skins/simple/raw/InputSkin';
 import Button from 'react-polymorph/lib/components/Button';
 import ButtonSkin from 'react-polymorph/lib/skins/simple/raw/ButtonSkin';
+import SimpleButtonSkin from 'react-polymorph/lib/skins/simple/raw/ButtonSkin';
 import Checkbox from 'react-polymorph/lib/components/Checkbox';
 import TogglerSkin from 'react-polymorph/lib/skins/simple/TogglerSkin';
 import styles from "./ExchangeSettingPage.scss"
@@ -154,12 +155,44 @@ export default class ExchangeSettingPage extends Component<Props, State>{
 
         return (
             <div className={styles.pageContainer}>
-                <div className={styles.divStatus}>
-                    <span>{Coin1}/{Coin2}</span>
-                </div>
-                <div className={styles.divBalance}>    
-                    <span className={styles.spanBalance}>Balance</span>
-                </div>   
+                <div>
+                    <div className={styles.divStatus}>
+                        <span>{Coin1}/{Coin2}</span>
+                    </div>
+                    <div className={styles.divBalance}>    
+                        <div className={styles.margin_left20}>Balance</div>
+                        <div className={styles.coinbalance}>
+                            <div className={styles.coin}>{Coin1}</div>
+                            <div className={styles.recv}>
+                                <Button
+                                    label="Receive"
+                                    skin={<ButtonSkin/>}
+                                />    
+                            </div>
+                            <div className={styles.send}>
+                                <Button
+                                    label="Send"
+                                    skin={<ButtonSkin/>}
+                                /> 
+                            </div>
+                        </div>
+                        <div className={styles.coinbalance}>
+                            <div className={styles.coin}>{Coin2} </div>
+                            <div className={styles.recv}>
+                                <Button
+                                    label="Receive"
+                                    skin={<ButtonSkin/>}
+                                />    
+                            </div>
+                            <div className={styles.send}>
+                                <Button
+                                    label="Send"
+                                    skin={<ButtonSkin/>}
+                                /> 
+                            </div>
+                        </div>
+                    </div>  
+                </div>    
                 <div>
                     <div className={styles.graph}>
                         <ExchangeChartPage/>
@@ -213,7 +246,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                             <div className={styles.swapbutton}>
                                 <Button
                                     label="SWAP NOW"
-                                    skin={<ButtonSkin/>}
+                                    skin={<SimpleButtonSkin/>}
                                 />
                             </div>
                         </div>

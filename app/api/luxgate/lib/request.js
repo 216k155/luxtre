@@ -34,8 +34,8 @@ function typedRequest<Response>(httpOptions: RequestOptions, queryParams?: {}): 
       // Resolve JSON results and handle weird backend behavior
       response.on('end', () => {
         const parsedBody = JSON.parse(body);
-        if (parsedBody.result != null) {
-          resolve(parsedBody.result);
+        if (parsedBody != null) {
+          resolve(parsedBody);
         } else if (parsedBody.error) {
           reject(new Error(parsedBody.error.message));
         } else {

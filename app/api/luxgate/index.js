@@ -1,13 +1,13 @@
 import { split, get } from 'lodash';
 import { action } from 'mobx';
 import environment from '../../environment';
-import { getCoinBalance } from './getCoinBalance';
+import { getCoinInfo } from './getCoinInfo';
 
 export const LUXGATE_API_HOST = 'localhost';
 export const LUXGATE_API_PORT = 7783;
 
 import type {
-    GetCoinBalanceResponse
+    GetCoinInfoResponse
   } from '../common';
 
 export default class LuxApi {
@@ -18,13 +18,13 @@ export default class LuxApi {
         }
     }
 
-    async getCoinBalanceOutputs(): Promise<GetCoinBalanceResponse> {
-        Logger.debug('LuxApi::getCoinBalanceOutputs called');
+    async getCoinInfoOutputs(): Promise<GetCoinInfoResponse> {
+        Logger.debug('LuxApi::getCoinInfoOutputs called');
         try {
-          const response = await getCoinBalance();
+          const response = await getCoinInfo();
           return stringifyData(response);
         } catch (error) {
-          Logger.error('LuxApi::getCoinBalanceOutputs error: ' + stringifyError(error));
+          Logger.error('LuxApi::getCoinInfoOutputs error: ' + stringifyError(error));
           throw new GenericApiError();
         }
     }

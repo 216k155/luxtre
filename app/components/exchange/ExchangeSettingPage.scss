@@ -8,7 +8,7 @@
   line-height: normal;
   z-index: 0;
   -webkit-tap-highlight-color: transparent;
-  font-family: 'Montserrat', sans-serif;
+  //font-family: 'Montserrat', sans-serif;
   font-size: 16px;
 }
 .component {
@@ -78,6 +78,26 @@
   padding: 20px;
 }
 
+.coin {
+  float: left;
+  font-size: 12px;
+}
+
+.coinbalance {
+  float: left;
+  width:100%;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+
+.margin_left20 {
+  margin-left: 20%;
+}
+
 .numericInput {
   width:35%;
 }
@@ -127,30 +147,51 @@
   margin-bottom: 30px;
 }
 
+.send {
+  float: right;
+  :global .SimpleButton_root {
+    background: #f5954a;
+  }
+}
+
+.recv {
+  float: right;
+  :global .SimpleButton_root {
+    background: #40c2dc;
+  }
+}
+
 .divStatus {
   display: inline-block;
   width: calc(66% - 14px);
-  height: 80px;
-  
-  font: bold 14px/30px Montserrat;
-  padding-left: 30px;
+  height: 100px;
+  font: bold 14px/30px var(--font-semibold);
+  padding: 3px 20px;
   margin-right:20px;
   margin-bottom: 20px;
-  background: var(--theme-luxgate-statusbar-background-color);
+  background: #132852; //var(--theme-luxgate-statusbar-background-color);
+  color:#EEE;
   border: var(--theme-bordered-box-border);
-  border-radius: 7px;
+  //border-radius: 7px;
 }
 
 .divBalance {
   display: inline-block;
   width: calc(33% - 6px);
-  height: 80px;
-  font: bold 14px/30px Georgia, serif;
-  padding-left: 20px;
-  background: var(--theme-luxgate-statusbar-background-color);
+  height: 100px;
+  font: bold 14px/30px var(--font-semibold);
+  padding: 3px 20px;
+  background: #132852; //var(--theme-luxgate-statusbar-background-color);
+  color:#EEE;
   border: var(--theme-bordered-box-border);
-  border-radius: 7px;
+  //border-radius: 7px;
   margin-bottom: 20px;
+  :global .SimpleButton_root {
+    width: 70px;
+    height: 24px;
+    padding: 2px;
+    margin-left: 5px;
+  }
 }
 
 .div {
