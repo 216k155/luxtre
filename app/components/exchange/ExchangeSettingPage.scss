@@ -200,6 +200,9 @@
 }
 
 .setting {
+  background: var(--theme-bordered-box-background-color);
+  border: var(--theme-bordered-box-border);
+  border-radius: 4px;
   display: inline-block;
   vertical-align: top;
   width: calc(33% - 6px);
@@ -213,13 +216,14 @@
   padding: 10px;
   color: var(--theme-bordered-box-text-color);
   background-color: var(--theme-bordered-box-background-color);
+  border: var(--theme-bordered-box-border);
 }
 
 .orderTable {
   display: inline-block;
   width: calc(33% - 3px);
   padding: 5px;
-  border: solid 1px var(--theme-bordered-box-background-color);
+  border: solid 1px var(--theme-bordered-box-border);
 }
 
 .historyTable {
@@ -227,7 +231,7 @@
   width: calc(33% - 4px);
   margin-left: 20px;
   padding: 5px;
-  border: solid 1px var(--theme-bordered-box-background-color);
+  border: solid 1px var(--theme-bordered-box-border);
 }
 
 :global .ReactTable{
@@ -256,12 +260,15 @@
 // chart 
 
 .graph {
-  border: solid 1px var(--theme-bordered-box-background-color);
+//  border: solid 1px var(--theme-bordered-box-background-color);
   display: inline-block;
   width: calc(66% - 14px);
   height:40%;
-  padding-bottom: 20px;
   margin-right:20px;
+  margin-bottom: 20px;
+  background: var(--theme-bordered-box-background-color);
+  border: var(--theme-bordered-box-border);
+  border-radius: 4px;
 }
 
 
