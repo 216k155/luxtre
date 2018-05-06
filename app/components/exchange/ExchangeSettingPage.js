@@ -10,6 +10,8 @@ import ButtonSkin from 'react-polymorph/lib/skins/simple/raw/ButtonSkin';
 import SimpleButtonSkin from 'react-polymorph/lib/skins/simple/raw/ButtonSkin';
 import Checkbox from 'react-polymorph/lib/components/Checkbox';
 import TogglerSkin from 'react-polymorph/lib/skins/simple/TogglerSkin';
+import ReceiveAddressDialog from './ReceiveAddressDialog';
+import ReceiveAddressDialogContainer from '../../containers/wallet/dialogs/ReceiveAddressDialogContainer'
 import styles from "./ExchangeSettingPage.scss"
 import COINS from "./coins";
 import sendImage from "../../assets/images/wallet-nav/send.png";
@@ -23,7 +25,9 @@ import ExchangeChartPage from "./ExchangeChartPage";
 type Props = {
     price_btc: number,
     price_etc: number,
-    price_lux: number
+    price_lux: number,
+    openDialogAction: Function,
+    isDialogOpen: Function,
 }
 
 type State = {
@@ -81,6 +85,10 @@ export default class ExchangeSettingPage extends Component<Props, State>{
 
     render() {
         const { isBuy, AmountInput, ValueInput, Coin1, Coin2 } = this.state;
+        const {
+            openDialogAction, 
+            isDialogOpen,
+          } = this.props;
 
         const data = [{
             amount: 19.01711430,
@@ -165,6 +173,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                             <div className={styles.coin}>{Coin1}</div>
                             <div className={styles.recv}>
                                 <Button
+                                    onClick={() => openDialogAction({dialog: ReceiveAddressDialog})}
                                     label="Receive"
                                     skin={<ButtonSkin/>}
                                 />    
@@ -180,6 +189,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                             <div className={styles.coin}>{Coin2} </div>
                             <div className={styles.recv}>
                                 <Button
+                                    onClick={() => openDialogAction({dialog: ReceiveAddressDialog})}
                                     label="Receive"
                                     skin={<ButtonSkin/>}
                                 />    
@@ -198,57 +208,55 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                         <ExchangeChartPage/>
                     </div>
                     <div className={styles.setting}>
-                        <div className={styles.div}>
-                            <div className={styles.component}>
-                                { !isBuy ? (
-                                    <img src={sendImage} className={styles.imageStyle}/>
-                                ) : (
-                                    <img src={recvImage} className={styles.imageStyle}/>
-                                )
-                                }
-                                <Select
-                                    {...selectProps}
-                                    value={Coin1}
-                                    onChange={this.changeCoin1.bind(this)}
-                                />
-                                { Coin1 === '' ? null : (<img src={require('../../assets/crypto/' + Coin1 + '.png')} style={coinImageStyle}/>)}
-                                <div className={styles.span}> Amount </div>
-                                <NumericInput 
-                                    {...inputProps}
-                                    value={AmountInput}
-                                    onChange={this.chnageAmountInput.bind(this)}
-                                />
-                            </div>
-                            <div className={styles.component}>
-                                { !isBuy ? (
-                                    <img src={recvImage} className={styles.imageStyle}/>
-                                ) : (
-                                    <img src={sendImage} className={styles.imageStyle}/>
-                                )
-                                }
-                                <Select
-                                    {...selectProps}
-                                    value={Coin2}
-                                    onChange={this.changeCoin2.bind(this)}
-                                />
-                                { Coin2 === '' ? null : (<img src={require('../../assets/crypto/' + Coin2 + '.png')} style={coinImageStyle}/>)}
-                                <span className={styles.span}> Value </span>
-                                <NumericInput 
-                                    {...inputProps}
-                                    value={ValueInput}
-                                    onChange={this.chnageValueInput.bind(this)}
-                                />
-                            </div>
-                            <div className={styles.divTotal}>
-                                <span className={styles.spanMargin36}> Total: </span>
-                                <span> {this.calculateTotal(AmountInput, ValueInput)} {Coin2} </span>
-                            </div>
-                            <div className={styles.swapbutton}>
-                                <Button
-                                    label="SWAP NOW"
-                                    skin={<SimpleButtonSkin/>}
-                                />
-                            </div>
+                        <div className={styles.component}>
+                            { !isBuy ? (
+                                <img src={sendImage} className={styles.imageStyle}/>
+                            ) : (
+                                <img src={recvImage} className={styles.imageStyle}/>
+                            )
+                            }
+                            <Select
+                                {...selectProps}
+                                value={Coin1}
+                                onChange={this.changeCoin1.bind(this)}
+                            />
+                            { Coin1 === '' ? null : (<img src={require('../../assets/crypto/' + Coin1 + '.png')} style={coinImageStyle}/>)}
+                            <div className={styles.span}> Amount </div>
+                            <NumericInput 
+                                {...inputProps}
+                                value={AmountInput}
+                                onChange={this.chnageAmountInput.bind(this)}
+                            />
+                        </div>
+                        <div className={styles.component}>
+                            { !isBuy ? (
+                                <img src={recvImage} className={styles.imageStyle}/>
+                            ) : (
+                                <img src={sendImage} className={styles.imageStyle}/>
+                            )
+                            }
+                            <Select
+                                {...selectProps}
+                                value={Coin2}
+                                onChange={this.changeCoin2.bind(this)}
+                            />
+                            { Coin2 === '' ? null : (<img src={require('../../assets/crypto/' + Coin2 + '.png')} style={coinImageStyle}/>)}
+                            <span className={styles.span}> Value </span>
+                            <NumericInput 
+                                {...inputProps}
+                                value={ValueInput}
+                                onChange={this.chnageValueInput.bind(this)}
+                            />
+                        </div>
+                        <div className={styles.divTotal}>
+                            <span className={styles.spanMargin36}> Total: </span>
+                            <span> {this.calculateTotal(AmountInput, ValueInput)} {Coin2} </span>
+                        </div>
+                        <div className={styles.swapbutton}>
+                            <Button
+                                label="SWAP NOW"
+                                skin={<SimpleButtonSkin/>}
+                            />
                         </div>
                     </div>
                 </div>
@@ -280,7 +288,14 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                             className="-striped -highlight"
                         />
                     </div>
-                </div>   
+                </div>  
+                {isDialogOpen(ReceiveAddressDialog) ? (
+                    <ReceiveAddressDialogContainer 
+                        coinName = {COIN1}
+                        walletAddress = "1MzG7SQRaZ35Uv7HT8jpGLkZ4puGs2MNBR"
+                        error = {this.state.outputsError}
+                    />
+                ) : null} 
             </div>   
         );
     }

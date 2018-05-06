@@ -200,12 +200,14 @@
 }
 
 .setting {
+  padding: 100px 0px;
   background: var(--theme-bordered-box-background-color);
   border: var(--theme-bordered-box-border);
   border-radius: 4px;
   display: inline-block;
   vertical-align: top;
   width: calc(33% - 6px);
+  height: 400px;
 }
 
 // table style
@@ -214,8 +216,8 @@
   width: 100%;
   height: 36px;
   padding: 10px;
-  color: var(--theme-bordered-box-text-color);
-  background-color: var(--theme-bordered-box-background-color);
+  color: #EEE;//var(--theme-bordered-box-text-color);
+  background-color: #132852; //var(--theme-bordered-box-background-color);
   border: var(--theme-bordered-box-border);
 }
 
@@ -263,7 +265,6 @@
 //  border: solid 1px var(--theme-bordered-box-background-color);
   display: inline-block;
   width: calc(66% - 14px);
-  height:40%;
   margin-right:20px;
   margin-bottom: 20px;
   background: var(--theme-bordered-box-background-color);
