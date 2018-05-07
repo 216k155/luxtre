@@ -136,7 +136,9 @@ export type StopManyMasternodeResponse = Array<StopMasternodeResponse>;
 
 //////////////////////////////////////////////////////////////////////////////
 
-export type GetCoinBalanceResponse = string;
+export type GetCoinInfoResponse = string;
+export type GetCoinBalanceResponse = number;
+
 
 
 

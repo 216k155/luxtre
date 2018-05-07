@@ -60,20 +60,24 @@ export default class ReceiveAddressDialog extends Component<Props> {
                 className={styles.dialog}
                 closeButton={<DialogCloseButton onClose={onCancel} />}
               >
-                <div className={styles.info}>
-                    <QRCode
-                        value={walletAddress}
-                        size={200}
-                        />
-                    <div className={styles.address}> {walletAddress}
-                        <CopyToClipboard
-                            text={walletAddress}
-                            onCopy={onCopyAddress.bind(this, walletAddress)}
-                            >
-                            <SvgInline svg={iconCopy} className={styles.copyIconBig} />
-                        </CopyToClipboard>
+                {walletAddress != '' ? (
+                    <div className={styles.info}>
+                        <QRCode
+                            value={walletAddress}
+                            size={200}
+                            />
+                        <div className={styles.address}> {walletAddress}
+                            <CopyToClipboard
+                                text={walletAddress}
+                                onCopy={onCopyAddress.bind(this, walletAddress)}
+                                >
+                                <SvgInline svg={iconCopy} className={styles.copyIconBig} />
+                            </CopyToClipboard>
+                        </div>
                     </div>
-                </div>
+                    ) : (
+                    <div className={styles.info}/>
+                )}
                 {error ? <p className={styles.error}>{intl.formatMessage(error)}</p> : null}
                 {children}
             </Dialog>

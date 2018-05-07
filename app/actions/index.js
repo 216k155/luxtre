@@ -22,7 +22,7 @@ export type ActionsMap = {
   dialogs: DialogsActions,
   notifications: NotificationsActions,
   lux: LuxActionsMap,
-  luxgate: LuxActionsMap
+  luxgate: LuxgateActionsMap
 };
 
 const actionsMap: ActionsMap = {
@@ -35,7 +35,7 @@ const actionsMap: ActionsMap = {
   dialogs: new DialogsActions(),
   notifications: new NotificationsActions(),
   lux: luxActionsMap,
-  luxgate: luxActionsMap
+  luxgate: luxgateActionsMap
 };
 
 export default actionsMap;
