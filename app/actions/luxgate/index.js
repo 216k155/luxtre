@@ -1,12 +1,12 @@
 // @flow
-//import WalletsActions from './wallets-actions';
+import CoinInfoActions from './coininfo-actions';
 
 export type LuxgateActionsMap = {
-  //wallets: WalletsActions,
+  coinInfo: CoinInfoActions,
 };
 
 const luxgateActionsMap: LuxgateActionsMap = {
-  //wallets: new WalletsActions(),
+  coinInfo: new CoinInfoActions(),
 };
 
 export default luxgateActionsMap;
