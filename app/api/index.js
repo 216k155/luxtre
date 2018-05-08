@@ -5,7 +5,7 @@ import LocalStorageApi from './localStorage/index';
 
 export type Api = {
   lux: LuxApi,
-  luxgate, LuxgateApi,
+  luxgate: LuxgateApi,
   localStorage: LocalStorageApi,
 };
 
