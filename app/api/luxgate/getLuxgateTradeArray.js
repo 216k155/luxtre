@@ -2,14 +2,15 @@
 import { request } from './lib/request';
 import { LUXGATE_API_HOST, LUXGATE_API_PORT } from './index';
 
-export type GetLuxgateOrdersParams = {
+export type GetLuxgateTradeArrayParams = {
   userpass: string,
   base: string,
   rel: string,
+  timescale: number
 };
 
-export const getLuxgateOrders = (
-  { userpass, base, rel }: GetLuxgateOrdersParams
+export const getLuxgateTradeArray = (
+  { userpass, base, rel, timescale }: GetLuxgateTradeArrayParams
 ): Promise<string> => (
   request({
     hostname: LUXGATE_API_HOST,
@@ -20,5 +21,6 @@ export const getLuxgateOrders = (
     userpass: userpass,
     base: base,
     rel: rel,
+    timescale: timescale
   })
 );

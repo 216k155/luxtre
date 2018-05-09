@@ -168,12 +168,12 @@
 
 .divStatus {
   display: inline-block;
-  width: calc(66% - 14px);
+  width: calc(66% - 6px);
   height: 100px;
   font: bold 14px/30px var(--font-semibold);
   padding: 3px 20px;
-  margin-right:20px;
-  margin-bottom: 20px;
+  margin-right: 2px;
+  margin-bottom: 2px;
   background: #132852; //var(--theme-luxgate-statusbar-background-color);
   color:#EEE;
   border: var(--theme-bordered-box-border);
@@ -182,7 +182,7 @@
 
 .divBalance {
   display: inline-block;
-  width: calc(33% - 6px);
+  width: 33%;
   height: 100px;
   font: bold 14px/30px var(--font-semibold);
   padding: 3px 20px;
@@ -190,7 +190,7 @@
   color:#EEE;
   border: var(--theme-bordered-box-border);
   //border-radius: 7px;
-  margin-bottom: 20px;
+  margin-bottom: 2px;
   :global .SimpleButton_root {
     width: 70px;
     height: 24px;
@@ -200,19 +200,32 @@
 }
 
 .div {
-  margin-bottom: 20px;
+  margin-bottom: 2px;
   border: solid 1px var(--theme-bordered-box-background-color);
 }
 
 .setting {
-  padding: 100px 0px;
+  //padding: 20px 0px;
   background: var(--theme-bordered-box-background-color);
   border: var(--theme-bordered-box-border);
   border-radius: 4px;
   display: inline-block;
   vertical-align: top;
-  width: calc(33% - 6px);
+  width: 33%;
   height: 400px;
+}
+.card {
+  flex: 1 1 auto;
+  padding: 1.25rem;
+}
+.cardTitle {
+  position: relative;
+  font-weight: 500;
+}
+.cardSubtitle {
+  font-weight: 300;
+  margin-bottom: 15px;
+  color: #6c757d;
 }
 
 // table style
@@ -226,18 +239,25 @@
   border: var(--theme-bordered-box-border);
 }
 
+.order {
+  font-size:12px;
+  float:left;
+  color: #7f9eee;
+}
+.tableCaptionPos {
+	margin-left: 36%;
+}
 .orderTable {
   display: inline-block;
-  width: calc(33% - 3px);
-  padding: 5px;
+  width: 33%;
+  margin-right: 2px;
   border: solid 1px var(--theme-bordered-box-border);
 }
 
 .historyTable {
   display: inline-block;
-  width: calc(33% - 4px);
-  margin-left: 20px;
-  padding: 5px;
+  width: 33%;
+  margin-left: 1px;
   border: solid 1px var(--theme-bordered-box-border);
 }
 
@@ -269,9 +289,9 @@
 .graph {
 //  border: solid 1px var(--theme-bordered-box-background-color);
   display: inline-block;
-  width: calc(66% - 14px);
-  margin-right:20px;
-  margin-bottom: 20px;
+  width: calc(66% - 6px);
+  margin-right:2px;
+  margin-bottom: 2px;
   background: var(--theme-bordered-box-background-color);
   border: var(--theme-bordered-box-border);
   border-radius: 4px;

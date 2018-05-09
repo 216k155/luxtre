@@ -140,6 +140,8 @@ export type GetCoinInfoResponse = string;
 export type GetCoinBalanceResponse = number;
 export type GetLGOrdersResponse = string;
 export type GetLGTransactionsResponse = string;
+export type GetLGTradeArrayResponse = string;
+export type GetLGPriceArrayResponse = string;
 
 
 

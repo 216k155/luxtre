@@ -3,18 +3,16 @@ import { observable } from 'mobx';
 
 export default class LGOrders {
 
-  @observable coin: string;
-  @observable balance: number;
-  @observable address: string;
-  @observable height: number;
-  @observable status: string;
+  @observable sellers: string;
+  @observable sellerCount: number;
+  @observable buyers: string;
+  @observable buyerCount: number;
 
   constructor(data: {
-    coin: string,
-    balance: number,
-    address: string,
-    height: number,
-    status: string
+    sellers: string,
+    sellerCount: number,
+    buyers: string,
+    buyerCount: number,
   }) {
     Object.assign(this, data);
   }

@@ -10,6 +10,7 @@ import { ROUTES } from '../../routes-config';
 
 import type {
   GetCoinInfoResponse, 
+  GetCoinBalanceResponse
 } from '../../api/common';
 
 export default class LuxgateCoinInfoStore extends Store {
@@ -18,9 +19,12 @@ export default class LuxgateCoinInfoStore extends Store {
 
   // REQUESTS
   @observable getCoinInfoRequest: Request<GetCoinInfoResponse> = new Request(this.api.luxgate.getCoinInfo);
+  @observable getCoinBalanceRequest: Request<GetCoinBalanceResponse> = new Request(this.api.luxgate.getCoinBalanace);
   @observable sendCoinRequest: Request<boolean> = new Request(this.api.luxgate.withdraw);
   
   @observable lstCoinInfo: Array<CoinInfo> = [];
+  @observable swap_coin1: string = '';
+  @observable swap_coin2: string = '';
 
   setup() {
     super.setup();
@@ -36,16 +40,22 @@ export default class LuxgateCoinInfoStore extends Store {
     //router.goToRoute.listen(this._onRouteChange);
   }
 
-  _getCoinInfo = async ( coin: string ) => {
+  _getCoinInfo = async ( params: { coin: string, coin_num: number } ) => {
+    const { coin, coin_num } = params;
+    if(coin_num == 1) this.swap_coin1 = coin;
+    if(coin_num == 2) this.swap_coin2 = coin;
     const info: GetCoinInfoResponse = await this.getCoinInfoRequest.execute(coin).promise;
     if(info !== "")
     {
       const objInfo = JSON.parse(info);
-      const balance = objInfo.balance;
+      if(coin == objInfo.coin)
+      {
       const address = objInfo.smartaddress;
+        const balance = objInfo.balance ? objInfo.balance : await this.getCoinBalanceRequest.execute(coin, address).promise;
       const height = objInfo.height;
       const status = objInfo.status;
       this._addCoinInfo(new CoinInfo( { coin, balance, address, height, status }));
+      }
     }
     else
     {

@@ -58,8 +58,8 @@ export default class ExchangeSettingPage extends Component<Props, State>{
     };
 
     componentDidMount() {
-        this.props.onChangeCoin('BTC');
-        this.props.onChangeCoin('LUX');
+        this.props.onChangeCoin('BTC', 1);
+        this.props.onChangeCoin('LUX', 2);
     }
 
     toggleBuySell() {
@@ -76,11 +76,12 @@ export default class ExchangeSettingPage extends Component<Props, State>{
 
     changeCoin1(value) {
         this.setState( {Coin1: value});
-        this.props.onChangeCoin(value);
+        this.props.onChangeCoin(value, 1);
     }
 
     changeCoin2(value) {
         this.setState( {Coin2: value});
+        this.props.onChangeCoin(value, 2);
     }
 
     calculateTotal(amount, value) {
@@ -271,6 +272,10 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                         <ExchangeChartPage/>
                     </div>
                     <div className={styles.setting}>
+                        <div className={styles.card}>
+                            <h5 className={styles.cardTitle}>Coupled Asset Swap</h5>
+                            <h6 className={styles.cardSubtitle}>Swap your currency from here</h6>
+                        </div>
                         <div className={styles.component}>
                             { !isBuy ? (
                                 <img src={sendImage} className={styles.imageStyle}/>
@@ -325,7 +330,10 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                 </div>
                 <div className={styles.margetTable}>
                     <div className={styles.orderTable}>
-                        <div className={styles.tableCaption}> SELLERS </div>
+                        <div className={styles.tableCaption}>
+             				<span className={styles.order}> ORDERS </span>
+			            	<div className={styles.tableCaptionPos}>{Coin1} &rArr; {Coin2} </div>
+                        </div>
                         <ReactTable
                             data={data}
                             columns={columns}
@@ -334,7 +342,10 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                         />
                     </div>
                     <div className={styles.orderTable}>
-                        <div className={styles.tableCaption}> BUYERS </div>
+                        <div className={styles.tableCaption}> 
+                            <span className={styles.order}> ORDERS </span>
+			            	<div className={styles.tableCaptionPos}> {Coin1} &lArr; {Coin2} </div>
+                        </div>
                         <ReactTable
                             data={data}
                             columns={columns}

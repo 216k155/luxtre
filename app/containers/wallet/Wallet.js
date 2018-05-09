@@ -62,8 +62,12 @@ export default class Wallet extends Component<Props> {
             coinInfoList={coinInfoList}
             openDialogAction={actions.dialogs.open.trigger}  
             isDialogOpen={uiDialogs.isOpen}
-            onChangeCoin={(values: { coin: string }) => {
-              actions.luxgate.coinInfo.getCoinInfo.trigger(values);
+            onChangeCoin={(coin: string, coin_num: number) => {
+              const coinData = {
+                coin: coin,
+                coin_num: coin_num,
+              };
+              actions.luxgate.coinInfo.getCoinInfo.trigger(coinData);
             }}
             >
 
