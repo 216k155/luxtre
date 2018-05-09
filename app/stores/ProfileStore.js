@@ -198,8 +198,8 @@ export default class SettingsStore extends Store {
   };
 
   _redirectToTermsOfUseForLuxgateScreenIfTermsNotAccepted = () => {
-    const { isShowingSubMenus } = this.stores.sidebar;
-    if (!isShowingSubMenus &&
+    const { isShowingLuxtre } = this.stores.sidebar;
+    if (!isShowingLuxtre &&
       this.hasLoadedTermsOfUseForLuxgateAcceptance && !this.areTermsOfUseForLuxgateAccepted) {
       this.actions.router.goToRoute.trigger({ route: ROUTES.PROFILE.TERMS_OF_USE_FOR_LUXGATE });
     }

@@ -102,7 +102,7 @@ export default class WalletReceivePage extends Component<Props, State> {
               duration: notification.duration,
             });
           }}
-          isSidebarExpanded={sidebar.isShowingSubMenus}
+          isSidebarExpanded={sidebar.isShowingLuxtre}
           walletHasPassword={wallet.hasPassword}
           isSubmitting={addresses.createAddressRequest.isExecuting}
           error={addresses.error}

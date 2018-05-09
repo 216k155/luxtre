@@ -40,7 +40,7 @@ export default class MainLayout extends Component<Props> {
     const sidebarComponent = (
       <Sidebar
         menus={sidebarMenus}
-        isShowingSubMenus={sidebar.isShowingSubMenus}
+        isShowingLuxtre={sidebar.isShowingLuxtre}
         categories={sidebar.CATEGORIES}
         activeSidebarCategory={sidebar.activeSidebarCategory}
         onCategoryClicked={category => {

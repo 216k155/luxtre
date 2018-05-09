@@ -22,7 +22,7 @@ export default class TopBarContainer extends Component<Props> {
     const isMainnet = environment.isMainnet();
     const isLuxApi = environment.isLuxApi();
     const activeWallet = stores[environment.API].wallets.active;
-    const {isShowingSubMenus} = sidebar;
+    const {isShowingLuxtre} = sidebar;
     const testnetLabel = (
       isLuxApi && !isMainnet ? <WalletTestEnvironmentLabel /> : null
     );
@@ -32,21 +32,21 @@ export default class TopBarContainer extends Component<Props> {
         onToggleSidebar={actions.sidebar.toggleSubMenus.trigger}
         activeWallet={activeWallet}
         currentRoute={app.currentRoute}
-        showSubMenus={isShowingSubMenus}
+        showSubMenus={isShowingLuxtre}
       >
-        {isShowingSubMenus && activeWallet && activeWallet.hasPassword == true ? 
+        {isShowingLuxtre && activeWallet && activeWallet.hasPassword == true ? 
           <WalletLockStatusIcon
             isLocked={activeWallet.isLocked}
           />
           : null
         }
-        {isShowingSubMenus ? 
+        {isShowingLuxtre ? 
           <WalletStakingStatusIcon
             isStaking={activeWallet.isStaking}
           />
           : null
         }
-        {isShowingSubMenus ?
+        {isShowingLuxtre ?
           <NodeSyncStatusIcon
             networkStatus={networkStatus}
             isMainnet={isMainnet}
