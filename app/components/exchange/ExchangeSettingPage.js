@@ -12,6 +12,8 @@ import Checkbox from 'react-polymorph/lib/components/Checkbox';
 import TogglerSkin from 'react-polymorph/lib/skins/simple/TogglerSkin';
 import ReceiveAddressDialog from './ReceiveAddressDialog';
 import ReceiveAddressDialogContainer from '../../containers/wallet/dialogs/ReceiveAddressDialogContainer'
+import SendCoinDialog from './SendCoinDialog';
+import SendCoinDialogContainer from '../../containers/wallet/dialogs/SendCoinDialogContainer'
 import styles from "./ExchangeSettingPage.scss"
 import { CoinInfo } from '../../domain/CoinInfo';
 import COINS from "./coins";
@@ -50,7 +52,9 @@ export default class ExchangeSettingPage extends Component<Props, State>{
         Coin1: 'BTC',
         Coin2: 'LUX',
         recvCoin: '',
-        recvAddress: ''
+        sendCoin: '',
+        recvAddress: '',
+        balance: ''
     };
 
     componentDidMount() {
@@ -113,12 +117,31 @@ export default class ExchangeSettingPage extends Component<Props, State>{
         this.props.openDialogAction({dialog: ReceiveAddressDialog});
     }
 
+    openSendDialog(coin) {
+        
+        this.setState( {
+            sendCoin: coin,
+            balance: this.getCoinBalance(coin)
+        });
+        
+        this.props.openDialogAction({dialog: SendCoinDialog});
+    }
+
     //{myMasternodeList.map((myMasternode, index) => (
     //    {myMasternode.address}
     //))}
 
     render() {
-        const { isBuy, AmountInput, ValueInput, Coin1, Coin2, recvCoin, recvAddress } = this.state;
+        const { isBuy, 
+            AmountInput, 
+            ValueInput, 
+            Coin1, 
+            Coin2, 
+            recvCoin, 
+            sendCoin, 
+            recvAddress, 
+            balance } = this.state;
+            
         const {
             coinInfoList,
             openDialogAction, 
@@ -217,6 +240,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                             </div>
                             <div className={styles.send}>
                                 <Button
+                                    onClick={ () => this.openSendDialog(Coin1) }
                                     label="Send"
                                     skin={<ButtonSkin/>}
                                 /> 
@@ -234,6 +258,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                             </div>
                             <div className={styles.send}>
                                 <Button
+                                    onClick={ () => this.openSendDialog(Coin2) }
                                     label="Send"
                                     skin={<ButtonSkin/>}
                                 /> 
@@ -331,6 +356,13 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                     <ReceiveAddressDialogContainer 
                         coinName = {recvCoin}
                         walletAddress = {recvAddress}
+                        error = {this.state.outputsError}
+                    />
+                ) : null} 
+                {isDialogOpen(SendCoinDialog) ? (
+                    <SendCoinDialogContainer 
+                        coinName = {sendCoin}
+                        balance = {balance}
                         error = {this.state.outputsError}
                     />
                 ) : null} 
