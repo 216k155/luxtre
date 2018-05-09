@@ -138,6 +138,8 @@ export type StopManyMasternodeResponse = Array<StopMasternodeResponse>;
 
 export type GetCoinInfoResponse = string;
 export type GetCoinBalanceResponse = number;
+export type GetLGOrdersResponse = string;
+export type GetLGTransactionsResponse = string;
 
 
 

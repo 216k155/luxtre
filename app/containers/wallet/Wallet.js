@@ -44,12 +44,12 @@ export default class Wallet extends Component<Props> {
     const { uiDialogs, uiNotifications } = this.props.stores;
     const { actions } = this.props;
     const { showLuxRedemptionSuccessMessage, amountRedeemed } = luxRedemption;
-    const {isShowingSubMenus} = sidebar;
+    const {isShowingLuxtre} = sidebar;
     if (!wallets.active) return <MainLayout><LoadingSpinner /></MainLayout>;
 
     return (
       <MainLayout>
-        {isShowingSubMenus ?
+        {isShowingLuxtre ?
           <WalletWithNavigation
             isActiveScreen={this.isActiveScreen}
             onWalletNavItemClick={this.handleWalletNavItemClick}

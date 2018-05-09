@@ -1,17 +1,25 @@
 // @flow
 import { observable, action } from 'mobx';
 import LuxgateCoinInfoStore from './LuxgateCoinInfoStore';
+import LuxgateOrdersStore from './LuxgateOrdersStore';
+import LuxgateTransactionsStore from './LuxgateTransactionsStore';
 
 export const luxgateStoreClasses = {
-  coinInfo: LuxgateCoinInfoStore
+  coinInfo: LuxgateCoinInfoStore,
+  orders: LuxgateOrdersStore,
+  transactions: LuxgateTransactionsStore
 };
 
 export type LuxgateStoresMap = {
-  coinInfo: LuxgateCoinInfoStore
+  coinInfo: LuxgateCoinInfoStore,
+  orders: LuxgateOrdersStore,
+  transactions: LuxgateTransactionsStore
 };
 
 const luxgateStores = observable({
-  coinInfo: null
+  coinInfo: null,
+  orders: null,
+  transactions: null
 });
 
 // Set up and return the stores and reset all stores to defaults

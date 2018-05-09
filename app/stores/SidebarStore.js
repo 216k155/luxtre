@@ -14,7 +14,7 @@ export default class SidebarStore extends Store {
   CATEGORIES = sidebarConfig.CATEGORIES;
 
   @observable activeSidebarCategory: string = this.CATEGORIES[0].route;
-  @observable isShowingSubMenus: boolean = true;
+  @observable isShowingLuxtre: boolean = true;
 
   setup() {
     const actions = this.actions.sidebar;
@@ -39,20 +39,20 @@ export default class SidebarStore extends Store {
   }
 
   @action _toggleSubMenus = () => {
-    this.isShowingSubMenus = !this.isShowingSubMenus;
+    this.isShowingLuxtre = !this.isShowingLuxtre;
   };
 
   @action _onActivateSidebarCategory = (params: { category: string, showSubMenu?: boolean }) => {
     const { category, showSubMenu } = params;
     if (category !== this.activeSidebarCategory) {
       this.activeSidebarCategory = category;
-      if (showSubMenu != null) this.isShowingSubMenus = showSubMenu;
+      if (showSubMenu != null) this.isShowingLuxtre = showSubMenu;
       this.actions.router.goToRoute.trigger({ route: category });
-    } else if (showSubMenu == null || this.isShowingSubMenus !== showSubMenu) {
+    } else if (showSubMenu == null || this.isShowingLuxtre !== showSubMenu) {
       // If no explicit preferred state is given -> toggle sub menus
       this._toggleSubMenus();
     } else {
-      this.isShowingSubMenus = showSubMenu;
+      this.isShowingLuxtre = showSubMenu;
     }
   };
 
@@ -65,7 +65,7 @@ export default class SidebarStore extends Store {
   };
 
   @action _showSubMenus = () => {
-    this.isShowingSubMenus = true;
+    this.isShowingLuxtre = true;
   };
 
   _syncSidebarRouteWithRouter = () => {

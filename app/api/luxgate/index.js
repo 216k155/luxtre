@@ -2,6 +2,8 @@ import { split, get } from 'lodash';
 import { action } from 'mobx';
 import environment from '../../environment';
 import { getLuxgateCoinInfo } from './getLuxgateCoinInfo';
+import { getLuxgateOrders } from './getLuxgateOrders';
+import { getLuxgateTransactions } from './getLuxgateTransactions';
 import { getLuxgateCoinBalanceFromAddress } from './getLuxgateCoinBalanceFromAddress';
 
 export const LUXGATE_API_HOST = 'localhost';
@@ -21,7 +23,9 @@ import {
 
 import type {
     GetCoinInfoResponse,
-    GetCoinBalanceResponse
+    GetCoinBalanceResponse,
+    GetLGOrdersResponse,
+    GetLGTransactionsResponse
   } from '../common';
 
 export default class LuxApi {
@@ -32,8 +36,8 @@ export default class LuxApi {
         }
     }
 
-    async getCoinBalanace(coin: string, address: string): Promise<GetCoinInfoResponse> {
-        Logger.debug('LuxApi::getCoinInfo called');
+    async getCoinBalanace(coin: string, address: string): Promise<GetCoinBalanceResponse> {
+        Logger.debug('LuxApi::getCoinBalanace called');
         try {
             const userpass = "610fb5f228b6857fa91ada725033979a2a5e327b9a68ee6c59300d9d31c84718";
             const response = await getLuxgateCoinBalanceFromAddress( {coin, userpass, address} );
@@ -44,7 +48,7 @@ export default class LuxApi {
             else
                 return 0;
         } catch (error) {
-            Logger.error('LuxApi::getCoinInfo error: ' + stringifyError(error));
+            Logger.error('LuxApi::getCoinBalanace error: ' + stringifyError(error));
             throw new GenericApiError();
         }
     }   
@@ -62,6 +66,39 @@ export default class LuxApi {
                 return "";
         } catch (error) {
             Logger.error('LuxApi::getCoinInfo error: ' + stringifyError(error));
+            throw new GenericApiError();
+        }
+    }
+
+    async getLGOrders(base: string, rel: string): Promise<GetLGOrdersResponse> {
+        Logger.debug('LuxApi::getLGOrders called');
+        try {
+            const response = await getLuxgateOrders({base, rel});
+            if (response !== undefined)
+            {
+                return stringifyData(response);
+            }
+            else
+                return "";
+        } catch (error) {
+            Logger.error('LuxApi::getLGOrders error: ' + stringifyError(error));
+            throw new GenericApiError();
+        }
+    }
+
+    async getLGTransactions(coin: string, address: string): Promise<GetLGTransactionsResponse> {
+        Logger.debug('LuxApi::getLGTransactions called');
+        try {
+            const userpass = "610fb5f228b6857fa91ada725033979a2a5e327b9a68ee6c59300d9d31c84718";
+            const response = await getLuxgateTransactions({coin, userpass, address});
+            if (response !== undefined)
+            {
+                return stringifyData(response);
+            }
+            else
+                return "";
+        } catch (error) {
+            Logger.error('LuxApi::getLGTransactions error: ' + stringifyError(error));
             throw new GenericApiError();
         }
     }
