@@ -23,7 +23,7 @@ export default class Wallet extends Component<Props> {
     const { wallets } = this.props.stores.lux;
     if (!wallets.active) return false;
     const screenRoute = buildRoute(ROUTES.WALLETS.PAGE, { id: wallets.active.id, page });
-    return app.currentRoute === screenRoute;
+    return app.currentRoute.indexOf(screenRoute) > -1 ? true : false;
   };
 
   handleWalletNavItemClick = (page: string) => {

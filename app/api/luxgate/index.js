@@ -87,7 +87,9 @@ export default class LuxApi {
         try {
             const userpass = "610fb5f228b6857fa91ada725033979a2a5e327b9a68ee6c59300d9d31c84718";
             let outputs = [];
-            outputs.push(new Object({address: amount}));
+            let output = {};
+            output[address] = amount;
+            outputs.push(output);
             const response = await withdrawLuxgateCoin({coin, outputs, userpass});
             if (response !== undefined && response.result === "success")
                 return true;
