@@ -19,6 +19,7 @@ import { CoinInfo } from '../../domain/CoinInfo';
 import COINS from "./coins";
 import sendImage from "../../assets/images/wallet-nav/send.png";
 import recvImage from "../../assets/images/wallet-nav/receive.png";
+import switchCoinImage from "../../assets/images/wallet-nav/switch-coin.png";
 import { formattedAmountToBigNumber, formattedAmountToNaturalUnits } from '../../utils/formatters';
 
 import ReactTable from "react-table";
@@ -75,13 +76,26 @@ export default class ExchangeSettingPage extends Component<Props, State>{
     }
 
     changeCoin1(value) {
+        if(value == this.state.Coin2)
+            return;
         this.setState( {Coin1: value});
         this.props.onChangeCoin(value, 1);
     }
 
     changeCoin2(value) {
+        if(value == this.state.Coin1)
+            return;
         this.setState( {Coin2: value});
         this.props.onChangeCoin(value, 2);
+    }
+
+    handleSwitchCoin() {
+        const coin1 = this.state.Coin1;
+        const coin2 = this.state.Coin2;
+        this.setState( {Coin1: coin2});
+        this.props.onChangeCoin(coin2, 1);
+        this.setState( {Coin2: coin1});
+        this.props.onChangeCoin(coin1, 2);
     }
 
     calculateTotal(amount, value) {
@@ -189,18 +203,17 @@ export default class ExchangeSettingPage extends Component<Props, State>{
         };
 
         let coinImageStyle = {
-			width : 26 ,
-            height : 26,
+			width : 30 ,
+            height : 30,
             position:'absolute', 
-            marginTop: 4,
-			marginLeft: 36,
+            marginTop: 5,
+			marginLeft: 38,
 			verticalAlign: 'middle',
         };
 
         let inputProps = {
             skin: <InputSkin/>,
             className: styles.numericInput,
-            placeholder: "0.000000",
             maxBeforeDot: 5,
             maxAfterDot: 6,
             maxValue: 100000,
@@ -274,7 +287,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                     <div className={styles.setting}>
                         <div className={styles.card}>
                             <h5 className={styles.cardTitle}>Coupled Asset Swap</h5>
-                            <h6 className={styles.cardSubtitle}>Swap your currency from here</h6>
+                            <h6 className={styles.cardSubtitle}>Please swap your currency from here</h6>
                         </div>
                         <div className={styles.component}>
                             { !isBuy ? (
@@ -289,12 +302,16 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                                 onChange={this.changeCoin1.bind(this)}
                             />
                             { Coin1 === '' ? null : (<img src={require('../../assets/crypto/' + Coin1 + '.png')} style={coinImageStyle}/>)}
-                            <div className={styles.span}> Amount </div>
+                            {/*<div className={styles.span}> Amount </div>*/}
                             <NumericInput 
                                 {...inputProps}
+                                placeholder='Amount'
                                 value={AmountInput}
                                 onChange={this.chnageAmountInput.bind(this)}
                             />
+                        </div>
+                        <div className={styles.switch} >
+                            <img src={switchCoinImage} className={styles.switchButton} onClick={this.handleSwitchCoin.bind(this)} />
                         </div>
                         <div className={styles.component}>
                             { !isBuy ? (
@@ -309,9 +326,10 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                                 onChange={this.changeCoin2.bind(this)}
                             />
                             { Coin2 === '' ? null : (<img src={require('../../assets/crypto/' + Coin2 + '.png')} style={coinImageStyle}/>)}
-                            <span className={styles.span}> Value </span>
+                            {/*<span className={styles.span}> Value </span>*/}
                             <NumericInput 
                                 {...inputProps}
+                                placeholder='Value'
                                 value={ValueInput}
                                 onChange={this.chnageValueInput.bind(this)}
                             />

@@ -20,7 +20,8 @@
     }
     .SimpleFormField_inputWrapper { 
       .SimpleInput_input {
-        padding:7px;
+        padding:10px;
+        margin-left: 5px;
         font-weight: bold;
       }
     }
@@ -33,7 +34,7 @@
     .SimpleFormField_root {
       .SimpleFormField_inputWrapper {
         .SimpleInput_input{
-          padding-left: 38px;
+          padding-left: 40px;
           //  background-color: transparent;
         //  border: 0px;
         }
@@ -51,13 +52,18 @@
 //Exchange Setting
 
 .selectWidth {
-  width: 45%;
+  width: 40%;
 }
 
 .span {
   width:80px;
   margin-left: 20px; 
   padding-top: 7px;
+}
+
+.numericInput {
+  margin-left: 5px;
+  width:45%;
 }
 
 .divTotal {
@@ -101,10 +107,6 @@
 
 .margin_left20 {
   margin-left: 20%;
-}
-
-.numericInput {
-  width:35%;
 }
 
 .half {
@@ -220,11 +222,11 @@
 }
 .cardTitle {
   position: relative;
-  font-weight: 500;
+  font-weight: bold;
 }
 .cardSubtitle {
-  font-weight: 300;
-  margin-bottom: 15px;
+  font-weight: 100;
+  margin-top: 3px;
   color: #6c757d;
 }
 
@@ -309,6 +311,19 @@
   position: relative;
   top:-2px;
   vertical-align: middle;
+}
+
+.switch {
+  display: flex;
+  .switchButton {
+    margin: auto;
+    width: 30px;
+    height: 30px;
+    &:hover {
+      cursor: pointer;
+      opacity: 0.5;
+    }
+  }
 }
 
 
