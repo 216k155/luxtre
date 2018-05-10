@@ -362,7 +362,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                     <div className={styles.orderTable}>
                         <div className={styles.tableCaption}> 
                             <span className={styles.order}> ORDERS </span>
-			            	<div className={styles.tableCaptionPos}> {Coin1} &lArr; {Coin2} </div>
+			            	<div className={styles.tableCaptionPos}> {Coin2} &rArr; {Coin1} </div>
                         </div>
                         <ReactTable
                             data={data}

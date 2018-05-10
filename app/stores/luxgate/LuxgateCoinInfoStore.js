@@ -20,7 +20,7 @@ export default class LuxgateCoinInfoStore extends Store {
   // REQUESTS
   @observable getCoinInfoRequest: Request<GetCoinInfoResponse> = new Request(this.api.luxgate.getCoinInfo);
   @observable getCoinBalanceRequest: Request<GetCoinBalanceResponse> = new Request(this.api.luxgate.getCoinBalanace);
-  @observable sendCoinRequest: Request<boolean> = new Request(this.api.luxgate.withdraw);
+  @observable sendCoinRequest: Request<sendCoinResponse> = new Request(this.api.luxgate.withdraw);
   
   @observable lstCoinInfo: Array<CoinInfo> = [];
   @observable swap_coin1: string = '';
@@ -70,9 +70,9 @@ export default class LuxgateCoinInfoStore extends Store {
   };
 
   _sendCoin = async ( transactionDetails: {
-    coin: ?string,
+    coin: string,
     receiver: string,
-    amount: Number
+    amount: number
   }) => {
     const { coin, receiver, amount} = transactionDetails;
     await this.sendCoinRequest.execute({

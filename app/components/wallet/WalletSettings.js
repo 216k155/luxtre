@@ -242,8 +242,10 @@ export default class WalletSettings extends Component<Props> {
                   this.setState({ actionType: 'exportPrivateKey' });
                   openDialogAction({dialog: WalletUnlockDialog});
                 }
-                else
-                  onExportPrivateKey();
+                else{
+                  //onExportPrivateKey(address, '');
+                }
+                  
               }}
               skin={<SimpleButtonSkin />}
             />
@@ -252,7 +254,13 @@ export default class WalletSettings extends Component<Props> {
               className={importButtonClasses}
               label="Import"
               onMouseUp={() => {
-                openDialogAction({dialog: ImportPrivateKeyDialog});
+                if(isWalletLocked){
+                  this.setState({ actionType: 'importPrivateKey' });
+                  openDialogAction({dialog: WalletUnlockDialog});
+                }
+                else{
+                  //onImportPrivateKey(privkey, '');
+                }
               }}
               skin={<SimpleButtonSkin />}
             />

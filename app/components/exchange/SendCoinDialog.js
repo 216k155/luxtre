@@ -105,9 +105,9 @@ export default class ReceiveAddressDialog extends Component<Props> {
             const { coinName } = this.props;
             const { receiver, amount } = form.values();
             const transactionData = {
-                coin,
+                coin: coinName,
                 receiver,
-                amount: formattedAmountToFloat(totalAmount),
+                amount: formattedAmountToFloat(amount),
             };
             this.props.onSubmit(transactionData);
           },
