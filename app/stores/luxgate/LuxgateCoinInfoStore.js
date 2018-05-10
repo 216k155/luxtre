@@ -23,8 +23,8 @@ export default class LuxgateCoinInfoStore extends Store {
   @observable sendCoinRequest: Request<sendCoinResponse> = new Request(this.api.luxgate.withdraw);
   
   @observable lstCoinInfo: Array<CoinInfo> = [];
-  @observable swap_coin1: string = '';
-  @observable swap_coin2: string = '';
+  @observable swap_coin1: string = 'BTC';
+  @observable swap_coin2: string = 'LUX';
 
   setup() {
     super.setup();
@@ -42,31 +42,17 @@ export default class LuxgateCoinInfoStore extends Store {
 
   _getCoinInfo = async ( params: { coin: string, coin_num: number } ) => {
     const { coin, coin_num } = params;
-    if(coin_num == 1) this.swap_coin1 = coin;
-    if(coin_num == 2) this.swap_coin2 = coin;
-    const info: GetCoinInfoResponse = await this.getCoinInfoRequest.execute(coin).promise;
-    if(info !== "")
+    if(coin === 'all')
     {
-      const objInfo = JSON.parse(info);
-      if(coin == objInfo.coin)
-      {
-      const address = objInfo.smartaddress;
-        const balance = objInfo.balance ? objInfo.balance : await this.getCoinBalanceRequest.execute(coin, address).promise;
-      const height = objInfo.height;
-      const status = objInfo.status;
-      this._addCoinInfo(new CoinInfo( { coin, balance, address, height, status }));
-      }
+      this.refreshCoinInfoData();
     }
     else
     {
-      const balance = 0;
-      const address = '';
-      const height = -1;
-      const status = 'inactive';
-      this._addCoinInfo(new CoinInfo( { coin, balance, address, height, status }));
-    }
+      if(coin_num == 1) this.swap_coin1 = coin;
+      if(coin_num == 2) this.swap_coin2 = coin;
 
-    this.getCoinInfoRequest.reset();
+      this.getCoinInfoData(coin);
+    }
   };
 
   _sendCoin = async ( transactionDetails: {
@@ -81,10 +67,40 @@ export default class LuxgateCoinInfoStore extends Store {
       amount: amount});
     this.actions.dialogs.closeActiveDialog.trigger();
     this.sendCoinRequest.reset();
+    this.getCoinInfoData(coin);
   };
 
-  @action refreshCoinInfoData = () => {
+  @action getCoinInfoData = async (coin: string) => {
+
+    const info: GetCoinInfoResponse = await this.getCoinInfoRequest.execute(coin).promise;
+    if(info !== "")
+    {
+      const objInfo = JSON.parse(info);
+      if(coin == objInfo.coin)
+      {
+        const address = objInfo.smartaddress;
+        const balance = objInfo.balance ? objInfo.balance : await this.getCoinBalanceRequest.execute(coin, address).promise;
+        const height = objInfo.height;
+        const status = objInfo.status;
+        this._addCoinInfo(new CoinInfo( { coin, balance, address, height, status }));
+      }
+    }
+    else
+    {
+      const balance = 0;
+      const address = '';
+      const height = -1;
+      const status = 'inactive';
+      this._addCoinInfo(new CoinInfo( { coin, balance, address, height, status }));
+    }
+
+    this.getCoinInfoRequest.reset();
+  }
+
+  @action refreshCoinInfoData = async () => {
     if (this.stores.networkStatus.isConnected) {
+      await this.getCoinInfoData(this.swap_coin1);
+      await this.getCoinInfoData(this.swap_coin2);
     }
   }
 
@@ -108,8 +124,8 @@ export default class LuxgateCoinInfoStore extends Store {
     this.lstCoinInfo.splice(index, 1);
   };
   
-  //_pollRefresh = async () => {
-  //  this.stores.networkStatus.isSynced && await this.refreshCoinInfoData()
-  //}
+  _pollRefresh = async () => {
+    await this.refreshCoinInfoData();
+  }
 
 }
