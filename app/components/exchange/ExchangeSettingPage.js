@@ -59,8 +59,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
     };
 
     componentDidMount() {
-        this.props.onChangeCoin('BTC', 1);
-        this.props.onChangeCoin('LUX', 2);
+        this.props.onChangeCoin('all', 0);
     }
 
     toggleBuySell() {
@@ -305,7 +304,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                             {/*<div className={styles.span}> Amount </div>*/}
                             <NumericInput 
                                 {...inputProps}
-                                placeholder='Amount'
+                                placeholder={'0.000000 '+ Coin1} 
                                 value={AmountInput}
                                 onChange={this.chnageAmountInput.bind(this)}
                             />
@@ -329,7 +328,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                             {/*<span className={styles.span}> Value </span>*/}
                             <NumericInput 
                                 {...inputProps}
-                                placeholder='Value'
+                                placeholder={'0.000000 '+ Coin2 + '/' + Coin1} 
                                 value={ValueInput}
                                 onChange={this.chnageValueInput.bind(this)}
                             />
