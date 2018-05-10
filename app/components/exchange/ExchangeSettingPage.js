@@ -371,7 +371,9 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                         />
                     </div>
                     <div className={styles.historyTable}>
-                        <div className={styles.tableCaption}> HISTORY </div>
+                        <div className={styles.tableCaption}>
+                            <div className={styles.tableCaptionPos}> HISTORY </div>
+                        </div>    
                         <ReactTable
                             data={data}
                             columns={columns}
