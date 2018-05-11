@@ -63,7 +63,7 @@ export default class LuxgateCoinInfoStore extends Store {
     const { coin, receiver, amount} = transactionDetails;
     await this.sendCoinRequest.execute({
       coin: coin, 
-      address: receiver, 
+      receiver: receiver, 
       amount: amount});
     this.actions.dialogs.closeActiveDialog.trigger();
     this.sendCoinRequest.reset();

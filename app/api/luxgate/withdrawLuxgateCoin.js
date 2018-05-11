@@ -4,22 +4,23 @@ import { LUXGATE_API_HOST, LUXGATE_API_PORT } from './index';
 
 export type WithdrawLuxgateCoinParams = {
   coin: string,
-  outputs: Array<Object>,
-  userpass: string
+  receiver: string,
+  amount: number,
+  password: string
 };
 
 export const withdrawLuxgateCoin = (
-  { coin, outputs, userpass }: WithdrawLuxgateCoinParams
+  { coin, receiver, amount, password }: WithdrawLuxgateCoinParams
 ): Promise<string> => (
   request({
     hostname: LUXGATE_API_HOST,
     method: 'POST',
     port: LUXGATE_API_PORT,
   }, {
-    method: 'withdraw',
+    method: 'sendtransaction',
     coin: coin,
-    outputs: outputs,
-    broadcast: 1,
-    userpass: userpass
+    receiver: receiver,
+    amount: amount,
+    password: password
   })
 );
