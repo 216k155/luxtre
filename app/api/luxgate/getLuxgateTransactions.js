@@ -4,12 +4,12 @@ import { LUXGATE_API_HOST, LUXGATE_API_PORT } from './index';
 
 export type GetLuxgateTransactionsParams = {
   coin: string,
-  userpass: string,
+  password: string,
   address: string
 };
 
 export const getLuxgateTransactions = (
-  { coin, userpass, address }: GetLuxgateTransactionsParams
+  { coin, password, address }: GetLuxgateTransactionsParams
 ): Promise<string> => (
   request({
     hostname: LUXGATE_API_HOST,
@@ -18,7 +18,7 @@ export const getLuxgateTransactions = (
   }, {
     method: 'listtransactions',
     coin: coin,
-    userpass: userpass,
+    password: password,
     address: address
   })
 );
