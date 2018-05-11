@@ -117,6 +117,8 @@ export default {
   '--theme-nav-item-background-color-active': '#fafbfc',
   '--theme-nav-item-text-color': 'rgba(250,251,252, 0.6)',
   '--theme-nav-item-text-color-active': '#1d2e47',
+  '--theme-nav-item-text-gradient-1': '#243d5f',
+  '--theme-nav-item-text-gradient-2': '#83a5c1',
 
   '--theme-node-update-background-color': '#ebeff2',
   '--theme-node-update-title-color': '#5e6066',
@@ -269,4 +271,8 @@ export default {
   '--theme-terms-of-use-text-color': '#5e6066',
 
   '--theme-wallet-password-switch-label-color': '#5e6066',
+
+  '--theme-luxgate-statusbar-background-color': '#40c2dc',
+  '--theme-luxgate-statusbar-color': '#40c2dc',
+
 };

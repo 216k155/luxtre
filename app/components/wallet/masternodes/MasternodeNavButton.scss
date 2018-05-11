@@ -10,6 +10,7 @@
 }
 
 .container {
+  background-color: var(--theme-nav-item-background-color);
   text-align: center;
   display: flex;
   flex-direction: row;
@@ -21,6 +22,7 @@
 }
 
 .label {
+  color: var(--theme-switch-thumb-color-checked);
   font-size: 14px;
   font-family: var(--font-regular);
   display: block;

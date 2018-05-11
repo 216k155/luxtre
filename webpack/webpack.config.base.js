@@ -30,6 +30,10 @@ module.exports = validate({
       exclude: /\.inline\.svg$/,
     },
     {
+      test: /\.css$/,
+      loader:'style!css!'
+    },
+    {
       test: /\.inline\.svg$/,
       loader: 'raw-loader',
     }]

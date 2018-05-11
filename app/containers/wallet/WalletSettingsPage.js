@@ -58,8 +58,8 @@ export default class WalletSettingsPage extends Component<Props> {
         onCancelEditing={cancelEditingWalletField.trigger}
         onUnlockWallet={(password) => unlockWallet.trigger({ password })}
         onLockWallet={lockWallet.trigger}
-        onExportPrivateKey={(password) => exportPrivateKey.trigger({ password })}
-        onImportPrivateKey={(privateKey) => importPrivateKey.trigger({ privateKey })}
+        onExportPrivateKey={(address, password) => exportPrivateKey.trigger({ address, password })}
+        onImportPrivateKey={(privateKey, password) => importPrivateKey.trigger({ privateKey, password })}
         activeField={walletFieldBeingEdited}
         nameValidator={name => isValidWalletName(name)}
       />

@@ -58,7 +58,7 @@ storiesOf('Sidebar', module)
       activeSidebarCategory={SIDEBAR_CATEGORIES.WALLETS}
       menus={sidebarMenus}
       onCategoryClicked={action('onCategoryClicked')}
-      isShowingSubMenus
+      isShowingLuxtre
     />
   ))
 

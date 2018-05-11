@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import MainLayout from '../MainLayout';
 import WalletWithNavigation from '../../components/wallet/layouts/WalletWithNavigation';
+import ExchangePage from '../../components/exchange/ExchangePage';
 import LoadingSpinner from '../../components/widgets/LoadingSpinner';
 import LuxRedemptionSuccessOverlay from '../../components/wallet/lux-redemption/LuxRedemptionSuccessOverlay';
 import { buildRoute } from '../../utils/routing';
@@ -22,7 +23,7 @@ export default class Wallet extends Component<Props> {
     const { wallets } = this.props.stores.lux;
     if (!wallets.active) return false;
     const screenRoute = buildRoute(ROUTES.WALLETS.PAGE, { id: wallets.active.id, page });
-    return app.currentRoute === screenRoute;
+    return app.currentRoute.indexOf(screenRoute) > -1 ? true : false;
   };
 
   handleWalletNavItemClick = (page: string) => {
@@ -37,14 +38,18 @@ export default class Wallet extends Component<Props> {
   render() {
     const { sidebar } = this.props.stores;
     const { wallets, luxRedemption } = this.props.stores.lux;
+    const luxgate = this.props.stores.luxgate;
+    const { coinInfo } = luxgate;
+    const { coinInfoList } = coinInfo;
+    const { uiDialogs, uiNotifications } = this.props.stores;
     const { actions } = this.props;
     const { showLuxRedemptionSuccessMessage, amountRedeemed } = luxRedemption;
-    const {isShowingSubMenus} = sidebar;
+    const {isShowingLuxtre} = sidebar;
     if (!wallets.active) return <MainLayout><LoadingSpinner /></MainLayout>;
 
     return (
       <MainLayout>
-        {isShowingSubMenus ?
+        {isShowingLuxtre ?
           <WalletWithNavigation
             isActiveScreen={this.isActiveScreen}
             onWalletNavItemClick={this.handleWalletNavItemClick}
@@ -53,9 +58,21 @@ export default class Wallet extends Component<Props> {
             {this.props.children}
           </WalletWithNavigation>
           :
-          <div>
+          <ExchangePage 
+            coinInfoList={coinInfoList}
+            openDialogAction={actions.dialogs.open.trigger}  
+            isDialogOpen={uiDialogs.isOpen}
+            onChangeCoin={(coin: string, coin_num: number) => {
+              const coinData = {
+                coin: coin,
+                coin_num: coin_num,
+              };
+              actions.luxgate.coinInfo.getCoinInfo.trigger(coinData);
+            }}
+            >
+
             {/*code Exchange UI here */}
-          </div>  
+          </ExchangePage>  
         }
       </MainLayout>
     );
