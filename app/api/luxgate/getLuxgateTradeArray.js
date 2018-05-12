@@ -21,6 +21,6 @@ export const getLuxgateTradeArray = (
     password: password,
     base: base,
     rel: rel,
-    scale: timerange
+    scale: scale
   })
 );
