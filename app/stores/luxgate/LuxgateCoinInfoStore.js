@@ -20,7 +20,7 @@ export default class LuxgateCoinInfoStore extends Store {
   // REQUESTS
   @observable getCoinInfoRequest: Request<GetCoinInfoResponse> = new Request(this.api.luxgate.getCoinInfo);
   @observable getCoinBalanceRequest: Request<GetCoinBalanceResponse> = new Request(this.api.luxgate.getCoinBalanace);
-  @observable sendCoinRequest: Request<sendCoinResponse> = new Request(this.api.luxgate.withdraw);
+  @observable sendCoinRequest: Request<sendCoinResponse> = new Request(this.api.luxgate.sendCoin);
   
   @observable lstCoinInfo: Array<CoinInfo> = [];
   @observable swap_coin1: string = 'BTC';

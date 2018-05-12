@@ -5,7 +5,7 @@ import { getLuxgateCoinInfo } from './getLuxgateCoinInfo';
 import { getLuxgateOrders } from './getLuxgateOrders';
 import { getLuxgateTransactions } from './getLuxgateTransactions';
 import { getLuxgateCoinBalanceFromAddress } from './getLuxgateCoinBalanceFromAddress';
-import { withdrawLuxgateCoin } from './withdrawLuxgateCoin';
+import { sendLuxgateCoin } from './sendLuxgateCoin';
 import { getLuxgateTradeArray } from './getLuxgateTradeArray';
 import { getLuxgatePriceArray } from './getLuxgatePriceArray';
 
@@ -34,7 +34,7 @@ import type {
     GetLGPriceArrayResponse
   } from '../common';
 
-export type WithdrawRequest = {
+export type SendCoinRequest = {
 coin: string,
 address: string,
 amount: string,
@@ -82,18 +82,18 @@ export default class LuxApi {
         }
     }
 
-    async withdraw(request: WithdrawRequest): Promise<boolean> {
-        Logger.debug('LuxgateApi::withdraw called');
+    async sendCoin(request: SendCoinRequest): Promise<boolean> {
+        Logger.debug('LuxgateApi::sendCoin called');
         const { coin, receiver, amount } = request;
         try {
             const password = LUXGATE_USER_PASSWORD;
-            const response = await withdrawLuxgateCoin({coin, receiver, amount, password});
+            const response = await sendLuxgateCoin({coin, receiver, amount, password});
             if (response !== undefined && response.result === "success")
                 return true;
             else
                 return false;
         } catch (error) {
-            Logger.error('LuxgateApi::withdraw error: ' + stringifyError(error));
+            Logger.error('LuxgateApi::sendCoin error: ' + stringifyError(error));
             throw new GenericApiError();
         }
     }
@@ -135,8 +135,8 @@ export default class LuxApi {
         Logger.debug('LuxgateApi::getLGTradeArray called');
         try {
             const password = LUXGATE_USER_PASSWORD;
-            const timeline = 60;
-            const response = await getLuxgateTradeArray({password, base, rel, timeline});
+            const scale = 60;
+            const response = await getLuxgateTradeArray({password, base, rel, scale});
             if (response !== undefined)
             {
                 return stringifyData(response);
@@ -152,8 +152,8 @@ export default class LuxApi {
         Logger.debug('LuxgateApi::getLGPriceArray called');
         try {
             const password = LUXGATE_USER_PASSWORD;
-            const timeline = 60;
-            const response = await getLuxgatePriceArray({password, base, rel, timeline});
+            const scale = 60;
+            const response = await getLuxgatePriceArray({password, base, rel, scale});
             if (response !== undefined)
             {
                 return stringifyData(response);
