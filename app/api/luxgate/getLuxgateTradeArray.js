@@ -6,11 +6,11 @@ export type GetLuxgateTradeArrayParams = {
   password: string,
   base: string,
   rel: string,
-  timerange: number
+  scale: number
 };
 
 export const getLuxgateTradeArray = (
-  { password, base, rel, timerange }: GetLuxgateTradeArrayParams
+  { password, base, rel, scale }: GetLuxgateTradeArrayParams
 ): Promise<string> => (
   request({
     hostname: LUXGATE_API_HOST,
@@ -21,6 +21,6 @@ export const getLuxgateTradeArray = (
     password: password,
     base: base,
     rel: rel,
-    timerange: timerange
+    scale: scale
   })
 );
