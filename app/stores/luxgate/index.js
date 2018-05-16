@@ -1,19 +1,23 @@
 // @flow
 import { observable, action } from 'mobx';
+import LuxgateLoginInfoStore from './LuxgateLoginInfoStore';
 import LuxgateCoinInfoStore from './LuxgateCoinInfoStore';
 import LuxgateMarketInfoStore from './LuxgateMarketInfoStore';
 
 export const luxgateStoreClasses = {
+  loginInfo: LuxgateLoginInfoStore,
   coinInfo: LuxgateCoinInfoStore,
   marketInfo: LuxgateMarketInfoStore,
 };
 
 export type LuxgateStoresMap = {
+  loginInfo: LuxgateLoginInfoStore,
   coinInfo: LuxgateCoinInfoStore,
   marketInfo: LuxgateMarketInfoStore,
 };
 
 const luxgateStores = observable({
+  loginInfo: null,
   coinInfo: null,
   marketInfo: null,
 });

@@ -19,7 +19,7 @@ export default class SidebarStore extends Store {
   setup() {
     const actions = this.actions.sidebar;
     actions.toggleSubMenus.listen(this._toggleSubMenus);
-    actions.activateSidebarCategory.listen(this._onActivateSidebarCategory);
+    actions.switchLuxgate.listen(this._onSwitchLuxgate);
     actions.walletSelected.listen(this._onWalletSelected);
     this.registerReactions([
       this._syncSidebarRouteWithRouter,
@@ -42,7 +42,7 @@ export default class SidebarStore extends Store {
     this.isShowingLuxtre = !this.isShowingLuxtre;
   };
 
-  @action _onActivateSidebarCategory = (params: { category: string, showSubMenu?: boolean }) => {
+  @action _onSwitchLuxgate = (params: { category: string, showSubMenu?: boolean }) => {
     const { category, showSubMenu } = params;
     if (category !== this.activeSidebarCategory) {
       this.activeSidebarCategory = category;
@@ -60,7 +60,7 @@ export default class SidebarStore extends Store {
     this.stores[environment.API].wallets.goToWalletRoute(walletId);
   };
 
-  @action _setActivateSidebarCategory = (category: string) => {
+  @action _setSwitchLuxgate = (category: string) => {
     this.activeSidebarCategory = category;
   };
 
@@ -72,7 +72,7 @@ export default class SidebarStore extends Store {
     const route = this.stores.app.currentRoute;
     this.CATEGORIES.forEach((category) => {
       // If the current route starts with the root of the category
-      if (route.indexOf(category.route) === 0) this._setActivateSidebarCategory(category.route);
+      if (route.indexOf(category.route) === 0) this._setSwitchLuxgate(category.route);
     });
   };
 

@@ -7,9 +7,10 @@ import NumericInput from 'react-polymorph/lib/components/NumericInput';
 import InputSkin from 'react-polymorph/lib/skins/simple/raw/InputSkin';
 import Button from 'react-polymorph/lib/components/Button';
 import ButtonSkin from 'react-polymorph/lib/skins/simple/raw/ButtonSkin';
-import SimpleButtonSkin from 'react-polymorph/lib/skins/simple/raw/ButtonSkin';
 import Checkbox from 'react-polymorph/lib/components/Checkbox';
 import TogglerSkin from 'react-polymorph/lib/skins/simple/TogglerSkin';
+import LuxgateLoginDialog from './LuxgateLoginDialog';
+import LuxgateLoginDialogContainer from '../../containers/wallet/dialogs/LuxgateLoginDialogContainer'
 import ReceiveAddressDialog from './ReceiveAddressDialog';
 import ReceiveAddressDialogContainer from '../../containers/wallet/dialogs/ReceiveAddressDialogContainer'
 import SendCoinDialog from './SendCoinDialog';
@@ -340,7 +341,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                         <div className={styles.swapbutton}>
                             <Button
                                 label="SWAP NOW"
-                                skin={<SimpleButtonSkin/>}
+                                skin={<ButtonSkin/>}
                             />
                         </div>
                     </div>
@@ -396,6 +397,11 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                         error = {this.state.outputsError}
                     />
                 ) : null} 
+                {isDialogOpen(LuxgateLoginDialog) ? (
+                    <LuxgateLoginDialogContainer 
+                        error = {this.state.outputsError}
+                    />
+                ) : null}
             </div>   
         );
     }

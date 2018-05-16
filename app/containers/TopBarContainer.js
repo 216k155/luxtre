@@ -18,7 +18,7 @@ export default class TopBarContainer extends Component<Props> {
 
   render() {
     const { actions, stores } = this.props;
-    const { sidebar, app, networkStatus } = stores;
+    const { sidebar, app, networkStatus, luxgate } = stores;
     const isMainnet = environment.isMainnet();
     const isLuxApi = environment.isLuxApi();
     const activeWallet = stores[environment.API].wallets.active;
@@ -37,6 +37,15 @@ export default class TopBarContainer extends Component<Props> {
         {isShowingLuxtre && activeWallet && activeWallet.hasPassword == true ? 
           <WalletLockStatusIcon
             isLocked={activeWallet.isLocked}
+            isShowingLuxtre={isShowingLuxtre}
+          />
+          : null
+        }
+        {!isShowingLuxtre ?
+          <WalletLockStatusIcon
+            isLocked={activeWallet.isLocked}
+            isShowingLuxtre={isShowingLuxtre}
+            openDialogAction={actions.dialogs.open.trigger}  
           />
           : null
         }

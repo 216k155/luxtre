@@ -44,7 +44,7 @@ export default class MainLayout extends Component<Props> {
         categories={sidebar.CATEGORIES}
         activeSidebarCategory={sidebar.activeSidebarCategory}
         onCategoryClicked={category => {
-          actions.sidebar.activateSidebarCategory.trigger({ category });
+          actions.sidebar.switchLuxgate.trigger({ category });
         }}
         isSynced
         openDialogAction={actions.dialogs.open.trigger}

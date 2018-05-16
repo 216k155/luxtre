@@ -323,5 +323,9 @@
   "wallet.unlocked": "Wallet encrypted and currently unlocked",
   "wallet.stakingActive": "Staking is active",
   "wallet.stakingInactive": "Staking is not active",
+
+  "luxgate.login.dialog.title":"Welcome, Please Login",
+  "luxgate.login.dialog.backup.instructions":"Please, make sure you have carefully written down your recovery phrase somewhere safe. You will need this phrase later for next use and recover. Phrase is case sensitive.",
+
   "window.about.title": "Luxcore"
 }
