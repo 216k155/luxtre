@@ -8,6 +8,7 @@ import { getLuxgateCoinBalanceFromAddress } from './getLuxgateCoinBalanceFromAdd
 import { sendLuxgateCoin } from './sendLuxgateCoin';
 import { getLuxgateTradeArray } from './getLuxgateTradeArray';
 import { getLuxgatePriceArray } from './getLuxgatePriceArray';
+import { getLuxgateAccountNewPhrase } from './getLuxgateAccountNewPhrase';
 
 export const LUXGATE_API_HOST = 'localhost';
 export const LUXGATE_API_PORT = 9883;
@@ -31,14 +32,20 @@ import type {
     GetLGOrdersResponse,
     GetLGTransactionsResponse,
     GetLGTradeArrayResponse,
-    GetLGPriceArrayResponse
+    GetLGPriceArrayResponse,
+    GetAccountNewPhraseResponse
   } from '../common';
 
 export type SendCoinRequest = {
-coin: string,
-address: string,
-amount: string,
+    coin: string,
+    address: string,
+    amount: string,
 };
+
+import type {
+    LuxgateAccountNewPhraseResponse,
+  } from './types';
+  
 
 export default class LuxApi {
 
@@ -162,6 +169,21 @@ export default class LuxApi {
                 return "";
         } catch (error) {
             Logger.error('LuxgateApi::getLGPriceArray error: ' + stringifyError(error));
+            throw new GenericApiError();
+        }
+    }
+
+    
+    getAccountNewPhrase(): Promise<GetAccountNewPhraseResponse> {
+        Logger.debug('LuxApi::getAccountNewPhrase called');
+        try {
+            const response: Promise<LuxgateAccountNewPhraseResponse> = new Promise(
+                (resolve) => resolve(getLuxgateAccountNewPhrase())
+            );
+            Logger.debug('LuxApi::getAccountNewPhrase success');
+            return response;
+        } catch (error) {
+            Logger.error('LuxApi::getAccountNewPhrase error: ' + stringifyError(error));
             throw new GenericApiError();
         }
     }

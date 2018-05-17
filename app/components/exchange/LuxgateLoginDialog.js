@@ -9,10 +9,16 @@ import Dialog from '../widgets/Dialog';
 import QRCode from 'qrcode.react';
 import globalMessages from '../../i18n/global-messages';
 import LocalizableError from '../../i18n/LocalizableError';
-import styles from './ReceiveAddressDialog.scss';
+import styles from './LuxgateLoginDialog.scss';
 import iconCopy from '../../assets/images/clipboard-ic.inline.svg';
 import SvgInline from 'react-svg-inline';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import Input from 'react-polymorph/lib/components/Input';
+import SimpleInputSkin from 'react-polymorph/lib/skins/simple/InputSkin';
+import Button from 'react-polymorph/lib/components/Button';
+import ButtonSkin from 'react-polymorph/lib/skins/simple/raw/ButtonSkin';
+import DialogBackButton from '../widgets/DialogBackButton';
+import luxgateIcon from '../../assets/images/luxgate-icon.png';
 
 export const messages = defineMessages({
     dialogTitle: {
@@ -22,34 +28,37 @@ export const messages = defineMessages({
     },
     backupInstructions: {
       id: 'luxgate.login.dialog.backup.instructions',
-      defaultMessage: `!!!Please, make sure you have carefully written down your recovery phrase somewhere safe.
+      defaultMessage: `!!!Please, make sure you have carefully written down your new phrase somewhere safe.
       You will need this phrase later for next use and recover. Phrase is case sensitive.`,
       description: 'Instructions for backing up recovery phrase on dialog that displays recovery phrase.'
     },
-    amountLabel: {
-      id: 'wallet.send.form.amount.label',
-      defaultMessage: '!!!Amount',
-      description: 'Label for the "Amount" number input in the wallet send form.'
+    buttonLabelLogin: {
+      id: 'luxgate.login.dialog.button.labelLogin',
+      defaultMessage: '!!!Enter my Account',
+      description: 'Label for button "Enter my Account" on Login dialog'
     },
-    invalidAmount: {
-      id: 'wallet.send.form.errors.invalidAmount',
-      defaultMessage: '!!!Please enter a valid amount.',
-      description: 'Error message shown when invalid amount was entered.',
-    }
+    buttonLabelNewPhrase: {
+      id: 'luxgate.login.dialog.button.labelNewPhrase',
+      defaultMessage: '!!!Create New Account',
+      description: 'Label for button "Create New Account" on Login dialog'
+    },
 });
 
 messages.fieldIsRequired = globalMessages.fieldIsRequired;
 
 type Props = {
     newPhrase: string,
-    walletAddress: string,
     onCopyAddress: Function,
     error: ?LocalizableError,
     onCancel: Function,
+    onLoginWithPhrase: Function,
+    onCreateNewPhrase: Function,
     children: Node
 };
 
 type State = {
+    account: string,
+    isMatched: boolean,
     isNewPhrase: boolean
 }
 
@@ -63,12 +72,38 @@ export default class LuxgateLoginDialog extends Component<Props, State> {
     };
  
     state = {
+        account: '',
+        isMatched: true,
         isNewPhrase: false
     };
 
     static contextTypes = {
         intl: intlShape.isRequired,
     };
+
+    switchNewPhrase(isNew) {
+        this.setState( {isNewPhrase: isNew});
+        this.setState( {isMatched: !isNew});
+        if(isNew) this.props.onCreateNewPhrase();
+    }
+
+    changeAccountInput(value) {
+        this.setState({ account: value });
+        const value1 = value.split(' ').join('');
+        const value2 = this.props.newPhrase.split(' ').join('');
+        if(value1 == value2)
+            this.setState( {isMatched: true});
+        else 
+            this.setState( {isMatched: false});
+    }
+
+    loginWithPhrase() {
+        if(this.state.account.length > 10)
+        {
+            this.props.onLoginWithPhrase(this.state.account);
+            this.props.onCancel();
+        }
+    }
 
     render() {
         const { intl } = this.context;
@@ -81,33 +116,58 @@ export default class LuxgateLoginDialog extends Component<Props, State> {
         } = this.props;
 
         const {
+            account,
+            isMatched,
             isNewPhrase
         } = this.state;
 
-        const actions = [
-            {
-                label: 'Close',
-                onClick: onCancel
-            }
-        ];
+        const inputStyle = classnames([
+            isNewPhrase ? styles.zeroMargin : styles.password,
+          ]);
+
+        const actions = [];
+
+        actions.push({
+          label: intl.formatMessage(messages.buttonLabelNewPhrase),
+          onClick: () => {this.switchNewPhrase(true)},
+          primary: true
+        });
+    
+        //if (!isNewPhrase) {
+          actions.unshift({
+            label: intl.formatMessage(messages.buttonLabelLogin),
+            onClick: () => {this.loginWithPhrase()},
+            disabled: !isMatched,
+        });
+        //}
 
         return (
             <Dialog
-                title={intl.formatMessage(messages.dialogTitle)}
-                actions={actions}
                 closeOnOverlayClick
-                onClose={onCancel}
+                actions={actions}
                 className={styles.dialog}
+                onClose={onCancel}
                 closeButton={<DialogCloseButton onClose={onCancel} />}
+                backButton={isNewPhrase ? <DialogBackButton onBack={() => {this.switchNewPhrase(false)}} /> : null}
               >
+                <img className={styles.icon} src={luxgateIcon} role="presentation" />
+
                 { isNewPhrase ? (
-                    <div>
+                    <div >
                         <FormattedHTMLMessage {...messages.backupInstructions} />
                         <div className={styles.phrase}>{newPhrase}</div>
                     </div>
                 ) : (
-                    null
+                    <div className={styles.title}> {intl.formatMessage(messages.dialogTitle)} </div>
                 )}
+
+                <Input
+                    className={inputStyle}
+                    value={account}
+                    onChange={this.changeAccountInput.bind(this)}
+                    skin={<SimpleInputSkin />}
+                  />
+
                 {children}
             </Dialog>
         );

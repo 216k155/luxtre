@@ -324,8 +324,13 @@
   "wallet.stakingActive": "Staking is active",
   "wallet.stakingInactive": "Staking is not active",
 
+  "luxgate.Toopbar.Login.Tooltip":"Login",
+  "luxgate.Toopbar.Logout.Tooltip":"Logout",
+
   "luxgate.login.dialog.title":"Welcome, Please Login",
-  "luxgate.login.dialog.backup.instructions":"Please, make sure you have carefully written down your recovery phrase somewhere safe. You will need this phrase later for next use and recover. Phrase is case sensitive.",
+  "luxgate.login.dialog.backup.instructions":"Please, make sure you have carefully written down your new phrase somewhere safe. You will need this phrase later for next use and recover. Phrase is case sensitive.",
+  "luxgate.login.dialog.button.labelLogin":"Enter my Account",
+  "luxgate.login.dialog.button.labelNewPhrase":"Create New Account",
 
   "window.about.title": "Luxcore"
 }

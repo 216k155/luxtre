@@ -6,17 +6,11 @@ import config from '../../../config';
 import { defineMessages, FormattedHTMLMessage } from 'react-intl';
 import LuxgateLoginDialog from '../../../components/exchange/LuxgateLoginDialog';
 import NotificationMessage from '../../../components/widgets/NotificationMessage';
-import type { InjectedProps } from '../../../types/injectedPropsType';
 import environment from '../../../environment';
 import successIcon from '../../../assets/images/success-small.inline.svg';
+import type { InjectedDialogContainerProps } from '../../../types/injectedPropsType';
 
-type Props = {
-  stores: any | StoresMap,
-  actions: any | ActionsMap,
-  coinName: string,
-  walletAddress: string,
-  error: string
-};
+type Props = InjectedDialogContainerProps;
 
 type State = {
   copiedAddress: string,
@@ -31,9 +25,9 @@ export const messages = defineMessages({
 });
 
 @inject('actions', 'stores') @observer
-export default class LuxgateLoginDialogContainer extends Component<InjectedProps> {
+export default class LuxgateLoginDialogContainer extends Component<Props> {
 
-  static defaultProps = { actions: null, stores: null };
+  static defaultProps = { actions: null, stores: null, children: null, onClose: () => {} };
 
   state = {
     copiedAddress: '',
@@ -54,13 +48,12 @@ export default class LuxgateLoginDialogContainer extends Component<InjectedProps
 
   render() {
     const { copiedAddress } = this.state;
-    const { actions, coinName, walletAddress, error } = this.props;
+    const { actions, error } = this.props;
     const { uiDialogs, uiNotifications } = this.props.stores;
     const { wallets } = this.props.stores[environment.API];
-    const { recoveryPhraseWords } = this.props.stores.walletBackup;
     const activeWallet = wallets.active;
-    const luxgate = this.props.stores.luxgate;
-    const { loginInfo } = luxgate;
+    const loginInfo = this.props.stores.luxgate.loginInfo;
+    const { newPhraseWords } = loginInfo;
 
     if (!activeWallet) throw new Error('Active wallet required for LuxgateLoginDialogContainer.');
 
@@ -88,7 +81,13 @@ export default class LuxgateLoginDialogContainer extends Component<InjectedProps
         onCancel={() => {
           actions.dialogs.closeActiveDialog.trigger();
         }}
-        newPhrase={recoveryPhraseWords.reduce((phrase, { word }) => `${phrase} ${word}`, '')}
+        onLoginWithPhrase={(phrase) => {
+          actions.luxgate.loginInfo.loginWithPhrase.trigger(phrase);
+        }}
+        onCreateNewPhrase={() => {
+          actions.luxgate.loginInfo.createNewPhrase.trigger();
+        }}
+        newPhrase={newPhraseWords.reduce((phrase, { word }) => `${phrase} ${word}`, '')}
       >
         <NotificationMessage
             icon={successIcon}
