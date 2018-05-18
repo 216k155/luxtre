@@ -23,30 +23,43 @@ const messages = defineMessages({
 });
 
 type Props = {
+  isLogined: boolean,
+  onLogout: Function,
   openDialogAction: Function,
 };
 
 export default class LuxgateLoginIcon extends Component<Props> {
+
+  static defaultProps = {
+    isLogined: false,
+  };
 
   static contextTypes = {
     intl: intlShape.isRequired
   };
 
   onClickLoginIcon() {
-		this.props.openDialogAction({dialog: LuxgateLoginDialog});
+    if (this.props.isLogined)
+      this.props.onLogout();
+    else
+      this.props.openDialogAction({dialog: LuxgateLoginDialog});
   }
-  
+
   render() {
+    const { isLogined } = this.props;
     const { intl } = this.context;
     const componentClasses = classNames([
       styles.component,
     ]);
-    const tooltip = intl.formatMessage(messages.LuxgateTopbarLoginTooltip);
 
     return (
       <div className={componentClasses}>
-        <button className={styles.loginIcon} title={tooltip}  onClick={() => this.onClickLoginIcon()}> 
-          <img className={styles.icon} src={loginIcon} role="presentation" />   
+        <button 
+          className={styles.loginIcon} 
+          title={!isLogined? intl.formatMessage(messages.LuxgateTopbarLoginTooltip) : intl.formatMessage(messages.LuxgateTopbarLogoutTooltip)}  
+          onClick={() => this.onClickLoginIcon()}
+          > 
+            <img className={styles.icon} src={!isLogined? loginIcon : logoutIcon } role="presentation" />   
         </button>
       </div>
     );

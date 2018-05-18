@@ -5,5 +5,6 @@ import Action from '../lib/Action';
 
 export default class CoinInfoActions {
   createNewPhrase: Action<any> = new Action();
-  loginWithPhrase: Action<any> = new Action();
+  loginWithPhrase: Action<{ phrase: string }> = new Action();
+  logoutAccount: Action<any> = new Action();
 }

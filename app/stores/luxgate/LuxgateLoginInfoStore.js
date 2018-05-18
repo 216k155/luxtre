@@ -18,7 +18,7 @@ export default class LuxgateLoginInfoStore extends Store {
   @observable getAccountNewPhraseRequest: Request<GetAccountNewPhraseResponse> = new Request(this.api.luxgate.getAccountNewPhrase);
 
   @observable newPhraseWords = [];
-  @observable isLuxgateLogin: boolean = false;
+  @observable isLogined: boolean = false;
   @observable password: string = "";
   @observable myPhrase: string = "";
   
@@ -29,6 +29,7 @@ export default class LuxgateLoginInfoStore extends Store {
     const { loginInfo } = luxgate;
     loginInfo.createNewPhrase.listen(this._createNewPhrase);
     loginInfo.loginWithPhrase.listen(this._loginWithPhrase);
+    loginInfo.logoutAccount.listen(this._logoutAccount);
   }
 
   _createNewPhrase = async () => {
@@ -50,6 +51,12 @@ export default class LuxgateLoginInfoStore extends Store {
 
   @action _loginWithPhrase = (phrase: string) => {
     this.myPhrase = phrase;
+    this.isLogined = true;
+  };
+
+  @action _logoutAccount = () => {
+    this.myPhrase = '';
+    this.isLogined = false;
   };
 
 }
