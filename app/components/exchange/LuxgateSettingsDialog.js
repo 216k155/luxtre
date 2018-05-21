@@ -8,7 +8,7 @@ import DialogCloseButton from '../widgets/DialogCloseButton';
 import Dialog from '../widgets/Dialog';
 import globalMessages from '../../i18n/global-messages';
 import LocalizableError from '../../i18n/LocalizableError';
-import styles from './LuxgateLoginDialog.scss';
+import styles from './LuxgateSettingsDialog.scss';
 import iconCopy from '../../assets/images/clipboard-ic.inline.svg';
 import SvgInline from 'react-svg-inline';
 import CopyToClipboard from 'react-copy-to-clipboard';
@@ -17,29 +17,37 @@ import SimpleInputSkin from 'react-polymorph/lib/skins/simple/InputSkin';
 import Button from 'react-polymorph/lib/components/Button';
 import ButtonSkin from 'react-polymorph/lib/skins/simple/raw/ButtonSkin';
 import DialogBackButton from '../widgets/DialogBackButton';
-import luxgateIcon from '../../assets/images/luxgate-icon.png';
+import Checkbox from 'react-polymorph/lib/components/Checkbox';
+import TogglerSkin from 'react-polymorph/lib/skins/simple/TogglerSkin';
+import checkIcon from '../../assets/images/icons/check.png';
+import crossIcon from '../../assets/images/icons/cross.png';
+import COINS from "./coins";
 
 export const messages = defineMessages({
     dialogTitle: {
-      id: 'luxgate.login.dialog.title',
-      defaultMessage: '!!!Welcome to Luxgate, Please Login',
-      description: 'Title "Welcome to Luxgate, Please Login" in the luxgate login form.'
+      id: 'luxgate.settings.dialog.title',
+      defaultMessage: '!!!Luxgate Settings',
+      description: 'Title "Luxgate Settings" in the luxgate settings dialog.'
     },
-    backupInstructions: {
-      id: 'luxgate.login.dialog.backup.instructions',
-      defaultMessage: `!!!Please, make sure you have carefully written down your new phrase somewhere safe.
-      You will need this phrase later for next use and recover. Phrase is case sensitive.`,
-      description: 'Instructions for backing up recovery phrase on dialog that displays recovery phrase.'
+    tableHeadLabelState: {
+      id: 'luxgate.settings.dialog.tablehead.state',
+      defaultMessage: `!!!State`,
+      description: 'Label for TableHeaderLabel "State" on settings dialog'
     },
-    buttonLabelLogin: {
-      id: 'luxgate.login.dialog.button.labelLogin',
-      defaultMessage: '!!!Enter my Account',
-      description: 'Label for button "Enter my Account" on Login dialog'
+    tableHeadLabelType: {
+        id: 'luxgate.settings.dialog.tablehead.type',
+        defaultMessage: `!!!Type`,
+        description: 'Label for TableHeaderLabel "Type" on settings dialog'
+      },
+    buttonLabelSave: {
+      id: 'luxgate.settings.dialog.button.labelSave',
+      defaultMessage: '!!!Save',
+      description: 'Label for button "Save" on settings dialog'
     },
-    buttonLabelNewPhrase: {
-      id: 'luxgate.login.dialog.button.labelNewPhrase',
-      defaultMessage: '!!!Create New Account',
-      description: 'Label for button "Create New Account" on Login dialog'
+    buttonLabelCancel: {
+      id: 'luxgate.settings.dialog.button.labelCancel',
+      defaultMessage: '!!!Cancel',
+      description: 'Label for button "Cancel" on settings dialog'
     },
 });
 
@@ -62,7 +70,7 @@ type State = {
 }
 
 @observer
-export default class LuxgateLoginDialog extends Component<Props, State> {
+export default class LuxgateSettingsDialog extends Component<Props, State> {
 
     static defaultProps = {
         newPhrase: '',
@@ -120,21 +128,17 @@ export default class LuxgateLoginDialog extends Component<Props, State> {
             isNewPhrase
         } = this.state;
 
-        const inputStyle = classnames([
-            isNewPhrase ? styles.zeroMargin : styles.password,
-          ]);
-
         const actions = [];
 
         actions.push({
-          label: intl.formatMessage(messages.buttonLabelNewPhrase),
+          label: intl.formatMessage(messages.buttonLabelCancel),
           onClick: () => {this.switchNewPhrase(true)},
           primary: true
         });
     
         //if (!isNewPhrase) {
           actions.unshift({
-            label: intl.formatMessage(messages.buttonLabelLogin),
+            label: intl.formatMessage(messages.buttonLabelSave),
             onClick: () => {this.loginWithPhrase()},
             disabled: !isMatched,
         });
@@ -142,6 +146,7 @@ export default class LuxgateLoginDialog extends Component<Props, State> {
 
         return (
             <Dialog
+                title={intl.formatMessage(messages.dialogTitle)}
                 closeOnOverlayClick
                 actions={actions}
                 className={styles.dialog}
@@ -149,25 +154,37 @@ export default class LuxgateLoginDialog extends Component<Props, State> {
                 closeButton={<DialogCloseButton onClose={onCancel} />}
                 backButton={isNewPhrase ? <DialogBackButton onBack={() => {this.switchNewPhrase(false)}} /> : null}
               >
-                <img className={styles.icon} src={luxgateIcon} role="presentation" />
-
-                { isNewPhrase ? (
-                    <div >
-                        <FormattedHTMLMessage {...messages.backupInstructions} />
-                        <div className={styles.phrase}>{newPhrase}</div>
-                    </div>
-                ) : (
-                    <div className={styles.title}> {intl.formatMessage(messages.dialogTitle)} </div>
-                )}
-
-                <Input
-                    className={inputStyle}
-                    value={account}
-                    onChange={this.changeAccountInput.bind(this)}
-                    skin={<SimpleInputSkin />}
-                  />
-
-                {children}
+        
+                <table className={styles.coinTable}>
+                    <thead>
+                        <tr>
+                            <th className={styles.coinNameCell}></th>
+                            <th valign="center" className={styles.coinStateCell}>{intl.formatMessage(messages.tableHeadLabelState)}</th>
+                            <th className={styles.coinTypeCell}>{intl.formatMessage(messages.tableHeadLabelType)}</th>
+                        </tr>
+                    </thead>
+                {COINS.map((coin, index) => (
+                    <tr>
+                        <td className={styles.coinNameCell}>
+                            <img src={require('../../assets/crypto/' + coin.value + '.png')} className={styles.coinImageStyle}/>
+                            <span>{coin.label}</span>
+                        </td>
+                        <td className={styles.coinStateCell}>
+                            <img className={styles.icon} src={crossIcon} role="presentation" />
+                        </td>
+                        <td className={styles.coinTypeCell}>
+                            <Checkbox
+                                className={styles.checkboxTab}
+                                labelLeft="Local"
+                                labelRight="Remote"
+                                //onChange={this.toggleBuySell.bind(this)}
+                                //checked={isBuy}
+                                skin={<TogglerSkin/>}
+                            />
+                        </td>
+                    </tr>
+                ))}
+                </table>
             </Dialog>
         );
     }

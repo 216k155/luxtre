@@ -1,0 +1,100 @@
+@import '../../themes/mixins/loading-spinner';
+@import '../../themes/mixins/error-message';
+
+.dialog {
+  font-family: var(--font-light);
+  text-align: center;
+  width: 560px;
+  :global .Dialog_actions{
+    padding-left: 20px;
+    padding-right: 20px;
+    .SimpleButton_root {
+      background: var(--theme-button-primary-background-color);
+    }
+  }
+}
+
+.coinTable { 
+  font-family: var(--font-semibold);
+  border-collapse: separate;
+  border-spacing: 3px;
+  width: 100%;
+}
+
+
+.coinNameCell {
+  background-color: #3058a2;
+  color: #FFF;
+  width: 200px;
+  height: 50px;
+  vertical-align: middle;
+  text-align: left;
+  padding-left: 30px;
+}
+
+.coinStateCell {
+  background-color: #001c62;
+  color: #FFF;
+  width: 80px;
+  vertical-align: middle;
+}
+
+.coinTypeCell {
+  background-color: #ddd;
+  color: var(--theme-luxgate-tableheader-color);
+  vertical-align: middle;
+}
+
+.coinImageStyle {
+  width : 30px;
+  height: 30px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.zeroMargin {
+  margin: 0px;
+}
+
+.icon {
+  width : 30px;
+  height: 30px;
+}
+
+.checkboxTab{
+  width: 90%;
+  :global .SimpleToggler_toggler {
+    background-color: transparent;
+    height: 32px;
+    .SimpleToggler_label {
+      padding: 1px 8px;
+      width: 80px;
+    }
+    .SimpleToggler_checked {
+      border: solid 1px var(--theme-luxgate-checkbox-checked-color);
+      color: var(--theme-luxgate-checkbox-checked-color) !important;
+      margin: 0px 3px;
+      position:relative;
+      padding-top: 3px;
+    }
+    
+    .SimpleToggler_label:not(.SimpleToggler_checked) {
+      border: solid 1px var(--theme-luxgate-checkbox-unchecked-color);
+      color:var(--theme-luxgate-checkbox-unchecked-color) !important;
+      margin: 0px 3px;
+      padding-top: 3px;
+    }
+  }
+  
+  :global .SimpleToggler_toggler > .SimpleToggler_checked:after {
+    color: #fafbfc !important;
+    content: "...";
+    background: url('../../assets/images/icons/checkbox-icon.png') no-repeat;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    background-position: bottom right;
+  }
+}
+
+

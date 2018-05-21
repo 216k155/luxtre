@@ -10,7 +10,9 @@ import ButtonSkin from 'react-polymorph/lib/skins/simple/raw/ButtonSkin';
 import Checkbox from 'react-polymorph/lib/components/Checkbox';
 import TogglerSkin from 'react-polymorph/lib/skins/simple/TogglerSkin';
 import LuxgateLoginDialog from './LuxgateLoginDialog';
+import LuxgateSettingsDialog from './LuxgateSettingsDialog';
 import LuxgateLoginDialogContainer from '../../containers/wallet/dialogs/LuxgateLoginDialogContainer'
+import LuxgateSettingsDialogContainer from '../../containers/wallet/dialogs/LuxgateSettingsDialogContainer'
 import ReceiveAddressDialog from './ReceiveAddressDialog';
 import ReceiveAddressDialogContainer from '../../containers/wallet/dialogs/ReceiveAddressDialogContainer'
 import SendCoinDialog from './SendCoinDialog';
@@ -399,6 +401,11 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                 ) : null} 
                 {isDialogOpen(LuxgateLoginDialog) ? (
                     <LuxgateLoginDialogContainer 
+                        error = {this.state.outputsError}
+                    />
+                ) : null}
+                {isDialogOpen(LuxgateSettingsDialog) ? (
+                    <LuxgateSettingsDialogContainer 
                         error = {this.state.outputsError}
                     />
                 ) : null}

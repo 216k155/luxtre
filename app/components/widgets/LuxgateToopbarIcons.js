@@ -7,6 +7,7 @@ import logoutIcon from '../../assets/images/top-bar/logout.png';
 import settingsIcon from '../../assets/images/top-bar/settings.png';
 import styles from './LuxgateToopbarIcons.scss';
 import LuxgateLoginDialog from '../exchange/LuxgateLoginDialog';
+import LuxgateSettingsDialog from '../exchange/LuxgateSettingsDialog';
 import Button from 'react-polymorph/lib/components/Button';
 import ButtonSkin from 'react-polymorph/lib/skins/simple/raw/ButtonSkin';
 
@@ -52,8 +53,8 @@ export default class LuxgateToopbarIcons extends Component<Props> {
   }
 
   onClickSettingsIcon() {
-    if (this.props.isLogined)
-      this.props.openDialogAction({dialog: LuxgateLoginDialog});
+    //if (this.props.isLogined)
+      this.props.openDialogAction({dialog: LuxgateSettingsDialog});
   }
 
 

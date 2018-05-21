@@ -152,6 +152,36 @@
 .checkboxTab{
   width: 100%;
   margin-bottom: 30px;
+  :global .SimpleToggler_toggler {
+    background-color: transparent;
+    height: 30px;
+    .SimpleToggler_label {
+      padding: 1px 8px;
+      width: 80px;
+    }
+    .SimpleToggler_checked {
+      border: solid 1px #0097e0;
+      color: #0097e0 !important;
+      margin: 0px 3px;
+      position:relative;
+    }
+    
+    .SimpleToggler_label:not(.SimpleToggler_checked) {
+      border: solid 1px #999;
+      color: #999 !important;
+      margin: 0px 3px;
+    }
+  }
+  
+  :global .SimpleToggler_toggler > .SimpleToggler_checked:after {
+    color: #68cae0 !important;
+    content: "...";
+    background: url('../../assets/images/icons/checkbox-icon.png') no-repeat;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    background-position: bottom right;
+  }
 }
 
 .send {
