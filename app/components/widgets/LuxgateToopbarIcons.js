@@ -4,7 +4,8 @@ import classNames from 'classnames';
 import lockedIcon from '../../assets/images/top-bar/wallet-locked.png';
 import loginIcon from '../../assets/images/top-bar/login.png';
 import logoutIcon from '../../assets/images/top-bar/logout.png';
-import styles from './LuxgateLoginIcon.scss';
+import settingsIcon from '../../assets/images/top-bar/settings.png';
+import styles from './LuxgateToopbarIcons.scss';
 import LuxgateLoginDialog from '../exchange/LuxgateLoginDialog';
 import Button from 'react-polymorph/lib/components/Button';
 import ButtonSkin from 'react-polymorph/lib/skins/simple/raw/ButtonSkin';
@@ -20,6 +21,11 @@ const messages = defineMessages({
     defaultMessage: '!!!Logout',
     description: 'Tooltip for Logout Icon on Luxgate Toopbar.'
   },
+  LuxgateTopbarSettingsTooltip: {
+    id: 'luxgate.Toopbar.Settings.Tooltip',
+    defaultMessage: '!!!Settings',
+    description: 'Tooltip for Settings Icon on Luxgate Toopbar.'
+  },
 });
 
 type Props = {
@@ -28,7 +34,7 @@ type Props = {
   openDialogAction: Function,
 };
 
-export default class LuxgateLoginIcon extends Component<Props> {
+export default class LuxgateToopbarIcons extends Component<Props> {
 
   static defaultProps = {
     isLogined: false,
@@ -45,6 +51,12 @@ export default class LuxgateLoginIcon extends Component<Props> {
       this.props.openDialogAction({dialog: LuxgateLoginDialog});
   }
 
+  onClickSettingsIcon() {
+    if (this.props.isLogined)
+      this.props.openDialogAction({dialog: LuxgateLoginDialog});
+  }
+
+
   render() {
     const { isLogined } = this.props;
     const { intl } = this.context;
@@ -54,6 +66,13 @@ export default class LuxgateLoginIcon extends Component<Props> {
 
     return (
       <div className={componentClasses}>
+        <button 
+          className={styles.loginIcon} 
+          title={intl.formatMessage(messages.LuxgateTopbarSettingsTooltip)}  
+          onClick={() => this.onClickSettingsIcon()}
+          > 
+            <img className={styles.icon} src={settingsIcon } role="presentation" />   
+        </button>
         <button 
           className={styles.loginIcon} 
           title={!isLogined? intl.formatMessage(messages.LuxgateTopbarLoginTooltip) : intl.formatMessage(messages.LuxgateTopbarLogoutTooltip)}  

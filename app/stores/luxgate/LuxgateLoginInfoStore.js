@@ -9,13 +9,15 @@ import { ROUTES } from '../../routes-config';
 
 import type {
   GetAccountNewPhraseResponse, 
+  GetPasswordInfoResponse, 
 } from '../../api/common';
 
 export default class LuxgateLoginInfoStore extends Store {
 
   // REQUESTS
-  //@observable LuxgateLoginRequest: Request<GetCoinInfoResponse> = new Request(this.api.luxgate.getCoinInfo);
+  @observable LuxgateLoginRequest: Request<GetCoinInfoResponse> = new Request(this.api.luxgate.getCoinInfo);
   @observable getAccountNewPhraseRequest: Request<GetAccountNewPhraseResponse> = new Request(this.api.luxgate.getAccountNewPhrase);
+  @observable getPasswordInfoRequest: Request<GetPasswordInfoResponse> = new Request(this.api.luxgate.getPasswordInfo);
 
   @observable newPhraseWords = [];
   @observable isLogined: boolean = false;
@@ -49,9 +51,18 @@ export default class LuxgateLoginInfoStore extends Store {
     this.newPhraseWords = newPhrase.map(word => ({ word }));
   };
 
-  @action _loginWithPhrase = (phrase: string) => {
+  @action _loginWithPhrase = async (phrase: string) => {
     this.myPhrase = phrase;
-    this.isLogined = true;
+    const info: GetPasswordInfoResponse = await this.getPasswordInfoRequest.execute(phrase).promise;
+    if(info !== "")
+    {
+      const objInfo = JSON.parse(info);
+      if(objInfo.userpass)
+      {
+        this.password = objInfo.userpass;
+        this.isLogined = true;
+      }
+    }
   };
 
   @action _logoutAccount = () => {

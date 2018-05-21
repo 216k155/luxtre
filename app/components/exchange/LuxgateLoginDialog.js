@@ -23,8 +23,8 @@ import luxgateIcon from '../../assets/images/luxgate-icon.png';
 export const messages = defineMessages({
     dialogTitle: {
       id: 'luxgate.login.dialog.title',
-      defaultMessage: '!!!Welcome, Please Login',
-      description: 'Title "Welcome, Please Login" in the luxgate login form.'
+      defaultMessage: '!!!Welcome to Luxgate, Please Login',
+      description: 'Title "Welcome to Luxgate, Please Login" in the luxgate login form.'
     },
     backupInstructions: {
       id: 'luxgate.login.dialog.backup.instructions',

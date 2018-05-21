@@ -4,7 +4,7 @@ import { observer, inject } from 'mobx-react';
 import TopBar from '../components/layout/TopBar';
 import NodeSyncStatusIcon from '../components/widgets/NodeSyncStatusIcon';
 import WalletLockStatusIcon from '../components/widgets/WalletLockStatusIcon';
-import LuxgateLoginIcon from '../components/widgets/LuxgateLoginIcon';
+import LuxgateToopbarIcons from '../components/widgets/LuxgateToopbarIcons';
 import WalletStakingStatusIcon from '../components/widgets/WalletStakingStatusIcon';
 import WalletTestEnvironmentLabel from '../components/widgets/WalletTestEnvironmentLabel';
 import type { InjectedProps } from '../types/injectedPropsType';
@@ -56,7 +56,7 @@ export default class TopBarContainer extends Component<Props> {
           :null
         }
         {!isShowingLuxtre ?
-          <LuxgateLoginIcon
+          <LuxgateToopbarIcons
             isLogined={isLogined}
             onLogout={() => {
               actions.luxgate.loginInfo.logoutAccount.trigger();

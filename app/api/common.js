@@ -145,6 +145,7 @@ export type GetLGTransactionsResponse = string;
 export type GetLGTradeArrayResponse = string;
 export type GetLGPriceArrayResponse = string;
 export type GetAccountNewPhraseResponse = Array<string>;
+export type GetPasswordInfoResponse = string;
 
 
 

@@ -9,6 +9,7 @@ import { sendLuxgateCoin } from './sendLuxgateCoin';
 import { getLuxgateTradeArray } from './getLuxgateTradeArray';
 import { getLuxgatePriceArray } from './getLuxgatePriceArray';
 import { getLuxgateAccountNewPhrase } from './getLuxgateAccountNewPhrase';
+import { getLuxgatePassword } from './getLuxgatePassword';
 
 export const LUXGATE_API_HOST = 'localhost';
 export const LUXGATE_API_PORT = 9883;
@@ -33,6 +34,7 @@ import type {
     GetLGTransactionsResponse,
     GetLGTradeArrayResponse,
     GetLGPriceArrayResponse,
+    GetPasswordInfoResponse,
     GetAccountNewPhraseResponse
   } from '../common';
 
@@ -173,6 +175,22 @@ export default class LuxApi {
         }
     }
 
+    async getPasswordInfo(passphrase: string): Promise<GetPasswordInfoResponse> {
+        Logger.debug('LuxgateApi::getPasswordInfo called');
+        try {
+            const password = LUXGATE_USER_PASSWORD;
+            const response = await getLuxgatePassword({passphrase, password});
+            if (response !== undefined && response.result === "success")
+            {
+                return stringifyData(response);
+            }
+            else
+                return "";
+        } catch (error) {
+            Logger.error('LuxgateApi::getPasswordInfo error: ' + stringifyError(error));
+            throw new GenericApiError();
+        }
+    }
     
     getAccountNewPhrase(): Promise<GetAccountNewPhraseResponse> {
         Logger.debug('LuxApi::getAccountNewPhrase called');
