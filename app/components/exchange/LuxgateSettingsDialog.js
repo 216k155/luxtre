@@ -21,6 +21,7 @@ import Checkbox from 'react-polymorph/lib/components/Checkbox';
 import TogglerSkin from 'react-polymorph/lib/skins/simple/TogglerSkin';
 import checkIcon from '../../assets/images/icons/check.png';
 import crossIcon from '../../assets/images/icons/cross.png';
+import { CoinSettingInfo } from '../../domain/CoinSettingInfo';
 import COINS from "./coins";
 
 export const messages = defineMessages({
@@ -29,15 +30,20 @@ export const messages = defineMessages({
       defaultMessage: '!!!Luxgate Settings',
       description: 'Title "Luxgate Settings" in the luxgate settings dialog.'
     },
+    tableHeadLabelCoin: {
+        id: 'luxgate.settings.dialog.tablehead.coin',
+        defaultMessage: `!!!Coin`,
+        description: 'Label for TableHeaderLabel "Coin" on settings dialog'
+    },
     tableHeadLabelState: {
       id: 'luxgate.settings.dialog.tablehead.state',
-      defaultMessage: `!!!State`,
-      description: 'Label for TableHeaderLabel "State" on settings dialog'
+      defaultMessage: `!!!Active`,
+      description: 'Label for TableHeaderLabel "Active" on settings dialog'
     },
     tableHeadLabelType: {
         id: 'luxgate.settings.dialog.tablehead.type',
-        defaultMessage: `!!!Type`,
-        description: 'Label for TableHeaderLabel "Type" on settings dialog'
+        defaultMessage: `!!!Wallet`,
+        description: 'Label for TableHeaderLabel "Wallet" on settings dialog'
       },
     buttonLabelSave: {
       id: 'luxgate.settings.dialog.button.labelSave',
@@ -64,9 +70,7 @@ type Props = {
 };
 
 type State = {
-    account: string,
-    isMatched: boolean,
-    isNewPhrase: boolean
+    coins: Array<Object>,
 }
 
 @observer
@@ -79,19 +83,82 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
     };
  
     state = {
-        account: '',
-        isMatched: true,
-        isNewPhrase: false
+        coins: COINS
     };
 
     static contextTypes = {
         intl: intlShape.isRequired,
     };
 
-    switchNewPhrase(isNew) {
-        this.setState( {isNewPhrase: isNew});
-        this.setState( {isMatched: !isNew});
-        if(isNew) this.props.onCreateNewPhrase();
+    getInitialState() {
+        return { coins : COINS };
+    }
+
+    componentDidMount() {
+    //    this.setState ( {settingArray : COINS});
+    }
+
+    onClickCoinState(event) {
+        const td_value = event.target.parentNode;
+        const index = td_value.getAttribute('data-index');
+
+        let coins = [...this.state.coins];
+        let item = {...coins[index]};
+
+        item.active = !item.active;
+        coins[index] = item;
+
+        this.setState({coins});
+
+        /*
+        let exist = -1;
+        this.state.settingArray.map((info, index) => {
+            if(info.coin == value) {
+                exist = index;
+                return;
+            }
+        });
+
+        if (exist != -1) {
+            this.setState ({
+                settingArray : this.state.settingArray.splice(exist, 1)
+            });
+            return;
+        } 
+
+        const coin = value;
+        const wallet = false;
+        const newElement = [{coin, wallet}];
+        this.setState ({
+            settingArray : this.state.settingArray.concat(newElement)
+        });
+
+        /*
+        for(var i=0; i < this.state.settingArray.length; i++)
+        {
+          if(this.state.settingArray.coin === value)
+          {
+            this.state.settingArray.splice(i, 1);
+            return;
+          }
+        }
+        */
+    }
+
+    onChangeWalletType(value, event) {
+        const td_value = event.target.parentNode.parentNode.parentNode;
+        const index = td_value.getAttribute('data-index');
+
+        let coins = [...this.state.coins];
+        let item = {...coins[index]};
+
+        if(item.IsOnlyLocal)
+            return;
+
+        item.wallet = !item.wallet;
+        coins[index] = item;
+
+        this.setState({coins});
     }
 
     changeAccountInput(value) {
@@ -104,7 +171,7 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
             this.setState( {isMatched: false});
     }
 
-    loginWithPhrase() {
+    saveSettings() {
         if(this.state.account.length > 10)
         {
             this.props.onLoginWithPhrase(this.state.account);
@@ -123,26 +190,21 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
         } = this.props;
 
         const {
-            account,
-            isMatched,
-            isNewPhrase
+            coins
         } = this.state;
 
         const actions = [];
 
         actions.push({
           label: intl.formatMessage(messages.buttonLabelCancel),
-          onClick: () => {this.switchNewPhrase(true)},
-          primary: true
+          onClick: onCancel
         });
     
-        //if (!isNewPhrase) {
-          actions.unshift({
+        actions.unshift({
             label: intl.formatMessage(messages.buttonLabelSave),
-            onClick: () => {this.loginWithPhrase()},
-            disabled: !isMatched,
+            onClick: () => {this.saveSettings()},
+            primary: true
         });
-        //}
 
         return (
             <Dialog
@@ -152,38 +214,45 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
                 className={styles.dialog}
                 onClose={onCancel}
                 closeButton={<DialogCloseButton onClose={onCancel} />}
-                backButton={isNewPhrase ? <DialogBackButton onBack={() => {this.switchNewPhrase(false)}} /> : null}
               >
         
                 <table className={styles.coinTable}>
                     <thead>
                         <tr>
-                            <th className={styles.coinNameCell}></th>
-                            <th valign="center" className={styles.coinStateCell}>{intl.formatMessage(messages.tableHeadLabelState)}</th>
+                            <th className={styles.coinNameHeadCell}>{intl.formatMessage(messages.tableHeadLabelCoin)}</th>
                             <th className={styles.coinTypeCell}>{intl.formatMessage(messages.tableHeadLabelType)}</th>
+                            <th className={styles.coinStateCell}>{intl.formatMessage(messages.tableHeadLabelState)}</th>
                         </tr>
                     </thead>
-                {COINS.map((coin, index) => (
-                    <tr>
-                        <td className={styles.coinNameCell}>
-                            <img src={require('../../assets/crypto/' + coin.value + '.png')} className={styles.coinImageStyle}/>
-                            <span>{coin.label}</span>
-                        </td>
-                        <td className={styles.coinStateCell}>
-                            <img className={styles.icon} src={crossIcon} role="presentation" />
-                        </td>
-                        <td className={styles.coinTypeCell}>
-                            <Checkbox
-                                className={styles.checkboxTab}
-                                labelLeft="Local"
-                                labelRight="Remote"
-                                //onChange={this.toggleBuySell.bind(this)}
-                                //checked={isBuy}
-                                skin={<TogglerSkin/>}
-                            />
-                        </td>
-                    </tr>
-                ))}
+                {
+                    coins.map((coin, index) => {
+                        return (
+                            <tr>
+                                <td className={styles.coinNameCell}>
+                                    <img src={require('../../assets/crypto/' + coin.value + '.png')} className={styles.coinImageStyle}/>
+                                    <span>{coin.label}</span>
+                                </td>
+                                <td className={styles.coinTypeCell} data-index={index}>
+                                    <Checkbox
+                                        className={styles.checkboxTab}
+                                        labelLeft="Local"
+                                        labelRight="Remote"
+                                        onChange={this.onChangeWalletType.bind(this)}
+                                        checked={coin.wallet}
+                                        skin={<TogglerSkin/>}
+                                    />
+                                </td>
+                                <td className={styles.coinStateCell} data-index={index}>
+                                    { coin.active ? (
+                                        <img className={styles.icon} src={checkIcon} role="presentation" onClick={this.onClickCoinState.bind(this)}/>
+                                      ) : (
+                                        <img className={styles.icon} src={crossIcon} role="presentation" onClick={this.onClickCoinState.bind(this)}/>
+                                    )}
+                                </td>
+                            </tr>
+                        )
+                    })
+                }
                 </table>
             </Dialog>
         );

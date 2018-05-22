@@ -144,10 +144,6 @@ export default class ExchangeSettingPage extends Component<Props, State>{
         this.props.openDialogAction({dialog: SendCoinDialog});
     }
 
-    //{myMasternodeList.map((myMasternode, index) => (
-    //    {myMasternode.address}
-    //))}
-
     render() {
         const { isBuy, 
             AmountInput, 

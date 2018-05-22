@@ -334,8 +334,9 @@
   "luxgate.login.dialog.button.labelNewPhrase":"Create New Account",
 
   "luxgate.settings.dialog.title":"Luxgate Settings",
-  "luxgate.settings.dialog.tablehead.state":"State",
-  "luxgate.settings.dialog.tablehead.type":"Type",
+  "luxgate.settings.dialog.tablehead.coin":"Coin",
+  "luxgate.settings.dialog.tablehead.state":"Active",
+  "luxgate.settings.dialog.tablehead.type":"Wallet",
   "luxgate.settings.dialog.button.labelSave":"Save",
   "luxgate.settings.dialog.button.labelCancel":"Cancel",
 

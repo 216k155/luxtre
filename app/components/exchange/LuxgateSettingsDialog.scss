@@ -1,10 +1,17 @@
 @import '../../themes/mixins/loading-spinner';
 @import '../../themes/mixins/error-message';
 
+.component {
+  :global .SimpleModal_modal {
+    background-color: #ddd !important;
+  }
+}
+
 .dialog {
   font-family: var(--font-light);
   text-align: center;
   width: 560px;
+
   :global .Dialog_actions{
     padding-left: 20px;
     padding-right: 20px;
@@ -16,15 +23,22 @@
 
 .coinTable { 
   font-family: var(--font-semibold);
+  color: var(--theme-luxgate-tablecell-fontcolor);;
   border-collapse: separate;
   border-spacing: 3px;
   width: 100%;
 }
 
 
+.coinNameHeadCell {
+  background-color: var(--theme-luxgate-tablecell-color);
+  width: 200px;
+  height: 50px;
+  vertical-align: middle;
+}
+
 .coinNameCell {
-  background-color: #3058a2;
-  color: #FFF;
+  background-color: var(--theme-luxgate-tablecell-color);
   width: 200px;
   height: 50px;
   vertical-align: middle;
@@ -33,15 +47,13 @@
 }
 
 .coinStateCell {
-  background-color: #001c62;
-  color: #FFF;
+  background-color: var(--theme-luxgate-tablecell-color);//#001c62;
   width: 80px;
   vertical-align: middle;
 }
 
 .coinTypeCell {
-  background-color: #ddd;
-  color: var(--theme-luxgate-tableheader-color);
+  background-color: var(--theme-luxgate-tablecell-color);
   vertical-align: middle;
 }
 
@@ -59,15 +71,16 @@
 .icon {
   width : 30px;
   height: 30px;
+  cursor: pointer;
 }
 
 .checkboxTab{
-  width: 90%;
+  width: 80%;
   :global .SimpleToggler_toggler {
     background-color: transparent;
     height: 32px;
     .SimpleToggler_label {
-      padding: 1px 8px;
+      padding: 4px 8px;
       width: 80px;
     }
     .SimpleToggler_checked {
@@ -75,14 +88,12 @@
       color: var(--theme-luxgate-checkbox-checked-color) !important;
       margin: 0px 3px;
       position:relative;
-      padding-top: 3px;
     }
     
     .SimpleToggler_label:not(.SimpleToggler_checked) {
-      border: solid 1px var(--theme-luxgate-checkbox-unchecked-color);
-      color:var(--theme-luxgate-checkbox-unchecked-color) !important;
+      background-color: var(--theme-luxgate-checkbox-checked-color) !important;
+      color:#fff !important;
       margin: 0px 3px;
-      padding-top: 3px;
     }
   }
   

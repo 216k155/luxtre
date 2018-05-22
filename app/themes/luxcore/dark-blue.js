@@ -274,7 +274,8 @@ export default {
 
   '--theme-luxgate-statusbar-background-color': '#40c2dc',
   '--theme-luxgate-statusbar-color': '#40c2dc',
-  '--theme-luxgate-tableheader-color': '#0097e0',
+  '--theme-luxgate-tablecell-color': '#3058a2',
+  '--theme-luxgate-tablecell-fontcolor': '#ffffff',
   '--theme-luxgate-checkbox-checked-color': '#0097e0',
   '--theme-luxgate-checkbox-unchecked-color': '#756767',
 };
