@@ -47,7 +47,6 @@ export default class SettingsStore extends Store {
     this.actions.profile.updateLocale.listen(this._updateLocale);
     this.actions.profile.setSendLogsChoice.listen(this._setSendLogsChoice);
     this.actions.profile.acceptTermsOfUse.listen(this._acceptTermsOfUse);
-    this.actions.profile.acceptTermsOfUseForLuxgate.listen(this._acceptTermsOfUseForLuxgate);
     this.actions.profile.updateTheme.listen(this._updateTheme);
     this.registerReactions([
       this._setBigNumberFormat,
@@ -161,11 +160,6 @@ export default class SettingsStore extends Store {
     this.getTermsOfUseAcceptanceRequest.execute();
   };
 
-  _acceptTermsOfUseForLuxgate = async () => {
-    await this.setTermsOfUseForLuxgateAcceptanceRequest.execute();
-    await this.getTermsOfUseForLuxgateAcceptanceRequest.execute();
-  };
-
   _getTermsOfUseForLuxgateAcceptance = () => {
     this.getTermsOfUseForLuxgateAcceptanceRequest.execute();
   };
@@ -215,14 +209,8 @@ export default class SettingsStore extends Store {
 
   _isOnSendLogsChoicePage = () => this.stores.app.currentRoute === ROUTES.PROFILE.SEND_LOGS;
 
-  _isOnTermsOfUseForLuxgatePage = () => this.stores.app.currentRoute === ROUTES.PROFILE.TERMS_OF_USE_FOR_LUXGATE;
-
   _redirectToMainUi = () => {
     if (this.isSendLogsChoiceSet && this._isOnSendLogsChoicePage()) {
-      this._redirectToRoot();
-    }
-
-    if (this.areTermsOfUseForLuxgateAccepted && this._isOnTermsOfUseForLuxgatePage()) {
       this._redirectToRoot();
     }
   };

@@ -7,7 +7,6 @@ export const ROUTES = {
   PROFILE: {
     LANGUAGE_SELECTION: '/profile/language-selection',
     TERMS_OF_USE: '/profile/terms-of-use',
-    TERMS_OF_USE_FOR_LUXGATE: '/profile/terms-of-use-for-luxgate',
     SEND_LOGS: '/profile/send-logs-choice',
   },
   WALLETS: {

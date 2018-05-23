@@ -5,7 +5,6 @@ const networkForLocalStorage = String(environment.NETWORK);
 const localStorageKeys = {
   USER_LOCALE: networkForLocalStorage + '-USER-LOCALE',
   TERMS_OF_USE_ACCEPTANCE: networkForLocalStorage + '-TERMS-OF-USE-ACCEPTANCE',
-  TERMS_OF_USE_FOR_LUXGATE_ACCEPTANCE: networkForLocalStorage + '-TERMS-OF-USE-FOR-LUXGATE-ACCEPTANCE',
   SEND_LOGS_CHOICE: networkForLocalStorage + '-SEND-LOGS-CHOICE',
   THEME: networkForLocalStorage + '-THEME'
 };
@@ -59,27 +58,6 @@ export default class LocalStorageApi {
     });
   });
 
-  getTermsOfUseForLuxgateAcceptance = () => new Promise((resolve, reject) => {
-    localStorage.get(localStorageKeys.TERMS_OF_USE_FOR_LUXGATE_ACCEPTANCE, (error, response) => {
-      if (error) return reject(error);
-      if (!response.accepted) return resolve(false);
-      resolve(response.accepted);
-    });
-  });
-
-  setTermsOfUseForLuxgateAcceptance = () => new Promise((resolve, reject) => {
-    localStorage.set(localStorageKeys.TERMS_OF_USE_FOR_LUXGATE_ACCEPTANCE, { accepted: true }, (error) => {
-      if (error) return reject(error);
-      resolve();
-    });
-  });
-
-  unsetTermsOfUseForLuxgateAcceptance = () => new Promise((resolve) => {
-    localStorage.remove(localStorageKeys.TERMS_OF_USE_FOR_LUXGATE_ACCEPTANCE, () => {
-      resolve();
-    });
-  });
-
   getSendLogsChoice = () => new Promise((resolve, reject) => {
     localStorage.get(localStorageKeys.SEND_LOGS_CHOICE, (error, response) => {
       if (error) return reject(error);
@@ -127,7 +105,6 @@ export default class LocalStorageApi {
   async reset() {
     await this.unsetUserLocale(); // TODO: remove after saving locale to API is restored
     await this.unsetTermsOfUseAcceptance();
-    await this.unsetTermsOfUseForLuxgateAcceptance();
     await this.unsetSendLogsChoice();
     await this.unsetUserTheme();
   }

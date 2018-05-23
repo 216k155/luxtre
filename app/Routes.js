@@ -14,7 +14,6 @@ import GeneralSettingsPage from './containers/settings/categories/GeneralSetting
 import SupportSettingsPage from './containers/settings/categories/SupportSettingsPage';
 import TermsOfUseSettingsPage from './containers/settings/categories/TermsOfUseSettingsPage';
 import TermsOfUsePage from './containers/profile/TermsOfUsePage';
-import TermsOfUseForLuxgatePage from './containers/profile/TermsOfUseForLuxgatePage';
 import SendLogsChoicePage from './containers/profile/SendLogsChoicePage';
 import DisplaySettingsPage from './containers/settings/categories/DisplaySettingsPage';
 
@@ -37,7 +36,6 @@ export const Routes = (
     <Route path={ROUTES.ROOT} component={LoadingPage} />
     <Route path={ROUTES.PROFILE.LANGUAGE_SELECTION} component={LanguageSelectionPage} />
     <Route path={ROUTES.PROFILE.TERMS_OF_USE} component={TermsOfUsePage} />
-    <Route path={ROUTES.PROFILE.TERMS_OF_USE_FOR_LUXGATE} component={TermsOfUseForLuxgatePage} />
     <Route path={ROUTES.PROFILE.SEND_LOGS} component={SendLogsChoicePage} />
     {/* <Route path={ROUTES.STAKING} component={StakingPage} /> */}
     <Route path={ROUTES.LUX_REDEMPTION} component={LuxRedemptionPage} />
