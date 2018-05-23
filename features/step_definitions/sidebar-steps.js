@@ -5,9 +5,9 @@ Given(/^the sidebar submenu is (hidden|visible)/, async function (state) {
   const isVisible = state === 'visible';
   await this.client.waitForVisible('.Sidebar_component');
   await this.client.executeAsync((visible, done) => {
-    const { isShowingSubMenus } = luxcore.stores.sidebar;
+    const { isShowingLuxtre } = luxcore.stores.sidebar;
     let sidebarWillAnimate = false;
-    if (isShowingSubMenus !== visible) {
+    if (isShowingLuxtre !== visible) {
       sidebarWillAnimate = true;
       luxcore.actions.sidebar.toggleSubMenus.trigger();
     }

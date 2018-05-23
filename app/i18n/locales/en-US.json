@@ -323,5 +323,22 @@
   "wallet.unlocked": "Wallet encrypted and currently unlocked",
   "wallet.stakingActive": "Staking is active",
   "wallet.stakingInactive": "Staking is not active",
+
+  "luxgate.Toopbar.Login.Tooltip":"Login",
+  "luxgate.Toopbar.Logout.Tooltip":"Logout",
+  "luxgate.Toopbar.Settings.Tooltip":"Settings",
+
+  "luxgate.login.dialog.title":"Welcome to Luxgate, Please Login",
+  "luxgate.login.dialog.backup.instructions":"Please, make sure you have carefully written down your new phrase somewhere safe. You will need this phrase later for next use and recover. Phrase is case sensitive.",
+  "luxgate.login.dialog.button.labelLogin":"Enter my Account",
+  "luxgate.login.dialog.button.labelNewPhrase":"Create New Account",
+
+  "luxgate.settings.dialog.title":"Luxgate Settings",
+  "luxgate.settings.dialog.tablehead.coin":"Coin",
+  "luxgate.settings.dialog.tablehead.state":"Active",
+  "luxgate.settings.dialog.tablehead.type":"Wallet",
+  "luxgate.settings.dialog.button.labelSave":"Save",
+  "luxgate.settings.dialog.button.labelCancel":"Cancel",
+
   "window.about.title": "Luxcore"
 }

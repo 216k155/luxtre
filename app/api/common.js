@@ -134,6 +134,18 @@ export type StopMasternodeResponse = {
 
 export type StopManyMasternodeResponse = Array<StopMasternodeResponse>;
 
+//////////////////////////////////////////////////////////////////////////////
+//Luxgate type
+
+export type GetCoinInfoResponse = string;
+export type GetCoinBalanceResponse = number;
+export type sendCoinResponse = boolean;
+export type GetLGOrdersResponse = string;
+export type GetLGTransactionsResponse = string;
+export type GetLGTradeArrayResponse = string;
+export type GetLGPriceArrayResponse = string;
+export type GetAccountNewPhraseResponse = Array<string>;
+export type GetPasswordInfoResponse = string;
 
 
 

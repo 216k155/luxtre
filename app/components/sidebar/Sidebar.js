@@ -26,7 +26,7 @@ type Props = {
   }>,
   activeSidebarCategory: string,
   onCategoryClicked: Function,
-  isShowingSubMenus: boolean,
+  isShowingLuxtre: boolean,
   openDialogAction: Function,
 };
 
@@ -34,13 +34,13 @@ type Props = {
 export default class Sidebar extends Component<Props> {
 
   static defaultProps = {
-    isShowingSubMenus: false,
+    isShowingLuxtre: false,
   };
 
   render() {
     const {
       menus, categories, activeSidebarCategory,
-      isShowingSubMenus, onCategoryClicked,
+      isShowingLuxtre, onCategoryClicked,
       openDialogAction,
     } = this.props;
     let subMenu = null;
@@ -55,14 +55,14 @@ export default class Sidebar extends Component<Props> {
           })}
           onWalletItemClick={menus.wallets.actions.onWalletItemClick}
           isActiveWallet={id => id === menus.wallets.activeWalletId}
-          visible={isShowingSubMenus}
+          visible={isShowingLuxtre}
         />
       );
     }
 
     const sidebarStyles = classNames([
       styles.component,
-      !isShowingSubMenus || subMenu == null ? styles.minimized : null
+      !isShowingLuxtre || subMenu == null ? styles.minimized : null
     ]);
 
     return (

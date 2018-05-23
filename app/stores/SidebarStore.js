@@ -14,12 +14,12 @@ export default class SidebarStore extends Store {
   CATEGORIES = sidebarConfig.CATEGORIES;
 
   @observable activeSidebarCategory: string = this.CATEGORIES[0].route;
-  @observable isShowingSubMenus: boolean = true;
+  @observable isShowingLuxtre: boolean = true;
 
   setup() {
     const actions = this.actions.sidebar;
     actions.toggleSubMenus.listen(this._toggleSubMenus);
-    actions.activateSidebarCategory.listen(this._onActivateSidebarCategory);
+    actions.switchLuxgate.listen(this._onSwitchLuxgate);
     actions.walletSelected.listen(this._onWalletSelected);
     this.registerReactions([
       this._syncSidebarRouteWithRouter,
@@ -39,20 +39,20 @@ export default class SidebarStore extends Store {
   }
 
   @action _toggleSubMenus = () => {
-    this.isShowingSubMenus = !this.isShowingSubMenus;
+    this.isShowingLuxtre = !this.isShowingLuxtre;
   };
 
-  @action _onActivateSidebarCategory = (params: { category: string, showSubMenu?: boolean }) => {
+  @action _onSwitchLuxgate = (params: { category: string, showSubMenu?: boolean }) => {
     const { category, showSubMenu } = params;
     if (category !== this.activeSidebarCategory) {
       this.activeSidebarCategory = category;
-      if (showSubMenu != null) this.isShowingSubMenus = showSubMenu;
+      if (showSubMenu != null) this.isShowingLuxtre = showSubMenu;
       this.actions.router.goToRoute.trigger({ route: category });
-    } else if (showSubMenu == null || this.isShowingSubMenus !== showSubMenu) {
+    } else if (showSubMenu == null || this.isShowingLuxtre !== showSubMenu) {
       // If no explicit preferred state is given -> toggle sub menus
       this._toggleSubMenus();
     } else {
-      this.isShowingSubMenus = showSubMenu;
+      this.isShowingLuxtre = showSubMenu;
     }
   };
 
@@ -60,19 +60,19 @@ export default class SidebarStore extends Store {
     this.stores[environment.API].wallets.goToWalletRoute(walletId);
   };
 
-  @action _setActivateSidebarCategory = (category: string) => {
+  @action _setSwitchLuxgate = (category: string) => {
     this.activeSidebarCategory = category;
   };
 
   @action _showSubMenus = () => {
-    this.isShowingSubMenus = true;
+    this.isShowingLuxtre = true;
   };
 
   _syncSidebarRouteWithRouter = () => {
     const route = this.stores.app.currentRoute;
     this.CATEGORIES.forEach((category) => {
       // If the current route starts with the root of the category
-      if (route.indexOf(category.route) === 0) this._setActivateSidebarCategory(category.route);
+      if (route.indexOf(category.route) === 0) this._setSwitchLuxgate(category.route);
     });
   };
 

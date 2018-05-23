@@ -1,0 +1,359 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+.pageContainer {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  line-height: normal;
+  z-index: 0;
+  -webkit-tap-highlight-color: transparent;
+  //font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+}
+.component {
+  display: flex;
+  padding: 7px;
+  :global .SimpleFormField_root {
+    .SimpleFormField_error{
+      display:none;
+    }
+    .SimpleFormField_inputWrapper { 
+      .SimpleInput_input {
+        padding:10px;
+        margin-left: 5px;
+        font-weight: bold;
+      }
+    }
+    &:after {
+      bottom:12px;
+      left: calc(100% - 20px);
+    }
+  }
+  :global .SimpleSelect_select {
+    .SimpleFormField_root {
+      .SimpleFormField_inputWrapper {
+        .SimpleInput_input{
+          padding-left: 40px;
+          //  background-color: transparent;
+        //  border: 0px;
+        }
+        .SimpleOptions_ul {
+          font-size: 14px;
+          .SimpleOptions_option{
+            padding: 10px;
+          }
+        }
+      }
+    }
+  }     
+}
+
+//Exchange Setting
+
+.selectWidth {
+  width: 40%;
+}
+
+.span {
+  width:80px;
+  margin-left: 20px; 
+  padding-top: 7px;
+}
+
+.numericInput {
+  margin-left: 5px;
+  width:45%;
+}
+
+.divTotal {
+  margin-top: 20px;
+}
+
+.imageStyle {
+  width: 20px;
+  height: 20px;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.control {
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: overlay;
+  padding: 20px;
+}
+
+.coin {
+  float: left;
+  font-size: 12px;
+}
+
+.balance {
+  float: left;
+  margin-left: 20px;
+}
+
+.coinbalance {
+  float: left;
+  width:100%;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+
+.margin_left20 {
+  margin-left: 20%;
+}
+
+.half {
+  display: inline-block;
+  width: 50%;
+}
+
+.spanRight {
+  position: absolute;
+  right: 40px;
+}
+
+.spanMargin30 {
+  margin: 0px 30px;
+}
+
+.spanMargin36 {
+  margin: 0px 36px;
+}
+
+.customOptionStyle {
+  height: 30px;
+}
+
+.center {
+  width:40%;
+  left: 30%;
+}
+
+.swapbutton {
+  :global .SimpleButton_root  {
+    width: 50%;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-left: 25%;
+  }
+}
+
+.totalInput {
+  width:35%;
+}
+
+.checkboxTab{
+  width: 100%;
+  margin-bottom: 30px;
+  :global .SimpleToggler_toggler {
+    background-color: transparent;
+    height: 30px;
+    .SimpleToggler_label {
+      padding: 1px 8px;
+      width: 80px;
+    }
+    .SimpleToggler_checked {
+      border: solid 1px #0097e0;
+      color: #0097e0 !important;
+      margin: 0px 3px;
+      position:relative;
+    }
+    
+    .SimpleToggler_label:not(.SimpleToggler_checked) {
+      border: solid 1px #999;
+      color: #999 !important;
+      margin: 0px 3px;
+    }
+  }
+  
+  :global .SimpleToggler_toggler > .SimpleToggler_checked:after {
+    color: #68cae0 !important;
+    content: "...";
+    background: url('../../assets/images/icons/checkbox-icon.png') no-repeat;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    background-position: bottom right;
+  }
+}
+
+.send {
+  float: right;
+  :global .SimpleButton_root {
+    background: #f5954a;
+  }
+}
+
+.recv {
+  float: right;
+  :global .SimpleButton_root {
+    background: #40c2dc;
+  }
+}
+
+.divStatus {
+  display: inline-block;
+  width: calc(66% - 6px);
+  height: 100px;
+  font: bold 14px/30px var(--font-semibold);
+  padding: 3px 20px;
+  margin-right: 2px;
+  margin-bottom: 2px;
+  background: #132852; //var(--theme-luxgate-statusbar-background-color);
+  color:#EEE;
+  border: var(--theme-bordered-box-border);
+  //border-radius: 7px;
+}
+
+.divBalance {
+  display: inline-block;
+  width: 33%;
+  height: 100px;
+  font: bold 14px/30px var(--font-semibold);
+  padding: 3px 20px;
+  background: #132852; //var(--theme-luxgate-statusbar-background-color);
+  color:#EEE;
+  border: var(--theme-bordered-box-border);
+  //border-radius: 7px;
+  margin-bottom: 2px;
+  :global .SimpleButton_root {
+    width: 70px;
+    height: 24px;
+    padding: 2px;
+    margin-left: 5px;
+  }
+}
+
+.div {
+  margin-bottom: 2px;
+  border: solid 1px var(--theme-bordered-box-background-color);
+}
+
+.setting {
+  //padding: 20px 0px;
+  background: var(--theme-bordered-box-background-color);
+  border: var(--theme-bordered-box-border);
+  border-radius: 4px;
+  display: inline-block;
+  vertical-align: top;
+  width: 33%;
+  height: 400px;
+}
+.card {
+  flex: 1 1 auto;
+  padding: 1.25rem;
+}
+.cardTitle {
+  position: relative;
+//  font-weight: bold;
+}
+.cardSubtitle {
+  font-weight: 100;
+  margin-top: 3px;
+  color: #6c757d;
+}
+
+// table style
+
+.tableCaption {
+  width: 100%;
+  height: 36px;
+  padding: 10px;
+  color: #EEE;//var(--theme-bordered-box-text-color);
+  background-color: #132852; //var(--theme-bordered-box-background-color);
+  border: var(--theme-bordered-box-border);
+}
+
+.order {
+  font-size:12px;
+  float:left;
+  color: #7f9eee;
+}
+.tableCaptionPos {
+	margin-left: 38%;
+}
+.orderTable {
+  display: inline-block;
+  width: 33%;
+  margin-right: 2px;
+  border: solid 1px var(--theme-bordered-box-border);
+}
+
+.historyTable {
+  display: inline-block;
+  width: 33%;
+  margin-left: 1px;
+  border: solid 1px var(--theme-bordered-box-border);
+}
+
+:global .ReactTable{
+  .rt-table {
+    .rt-thead{
+	    font: bold 14px/30px Georgia, serif;
+      border-bottom: 1px solid #434754;
+    }
+    .rt-tbody {
+      font-size: 13px;
+      text-align: center;
+    }
+  }
+  .pagination-bottom {
+      display:none;
+  }
+}
+
+.margetTable {
+  height:40%;
+  padding-right: 10px;
+  padding-bottom: 20px;
+}
+
+
+// chart 
+
+.graph {
+//  border: solid 1px var(--theme-bordered-box-background-color);
+  display: inline-block;
+  width: calc(66% - 6px);
+  margin-right:2px;
+  margin-bottom: 2px;
+  background: var(--theme-bordered-box-background-color);
+  border: var(--theme-bordered-box-border);
+  border-radius: 4px;
+}
+
+
+//coin image
+
+.coinStyle {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  display: inline-block;  
+  margin-right: 10px;
+  position: relative;
+  top:-2px;
+  vertical-align: middle;
+}
+
+.switch {
+  display: flex;
+  .switchButton {
+    margin: auto;
+    width: 30px;
+    height: 30px;
+    &:hover {
+      cursor: pointer;
+      opacity: 0.5;
+    }
+  }
+}
+
+

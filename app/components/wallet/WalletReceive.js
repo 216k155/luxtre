@@ -186,7 +186,7 @@ export default class WalletReceive extends Component<Props, State> {
 
     return (
       <div className={styles.component}>
-	<div className={styles.categoryTitle}>
+	      <div className={styles.categoryTitle}>
           Receive
         </div>
         <BorderedBox>

@@ -5,6 +5,6 @@ import Action from './lib/Action';
 
 export default class SidebarActions {
   toggleSubMenus: Action<any> = new Action();
-  activateSidebarCategory: Action<{ category: string, showSubMenu?: boolean }> = new Action();
+  switchLuxgate: Action<{ category: string, showSubMenu?: boolean }> = new Action();
   walletSelected: Action<{ walletId: string }> = new Action();
 }
