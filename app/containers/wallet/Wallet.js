@@ -44,7 +44,6 @@ export default class Wallet extends Component<Props> {
 
     return (
       <MainLayout>
-        {isShowingSubMenus ?
           <WalletWithNavigation
             isActiveScreen={this.isActiveScreen}
             onWalletNavItemClick={this.handleWalletNavItemClick}
@@ -52,11 +51,6 @@ export default class Wallet extends Component<Props> {
           >
             {this.props.children}
           </WalletWithNavigation>
-          :
-          <div>
-            {/*code Exchange UI here */}
-          </div>  
-        }
       </MainLayout>
     );
   }
