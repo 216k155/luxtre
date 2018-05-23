@@ -12,6 +12,9 @@ import type {
   GetPasswordInfoResponse, 
 } from '../../api/common';
 
+export const LUXGATE_USER = "luxgate user";
+export const LUXGATE_PASSWORD = "734f9979dd69851a7957b282d777b89a038428cb2b5657d36a2db35a78993748";
+
 export default class LuxgateLoginInfoStore extends Store {
 
   // REQUESTS
@@ -52,20 +55,36 @@ export default class LuxgateLoginInfoStore extends Store {
   };
 
   @action _loginWithPhrase = async (phrase: string) => {
+    const password = LUXGATE_PASSWORD;
     this.myPhrase = phrase;
-    const info: GetPasswordInfoResponse = await this.getPasswordInfoRequest.execute(phrase).promise;
+    const info: GetPasswordInfoResponse = await this.getPasswordInfoRequest.execute(password, phrase).promise;
     if(info !== "")
     {
       const objInfo = JSON.parse(info);
       if(objInfo.userpass)
       {
-        this.password = objInfo.userpass;
-        this.isLogined = true;
+        this._setPassword(objInfo.userpass);
       }
     }
   };
 
+  @action _setPassword = (pwd) => {
+    this.password = pwd;
+    this.isLogined = true;
+  };
+
   @action _logoutAccount = () => {
+    const password = this.password;
+    const phrase = LUXGATE_USER;
+    const info: GetPasswordInfoResponse = await this.getPasswordInfoRequest.execute(password, phrase).promise;
+    if(info !== "")
+    {
+      const objInfo = JSON.parse(info);
+      if(objInfo.userpass)
+      {
+        this._setPassword(objInfo.userpass);
+      }
+    }
     this.myPhrase = '';
     this.isLogined = false;
   };

@@ -13,7 +13,6 @@ import { getLuxgatePassword } from './getLuxgatePassword';
 
 export const LUXGATE_API_HOST = 'localhost';
 export const LUXGATE_API_PORT = 9883;
-export const LUXGATE_USER_PASSWORD = "fadce34e546424c31c34eeb0d2c9e6505d9f589cdddf3a00d6bd8e1d7105bf15";
 
 import { 
     Logger, 
@@ -57,10 +56,9 @@ export default class LuxApi {
         }
     }
 
-    async getCoinBalanace(coin: string, address: string): Promise<GetCoinBalanceResponse> {
+    async getCoinBalanace(password:string, coin: string, address: string): Promise<GetCoinBalanceResponse> {
         Logger.debug('LuxgateApi::getCoinBalanace called');
         try {
-            const password = LUXGATE_USER_PASSWORD;
             const response = await getLuxgateCoinBalanceFromAddress( {coin, password, address} );
             if (response !== undefined && response.result === "success")
             {
@@ -74,10 +72,9 @@ export default class LuxApi {
         }
     }   
 
-    async getCoinInfo(coin: string): Promise<GetCoinInfoResponse> {
+    async getCoinInfo(password:string, coin: string): Promise<GetCoinInfoResponse> {
         Logger.debug('LuxgateApi::getCoinInfo called');
         try {
-            const password = LUXGATE_USER_PASSWORD;
             const response = await getLuxgateCoinInfo({coin, password});
             if (response !== undefined && response.result === "success")
             {
@@ -91,11 +88,10 @@ export default class LuxApi {
         }
     }
 
-    async sendCoin(request: SendCoinRequest): Promise<boolean> {
+    async sendCoin(password:string, request: SendCoinRequest): Promise<boolean> {
         Logger.debug('LuxgateApi::sendCoin called');
         const { coin, receiver, amount } = request;
         try {
-            const password = LUXGATE_USER_PASSWORD;
             const response = await sendLuxgateCoin({coin, receiver, amount, password});
             if (response !== undefined && response.result === "success")
                 return true;
@@ -107,10 +103,9 @@ export default class LuxApi {
         }
     }
 
-    async getLGOrders(base: string, rel: string): Promise<GetLGOrdersResponse> {
+    async getLGOrders(password:string, base: string, rel: string): Promise<GetLGOrdersResponse> {
         Logger.debug('LuxgateApi::getLGOrders called');
         try {
-            const password = LUXGATE_USER_PASSWORD;
             const response = await getLuxgateOrders({password, base, rel});
             if (response !== undefined)
             {
@@ -124,10 +119,9 @@ export default class LuxApi {
         }
     }
 
-    async getLGTransactions(coin: string, address: string): Promise<GetLGTransactionsResponse> {
+    async getLGTransactions(password:string, coin: string, address: string): Promise<GetLGTransactionsResponse> {
         Logger.debug('LuxgateApi::getLGTransactions called');
         try {
-            const password = LUXGATE_USER_PASSWORD;
             const response = await getLuxgateTransactions({coin, password, address});
             if (response !== undefined && !response.error)
             {
@@ -140,10 +134,9 @@ export default class LuxApi {
             throw new GenericApiError();
         }
     }
-    async getLGTradeArray(base: string, rel: string): Promise<GetLGTradeArrayResponse> {
+    async getLGTradeArray(password:string, base: string, rel: string): Promise<GetLGTradeArrayResponse> {
         Logger.debug('LuxgateApi::getLGTradeArray called');
         try {
-            const password = LUXGATE_USER_PASSWORD;
             const scale = 60;
             const response = await getLuxgateTradeArray({password, base, rel, scale});
             if (response !== undefined)
@@ -157,10 +150,9 @@ export default class LuxApi {
             throw new GenericApiError();
         }
     }
-    async getLGPriceArray(base: string, rel: string): Promise<GetLGPriceArrayResponse> {
+    async getLGPriceArray(password:string, base: string, rel: string): Promise<GetLGPriceArrayResponse> {
         Logger.debug('LuxgateApi::getLGPriceArray called');
         try {
-            const password = LUXGATE_USER_PASSWORD;
             const scale = 60;
             const response = await getLuxgatePriceArray({password, base, rel, scale});
             if (response !== undefined)
@@ -175,10 +167,9 @@ export default class LuxApi {
         }
     }
 
-    async getPasswordInfo(passphrase: string): Promise<GetPasswordInfoResponse> {
+    async getPasswordInfo(password:string, passphrase: string): Promise<GetPasswordInfoResponse> {
         Logger.debug('LuxgateApi::getPasswordInfo called');
         try {
-            const password = LUXGATE_USER_PASSWORD;
             const response = await getLuxgatePassword({passphrase, password});
             if (response !== undefined && response.result === "success")
             {

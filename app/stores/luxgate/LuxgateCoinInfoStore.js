@@ -61,7 +61,9 @@ export default class LuxgateCoinInfoStore extends Store {
     amount: number
   }) => {
     const { coin, receiver, amount} = transactionDetails;
+    const password = this.stores.luxgate.loginInfo.password; 
     await this.sendCoinRequest.execute({
+      password: password,
       coin: coin, 
       receiver: receiver, 
       amount: amount});
@@ -71,15 +73,15 @@ export default class LuxgateCoinInfoStore extends Store {
   };
 
   @action getCoinInfoData = async (coin: string) => {
-
-    const info: GetCoinInfoResponse = await this.getCoinInfoRequest.execute(coin).promise;
+    const password = this.stores.luxgate.loginInfo.password; 
+    const info: GetCoinInfoResponse = await this.getCoinInfoRequest.execute(password, coin).promise;
     if(info !== "")
     {
       const objInfo = JSON.parse(info);
       if(coin == objInfo.coin)
       {
         const address = objInfo.smartaddress;
-        const balance = objInfo.balance ? objInfo.balance : await this.getCoinBalanceRequest.execute(coin, address).promise;
+        const balance = objInfo.balance ? objInfo.balance : await this.getCoinBalanceRequest.execute(password, coin, address).promise;
         const height = objInfo.height;
         const status = objInfo.status;
         this._addCoinInfo(new CoinInfo( { coin, balance, address, height, status }));
