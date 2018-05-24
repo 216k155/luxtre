@@ -60,12 +60,9 @@ export const messages = defineMessages({
 messages.fieldIsRequired = globalMessages.fieldIsRequired;
 
 type Props = {
-    newPhrase: string,
-    onCopyAddress: Function,
     error: ?LocalizableError,
     onCancel: Function,
-    onLoginWithPhrase: Function,
-    onCreateNewPhrase: Function,
+    onSaveSettings: Function,
     children: Node
 };
 
@@ -77,7 +74,6 @@ type State = {
 export default class LuxgateSettingsDialog extends Component<Props, State> {
 
     static defaultProps = {
-        newPhrase: '',
         error: null,
         children: null
     };
@@ -89,10 +85,6 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
     static contextTypes = {
         intl: intlShape.isRequired,
     };
-
-    getInitialState() {
-        return { coins : COINS };
-    }
 
     componentDidMount() {
     //    this.setState ( {settingArray : COINS});
@@ -161,29 +153,14 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
         this.setState({coins});
     }
 
-    changeAccountInput(value) {
-        this.setState({ account: value });
-        const value1 = value.split(' ').join('');
-        const value2 = this.props.newPhrase.split(' ').join('');
-        if(value1 == value2)
-            this.setState( {isMatched: true});
-        else 
-            this.setState( {isMatched: false});
-    }
-
     saveSettings() {
-        if(this.state.account.length > 10)
-        {
-            this.props.onLoginWithPhrase(this.state.account);
-            this.props.onCancel();
-        }
+        this.props.onSaveSettings(this.state.coins);
+        this.props.onCancel();
     }
 
     render() {
         const { intl } = this.context;
         const {
-            newPhrase,
-            onCopyAddress,
             error,
             onCancel,
             children

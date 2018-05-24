@@ -12,6 +12,8 @@ import type {
   GetPasswordInfoResponse, 
 } from '../../api/common';
 
+export const ELECTRUM_PORT = 10000;
+export const ELECTRUM_ADDRESS = "electrum2.cipig.net";
 export default class LuxgateSettingInfoStore extends Store {
 
   // REQUESTS
@@ -19,40 +21,18 @@ export default class LuxgateSettingInfoStore extends Store {
   @observable getAccountNewPhraseRequest: Request<GetAccountNewPhraseResponse> = new Request(this.api.luxgate.getAccountNewPhrase);
   @observable getPasswordInfoRequest: Request<GetPasswordInfoResponse> = new Request(this.api.luxgate.getPasswordInfo);
 
-  @observable newPhraseWords = [];
-  @observable isLogined: boolean = false;
-  @observable password: string = "";
-  @observable myPhrase: string = "";
+  @observable coinSettings = [];
   
   setup() {
     super.setup();
 
     const { router, luxgate } = this.actions;
-    const { loginInfo } = luxgate;
-    loginInfo.createNewPhrase.listen(this._createNewPhrase);
-    loginInfo.loginWithPhrase.listen(this._loginWithPhrase);
-    loginInfo.logoutAccount.listen(this._logoutAccount);
+    const { settingInfo } = luxgate;
+    settingInfo.saveSettings.listen(this._saveSettings);
   }
-
-  _createNewPhrase = async () => {
-    try {
-      const newPhrase: ?GetAccountNewPhraseResponse = await (
-        this.getAccountNewPhraseRequest.execute().promise
-      );
-      if (newPhrase != null) {
-        this._mapNewPhrase(newPhrase);
-      }
-    } catch (error) {
-      throw error;
-    }
-  };
-
-  @action _mapNewPhrase = (newPhrase: GetAccountNewPhraseResponse) => {
-    this.newPhraseWords = newPhrase.map(word => ({ word }));
-  };
-
-  @action _loginWithPhrase = async (phrase: string) => {
-    this.myPhrase = phrase;
+  @action _saveSettings = async (settings: Array) => {
+    this.coinSettings = settings;
+    /*
     const info: GetPasswordInfoResponse = await this.getPasswordInfoRequest.execute(phrase).promise;
     if(info !== "")
     {
@@ -62,7 +42,7 @@ export default class LuxgateSettingInfoStore extends Store {
         this.password = objInfo.userpass;
         this.isLogined = true;
       }
-    }
+    }*/
   };
 
   @action _logoutAccount = () => {

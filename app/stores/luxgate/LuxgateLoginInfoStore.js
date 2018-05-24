@@ -63,17 +63,17 @@ export default class LuxgateLoginInfoStore extends Store {
       const objInfo = JSON.parse(info);
       if(objInfo.userpass)
       {
-        this._setPassword(objInfo.userpass);
+        this._setPassword(objInfo.userpass, true);
       }
     }
   };
 
-  @action _setPassword = (pwd) => {
+  @action _setPassword = (pwd, islogined) => {
     this.password = pwd;
-    this.isLogined = true;
+    this.isLogined = islogined;
   };
 
-  @action _logoutAccount = () => {
+  @action _logoutAccount = async () => {
     const password = this.password;
     const phrase = LUXGATE_USER;
     const info: GetPasswordInfoResponse = await this.getPasswordInfoRequest.execute(password, phrase).promise;
@@ -82,11 +82,10 @@ export default class LuxgateLoginInfoStore extends Store {
       const objInfo = JSON.parse(info);
       if(objInfo.userpass)
       {
-        this._setPassword(objInfo.userpass);
+        this._setPassword(objInfo.userpass, false);
       }
     }
     this.myPhrase = '';
-    this.isLogined = false;
   };
 
 }

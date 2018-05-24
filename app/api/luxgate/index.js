@@ -10,6 +10,9 @@ import { getLuxgateTradeArray } from './getLuxgateTradeArray';
 import { getLuxgatePriceArray } from './getLuxgatePriceArray';
 import { getLuxgateAccountNewPhrase } from './getLuxgateAccountNewPhrase';
 import { getLuxgatePassword } from './getLuxgatePassword';
+import { setLuxgateDisableWallet } from './getLuxgatePassword';
+import { setLuxgateLocalWallet } from './setLuxgateLocalWallet';
+import { setLuxgateRemoteWallet } from './setLuxgateRemoteWallet';
 
 export const LUXGATE_API_HOST = 'localhost';
 export const LUXGATE_API_PORT = 9883;
