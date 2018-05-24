@@ -61,9 +61,9 @@ export default class LuxgateLoginInfoStore extends Store {
     if(info !== "")
     {
       const objInfo = JSON.parse(info);
-      if(objInfo.userpass)
+      if(objInfo.password)
       {
-        this._setPassword(objInfo.userpass, true);
+        this._setPassword(objInfo.password, true);
       }
     }
   };
@@ -80,9 +80,9 @@ export default class LuxgateLoginInfoStore extends Store {
     if(info !== "")
     {
       const objInfo = JSON.parse(info);
-      if(objInfo.userpass)
+      if(objInfo.password)
       {
-        this._setPassword(objInfo.userpass, false);
+        this._setPassword(objInfo.password, false);
       }
     }
     this.myPhrase = '';

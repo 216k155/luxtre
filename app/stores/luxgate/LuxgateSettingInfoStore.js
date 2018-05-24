@@ -8,8 +8,7 @@ import CachedRequest from '../lib/LocalizedCachedRequest';
 import { ROUTES } from '../../routes-config';
 
 import type {
-  GetAccountNewPhraseResponse, 
-  GetPasswordInfoResponse, 
+  SetCoinSettingResponse, 
 } from '../../api/common';
 
 export const ELECTRUM_PORT = 10000;
@@ -17,9 +16,7 @@ export const ELECTRUM_ADDRESS = "electrum2.cipig.net";
 export default class LuxgateSettingInfoStore extends Store {
 
   // REQUESTS
-  @observable LuxgateLoginRequest: Request<GetCoinInfoResponse> = new Request(this.api.luxgate.getCoinInfo);
-  @observable getAccountNewPhraseRequest: Request<GetAccountNewPhraseResponse> = new Request(this.api.luxgate.getAccountNewPhrase);
-  @observable getPasswordInfoRequest: Request<GetPasswordInfoResponse> = new Request(this.api.luxgate.getPasswordInfo);
+  @observable setCoinSettingRequest: Request<SetCoinSettingResponse> = new Request(this.api.luxgate.setCoinSetting);
 
   @observable coinSettings = [];
   
