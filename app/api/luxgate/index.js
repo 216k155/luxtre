@@ -32,6 +32,8 @@ import {
 import type {
     GetCoinInfoResponse,
     GetCoinBalanceResponse,
+    SwapCoinResponse,
+    SendCoinResponse,
     GetLGOrdersResponse,
     GetLGTransactionsResponse,
     GetLGTradeArrayResponse,
@@ -82,21 +84,36 @@ export default class LuxApi {
             const response = await getLuxgateCoinInfo({coin, password});
             if (response !== undefined && response.result === "success")
             {
-                return stringifyData(response.coin);
+                return response.coin;
             }
             else
-                return "";
+                return null;
         } catch (error) {
             Logger.error('LuxgateApi::getCoinInfo error: ' + stringifyError(error));
             throw new GenericApiError();
         }
     }
 
-    async sendCoin(password:string, request: SendCoinRequest): Promise<boolean> {
+    async sendCoin(password:string, request: SendCoinRequest): Promise<SendCoinResponse> {
         Logger.debug('LuxgateApi::sendCoin called');
         const { coin, receiver, amount } = request;
         try {
             const response = await sendLuxgateCoin({coin, receiver, amount, password});
+            if (response !== undefined && response.result === "success")
+                return true;
+            else
+                return false;
+        } catch (error) {
+            Logger.error('LuxgateApi::sendCoin error: ' + stringifyError(error));
+            throw new GenericApiError();
+        }
+    }
+
+    async swapCoin(password:string, request: SwapCoinRequest): Promise<SwapCoinResponse> {
+        Logger.debug('LuxgateApi::swapCoin called');
+        const { buy_coin, sell_coin, amount, value } = request;
+        try {
+            const response = await swapLuxgateCoin({buy_coin, sell_coin, amount, value, password});
             if (response !== undefined && response.result === "success")
                 return true;
             else
