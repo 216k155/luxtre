@@ -64,6 +64,7 @@ export default class LuxgateLoginInfoStore extends Store {
       if(objInfo.password)
       {
         this._setPassword(objInfo.password, true);
+        this.stores.luxgate.settingInfo.coinSettings = objInfo.coins;
       }
     }
   };

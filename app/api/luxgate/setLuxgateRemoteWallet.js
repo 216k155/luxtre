@@ -5,12 +5,12 @@ import { LUXGATE_API_HOST, LUXGATE_API_PORT } from './index';
 export type SetLuxgateRemoteWalletParams = {
   password: string,
   coin: string,
-  addr: string,
+  ipaddr: string,
   port: number,
 };
 
 export const setLuxgateRemoteWallet = (
-  { password, coin, addr, port }: SetLuxgateRemoteWalletParams
+  { password, coin, ipaddr, port }: SetLuxgateRemoteWalletParams
 ): Promise<string> => (
   request({
     hostname: LUXGATE_API_HOST,
@@ -20,7 +20,7 @@ export const setLuxgateRemoteWallet = (
     method: 'remotewallet',
     password: password,
     coin: coin,
-    addr: addr,
+    ipaddr: ipaddr,
     port: port,
   })
 );

@@ -84,6 +84,7 @@ export default class LuxgateSettingsDialogContainer extends Component<Props> {
         onSaveSettings={(settings) => {
           actions.luxgate.settingInfo.saveSettings.trigger(settings);
         }}
+        coinSettings={coinSettings}
       >
         <NotificationMessage
             icon={successIcon}

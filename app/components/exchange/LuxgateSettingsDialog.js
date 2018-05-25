@@ -63,7 +63,8 @@ type Props = {
     error: ?LocalizableError,
     onCancel: Function,
     onSaveSettings: Function,
-    children: Node
+    children: Node,
+    coinSettings:Array
 };
 
 type State = {
@@ -75,7 +76,8 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
 
     static defaultProps = {
         error: null,
-        children: null
+        children: null,
+        coinSettings:null
     };
  
     state = {
@@ -87,7 +89,19 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
     };
 
     componentDidMount() {
-    //    this.setState ( {settingArray : COINS});
+        let coins = [...this.state.coins];
+
+        coins.map((coin, index) => {
+            let element = this.props.coinSettings.find((setting) => { return coin.value == setting.coin })
+            if(element !== undefined) {
+                coin.active = element.status;
+                if(!coin.IsOnlyLocal) coin.wallet = element.installed;
+                
+                coins[index] = coin;
+            }
+        });
+
+        this.setState({coins});
     }
 
     onClickCoinState(event) {
@@ -97,7 +111,11 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
         let coins = [...this.state.coins];
         let item = {...coins[index]};
 
-        item.active = !item.active;
+        if(item.active == 'inactive')
+            item.active = 'active';
+        else
+            item.active = 'inactive';
+        
         coins[index] = item;
 
         this.setState({coins});
@@ -220,10 +238,10 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
                                     />
                                 </td>
                                 <td className={styles.coinStateCell} data-index={index}>
-                                    { coin.active ? (
-                                        <img className={styles.icon} src={checkIcon} role="presentation" onClick={this.onClickCoinState.bind(this)}/>
-                                      ) : (
+                                    { coin.active == 'inactive'? (
                                         <img className={styles.icon} src={crossIcon} role="presentation" onClick={this.onClickCoinState.bind(this)}/>
+                                      ) : (
+                                        <img className={styles.icon} src={checkIcon} role="presentation" onClick={this.onClickCoinState.bind(this)}/>
                                     )}
                                 </td>
                             </tr>
