@@ -3,6 +3,7 @@ import LocalizableError from '../i18n/LocalizableError';
 import { WalletTransaction } from '../domain/WalletTransaction';
 import { Wallet } from '../domain/Wallet';
 import { Masternode } from '../domain/Masternode';
+import { CoinInfo } from '../domain/CoinInfo';
 
 const messages = defineMessages({
   genericApiError: {
@@ -137,9 +138,10 @@ export type StopManyMasternodeResponse = Array<StopMasternodeResponse>;
 //////////////////////////////////////////////////////////////////////////////
 //Luxgate type
 
-export type GetCoinInfoResponse = string;
+export type GetCoinInfoResponse = CoinInfo
 export type GetCoinBalanceResponse = number;
-export type sendCoinResponse = boolean;
+export type SendCoinResponse = boolean;
+export type SwapCoinResponse = boolean;
 export type GetLGOrdersResponse = string;
 export type GetLGTransactionsResponse = string;
 export type GetLGTradeArrayResponse = string;

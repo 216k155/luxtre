@@ -10,7 +10,9 @@ import { ROUTES } from '../../routes-config';
 
 import type {
   GetCoinInfoResponse, 
-  GetCoinBalanceResponse
+  GetCoinBalanceResponse,
+  SwapCoinResponse,
+  SendCoinResponse
 } from '../../api/common';
 
 export default class LuxgateCoinInfoStore extends Store {
@@ -20,7 +22,7 @@ export default class LuxgateCoinInfoStore extends Store {
   // REQUESTS
   @observable getCoinInfoRequest: Request<GetCoinInfoResponse> = new Request(this.api.luxgate.getCoinInfo);
   @observable getCoinBalanceRequest: Request<GetCoinBalanceResponse> = new Request(this.api.luxgate.getCoinBalanace);
-  @observable sendCoinRequest: Request<sendCoinResponse> = new Request(this.api.luxgate.sendCoin);
+  @observable sendCoinRequest: Request<SendCoinResponse> = new Request(this.api.luxgate.sendCoin);
   
   @observable lstCoinInfo: Array<CoinInfo> = [];
   @observable swap_coin1: string = 'BTC';
@@ -74,16 +76,15 @@ export default class LuxgateCoinInfoStore extends Store {
 
   @action getCoinInfoData = async (coin: string) => {
     const password = this.stores.luxgate.loginInfo.password; 
-    const info: GetCoinInfoResponse = await this.getCoinInfoRequest.execute(password, coin).promise;
-    if(info !== "")
+    const coinInfo: GetCoinInfoResponse = await this.getCoinInfoRequest.execute(password, coin).promise;
+    if(coinInfo != null)
     {
-      const objInfo = JSON.parse(info);
-      if(coin == objInfo.coin)
+      if(coin == coinInfo.coin)
       {
-        const address = objInfo.smartaddress;
-        const balance = objInfo.balance ? objInfo.balance : await this.getCoinBalanceRequest.execute(password, coin, address).promise;
-        const height = objInfo.height;
-        const status = objInfo.status;
+        const address = coinInfo.smartaddress;
+        const balance = coinInfo.balance ? objInfo.balance : await this.getCoinBalanceRequest.execute(password, coin, address).promise;
+        const height = coinInfo.height;
+        const status = coinInfo.status;
         this._addCoinInfo(new CoinInfo( { coin, balance, address, height, status }));
       }
     }

@@ -73,7 +73,7 @@ export default class LuxgateLoginInfoStore extends Store {
     this.isLogined = true;
   };
 
-  @action _logoutAccount = () => {
+  @action _logoutAccount = async () => {
     const password = this.password;
     const phrase = LUXGATE_USER;
     const info: GetPasswordInfoResponse = await this.getPasswordInfoRequest.execute(password, phrase).promise;
