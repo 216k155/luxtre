@@ -64,6 +64,8 @@ export default class LuxgateCoinInfoStore extends Store {
   }) => {
     const { coin, receiver, amount} = transactionDetails;
     const password = this.stores.luxgate.loginInfo.password; 
+    if (password == "") return;
+    
     await this.sendCoinRequest.execute({
       password: password,
       coin: coin, 
@@ -76,6 +78,8 @@ export default class LuxgateCoinInfoStore extends Store {
 
   @action getCoinInfoData = async (coin: string) => {
     const password = this.stores.luxgate.loginInfo.password; 
+    if (password == "") return;
+    
     const coinInfo: GetCoinInfoResponse = await this.getCoinInfoRequest.execute(password, coin).promise;
     if(coinInfo != null)
     {

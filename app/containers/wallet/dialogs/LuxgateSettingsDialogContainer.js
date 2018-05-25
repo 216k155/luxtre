@@ -52,8 +52,8 @@ export default class LuxgateSettingsDialogContainer extends Component<Props> {
     const { uiDialogs, uiNotifications } = this.props.stores;
     const { wallets } = this.props.stores[environment.API];
     const activeWallet = wallets.active;
-    const loginInfo = this.props.stores.luxgate.loginInfo;
-    const { newPhraseWords } = loginInfo;
+    const settingInfo = this.props.stores.luxgate.settingInfo;
+    const { coinSettings } = settingInfo;
 
     if (!activeWallet) throw new Error('Active wallet required for LuxgateSettingsDialogContainer.');
 
@@ -81,13 +81,10 @@ export default class LuxgateSettingsDialogContainer extends Component<Props> {
         onCancel={() => {
           actions.dialogs.closeActiveDialog.trigger();
         }}
-        onLoginWithPhrase={(phrase) => {
-          actions.luxgate.loginInfo.loginWithPhrase.trigger(phrase);
+        onSaveSettings={(settings) => {
+          actions.luxgate.settingInfo.saveSettings.trigger(settings);
         }}
-        onCreateNewPhrase={() => {
-          actions.luxgate.loginInfo.createNewPhrase.trigger();
-        }}
-        newPhrase={newPhraseWords.reduce((phrase, { word }) => `${phrase} ${word}`, '')}
+        coinSettings={coinSettings}
       >
         <NotificationMessage
             icon={successIcon}

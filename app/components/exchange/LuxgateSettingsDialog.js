@@ -60,13 +60,11 @@ export const messages = defineMessages({
 messages.fieldIsRequired = globalMessages.fieldIsRequired;
 
 type Props = {
-    newPhrase: string,
-    onCopyAddress: Function,
     error: ?LocalizableError,
     onCancel: Function,
-    onLoginWithPhrase: Function,
-    onCreateNewPhrase: Function,
-    children: Node
+    onSaveSettings: Function,
+    children: Node,
+    coinSettings:Array
 };
 
 type State = {
@@ -77,9 +75,9 @@ type State = {
 export default class LuxgateSettingsDialog extends Component<Props, State> {
 
     static defaultProps = {
-        newPhrase: '',
         error: null,
-        children: null
+        children: null,
+        coinSettings:null
     };
  
     state = {
@@ -90,12 +88,20 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
         intl: intlShape.isRequired,
     };
 
-    getInitialState() {
-        return { coins : COINS };
-    }
-
     componentDidMount() {
-    //    this.setState ( {settingArray : COINS});
+        let coins = [...this.state.coins];
+
+        coins.map((coin, index) => {
+            let element = this.props.coinSettings.find((setting) => { return coin.value == setting.coin })
+            if(element !== undefined) {
+                coin.active = element.status;
+                if(!coin.IsOnlyLocal) coin.wallet = element.installed;
+                
+                coins[index] = coin;
+            }
+        });
+
+        this.setState({coins});
     }
 
     onClickCoinState(event) {
@@ -105,7 +111,11 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
         let coins = [...this.state.coins];
         let item = {...coins[index]};
 
-        item.active = !item.active;
+        if(item.active == 'inactive')
+            item.active = 'active';
+        else
+            item.active = 'inactive';
+        
         coins[index] = item;
 
         this.setState({coins});
@@ -161,29 +171,14 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
         this.setState({coins});
     }
 
-    changeAccountInput(value) {
-        this.setState({ account: value });
-        const value1 = value.split(' ').join('');
-        const value2 = this.props.newPhrase.split(' ').join('');
-        if(value1 == value2)
-            this.setState( {isMatched: true});
-        else 
-            this.setState( {isMatched: false});
-    }
-
     saveSettings() {
-        if(this.state.account.length > 10)
-        {
-            this.props.onLoginWithPhrase(this.state.account);
-            this.props.onCancel();
-        }
+        this.props.onSaveSettings(this.state.coins);
+        this.props.onCancel();
     }
 
     render() {
         const { intl } = this.context;
         const {
-            newPhrase,
-            onCopyAddress,
             error,
             onCancel,
             children
@@ -243,10 +238,10 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
                                     />
                                 </td>
                                 <td className={styles.coinStateCell} data-index={index}>
-                                    { coin.active ? (
-                                        <img className={styles.icon} src={checkIcon} role="presentation" onClick={this.onClickCoinState.bind(this)}/>
-                                      ) : (
+                                    { coin.active == 'inactive'? (
                                         <img className={styles.icon} src={crossIcon} role="presentation" onClick={this.onClickCoinState.bind(this)}/>
+                                      ) : (
+                                        <img className={styles.icon} src={checkIcon} role="presentation" onClick={this.onClickCoinState.bind(this)}/>
                                     )}
                                 </td>
                             </tr>

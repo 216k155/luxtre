@@ -61,16 +61,17 @@ export default class LuxgateLoginInfoStore extends Store {
     if(info !== "")
     {
       const objInfo = JSON.parse(info);
-      if(objInfo.userpass)
+      if(objInfo.password)
       {
-        this._setPassword(objInfo.userpass);
+        this._setPassword(objInfo.password, true);
+        this.stores.luxgate.settingInfo.coinSettings = objInfo.coins;
       }
     }
   };
 
-  @action _setPassword = (pwd) => {
+  @action _setPassword = (pwd, islogined) => {
     this.password = pwd;
-    this.isLogined = true;
+    this.isLogined = islogined;
   };
 
   @action _logoutAccount = async () => {
@@ -80,13 +81,12 @@ export default class LuxgateLoginInfoStore extends Store {
     if(info !== "")
     {
       const objInfo = JSON.parse(info);
-      if(objInfo.userpass)
+      if(objInfo.password)
       {
-        this._setPassword(objInfo.userpass);
+        this._setPassword(objInfo.password, false);
       }
     }
     this.myPhrase = '';
-    this.isLogined = false;
   };
 
 }

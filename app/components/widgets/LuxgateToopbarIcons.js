@@ -53,7 +53,7 @@ export default class LuxgateToopbarIcons extends Component<Props> {
   }
 
   onClickSettingsIcon() {
-    //if (this.props.isLogined)
+    if (this.props.isLogined)
       this.props.openDialogAction({dialog: LuxgateSettingsDialog});
   }
 

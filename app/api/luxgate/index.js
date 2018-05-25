@@ -10,6 +10,9 @@ import { getLuxgateTradeArray } from './getLuxgateTradeArray';
 import { getLuxgatePriceArray } from './getLuxgatePriceArray';
 import { getLuxgateAccountNewPhrase } from './getLuxgateAccountNewPhrase';
 import { getLuxgatePassword } from './getLuxgatePassword';
+import { setLuxgateDisableWallet } from './setLuxgateDisableWallet';
+import { setLuxgateLocalWallet } from './setLuxgateLocalWallet';
+import { setLuxgateRemoteWallet } from './setLuxgateRemoteWallet';
 
 export const LUXGATE_API_HOST = 'localhost';
 export const LUXGATE_API_PORT = 9883;
@@ -36,7 +39,8 @@ import type {
     GetLGTradeArrayResponse,
     GetLGPriceArrayResponse,
     GetPasswordInfoResponse,
-    GetAccountNewPhraseResponse
+    GetAccountNewPhraseResponse,
+    SetCoinSettingResponse
   } from '../common';
 
 export type SendCoinRequest = {
@@ -200,6 +204,31 @@ export default class LuxApi {
         }
     }
     
+    async setCoinSetting(password:string, coin:string, active:string, local:boolean, ipaddr:string, port:number): Promise<SetCoinSettingResponse> {
+        Logger.debug('LuxgateApi::setCoinSetting called');
+        try {
+            let response;
+            if(active == 'active') {
+                if(local)
+                    response = await setLuxgateLocalWallet({password, coin});
+                else    
+                    response = await setLuxgateRemoteWallet({password, coin, ipaddr, port});
+            } else {
+                response = await setLuxgateDisableWallet({password, coin});
+            }
+
+            if (response !== undefined)
+            {
+                return stringifyData(response);
+            }
+            else
+                return "";
+        } catch (error) {
+            Logger.error('LuxgateApi::setCoinSetting error: ' + stringifyError(error));
+            throw new GenericApiError();
+        }
+    }
+
     getAccountNewPhrase(): Promise<GetAccountNewPhraseResponse> {
         Logger.debug('LuxApi::getAccountNewPhrase called');
         try {

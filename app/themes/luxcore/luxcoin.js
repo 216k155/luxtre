@@ -110,7 +110,7 @@ export default {
   '--theme-main-body-messages-color': '#050b2d',
 
   '--theme-modal-overlay-background-color': 'rgba(0, 0, 0, 0.4)',
-  '--theme-modal-background-color': '#ddd',
+  '--theme-modal-background-color': '#eee',
 
   '--theme-nav-item-background-color': '#061532',
   '--theme-nav-item-background-color-hover': '#32a4bb',
