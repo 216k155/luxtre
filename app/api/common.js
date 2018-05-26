@@ -149,6 +149,7 @@ export type GetLGPriceArrayResponse = string;
 export type GetAccountNewPhraseResponse = Array<string>;
 export type GetPasswordInfoResponse = string;
 export type SetCoinSettingResponse = string;
+export type GetCoinPriceResponse = number;
 
 
 

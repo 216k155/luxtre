@@ -8,4 +8,5 @@ export default class CoinInfoActions {
   getCoinBalanace: Action<{ coin: string, address: string }> = new Action();
   getBalanaceFromAddress: Action<{ coin: string }> = new Action();
   sendCoin: Action<{ coin: string, receiver: string, amount: number }> = new Action();
+  getCoinPrice: Action<any> = new Action();
 }
