@@ -8,7 +8,8 @@ type Props = {
     coinInfoList: Array<CoinInfo>,
     openDialogAction: Function,
     isDialogOpen: Function,
-    onChangeCoin: Function
+    onChangeCoin: Function,
+    onSwapCoin: Function
   };
 
 @observer
@@ -19,7 +20,8 @@ export default class ExchangePage extends Component<Props> {
             coinInfoList,
             openDialogAction, 
             isDialogOpen,
-            onChangeCoin
+            onChangeCoin,
+            onSwapCoin
           } = this.props;
 
         return (
@@ -29,6 +31,7 @@ export default class ExchangePage extends Component<Props> {
                     openDialogAction={openDialogAction}  
                     isDialogOpen={isDialogOpen}
                     onChangeCoin={onChangeCoin}
+                    onSwapCoin={onSwapCoin}
                 />
             </div>   
         );
