@@ -69,6 +69,15 @@ export default class Wallet extends Component<Props> {
               };
               actions.luxgate.coinInfo.getCoinInfo.trigger(coinData);
             }}
+            onSwapCoin={(buy_coin: string, sell_coin: string, amount: number, value: number) => {
+              const swapData = {
+                buy_coin: buy_coin,
+                sell_coin: sell_coin,
+                amount: amount,
+                value: value,
+              };
+              actions.luxgate.coinInfo.swapCoin.trigger(swapData);
+            }}
             >
 
             {/*code Exchange UI here */}

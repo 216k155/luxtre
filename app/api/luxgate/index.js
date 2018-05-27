@@ -96,9 +96,9 @@ export default class LuxApi {
         }
     }
 
-    async sendCoin(password:string, request: SendCoinRequest): Promise<SendCoinResponse> {
+    async sendCoin(SendCoinRequest): Promise<SendCoinResponse> {
         Logger.debug('LuxgateApi::sendCoin called');
-        const { coin, receiver, amount } = request;
+        const { coin, receiver, amount, password } = request;
         try {
             const response = await sendLuxgateCoin({coin, receiver, amount, password});
             if (response !== undefined && response.result === "success")
@@ -111,9 +111,9 @@ export default class LuxApi {
         }
     }
 
-    async swapCoin(password:string, request: SwapCoinRequest): Promise<SwapCoinResponse> {
+    async swapCoin(request: SwapCoinRequest): Promise<SwapCoinResponse> {
         Logger.debug('LuxgateApi::swapCoin called');
-        const { buy_coin, sell_coin, amount, value } = request;
+        const { buy_coin, sell_coin, amount, value, password } = request;
         try {
             const response = await swapLuxgateCoin({buy_coin, sell_coin, amount, value, password});
             if (response !== undefined && response.result === "success")

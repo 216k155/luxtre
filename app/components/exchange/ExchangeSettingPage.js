@@ -33,7 +33,8 @@ type Props = {
     coinInfoList: Array<CoinInfo>,
     openDialogAction: Function,
     isDialogOpen: Function,
-    onChangeCoin: Function
+    onChangeCoin: Function,
+    onSwapCoin: Function
 }
 
 type State = {
@@ -69,11 +70,11 @@ export default class ExchangeSettingPage extends Component<Props, State>{
         this.setState({ isBuy: !this.state.isBuy });
     }
 
-    chnageAmountInput(value) {
+    changeAmountInput(value) {
         this.setState({ AmountInput: value });
     }
 
-    chnageValueInput(value) {
+    changeValueInput(value) {
         this.setState({ ValueInput: value });
     }
 
@@ -89,6 +90,17 @@ export default class ExchangeSettingPage extends Component<Props, State>{
             return;
         this.setState( {Coin2: value});
         this.props.onChangeCoin(value, 2);
+    }
+
+    swapCoin() {
+        if(this.state.AmountInput == 0 || this.state.ValueInput == 0)
+            return;
+
+        var buy_coin = this.state.Coin1;
+        var sell_coin = this.state.Coin2;
+        var amount = this.state.AmountInput;
+        var value = this.state.ValueInput;
+        this.props.onSwapCoin(buy_coin, sell_coin, parseFloat(amount), parseFloat(value));
     }
 
     handleSwitchCoin() {
@@ -305,7 +317,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                                 {...inputProps}
                                 placeholder={'0.000000 '+ Coin1} 
                                 value={AmountInput}
-                                onChange={this.chnageAmountInput.bind(this)}
+                                onChange={this.changeAmountInput.bind(this)}
                             />
                         </div>
                         <div className={styles.switch} >
@@ -329,7 +341,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                                 {...inputProps}
                                 placeholder={'0.000000 '+ Coin2 + '/' + Coin1} 
                                 value={ValueInput}
-                                onChange={this.chnageValueInput.bind(this)}
+                                onChange={this.changeValueInput.bind(this)}
                             />
                         </div>
                         <div className={styles.divTotal}>
@@ -339,6 +351,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                         <div className={styles.swapbutton}>
                             <Button
                                 label="SWAP NOW"
+                                onClick={this.swapCoin.bind(this)}
                                 skin={<ButtonSkin/>}
                             />
                         </div>
