@@ -24,8 +24,8 @@ export default class LuxgateLoginInfoStore extends Store {
 
   @observable newPhraseWords = [];
   @observable isLogined: boolean = false;
-  @observable password: string = "";
-  @observable myPhrase: string = "";
+  @observable password: string = LUXGATE_PASSWORD;
+  @observable myPhrase: string = LUXGATE_USER;
   
   setup() {
     super.setup();

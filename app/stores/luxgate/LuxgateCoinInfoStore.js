@@ -12,7 +12,8 @@ import type {
   GetCoinInfoResponse, 
   GetCoinBalanceResponse,
   SwapCoinResponse,
-  SendCoinResponse
+  SendCoinResponse,
+  GetCoinPriceResponse,
 } from '../../api/common';
 
 export default class LuxgateCoinInfoStore extends Store {
@@ -24,10 +25,12 @@ export default class LuxgateCoinInfoStore extends Store {
   @observable getCoinBalanceRequest: Request<GetCoinBalanceResponse> = new Request(this.api.luxgate.getCoinBalanace);
   @observable sendCoinRequest: Request<SendCoinResponse> = new Request(this.api.luxgate.sendCoin);
   @observable swapCoinRequest: Request<SwapCoinResponse> = new Request(this.api.luxgate.swapCoin);
+  @observable getCoinPriceRequest: Request<GetCoinPriceResponse> = new Request(this.api.luxgate.getCoinPrice);
   
   @observable lstCoinInfo: Array<CoinInfo> = [];
   @observable swap_coin1: string = 'BTC';
   @observable swap_coin2: string = 'LUX';
+  @observable swap_price: number = 0;
 
   setup() {
     super.setup();
@@ -39,7 +42,7 @@ export default class LuxgateCoinInfoStore extends Store {
     coinInfo.getCoinInfo.listen(this._getCoinInfo);
     coinInfo.swapCoin.listen(this._swapCoin);
     coinInfo.sendCoin.listen(this._sendCoin);
-    //coininfo.getcoinarray.listen(this._createMasternode);
+    coinInfo.getCoinPrice.listen(this._getCoinPrice);
     //coininfo.getbalanacefromaddress
     //router.goToRoute.listen(this._onRouteChange);
   }
@@ -57,6 +60,8 @@ export default class LuxgateCoinInfoStore extends Store {
 
       this.getCoinInfoData(coin);
     }
+
+    this._getCoinPrice();
   };
 
   _sendCoin = async ( transactionDetails: {
@@ -97,6 +102,14 @@ export default class LuxgateCoinInfoStore extends Store {
     this.actions.dialogs.closeActiveDialog.trigger();
     this.swapCoinRequest.reset();
   };
+  
+  @action _getCoinPrice = async () => {
+    const password = this.stores.luxgate.loginInfo.password; 
+    if (password == "") return;
+
+    const price: GetCoinPriceResponse = await this.getCoinPriceRequest.execute(password, this.swap_coin1, this.swap_coin2).promise;
+    this.swap_price = price;
+  }
 
   @action getCoinInfoData = async (coin: string) => {
     const password = this.stores.luxgate.loginInfo.password; 
@@ -127,7 +140,7 @@ export default class LuxgateCoinInfoStore extends Store {
   }
 
   @action refreshCoinInfoData = async () => {
-    if (this.stores.networkStatus.isConnected) {
+    if (this.stores.networkStatus.isConnected && this.stores.luxgate.loginInfo.isLogined) {
       await this.getCoinInfoData(this.swap_coin1);
       await this.getCoinInfoData(this.swap_coin2);
     }

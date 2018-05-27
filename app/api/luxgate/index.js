@@ -13,6 +13,7 @@ import { getLuxgatePassword } from './getLuxgatePassword';
 import { setLuxgateDisableWallet } from './setLuxgateDisableWallet';
 import { setLuxgateLocalWallet } from './setLuxgateLocalWallet';
 import { setLuxgateRemoteWallet } from './setLuxgateRemoteWallet';
+import { getLuxgateCoinPrice } from './getLuxgateCoinPrice';
 
 export const LUXGATE_API_HOST = 'localhost';
 export const LUXGATE_API_PORT = 9883;
@@ -40,7 +41,8 @@ import type {
     GetLGPriceArrayResponse,
     GetPasswordInfoResponse,
     GetAccountNewPhraseResponse,
-    SetCoinSettingResponse
+    SetCoinSettingResponse,
+    GetCoinPriceResponse
   } from '../common';
 
 export type SendCoinRequest = {
@@ -230,16 +232,33 @@ export default class LuxApi {
     }
 
     getAccountNewPhrase(): Promise<GetAccountNewPhraseResponse> {
-        Logger.debug('LuxApi::getAccountNewPhrase called');
+        Logger.debug('LuxgateApi::getAccountNewPhrase called');
         try {
             const response: Promise<LuxgateAccountNewPhraseResponse> = new Promise(
                 (resolve) => resolve(getLuxgateAccountNewPhrase())
             );
-            Logger.debug('LuxApi::getAccountNewPhrase success');
+            Logger.debug('LuxgateApi::getAccountNewPhrase success');
             return response;
         } catch (error) {
-            Logger.error('LuxApi::getAccountNewPhrase error: ' + stringifyError(error));
+            Logger.error('LuxgateApi::getAccountNewPhrase error: ' + stringifyError(error));
             throw new GenericApiError();
         }
     }
+
+    async getCoinPrice(password:string, base: string, rel: string): Promise<GetCoinPriceResponse> {
+        Logger.debug('LuxgateApi::getCoinPrice called');
+        try {
+            const response = await getLuxgateCoinPrice({password, base, rel});
+            if (response !== undefined && response.result === "success")
+            {
+                return response.price;
+            }
+            else
+                return 0;
+        } catch (error) {
+            Logger.error('LuxgateApi::getCoinPrice error: ' + stringifyError(error));
+            throw new GenericApiError();
+        }
+    }
+
 }
