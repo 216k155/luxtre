@@ -33,8 +33,8 @@ export const messages = defineMessages({
     },
     buttonLabelLogin: {
       id: 'luxgate.login.dialog.button.labelLogin',
-      defaultMessage: '!!!Enter my Account',
-      description: 'Label for button "Enter my Account" on Login dialog'
+      defaultMessage: '!!!Login with My Account',
+      description: 'Label for button "Login with My Account" on Login dialog'
     },
     buttonLabelNewPhrase: {
       id: 'luxgate.login.dialog.button.labelNewPhrase',

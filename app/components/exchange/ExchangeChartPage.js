@@ -33,7 +33,7 @@ export default class ExchangeChartPage extends Component{
 
         let config = {
             chart: {
-                //backgroundColor: '#F0F0EA',
+                backgroundColor: '#fafbfc',
                 style: {
             		fontFamily: 'default'
         	    }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import type { Node } from 'react';
 import { observer } from 'mobx-react';
+import classnames from 'classnames';
 import Select from 'react-polymorph/lib/components/Select';
 import SelectSkin from 'react-polymorph/lib/skins/simple/SelectSkin';
 import NumericInput from 'react-polymorph/lib/components/NumericInput';
@@ -223,6 +224,10 @@ export default class ExchangeSettingPage extends Component<Props, State>{
 			verticalAlign: 'middle',
         };
 
+        const swapButtonClasses = classnames([
+            'primary'
+          ]);
+
         let inputProps = {
             skin: <InputSkin/>,
             className: styles.numericInput,
@@ -254,7 +259,6 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                         <span className={styles.spanPrice}>{coinPrice}</span>
                     </div>
                     <div className={styles.divBalance}>    
-                        <div className={styles.margin_left20}>Balance</div>
                         <div className={styles.coinbalance}>
                             <div className={styles.coin}>{Coin1}</div>
                             <div className={styles.balance}>{this.getCoinBalance(Coin1)}</div>
@@ -353,7 +357,8 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                         </div>
                         <div className={styles.swapbutton}>
                             <Button
-                                label="SWAP NOW"
+                                className={swapButtonClasses}
+                                label="Swap Now"
                                 onClick={this.swapCoin.bind(this)}
                                 skin={<ButtonSkin/>}
                             />
@@ -363,7 +368,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                 <div className={styles.margetTable}>
                     <div className={styles.orderTable}>
                         <div className={styles.tableCaption}>
-             				<span className={styles.order}> ORDERS </span>
+             				<span className={styles.order}> Orders </span>
 			            	<div className={styles.tableCaptionPos}>{Coin1} &rArr; {Coin2} </div>
                         </div>
                         <ReactTable
@@ -375,7 +380,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                     </div>
                     <div className={styles.orderTable}>
                         <div className={styles.tableCaption}> 
-                            <span className={styles.order}> ORDERS </span>
+                            <span className={styles.order}> Orders </span>
 			            	<div className={styles.tableCaptionPos}> {Coin2} &rArr; {Coin1} </div>
                         </div>
                         <ReactTable
