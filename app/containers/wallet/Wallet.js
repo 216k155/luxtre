@@ -40,7 +40,7 @@ export default class Wallet extends Component<Props> {
     const { wallets, luxRedemption } = this.props.stores.lux;
     const luxgate = this.props.stores.luxgate;
     const { coinInfo } = luxgate;
-    const { coinInfoList } = coinInfo;
+    const { coinInfoList, coinPrice } = coinInfo;
     const { uiDialogs, uiNotifications } = this.props.stores;
     const { actions } = this.props;
     const { showLuxRedemptionSuccessMessage, amountRedeemed } = luxRedemption;
@@ -59,6 +59,7 @@ export default class Wallet extends Component<Props> {
           </WalletWithNavigation>
           :
           <ExchangePage 
+            coinPrice={coinPrice}
             coinInfoList={coinInfoList}
             openDialogAction={actions.dialogs.open.trigger}  
             isDialogOpen={uiDialogs.isOpen}

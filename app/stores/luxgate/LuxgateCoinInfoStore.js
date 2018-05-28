@@ -30,7 +30,7 @@ export default class LuxgateCoinInfoStore extends Store {
   @observable lstCoinInfo: Array<CoinInfo> = [];
   @observable swap_coin1: string = 'BTC';
   @observable swap_coin2: string = 'LUX';
-  @observable swap_price: number = 0;
+  @observable coinPrice: number = 0;
 
   setup() {
     super.setup();
@@ -43,7 +43,7 @@ export default class LuxgateCoinInfoStore extends Store {
     coinInfo.swapCoin.listen(this._swapCoin);
     coinInfo.sendCoin.listen(this._sendCoin);
     coinInfo.getCoinPrice.listen(this._getCoinPrice);
-    //coininfo.getbalanacefromaddress
+    coinInfo.clearCoinInfo.listen(this._clearCoinInfo);
     //router.goToRoute.listen(this._onRouteChange);
   }
 
@@ -107,11 +107,20 @@ export default class LuxgateCoinInfoStore extends Store {
     const password = this.stores.luxgate.loginInfo.password; 
     if (password == "") return;
 
+    if(this.swap_coin1 == this.swap_coin2) return;
+
     const price: GetCoinPriceResponse = await this.getCoinPriceRequest.execute(password, this.swap_coin1, this.swap_coin2).promise;
-    this.swap_price = price;
+    this.setCoinPrice(price);
+  }
+
+  @action setCoinPrice(price){
+    this.coinPrice = price;
   }
 
   @action getCoinInfoData = async (coin: string) => {
+    const isLogined = this.stores.luxgate.loginInfo.isLogined;
+    if(!isLogined) return;
+
     const password = this.stores.luxgate.loginInfo.password; 
     if (password == "") return;
     
@@ -166,6 +175,11 @@ export default class LuxgateCoinInfoStore extends Store {
     this.lstCoinInfo.splice(index, 1);
   };
   
+  @action _clearCoinInfo = () => {
+    this.lstCoinInfo.splice(0, this.lstCoinInfo.length);
+    // this.lstCoinInfo.length = 0;
+  };
+
   _pollRefresh = async () => {
     await this.refreshCoinInfoData();
   }

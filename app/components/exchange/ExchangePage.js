@@ -5,6 +5,7 @@ import styles from "./ExchangePage.scss";
 import { CoinInfo } from '../../domain/CoinInfo';
 
 type Props = {
+    coinPrice: number,
     coinInfoList: Array<CoinInfo>,
     openDialogAction: Function,
     isDialogOpen: Function,
@@ -17,6 +18,7 @@ export default class ExchangePage extends Component<Props> {
 
     render() {
         const {
+            coinPrice,
             coinInfoList,
             openDialogAction, 
             isDialogOpen,
@@ -27,6 +29,7 @@ export default class ExchangePage extends Component<Props> {
         return (
             <div className={styles.component}>
                 <ExchangeSettingPage
+                    coinPrice={coinPrice}
                     coinInfoList={coinInfoList}
                     openDialogAction={openDialogAction}  
                     isDialogOpen={isDialogOpen}

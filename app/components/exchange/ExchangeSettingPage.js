@@ -30,6 +30,7 @@ import "react-table/react-table.css";
 import ExchangeChartPage from "./ExchangeChartPage";
 
 type Props = {
+    coinPrice: number,
     coinInfoList: Array<CoinInfo>,
     openDialogAction: Function,
     isDialogOpen: Function,
@@ -168,6 +169,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
             balance } = this.state;
             
         const {
+            coinPrice,
             coinInfoList,
             openDialogAction, 
             isDialogOpen,
@@ -248,7 +250,8 @@ export default class ExchangeSettingPage extends Component<Props, State>{
             <div className={styles.pageContainer}>
                 <div>
                     <div className={styles.divStatus}>
-                        <span>{Coin1}/{Coin2}</span>
+                        <span>{Coin1}/{Coin2}:</span>
+                        <span className={styles.spanPrice}>{coinPrice}</span>
                     </div>
                     <div className={styles.divBalance}>    
                         <div className={styles.margin_left20}>Balance</div>

@@ -65,6 +65,11 @@ export default class LuxgateLoginInfoStore extends Store {
       {
         this._setPassword(objInfo.password, true);
         this.stores.luxgate.settingInfo.coinSettings = objInfo.coins;
+        const coinData = {
+          coin: "all",
+          coin_num: 0,
+        };
+        this.actions.luxgate.coinInfo.getCoinInfo.trigger(coinData);
       }
     }
   };
@@ -87,6 +92,7 @@ export default class LuxgateLoginInfoStore extends Store {
       }
     }
     this.myPhrase = '';
+    this.actions.luxgate.coinInfo.clearCoinInfo.trigger();
   };
 
 }
