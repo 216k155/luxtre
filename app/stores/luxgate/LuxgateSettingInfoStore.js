@@ -9,10 +9,12 @@ import { ROUTES } from '../../routes-config';
 
 import type {
   SetCoinSettingResponse, 
+} from '../../api/common';
+
+import {
   ELECTRUM_PORT,
   ELECTRUM_ADDRESS
 } from '../../api/common';
-
 
 export default class LuxgateSettingInfoStore extends Store {
 
