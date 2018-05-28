@@ -30,6 +30,10 @@ import {
     WalletAlreadyRestoredError
   } from '../common';
 
+import {
+    ELECTRUM_PORT,
+    ELECTRUM_ADDRESS
+  } from '../common';
 import type {
     GetCoinInfoResponse,
     GetCoinBalanceResponse,
@@ -248,13 +252,31 @@ export default class LuxApi {
     async getCoinPrice(password:string, base: string, rel: string): Promise<GetCoinPriceResponse> {
         Logger.debug('LuxgateApi::getCoinPrice called');
         try {
-            const response = await getLuxgateCoinPrice({password, base, rel});
-            if (response !== undefined && response.result === "success")
-            {
+            let response = await getLuxgateCoinPrice({password, base, rel});
+            if (response !== undefined && response.result === "success") {
                 return response.price;
+            } else {
+                const ipaddr = ELECTRUM_ADDRESS;
+                const port = ELECTRUM_PORT;
+                let coin = base;
+                if(coin == "BTC") {
+                    await setLuxgateRemoteWallet({password, coin, ipaddr, port});
+                } else {
+                    await setLuxgateLocalWallet({password, coin});
             }
-            else
+                coin = rel;
+                if(coin == "BTC") {
+                    await setLuxgateRemoteWallet({password, coin, ipaddr, port});
+                } else {
+                    await setLuxgateLocalWallet({password, coin});
+                }
+                let response = await getLuxgateCoinPrice({password, base, rel});
+                if (response !== undefined && response.result === "success") {
+                    return response.price;
+                } else {
                 return 0;
+                }   
+            }
         } catch (error) {
             Logger.error('LuxgateApi::getCoinPrice error: ' + stringifyError(error));
             throw new GenericApiError();

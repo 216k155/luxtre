@@ -88,6 +88,12 @@ export default class LuxgateLoginDialog extends Component<Props, State> {
 
     changeAccountInput(value) {
         this.setState({ account: value });
+
+        if(!this.state.isNewPhrase) {
+            this.setState( {isMatched: true});
+            return;
+        }
+
         const value1 = value.split(' ').join('');
         const value2 = this.props.newPhrase.split(' ').join('');
         if(value1 == value2)

@@ -23,6 +23,9 @@ const messages = defineMessages({
   },
 });
 
+export const ELECTRUM_PORT = 10000;
+export const ELECTRUM_ADDRESS = "electrum2.cipig.net";
+
 export class GenericApiError extends LocalizableError {
   constructor() {
     super({

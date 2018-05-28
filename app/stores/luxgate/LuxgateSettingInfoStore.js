@@ -9,10 +9,10 @@ import { ROUTES } from '../../routes-config';
 
 import type {
   SetCoinSettingResponse, 
+  ELECTRUM_PORT,
+  ELECTRUM_ADDRESS
 } from '../../api/common';
 
-export const ELECTRUM_PORT = 10000;
-export const ELECTRUM_ADDRESS = "electrum2.cipig.net";
 
 export default class LuxgateSettingInfoStore extends Store {
 
