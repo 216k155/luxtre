@@ -121,7 +121,7 @@ export default class LuxgateCoinInfoStore extends Store {
       if(coin == coinInfo.coin)
       {
         const address = coinInfo.smartaddress;
-        const balance = coinInfo.balance ? objInfo.balance : await this.getCoinBalanceRequest.execute(password, coin, address).promise;
+        const balance = coinInfo.balance ? coinInfo.balance : await this.getCoinBalanceRequest.execute(password, coin, address).promise;
         const height = coinInfo.height;
         const status = coinInfo.status;
         this._addCoinInfo(new CoinInfo( { coin, balance, address, height, status }));
