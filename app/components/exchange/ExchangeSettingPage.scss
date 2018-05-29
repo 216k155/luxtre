@@ -192,15 +192,16 @@
   float: right;
   :global .SimpleButton_root {
     background: #f5852e;
+    box-shadow: 1px 1px 0px rgba(25, 24, 24, 0.75);
   }
 }
 
 .recv {
   float: right;
-  //box-shadow: 1px 1px 0px rgba(25, 24, 24, 0.75);
   :global .SimpleButton_root {
     background: #069a06;
-  }
+    box-shadow: 1px 1px 0px rgba(25, 24, 24, 0.75);
+}
 }
 
 .divStatus {
@@ -280,9 +281,10 @@
 .order {
   font-size:12px;
   float:left;
-  color: #eee;
+  color: #FFF;
 }
 .tableCaptionPos {
+  font-family: var(--font-bold);
 	margin-left: 38%;
 }
 .orderTable {
