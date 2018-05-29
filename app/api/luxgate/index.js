@@ -5,6 +5,7 @@ import { getLuxgateCoinInfo } from './getLuxgateCoinInfo';
 import { getLuxgateOrders } from './getLuxgateOrders';
 import { getLuxgateTransactions } from './getLuxgateTransactions';
 import { getLuxgateCoinBalanceFromAddress } from './getLuxgateCoinBalanceFromAddress';
+import { swapLuxgateCoin } from './swapLuxgateCoin';
 import { sendLuxgateCoin } from './sendLuxgateCoin';
 import { getLuxgateTradeArray } from './getLuxgateTradeArray';
 import { getLuxgatePriceArray } from './getLuxgatePriceArray';
@@ -49,6 +50,13 @@ export type SendCoinRequest = {
     coin: string,
     address: string,
     amount: string,
+};
+
+export type SwapCoinRequest = {
+    buy_coin: string,
+    sell_coin: string,
+    amount: number,
+    value: number,
 };
 
 import type {
@@ -96,7 +104,7 @@ export default class LuxApi {
         }
     }
 
-    async sendCoin(SendCoinRequest): Promise<SendCoinResponse> {
+    async sendCoin(request: SendCoinRequest): Promise<SendCoinResponse> {
         Logger.debug('LuxgateApi::sendCoin called');
         const { coin, receiver, amount, password } = request;
         try {
