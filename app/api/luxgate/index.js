@@ -50,6 +50,7 @@ export type SendCoinRequest = {
     coin: string,
     address: string,
     amount: string,
+    password: string
 };
 
 export type SwapCoinRequest = {
@@ -57,6 +58,7 @@ export type SwapCoinRequest = {
     sell_coin: string,
     amount: number,
     value: number,
+    password: string
 };
 
 import type {
