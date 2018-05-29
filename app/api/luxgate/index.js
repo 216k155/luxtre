@@ -135,7 +135,7 @@ export default class LuxApi {
             else
                 return false;
         } catch (error) {
-            Logger.error('LuxgateApi::sendCoin error: ' + stringifyError(error));
+            Logger.error('LuxgateApi::swapCoin error: ' + stringifyError(error));
             throw new GenericApiError();
         }
     }
