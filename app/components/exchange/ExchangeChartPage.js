@@ -45,7 +45,11 @@ export default class ExchangeChartPage extends Component{
                 enabled: false
             },
             title: {
-                text: 'LUX/BTC Historical'
+                text: 'LUX/BTC Historical',
+                style: {
+                    fontWeight: 'bold',
+                    textTransform: 'capitalize'
+                 }
             },
             rangeSelector: {
                 inputEnabled: false,

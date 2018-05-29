@@ -254,14 +254,16 @@
   height: 400px;
 }
 .card {
-  flex: 1 1 auto;
-  padding: 1.25rem;
+  padding-top: 8px;
+//  flex: 1 1 auto;
+//  padding: 1.25rem;
 }
 .cardTitle {
-  position: relative;
-//  font-weight: bold;
+  text-align: center;
+  font-weight: bold;
 }
 .cardSubtitle {
+  padding: 10px;
   font-weight: 100;
   margin-top: 3px;
   color: #6c757d;

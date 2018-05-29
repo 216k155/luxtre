@@ -303,7 +303,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                     </div>
                     <div className={styles.setting}>
                         <div className={styles.card}>
-                            <h5 className={styles.cardTitle}>Coupled Asset Swap</h5>
+                            <div className={styles.cardTitle}>Coupled Asset Swap</div>
                             <h6 className={styles.cardSubtitle}>Please swap your currency from here</h6>
                         </div>
                         <div className={styles.component}>
