@@ -15,6 +15,7 @@ import type {
   GetLGOrdersResponse, 
   GetLGTransactionsResponse, 
   GetLGTradeArrayResponse,
+  GetCoinPriceResponse,
   GetLGPriceArrayResponse
 } from '../../api/common';
 
@@ -23,17 +24,15 @@ export default class LuxgateMarketInfoStore extends Store {
   LGORDERS_REFRESH_INTERVAL = 10000;
 
   // REQUESTS
-//  @observable getLGOrdersRequest: CachedRequest<GetLGOrdersResponse> = new CachedRequest(this.api.luxgate.getLGOrders);
-//  @observable getLGTransactionsRequest: CachedRequest<GetLGTransactionsResponse> = new CachedRequest(this.api.luxgate.getLGTransactions);
-//  @observable getLGTradeArrayRequest: CachedRequest<GGetLGTradeArrayResponse> = new CachedRequest(this.api.luxgate.getLGTradeArray);
-//  @observable getLGPriceArrayRequest: CachedRequest<GGetLGPriceArrayResponse> = new CachedRequest(this.api.luxgate.getLGPriceArray);
 
   @observable getLGOrdersRequest: Request<GetLGOrdersResponse> = new Request(this.api.luxgate.getLGOrders);
+  @observable getCoinPriceRequest: Request<GetCoinPriceResponse> = new Request(this.api.luxgate.getCoinPrice);
 
   @observable LGOrdersData: Array<LGOrders> = [];
   @observable lstLGTransactions: Array<LGTransactions> = [];
   @observable lstLGTradeArray: Array<LGTradeArray> = [];
   @observable lstLGPriceArray: Array<LGPriceArray> = [];
+  @observable coinPrice: number = 0;
 
   setup() {
     super.setup();
@@ -98,7 +97,8 @@ export default class LuxgateMarketInfoStore extends Store {
   _pollRefresh = async () => {
     if(!this.stores.sidebar.isShowingLuxtre)
     {
-      this.LGOrdersData = await this.refreshLGOrdersData();
+      await this.refreshCoinPrice();
+      await this.refreshLGOrdersData();
     } 
   }
 
@@ -174,4 +174,16 @@ export default class LuxgateMarketInfoStore extends Store {
     return this.lstLGPriceArray;
   }
 
+  @action refreshCoinPrice = async () => {
+    const password = this.stores.luxgate.loginInfo.password; 
+    if (password == "") return 0;
+    const coin1 = this.stores.luxgate.coinInfo.swap_coin1;
+    const coin2 = this.stores.luxgate.coinInfo.swap_coin2;
+    if(coin1 == coin2) return 0;
+    const price: GetCoinPriceResponse = await this.getCoinPriceRequest.execute(password, coin1, coin2).promise;
+    this.setCoinPrice(price);
+  }
+  @action setCoinPrice(price){
+    this.coinPrice = price;
+  }
 }

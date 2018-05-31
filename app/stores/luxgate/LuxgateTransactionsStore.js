@@ -35,7 +35,10 @@ export default class LuxgateTransactionsStore extends Store {
   }
 
   _getLGTransactions = async ( coin: string ) => {
-    const info: GetLGTransactionsResponse = await this.getLGTransactionsRequest.execute(coin).promise;
+    const password = this.stores.luxgate.loginInfo.password; 
+    if (password == "") return;
+
+    const info: GetLGTransactionsResponse = await this.getLGTransactionsRequest.execute(password, coin).promise;
     if(info !== "")
     {
       const objInfo = JSON.parse(info);

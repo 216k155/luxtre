@@ -219,6 +219,7 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
                             <th className={styles.coinStateCell}>{intl.formatMessage(messages.tableHeadLabelState)}</th>
                         </tr>
                     </thead>
+                    <tbody>
                 {
                     coins.map((coin, index) => {
                         return (
@@ -248,6 +249,7 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
                         )
                     })
                 }
+                    </tbody>
                 </table>
             </Dialog>
         );
