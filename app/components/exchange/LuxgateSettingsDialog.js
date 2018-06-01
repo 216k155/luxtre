@@ -223,7 +223,7 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
                 {
                     coins.map((coin, index) => {
                         return (
-                            <tr key={index}>
+                            <tr key={`tr-${index}`}>
                                 <td className={styles.coinNameCell}>
                                     <img src={require('../../assets/crypto/' + coin.value + '.png')} className={styles.coinImageStyle}/>
                                     <span>{coin.label}</span>

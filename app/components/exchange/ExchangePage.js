@@ -3,13 +3,14 @@ import { observer } from 'mobx-react';
 import ExchangeSettingPage from "./ExchangeSettingPage";
 import styles from "./ExchangePage.scss";
 import { CoinInfo, LGOrders } from '../../domain/CoinInfo';
-import LuxgateLogType from '../../types/LuxgateLogType';
+import {LuxgateLog} from '../../types/LuxgateLogType';
+
 
 type Props = {
     coinPrice: number,
     ordersData: LGOrders,
     coinInfoList: Array<CoinInfo>,
-    logbuff: Array<LuxgateLogType>,
+    logbuff: Array<LuxgateLog>,
     openDialogAction: Function,
     isDialogOpen: Function,
     onChangeCoin: Function,

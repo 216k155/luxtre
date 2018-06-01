@@ -87,6 +87,17 @@ export default class LuxgateCoinInfoStore extends Store {
     value: number
   }) => {
     const { buy_coin, sell_coin, amount, value} = swapDetails;
+
+    const isLogined = this.stores.luxgate.loginInfo.isLogined;  
+    if(!isLogined) {
+      const logData = {
+        content: "First, need to login",
+        alarm: true
+      };
+      this.actions.luxgate.logger.addLog.trigger(logData);
+      return;
+    } 
+
     const password = this.stores.luxgate.loginInfo.password; 
     if (password == "") return;
     

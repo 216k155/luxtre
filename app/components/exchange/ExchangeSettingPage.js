@@ -25,6 +25,7 @@ import sendImage from "../../assets/images/wallet-nav/send.png";
 import recvImage from "../../assets/images/wallet-nav/receive.png";
 import switchCoinImage from "../../assets/images/wallet-nav/switch-coin.png";
 import { formattedAmountToBigNumber, formattedAmountToNaturalUnits } from '../../utils/formatters';
+import {LuxgateLog} from '../../types/LuxgateLogType';
 
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -34,6 +35,7 @@ type Props = {
     coinPrice: number,
     ordersData: LGOrders,
     coinInfoList: Array<CoinInfo>,
+    logbuff: Array<LuxgateLog>,
     openDialogAction: Function,
     isDialogOpen: Function,
     onChangeCoin: Function,
@@ -177,6 +179,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
             coinPrice,
             ordersData,
             coinInfoList,
+            logbuff,
             openDialogAction, 
             isDialogOpen,
             onChangeCoin
@@ -420,7 +423,20 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                         </div>    
                         { isShowLog ? (
                             <div className={styles.logContainer}>
-                                
+                            {
+                                logbuff.map((data, index) => {
+                                    const contentStyle = classnames([
+                                        styles.logContent,
+                                        data.alarm? styles.red : null
+                                    ]); 
+                                    return (
+                                        <div key={`log-${index}`} className={styles.logStyle}>
+                                            <div className={styles.logTime}> [{data.time}] </div>
+                                            <div className={contentStyle}>{data.content}</div>
+                                        </div>
+                                    )
+                                })
+                            }
                             </div>
                         ) : (
                             <ReactTable

@@ -67,6 +67,12 @@ export default class LuxgateLoginInfoStore extends Store {
           coin_num: 0,
         };
         this.actions.luxgate.coinInfo.getCoinInfo.trigger(coinData);
+        
+        const logData = {
+          content: "Successfully Logged in ",
+          alarm: true
+        };
+        this.actions.luxgate.logger.addLog.trigger(logData);
       }
     }
   };
@@ -90,6 +96,12 @@ export default class LuxgateLoginInfoStore extends Store {
     }
     this.myPhrase = '';
     this.actions.luxgate.coinInfo.clearCoinInfo.trigger();
+
+    const logData = {
+      content: "Logged out ",
+      alarm: true
+    };
+    this.actions.luxgate.logger.addLog.trigger(logData);
   };
 
 }

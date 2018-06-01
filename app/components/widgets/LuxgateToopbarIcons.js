@@ -31,6 +31,7 @@ const messages = defineMessages({
 
 type Props = {
   isLogined: boolean,
+  addLog: Function,
   onLogout: Function,
   openDialogAction: Function,
 };
@@ -55,6 +56,8 @@ export default class LuxgateToopbarIcons extends Component<Props> {
   onClickSettingsIcon() {
     if (this.props.isLogined)
       this.props.openDialogAction({dialog: LuxgateSettingsDialog});
+    else
+      this.props.addLog("Need to Login, Please Login", true);
   }
 
 

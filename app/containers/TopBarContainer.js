@@ -58,6 +58,13 @@ export default class TopBarContainer extends Component<Props> {
         {!isShowingLuxtre ?
           <LuxgateToopbarIcons
             isLogined={isLogined}
+            addLog={(content:string, alarm:boolean) =>{
+              const logData = {
+                content: content,
+                alarm: alarm
+              };
+              actions.luxgate.logger.addLog.trigger(logData);
+            }}
             onLogout={() => {
               actions.luxgate.loginInfo.logoutAccount.trigger();
             }}
