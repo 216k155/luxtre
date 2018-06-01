@@ -70,7 +70,7 @@ export default class LuxgateLoginInfoStore extends Store {
         
         const logData = {
           content: "Successfully Logged in ",
-          alarm: true
+          alarm: false
         };
         this.actions.luxgate.logger.addLog.trigger(logData);
       }
@@ -99,7 +99,7 @@ export default class LuxgateLoginInfoStore extends Store {
 
     const logData = {
       content: "Logged out ",
-      alarm: true
+      alarm: false
     };
     this.actions.luxgate.logger.addLog.trigger(logData);
   };
