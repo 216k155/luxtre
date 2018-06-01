@@ -379,8 +379,8 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                         </div>
                     </div>
                 </div>
-                <div className={styles.margetTable}>
-                    <div className={styles.orderTable}>
+                <div>
+                    <div className={styles.orderTable1}>
                         <div className={styles.tableCaption}>
              				<span className={styles.order}> Orders </span>
 			            	<div className={styles.tableCaptionPos}>{Coin2} &rArr; {Coin1} </div>
@@ -392,7 +392,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                             className="-striped -highlight"
                         />
                     </div>
-                    <div className={styles.orderTable}>
+                    <div className={styles.orderTable2}>
                         <div className={styles.tableCaption}> 
                             <span className={styles.order}> Orders </span>
 			            	<div className={styles.tableCaptionPos}> {Coin1} &rArr; {Coin2} </div>

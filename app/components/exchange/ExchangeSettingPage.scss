@@ -204,24 +204,47 @@
 }
 }
 
-.divStatus {
+.divStatus,
+.graph {
   display: inline-block;
-  width: calc(66% - 6px);
+  width: 66%;
+  margin-bottom: 2px;
+  border: var(--theme-bordered-box-border);
+}
+
+.divStatus {
   height: 70px;
   font: bold 14px/30px var(--font-semibold);
   padding: 3px 20px;
-  margin-right: 2px;
-  margin-bottom: 2px;
   background: #3ec3dd; //var(--theme-luxgate-statusbar-background-color);
   color:#FFF;
-  border: var(--theme-bordered-box-border);
   vertical-align: top;
   //border-radius: 7px;
 }
 
+.divStatus,
+.graph,
+.orderTable2 {
+  margin-right: 10px;
+}
+
+
+// chart 
+
+.graph {
+  //  border: solid 1px var(--theme-bordered-box-background-color);
+    background: var(--theme-bordered-box-background-color);
+    border-radius: 4px;
+}
+
+.divBalance,
+.setting,
+.historyTable {
+  width: 32%;
+}
+
 .divBalance {
   display: inline-block;
-  width: 33%;
   height: 70px;
   font: bold 14px/30px var(--font-semibold);
   padding: 4px 20px;
@@ -250,9 +273,9 @@
   border-radius: 4px;
   display: inline-block;
   vertical-align: top;
-  width: 33%;
   height: 400px;
 }
+
 .card {
   padding-top: 8px;
 //  flex: 1 1 auto;
@@ -289,24 +312,24 @@
   font-family: var(--font-bold);
 	margin-left: 38%;
 }
-.orderTable {
+
+.orderTable1,
+.orderTable2,
+.historyTable {
   display: inline-block;
-  width: 33%;
-  margin-right: 2px;
   border: solid 1px var(--theme-bordered-box-border);
   :global .ReactTable > .rt-noData {
     display: none;
   }
 }
 
-.historyTable {
-  display: inline-block;
-  width: 33%;
-  margin-left: 1px;
-  border: solid 1px var(--theme-bordered-box-border);
-  :global .ReactTable > .rt-noData {
-    display: none;
-  }
+.orderTable1,
+.orderTable2 {
+  width: calc(33% - 1px);
+}
+
+.orderTable1 {
+  margin-right: 2px;
 }
 
 :global .ReactTable{
@@ -330,21 +353,6 @@
   padding-right: 10px;
   padding-bottom: 20px;
 }
-
-
-// chart 
-
-.graph {
-//  border: solid 1px var(--theme-bordered-box-background-color);
-  display: inline-block;
-  width: calc(66% - 6px);
-  margin-right:2px;
-  margin-bottom: 2px;
-  background: var(--theme-bordered-box-background-color);
-  border: var(--theme-bordered-box-border);
-  border-radius: 4px;
-}
-
 
 //coin image
 
