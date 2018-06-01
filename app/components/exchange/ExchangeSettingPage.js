@@ -19,7 +19,7 @@ import ReceiveAddressDialogContainer from '../../containers/wallet/dialogs/Recei
 import SendCoinDialog from './SendCoinDialog';
 import SendCoinDialogContainer from '../../containers/wallet/dialogs/SendCoinDialogContainer'
 import styles from "./ExchangeSettingPage.scss"
-import { CoinInfo } from '../../domain/CoinInfo';
+import { CoinInfo, LGOrders } from '../../domain/CoinInfo';
 import COINS from "./coins";
 import sendImage from "../../assets/images/wallet-nav/send.png";
 import recvImage from "../../assets/images/wallet-nav/receive.png";
@@ -32,6 +32,7 @@ import ExchangeChartPage from "./ExchangeChartPage";
 
 type Props = {
     coinPrice: number,
+    ordersData: LGOrders,
     coinInfoList: Array<CoinInfo>,
     openDialogAction: Function,
     isDialogOpen: Function,
@@ -171,6 +172,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
             
         const {
             coinPrice,
+            ordersData,
             coinInfoList,
             openDialogAction, 
             isDialogOpen,
@@ -191,18 +193,30 @@ export default class ExchangeSettingPage extends Component<Props, State>{
             total: 0.06222473,
           }]
     
-        const columns = [{
+        const orderColumns = [{
             Header: 'Value',
-            accessor: 'value' // String-based value accessors!
+            accessor: 'price' // String-based value accessors!
           }, {
             Header: 'Amount',
-            accessor: 'amount',
-            Cell: props => <span className='number'>{props.value}</span> // Custom cell components!
+            accessor: 'volumn',
           }, {
             id: 'Total', // Required because our accessor is not a string
             Header: 'Total',
             accessor: 'total' // Custom value accessors!
           }]
+
+        const historyColumns = [{
+            Header: 'Value',
+            accessor: 'value' // String-based value accessors!
+          }, {
+            Header: 'Amount',
+            accessor: 'amount',
+          }, {
+            id: 'Total', // Required because our accessor is not a string
+            Header: 'Total',
+            accessor: 'total' // Custom value accessors!
+          }]
+
 
         let coinStyle = {
 			width : 20 ,
@@ -372,8 +386,8 @@ export default class ExchangeSettingPage extends Component<Props, State>{
 			            	<div className={styles.tableCaptionPos}>{Coin2} &rArr; {Coin1} </div>
                         </div>
                         <ReactTable
-                            data={data}
-                            columns={columns}
+                            data={ordersData.bids}
+                            columns={orderColumns}
                             defaultPageSize={10}
                             className="-striped -highlight"
                         />
@@ -384,8 +398,8 @@ export default class ExchangeSettingPage extends Component<Props, State>{
 			            	<div className={styles.tableCaptionPos}> {Coin1} &rArr; {Coin2} </div>
                         </div>
                         <ReactTable
-                            data={data}
-                            columns={columns}
+                            data={ordersData.asks}
+                            columns={orderColumns}
                             defaultPageSize={10}
                             className="-striped -highlight"
                         />
@@ -396,7 +410,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                         </div>    
                         <ReactTable
                             data={data}
-                            columns={columns}
+                            columns={historyColumns}
                             defaultPageSize={10}
                             className="-striped -highlight"
                         />

@@ -294,6 +294,9 @@
   width: 33%;
   margin-right: 2px;
   border: solid 1px var(--theme-bordered-box-border);
+  :global .ReactTable > .rt-noData {
+    display: none;
+  }
 }
 
 .historyTable {
@@ -301,6 +304,9 @@
   width: 33%;
   margin-left: 1px;
   border: solid 1px var(--theme-bordered-box-border);
+  :global .ReactTable > .rt-noData {
+    display: none;
+  }
 }
 
 :global .ReactTable{

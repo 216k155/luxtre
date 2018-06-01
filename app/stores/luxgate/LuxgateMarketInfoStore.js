@@ -13,7 +13,6 @@ import { ROUTES } from '../../routes-config';
 
 import type {
   GetLGOrdersResponse, 
-  GetLGTransactionsResponse, 
   GetLGTradeArrayResponse,
   GetCoinPriceResponse,
   GetLGPriceArrayResponse
@@ -24,7 +23,6 @@ export default class LuxgateMarketInfoStore extends Store {
   LGORDERS_REFRESH_INTERVAL = 10000;
 
   // REQUESTS
-
   @observable getLGOrdersRequest: Request<GetLGOrdersResponse> = new Request(this.api.luxgate.getLGOrders);
   @observable getCoinPriceRequest: Request<GetCoinPriceResponse> = new Request(this.api.luxgate.getCoinPrice);
 
@@ -43,54 +41,34 @@ export default class LuxgateMarketInfoStore extends Store {
     const { marketInfo } = luxgate;
     //  marketInfo.getLGOrders.listen(this._getLGOrders);
   }
-/*
-  _getLGOrders = async ( coin: string ) => {
-    const info: GetLGOrdersResponse = await this.getLGOrdersRequest.execute(coin).promise;
-    if(info !== "")
-    {
-      const objInfo = JSON.parse(info);
-      const balance = objInfo.balance;
-      const address = objInfo.smartaddress;
-      const height = objInfo.height;
-      const status = objInfo.status;
-      this._addLGOrders(new LGOrders( { coin, balance, address, height, status }));
-    }
-    else
-    {
-      const balance = 0;
-      const address = '';
-      const height = -1;
-      const status = 'inactive';
-      this._addLGOrders(new LGOrders( { coin, balance, address, height, status }));
-    }
 
-    this.getLGOrdersRequest.reset();
-  };
-*/
   @action refreshLGOrdersData = async () => {
     if (this.stores.networkStatus.isConnected && this.stores.networkStatus.isSynced) {
+      const password = this.stores.luxgate.loginInfo.password; 
+      if (password == "") return;
+
       const swap_coin1 = this.stores.luxgate.coinInfo.swap_coin1;
       const swap_coin2 = this.stores.luxgate.coinInfo.swap_coin2;
       if(swap_coin1 != '' && swap_coin2 != '') {
-        const info: GetLGOrdersResponse = await this.getLGOrdersRequest.execute(swap_coin1, swap_coin2).promise;
+        const info: GetLGOrdersResponse = await this.getLGOrdersRequest.execute(password, swap_coin1, swap_coin2).promise;
         if(info !== "")
         {
-          const objInfo = JSON.parse(info);
-          const sellers = JSON.stringify(objInfo.bids);
-          const sellerCount = objInfo.numbids;
-          const buyers = JSON.stringify(objInfo.asks);
-          const buyerCount = objInfo.numasks;
-        //  this._addLGOrders(new LGOrders( { sellers, sellerCount, buyers, buyerCount }));
+          this.replaceOrderData(info);
         }
 
         this.getLGOrdersRequest.reset();
-//        this.getLGOrdersRequest.invalidate({ immediately: false });
-//        this.getLGOrdersRequest.execute(swap_coin1, swap_coin2);
       }
     }
   }
 
-  @computed get ordersData(): string {
+  @action replaceOrderData(info) {
+    this.LGOrdersData.bids = info.bids;
+    this.LGOrdersData.numbids = info.numbids;
+    this.LGOrdersData.asks = info.asks;
+    this.LGOrdersData.numasks = info.numasks;
+  }
+
+  @computed get ordersData(): LGOrders {
     return this.LGOrdersData;
   }
 
@@ -174,16 +152,22 @@ export default class LuxgateMarketInfoStore extends Store {
     return this.lstLGPriceArray;
   }
 
+
   @action refreshCoinPrice = async () => {
     const password = this.stores.luxgate.loginInfo.password; 
     if (password == "") return 0;
+
     const coin1 = this.stores.luxgate.coinInfo.swap_coin1;
     const coin2 = this.stores.luxgate.coinInfo.swap_coin2;
+
     if(coin1 == coin2) return 0;
+
     const price: GetCoinPriceResponse = await this.getCoinPriceRequest.execute(password, coin1, coin2).promise;
     this.setCoinPrice(price);
   }
+
   @action setCoinPrice(price){
     this.coinPrice = price;
   }
+
 }

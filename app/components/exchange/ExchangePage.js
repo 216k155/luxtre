@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import ExchangeSettingPage from "./ExchangeSettingPage";
 import styles from "./ExchangePage.scss";
-import { CoinInfo } from '../../domain/CoinInfo';
+import { CoinInfo, LGOrders } from '../../domain/CoinInfo';
 
 type Props = {
     coinPrice: number,
+    ordersData: LGOrders,
     coinInfoList: Array<CoinInfo>,
     openDialogAction: Function,
     isDialogOpen: Function,
@@ -19,6 +20,7 @@ export default class ExchangePage extends Component<Props> {
     render() {
         const {
             coinPrice,
+            ordersData,
             coinInfoList,
             openDialogAction, 
             isDialogOpen,
@@ -30,6 +32,7 @@ export default class ExchangePage extends Component<Props> {
             <div className={styles.component}>
                 <ExchangeSettingPage
                     coinPrice={coinPrice}
+                    ordersData={ordersData}
                     coinInfoList={coinInfoList}
                     openDialogAction={openDialogAction}  
                     isDialogOpen={isDialogOpen}
