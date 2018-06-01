@@ -9,7 +9,7 @@ Given(/^the sidebar submenu is (hidden|visible)/, async function (state) {
     let sidebarWillAnimate = false;
     if (isShowingLuxtre !== visible) {
       sidebarWillAnimate = true;
-      luxcore.actions.sidebar.toggleSubMenus.trigger();
+      luxcore.actions.sidebar.switchLuxgate.trigger();
     }
     if (sidebarWillAnimate) {
       // Wait until the sidebar transition is finished -> otherwise webdriver click error!

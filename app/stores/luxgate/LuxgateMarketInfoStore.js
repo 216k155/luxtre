@@ -3,13 +3,7 @@ import { observable, computed, action, runInAction } from 'mobx';
 import BigNumber from 'bignumber.js';
 import Store from '../lib/Store';
 import LGOrders from '../../domain/LGOrders';
-//import LGTransactions from '../../domain/LGTransactions';
-//import LGTradeArray from '../../domain/LGTradeArray';
-//import LGPriceArray from '../../domain/LGPriceArray';
-import { matchRoute, buildRoute } from '../../utils/routing';
 import Request from '.././lib/LocalizedRequest';
-import CachedRequest from '../lib/LocalizedCachedRequest';
-import { ROUTES } from '../../routes-config';
 
 import type {
   GetLGOrdersResponse, 

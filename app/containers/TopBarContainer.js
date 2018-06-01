@@ -31,7 +31,7 @@ export default class TopBarContainer extends Component<Props> {
 
     return (
       <TopBar
-        onToggleSwitchLuxgate={actions.sidebar.toggleSubMenus.trigger}
+        onSwitchLuxgate={actions.sidebar.switchLuxgate.trigger}
         activeWallet={activeWallet}
         currentRoute={app.currentRoute}
         showSubMenus={isShowingLuxtre}

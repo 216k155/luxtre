@@ -153,38 +153,52 @@
   width:35%;
 }
 
+.logContainer {
+  font-family: var(--font-light);
+  font-size: 12px;
+  height: 340px;
+  padding: 10px;
+  background: var(--theme-bordered-box-background-color);
+  border: var(--theme-bordered-box-border);
+}
+
+.logStyle {
+  margin-bottom: 10px;
+}
+
+.logTime {
+  width: 70px;
+  vertical-align: top;
+  display: inline-block;
+}
+
+.logContent {
+  position:relative;
+  width: calc(100% - 70px);
+  display: inline-block;
+}
+
 .checkboxTab{
   width: 100%;
-  margin-bottom: 30px;
   :global .SimpleToggler_toggler {
     background-color: transparent;
-    height: 30px;
+    height: 35px;
     .SimpleToggler_label {
-      padding: 1px 8px;
+      font-family: var(--font-bold);
+      font-size: 16px;
+      padding-top:5px;
       width: 80px;
     }
     .SimpleToggler_checked {
       border: solid 1px #0097e0;
       color: #0097e0 !important;
-      margin: 0px 3px;
       position:relative;
     }
     
     .SimpleToggler_label:not(.SimpleToggler_checked) {
-      border: solid 1px #999;
-      color: #999 !important;
-      margin: 0px 3px;
+      border: solid 1px #FFF;
+      color: #FFF !important;
     }
-  }
-  
-  :global .SimpleToggler_toggler > .SimpleToggler_checked:after {
-    color: #68cae0 !important;
-    content: "...";
-    background: url('../../assets/images/icons/checkbox-icon.png') no-repeat;
-    position: absolute;
-    right: 0px;
-    bottom: 0px;
-    background-position: bottom right;
   }
 }
 
@@ -225,7 +239,7 @@
 .divStatus,
 .graph,
 .orderTable2 {
-  margin-right: 10px;
+  margin-right: 8px;
 }
 
 
@@ -241,6 +255,7 @@
 .setting,
 .historyTable {
   width: 32%;
+  vertical-align: top;
 }
 
 .divBalance {
@@ -293,14 +308,17 @@
 }
 
 // table style
-
-.tableCaption {
+.LogListCaptionBar,
+.orderTableCaptionBar {
   width: 100%;
   height: 36px;
-  padding: 10px;
   color: #FFF;//var(--theme-bordered-box-text-color);
   background-color: #3ec3dd; //var(--theme-bordered-box-background-color);
   border: var(--theme-bordered-box-border);
+}
+
+.orderTableCaptionBar {
+  padding: 10px;
 }
 
 .order {

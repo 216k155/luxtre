@@ -4,12 +4,14 @@ import LuxgateLoginInfoStore from './LuxgateLoginInfoStore';
 import LuxgateSettingInfoStore from './LuxgateSettingInfoStore';
 import LuxgateCoinInfoStore from './LuxgateCoinInfoStore';
 import LuxgateMarketInfoStore from './LuxgateMarketInfoStore';
+import LuxgateLoggerStore from './LuxgateLoggerStore';
 
 export const luxgateStoreClasses = {
   loginInfo: LuxgateLoginInfoStore,
   settingInfo: LuxgateSettingInfoStore,
   coinInfo: LuxgateCoinInfoStore,
   marketInfo: LuxgateMarketInfoStore,
+  loggerInfo: LuxgateLoggerStore,
 };
 
 export type LuxgateStoresMap = {
@@ -17,6 +19,7 @@ export type LuxgateStoresMap = {
   settingInfo: LuxgateSettingInfoStore,
   coinInfo: LuxgateCoinInfoStore,
   marketInfo: LuxgateMarketInfoStore,
+  loggerInfo: LuxgateLoggerStore,
 };
 
 const luxgateStores = observable({
@@ -24,6 +27,7 @@ const luxgateStores = observable({
   settingInfo: null,
   coinInfo: null,
   marketInfo: null,
+  loggerInfo: null,
 });
 
 // Set up and return the stores and reset all stores to defaults

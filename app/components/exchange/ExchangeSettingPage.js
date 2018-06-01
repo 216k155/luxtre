@@ -47,7 +47,8 @@ type State = {
     Coin1: string,
     Coin2: string,
     recvCoin: string,
-    recvAddress: string
+    recvAddress: string,
+    isShowLog: boolean,
 }
 
 @observer
@@ -62,15 +63,16 @@ export default class ExchangeSettingPage extends Component<Props, State>{
         recvCoin: '',
         sendCoin: '',
         recvAddress: '',
-        balance: ''
+        balance: '',
+        isShowLog: true
     };
 
     componentDidMount() {
         this.props.onChangeCoin('all', 0);
     }
 
-    toggleBuySell() {
-        this.setState({ isBuy: !this.state.isBuy });
+    toggleLogAndHistory() {
+        this.setState({ isShowLog: !this.state.isShowLog });
     }
 
     changeAmountInput(value) {
@@ -168,7 +170,8 @@ export default class ExchangeSettingPage extends Component<Props, State>{
             recvCoin, 
             sendCoin, 
             recvAddress, 
-            balance } = this.state;
+            balance,
+            isShowLog } = this.state;
             
         const {
             coinPrice,
@@ -381,7 +384,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                 </div>
                 <div>
                     <div className={styles.orderTable1}>
-                        <div className={styles.tableCaption}>
+                        <div className={styles.orderTableCaptionBar}>
              				<span className={styles.order}> Orders </span>
 			            	<div className={styles.tableCaptionPos}>{Coin2} &rArr; {Coin1} </div>
                         </div>
@@ -393,7 +396,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                         />
                     </div>
                     <div className={styles.orderTable2}>
-                        <div className={styles.tableCaption}> 
+                        <div className={styles.orderTableCaptionBar}> 
                             <span className={styles.order}> Orders </span>
 			            	<div className={styles.tableCaptionPos}> {Coin1} &rArr; {Coin2} </div>
                         </div>
@@ -405,15 +408,28 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                         />
                     </div>
                     <div className={styles.historyTable}>
-                        <div className={styles.tableCaption}>
-                            <div className={styles.tableCaptionPos}> History </div>
+                        <div className={styles.LogListCaptionBar}>
+                            <Checkbox
+                                className={styles.checkboxTab}
+                                labelLeft="Log"
+                                labelRight="History"
+                                onChange={this.toggleLogAndHistory.bind(this)}
+                                checked={isShowLog}
+                                skin={<TogglerSkin/>}
+                            />
                         </div>    
-                        <ReactTable
-                            data={data}
-                            columns={historyColumns}
-                            defaultPageSize={10}
-                            className="-striped -highlight"
-                        />
+                        { isShowLog ? (
+                            <div className={styles.logContainer}>
+                                
+                            </div>
+                        ) : (
+                            <ReactTable
+                                data={data}
+                                columns={historyColumns}
+                                defaultPageSize={10}
+                                className="-striped -highlight"
+                            />
+                        )}
                     </div>
                 </div>  
                 {isDialogOpen(ReceiveAddressDialog) ? (

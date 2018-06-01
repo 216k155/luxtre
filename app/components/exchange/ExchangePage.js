@@ -3,11 +3,13 @@ import { observer } from 'mobx-react';
 import ExchangeSettingPage from "./ExchangeSettingPage";
 import styles from "./ExchangePage.scss";
 import { CoinInfo, LGOrders } from '../../domain/CoinInfo';
+import LuxgateLogType from '../../types/LuxgateLogType';
 
 type Props = {
     coinPrice: number,
     ordersData: LGOrders,
     coinInfoList: Array<CoinInfo>,
+    logbuff: Array<LuxgateLogType>,
     openDialogAction: Function,
     isDialogOpen: Function,
     onChangeCoin: Function,
@@ -22,6 +24,7 @@ export default class ExchangePage extends Component<Props> {
             coinPrice,
             ordersData,
             coinInfoList,
+            logbuff,
             openDialogAction, 
             isDialogOpen,
             onChangeCoin,
@@ -34,6 +37,7 @@ export default class ExchangePage extends Component<Props> {
                     coinPrice={coinPrice}
                     ordersData={ordersData}
                     coinInfoList={coinInfoList}
+                    logbuff={logbuff}
                     openDialogAction={openDialogAction}  
                     isDialogOpen={isDialogOpen}
                     onChangeCoin={onChangeCoin}
