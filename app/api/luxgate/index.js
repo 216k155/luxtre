@@ -53,7 +53,7 @@ import type {
 export type SendCoinRequest = {
     coin: string,
     address: string,
-    amount: string,
+    amount: number,
     password: string
 };
 
