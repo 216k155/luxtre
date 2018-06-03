@@ -92,7 +92,7 @@ export default class LuxgateCoinInfoStore extends Store {
     if(!isLogined) {
       const logData = {
         content: "First, need to login",
-        alarm: true
+        type: "info"
       };
       this.actions.luxgate.logger.addLog.trigger(logData);
       return;

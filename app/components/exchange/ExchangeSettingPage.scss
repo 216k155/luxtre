@@ -257,7 +257,7 @@
 
 .divBalance,
 .setting,
-.historyTable {
+.dataTable {
   width: 32%;
   vertical-align: top;
 }
@@ -337,7 +337,7 @@
 
 .orderTable1,
 .orderTable2,
-.historyTable {
+.dataTable {
   display: inline-block;
   border: solid 1px var(--theme-bordered-box-border);
   :global .ReactTable > .rt-noData {
@@ -350,24 +350,51 @@
   width: calc(33% - 1px);
 }
 
-.orderTable1 {
-  margin-right: 2px;
+.orderTable1,
+.orderTable2,
+.historyTable {
+  :global .ReactTable{
+    .rt-table {
+      .rt-thead{
+        font: bold 14px/30px Georgia, serif;
+        border-bottom: 1px solid #434754;
+      }
+      .rt-tbody {
+        font-size: 13px;
+        text-align: center;
+      }
+    }
+    .pagination-bottom {
+        display:none;
+    }
+    .rt-resizer {
+      width:auto;
+    }
+  }
 }
 
-:global .ReactTable{
-  .rt-table {
-    .rt-thead{
-	    font: bold 14px/30px Georgia, serif;
-      border-bottom: 1px solid #434754;
+.logTable {
+  :global .ReactTable{
+    .rt-table {
+      .rt-thead{
+        font: bold 14px/30px Georgia, serif;
+        border-bottom: 1px solid #434754;
+      }
+      .rt-tbody {
+        font-size: 13px;
+      }
     }
-    .rt-tbody {
-      font-size: 13px;
-      text-align: center;
+    .pagination-bottom {
+        display:none;
+    }
+    .rt-resizer {
+      width:auto;
     }
   }
-  .pagination-bottom {
-      display:none;
-  }
+}
+
+.orderTable1 {
+  margin-right: 2px;
 }
 
 .margetTable {

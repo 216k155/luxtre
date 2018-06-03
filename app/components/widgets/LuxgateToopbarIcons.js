@@ -57,7 +57,7 @@ export default class LuxgateToopbarIcons extends Component<Props> {
     if (this.props.isLogined)
       this.props.openDialogAction({dialog: LuxgateSettingsDialog});
     else
-      this.props.addLog("Need to Login, Please Login", true);
+      this.props.addLog("Need to Login, Please Login", "info");
   }
 
 

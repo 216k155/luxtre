@@ -4,5 +4,5 @@ import Action from '../lib/Action';
 // ======= WALLET ACTIONS =======
 
 export default class LoggerActions {
-  addLog: Action<{ content: string, alarm: boolean }> = new Action();
+  addLog: Action<{ content: string, type: string }> = new Action();
 }

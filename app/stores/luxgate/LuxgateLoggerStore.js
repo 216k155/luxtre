@@ -3,7 +3,7 @@ import { observable, computed, action, runInAction } from 'mobx';
 import Store from '../lib/Store';
 import {LuxgateLog} from '../../types/LuxgateLogType';
 
-export const MAX_LOGER_SIZE = 15;
+export const MAX_LOGER_SIZE = 10;
 
 export default class LuxgateLoggerStore extends Store {
 
@@ -21,27 +21,21 @@ export default class LuxgateLoggerStore extends Store {
 
   @action initLogger() {
     this._addLog({
-      content: "Welcome to Luxgate.",
-      alarm: false
+      content: "Welcome to Luxgate! Please login.",
+      type: "info"
     });
-
-    this._addLog({
-      content: "Please login.",
-      alarm: false
-    });
-    
-  //  this._addLog("Please login");
   }
 
   @action _addLog = (logData: {
     content: string,
-    alarm: boolean,
+    type: boolean,
   }) => {
     const time = new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1");
     const content = logData.content;
-    const alarm = logData.alarm;
-    const data:LuxgateLog = {time, content, alarm};
+    const type = logData.type;
+    const data:LuxgateLog = {time, content, type};
     //this.logbuff.push(data);
+
     this.logbuff.unshift(data);
 
     this._checkLoggerLimit();

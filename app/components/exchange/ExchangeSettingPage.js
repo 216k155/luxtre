@@ -211,6 +211,19 @@ export default class ExchangeSettingPage extends Component<Props, State>{
             accessor: 'total' // Custom value accessors!
           }]
 
+        const loggerColumns = [{
+            Header: 'Time',
+            width: 70,
+            accessor: 'time' // String-based value accessors!
+          }, {
+            Header: 'Type',
+            width: 50,
+            accessor: 'type' // String-based value accessors!
+          }, {
+            Header: 'Description',
+            accessor: 'content',
+          }]
+
         const historyColumns = [{
             Header: 'Value',
             accessor: 'value' // String-based value accessors!
@@ -410,11 +423,11 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                             className="-striped -highlight"
                         />
                     </div>
-                    <div className={styles.historyTable}>
+                    <div className={styles.dataTable}>
                         <div className={styles.LogListCaptionBar}>
                             <Checkbox
                                 className={styles.checkboxTab}
-                                labelLeft="Log"
+                                labelLeft="Status"
                                 labelRight="History"
                                 onChange={this.toggleLogAndHistory.bind(this)}
                                 checked={isShowLog}
@@ -422,29 +435,24 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                             />
                         </div>    
                         { isShowLog ? (
-                            <div className={styles.logContainer}>
-                            {
-                                logbuff.map((data, index) => {
-                                    const contentStyle = classnames([
-                                        styles.logContent,
-                                        data.alarm? styles.red : null
-                                    ]); 
-                                    return (
-                                        <div key={`log-${index}`} className={styles.logStyle}>
-                                            <div className={styles.logTime}> [{data.time}] </div>
-                                            <div className={contentStyle}>{data.content}</div>
-                                        </div>
-                                    )
-                                })
-                            }
+                            <div className={styles.logTable}>
+                                <ReactTable
+                                    data={logbuff.slice()}
+                                    columns={loggerColumns}
+                                    sortable={false}
+                                    defaultPageSize={10}
+                                    className="-striped -highlight"
+                                />
                             </div>
                         ) : (
-                            <ReactTable
-                                data={data}
-                                columns={historyColumns}
-                                defaultPageSize={10}
-                                className="-striped -highlight"
-                            />
+                            <div className={styles.historyTable}>
+                                <ReactTable
+                                    data={data}
+                                    columns={historyColumns}
+                                    defaultPageSize={10}
+                                    className="-striped -highlight"
+                                />
+                            </div>
                         )}
                     </div>
                 </div>  
