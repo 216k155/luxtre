@@ -12,6 +12,7 @@ import transactionsIcon from '../../../assets/images/wallet-nav/transactions-ic.
 import settingsIcon from '../../../assets/images/wallet-nav/wallet-settings-2-ic.inline.svg';
 import utillityIcon from '../../../assets/images/wallet-nav/utility-ic.inline.svg';
 import masternodeIcon from '../../../assets/images/wallet-nav/masternode-ic.inline.svg';
+import smartcontractIcon from '../../../assets/images/wallet-nav/smartcontract-ic.inline.svg';
 
 const messages = defineMessages({
   summary: {
@@ -147,7 +148,7 @@ export default class WalletNavigation extends Component<Props> {
         <div className={styles.navItem}>
           <WalletNavButton
             label={intl.formatMessage(messages.smartcontracts)}
-            icon={masternodeIcon}
+            icon={smartcontractIcon}
             isActive={isActiveNavItem('smartcontracts')}
             onClick={() => onNavItemClick('smartcontracts')}
           />
