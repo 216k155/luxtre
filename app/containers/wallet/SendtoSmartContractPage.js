@@ -8,7 +8,7 @@ import type { InjectedProps } from '../../types/injectedPropsType';
 type Props = InjectedProps
 
 @inject('stores', 'actions') @observer
-export default class UtilityPosCalcPage extends Component<Props> {
+export default class SendtoSmartContractPage extends Component<Props> {
 
   static defaultProps = { actions: null, stores: null };
 

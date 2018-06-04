@@ -1767,6 +1767,20 @@
           "column": 12,
           "line": 34
         }
+      },
+      {
+        "defaultMessage": "!!!Smartcontracts",
+        "description": "Label for the \"Smartcontracts\" nav button in the wallet navigation.",
+        "end": {
+          "column": 3,
+          "line": 53
+        },
+        "file": "app/components/wallet/navigation/WalletNavigation.js",
+        "id": "wallet.navigation.smartcontracts",
+        "start": {
+          "column": 12,
+          "line": 34
+        }
       }
     ],
     "path": "app/components/wallet/navigation/WalletNavigation.json"

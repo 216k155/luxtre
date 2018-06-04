@@ -42,7 +42,8 @@ export default class WalletsStore extends Store {
       this._updateActiveWalletOnRouteChanges,
       this._toggleAddWalletDialogOnWalletsLoaded,
       this._updateMasternodeOnRouteChanges,
-      this._updateUtilityOnRouteChanges
+      this._updateUtilityOnRouteChanges,
+      this._updateSmartConractOnRouteChanges
     ]);
   }
 
@@ -231,6 +232,21 @@ export default class WalletsStore extends Store {
     return isRootRoute;
   }
 
+  getSmartContractRoute = (walletId: string, page: string = 'createsmartcontract'): string => (
+    buildRoute(ROUTES.WALLETS.SMARTCONTRACTS.PAGE, { id: walletId, page })
+  );
+
+  goToSmartContractRoute(walletId: string) {
+    const route = this.getSmartContractRoute(walletId);
+    this.actions.router.goToRoute.trigger({ route });
+  }
+
+  @computed get _canRedirectToSmartContract(): boolean {
+    const currentRoute = this.stores.app.currentRoute;
+    const isRootRoute = matchRoute(ROUTES.WALLETS.SMARTCONTRACTS.ROOT, currentRoute);
+    return isRootRoute;
+  }
+
   _patchWalletRequestWithNewWallet = async (wallet: Wallet) => {
     // Only add the new wallet if it does not exist yet in the result!
     await this.walletsRequest.patch(result => {
@@ -295,6 +311,15 @@ export default class WalletsStore extends Store {
     runInAction('WalletsStore::_updateUtilityOnRouteChanges', () => {
       if(this._canRedirectToUtility) {
         if (this.active) this.goToUtilityRoute(this.active.id);
+      }
+    });
+  };
+
+  _updateSmartConractOnRouteChanges = () => {
+    const currentRoute = this.stores.app.currentRoute;
+    runInAction('WalletsStore::_updateSmartConractOnRouteChanges', () => {
+      if(this._canRedirectToSmartContract) {
+        if (this.active) this.goToSmartContractRoute(this.active.id);
       }
     });
   };

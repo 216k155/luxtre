@@ -29,6 +29,11 @@ const WalletSettingsPage = resolver('containers/wallet/WalletSettingsPage');
 const MasternodesPage = resolver('containers/wallet/MasternodesPage');
 const MasternodesNetPage = resolver('containers/wallet/MasternodesNetPage');
 const MyMasternodePage = resolver('containers/wallet/MyMasternodePage');
+const SmartContractsPage = resolver('containers/wallet/SmartContractsPage');
+const CreateSmartContractPage = resolver('containers/wallet/CreateSmartContractPage');
+const CallSmartContractPage = resolver('containers/wallet/CallSmartContractPage');
+const SendtoSmartContractPage = resolver('containers/wallet/SendtoSmartContractPage');
+const SolidityCompilerPage = resolver('containers/wallet/SolidityCompilerPage');
 const UtilityPage = resolver('containers/wallet/UtilityPage');
 const UtilityPosCalcPage = resolver('containers/wallet/UtilityPosCalcPage');
 
@@ -54,6 +59,12 @@ export const Routes = (
       <Route path={ROUTES.WALLETS.MASTERNODES.ROOT} component={MasternodesPage}>
         <Route path={ROUTES.WALLETS.MASTERNODES.MASTERNODESNET} component={MasternodesNetPage}/>
         <Route path={ROUTES.WALLETS.MASTERNODES.MYMASTERNODE} component={MyMasternodePage}/>
+      </Route>
+      <Route path={ROUTES.WALLETS.SMARTCONTRACTS.ROOT} component={SmartContractsPage}>
+        <Route path={ROUTES.WALLETS.SMARTCONTRACTS.CREATESMARTCONTRACT} component={CreateSmartContractPage}/>
+        <Route path={ROUTES.WALLETS.SMARTCONTRACTS.CALLMARTCONTRACT} component={CallSmartContractPage}/>
+        <Route path={ROUTES.WALLETS.SMARTCONTRACTS.SENDTOMARTCONTRACT} component={SendtoSmartContractPage}/>
+        <Route path={ROUTES.WALLETS.SMARTCONTRACTS.SOLCOMPILER} component={SolidityCompilerPage}/>
       </Route>
     </Route>
     

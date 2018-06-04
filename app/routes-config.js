@@ -28,9 +28,15 @@ export const ROUTES = {
       PAGE: '/wallets/:id/masternodes/:page',
       MASTERNODESNET: '/wallets/:id/masternodes/masternodesnet',
       MYMASTERNODE: '/wallets/:id/masternodes/mymasternode',
+    },
+    SMARTCONTRACTS: {
+      ROOT: '/wallets/:id/smartcontracts',
+      PAGE: '/wallets/:id/smartcontracts/:page',
+      CREATESMARTCONTRACT: '/wallets/:id/smartcontracts/createsmartcontract',
+      CALLMARTCONTRACT: '/wallets/:id/smartcontracts/callsmartcontract',
+      SENDTOMARTCONTRACT: '/wallets/:id/smartcontracts/sendsmartcontract',
+      SOLCOMPILER: '/wallets/:id/smartcontracts/solcompiler',
     }
-    //MASTERNODESNET: '/wallets/:id/masternodesnet',
-    //MYMASTERNODE: '/wallets/:id/mymasternode',
   },
   
   SETTINGS: {

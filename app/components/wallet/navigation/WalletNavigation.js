@@ -48,6 +48,11 @@ const messages = defineMessages({
     id: 'wallet.navigation.masternodes',
     defaultMessage: '!!!Masternodes',
     description: 'Label for the "Masternodes" nav button in the wallet navigation.'
+  },
+  smartcontracts: {
+    id: 'wallet.navigation.smartcontracts',
+    defaultMessage: '!!!SmartContracts',
+    description: 'Label for the "SmartContracts" nav button in the wallet navigation.'
   }
 });
 
@@ -137,6 +142,14 @@ export default class WalletNavigation extends Component<Props> {
             icon={masternodeIcon}
             isActive={isActiveNavItem('masternodes')}
             onClick={() => onNavItemClick('masternodes')}
+          />
+        </div>
+        <div className={styles.navItem}>
+          <WalletNavButton
+            label={intl.formatMessage(messages.smartcontracts)}
+            icon={masternodeIcon}
+            isActive={isActiveNavItem('smartcontracts')}
+            onClick={() => onNavItemClick('smartcontracts')}
           />
         </div>
       </div>
