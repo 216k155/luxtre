@@ -34,7 +34,7 @@ export const ROUTES = {
       PAGE: '/wallets/:id/smartcontracts/:page',
       CREATESMARTCONTRACT: '/wallets/:id/smartcontracts/createsmartcontract',
       CALLMARTCONTRACT: '/wallets/:id/smartcontracts/callsmartcontract',
-      SENDTOMARTCONTRACT: '/wallets/:id/smartcontracts/sendsmartcontract',
+      SENDTOMARTCONTRACT: '/wallets/:id/smartcontracts/sendtosmartcontract',
       SOLCOMPILER: '/wallets/:id/smartcontracts/solcompiler',
     }
   },

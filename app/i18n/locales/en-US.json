@@ -329,6 +329,20 @@
   "wallet.stakingActive": "Staking is active",
   "wallet.stakingInactive": "Staking is not active",
 
+  "smartcontract.create.title":"Create Smart Contract",
+  "smartcontract.create.textarea.bytecode":"Bytecode",
+  "smartcontract.create.textarea.abi":"Interface (ABI)",
+  "smartcontract.create.area.constructor":"Constructor",
+  "smartcontract.create.area.optional":"Optional",
+  "smartcontract.create.input.gaslimit":"Gas Limit",
+  "smartcontract.create.input.gasprice":"Gas Price",
+  "smartcontract.create.input.sendaddress":"Sender Address",
+
+
+  "smartcontract.call.title":"Call Smart Contract",
+  "smartcontract.sendto.title":"Send to Smart Contract",
+  "smartcontract.solcompiler.title":"Solidity Compiler",
+
   "luxgate.Toopbar.Login.Tooltip":"Login",
   "luxgate.Toopbar.Logout.Tooltip":"Logout",
   "luxgate.Toopbar.Settings.Tooltip":"Settings",
