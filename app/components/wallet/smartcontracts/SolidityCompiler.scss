@@ -52,9 +52,8 @@
     width: 200px;
 	  height: 30px;
 	  font-size: 14px;
-    outline: 0;
-    border: var(--theme-bordered-box-border) !important;
-    padding-left: 10px !important;
+	  outline: 0;
+    padding-left: 10px;
     padding-right: 2px;
 	}
 
@@ -86,7 +85,6 @@
 	  font-size: 14px;
 	  outline: 0;
     padding-left: 10px;
-    border: var(--theme-bordered-box-border) !important;
 	}
 }
 

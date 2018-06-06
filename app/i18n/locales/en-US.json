@@ -338,9 +338,23 @@
   "smartcontract.create.input.gasprice":"Gas Price",
   "smartcontract.create.input.sendaddress":"Sender Address",
 
-
   "smartcontract.call.title":"Call Smart Contract",
+  "smartcontract.call.input.address":"Contract Addres",
+  "smartcontract.call.textarea.abi":"Interface (ABI)",
+  "smartcontract.call.area.function":"Function",
+  "smartcontract.call.area.optional":"Optional",
+  "smartcontract.call.input.sendaddress":"Sender Address",
+
   "smartcontract.sendto.title":"Send to Smart Contract",
+  "smartcontract.sendto.input.address":"Contract Addres",
+  "smartcontract.sendto.textarea.abi":"Interface (ABI)",
+  "smartcontract.sendto.area.function":"Function",
+  "smartcontract.sendto.area.optional":"Optional",
+  "smartcontract.sendto.input.amount":"Amount",
+  "smartcontract.sendto.input.gaslimit":"Gas Limit",
+  "smartcontract.sendto.input.gasprice":"Gas Price",
+  "smartcontract.sendto.input.sendaddress":"Sender Address",
+
   "smartcontract.solcompiler.title":"Solidity Compiler",
 
   "luxgate.Toopbar.Login.Tooltip":"Login",

@@ -33,7 +33,7 @@
 }
 
 .abi,
-.bytecode,
+.contractAddress,
 .areaLabel {
   margin-bottom: 3px;
 }
@@ -41,13 +41,14 @@
   margin-top: 20px;
 }
 
-.areaConstructor {
+.areaFunction {
   height: 100px;
   background-color: #efefef;
 }
 
 .optionalContainer {
   font-size: 12px;
+  margin-top: 10px;
   input {
     width: 200px;
 	  height: 30px;
@@ -78,6 +79,7 @@
 //  text-align: right;
 }
 
+.ammountContainer,
 .addressContainer {
   font-size: 12px;
   margin-top: 10px;
@@ -89,6 +91,7 @@
     border: var(--theme-bordered-box-border) !important;
 	}
 }
+
 
 .addressInput {
   width: calc(100% - 100px);

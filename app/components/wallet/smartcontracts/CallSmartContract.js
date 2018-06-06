@@ -9,53 +9,43 @@ import TextArea from 'react-polymorph/lib/components/TextArea';
 import TextAreaSkin from 'react-polymorph/lib/skins/simple/TextAreaSkin';
 import Input from 'react-polymorph/lib/components/Input';
 import SimpleInputSkin from 'react-polymorph/lib/skins/simple/raw/InputSkin';
-import styles from './CreateSmartContract.scss';
+import styles from './CallSmartContract.scss';
 
 export const messages = defineMessages({
   title: {
-    id: 'smartcontract.create.title',
-    defaultMessage: '!!!Create Smart Contract',
-    description: 'Title "Create Smart Contract" in the Smart Contract.'
+    id: 'smartcontract.call.title',
+    defaultMessage: '!!!Call Smart Contract',
+    description: 'Title "Call Smart Contract" in the Smart Contract.'
   },
-  textareaBytecode: {
-    id: 'smartcontract.create.textarea.bytecode',
-    defaultMessage: '!!!Bytecode',
-    description: 'Label "Bytecode" of the Smart Contract textarea.'
+  inputContractAddress: {
+    id: 'smartcontract.call.input.address',
+    defaultMessage: '!!!Contract Address',
+    description: 'Label "Contract Address" of the Smart Contract Input.'
   },
   textareaABI: {
-    id: 'smartcontract.create.textarea.abi',
+    id: 'smartcontract.call.textarea.abi',
     defaultMessage: '!!!Interface (ABI)',
     description: 'Label "Interface (ABI)" of the Smart Contract textarea.'
   },
-  areaConstructor: {
-    id: 'smartcontract.create.area.constructor',
-    defaultMessage: '!!!Constructor',
-    description: 'Label "Constructor" of the Smart Contract Constructor.'
+  areaFunction: {
+    id: 'smartcontract.call.area.function',
+    defaultMessage: '!!!Function',
+    description: 'Label "Function" of the Smart Contract Constructor.'
   },
   areaOptional: {
-    id: 'smartcontract.create.area.optional',
+    id: 'smartcontract.call.area.optional',
     defaultMessage: '!!!Optional',
     description: 'Label "Optional" of the Smart Contract Optional.'
   },
-  inputGasLimit: {
-    id: 'smartcontract.create.input.gaslimit',
-    defaultMessage: '!!!Gas Limit',
-    description: 'Label "Gas Limit" of input spin in the create Smart Contract tab.'
-  },
-  inputGasPrice: {
-    id: 'smartcontract.create.input.gasprice',
-    defaultMessage: '!!!Gas Price',
-    description: 'Label "Gas Price" of input spin in the create Smart Contract tab.'
-  },
   inputSenderAddress: {
-    id: 'smartcontract.create.input.sendaddress',
+    id: 'smartcontract.call.input.sendaddress',
     defaultMessage: '!!!Sender Address',
-    description: 'Label "Sender Address" of input spin in the create Smart Contract tab.'
+    description: 'Label "Sender Address" of input spin in the Call Smart Contract tab.'
   },
 });
 
 type State = {
-  bytecode: string,
+  contractAddress: string,
   abi: string,
   gasLimit: number,
   gasPrice: number,
@@ -63,9 +53,9 @@ type State = {
 };
 
 @observer
-export default class CreateSmartContract extends Component<State> {
+export default class CallSmartContract extends Component<State> {
   state = {
-    bytecode: '',
+    contractAddress: '',
     abi: '',
     gasLimit: 2500000,
     gasPrice: 0.0000004,
@@ -76,9 +66,9 @@ export default class CreateSmartContract extends Component<State> {
     intl: intlShape.isRequired,
   };
 
-  onChangeBytecode(value) {
+  onChangeContractAddress(value) {
     if(value != this.state.Coin2)
-      this.setState( {bytecode: value});
+      this.setState( {contractAddress: value});
   }
 
   onChangeABI(value) {
@@ -88,7 +78,7 @@ export default class CreateSmartContract extends Component<State> {
 
   render() {
     const {
-      bytecode, 
+      contractAddress, 
       abi, 
       gasLimit,
       gasPrice,
@@ -106,13 +96,12 @@ export default class CreateSmartContract extends Component<State> {
       <div className={styles.component}>
         <div className={styles.subTitle}> {intl.formatMessage(messages.title)} </div>
         <div className={styles.borderedBox}>
-          <div className={styles.bytecode}>{intl.formatMessage(messages.textareaBytecode)}</div>
-          <TextArea
-            skin={<TextAreaSkin />}
-            placeholder="Please Input Bytecode"
-            rows={3}
-            value={bytecode}
-            onChange={this.onChangeBytecode.bind(this)}
+          <div className={styles.contractAddress}>{intl.formatMessage(messages.inputContractAddress)}</div>
+          <Input
+            skin={<SimpleInputSkin />}
+            placeholder="Please Input Contract Address"
+            value={contractAddress}
+            onChange={this.onChangeContractAddress.bind(this)}
           />
           <div className={styles.abi}>{intl.formatMessage(messages.textareaABI)}</div>
           <TextArea
@@ -125,22 +114,12 @@ export default class CreateSmartContract extends Component<State> {
         </div>
         
         <div className={styles.borderedBox}>
-          <div className={styles.bytecode}>{intl.formatMessage(messages.areaConstructor)}</div>
-          <div className={styles.areaConstructor} ></div>
+          <div className={styles.contractAddress}>{intl.formatMessage(messages.areaFunction)}</div>
+          <div className={styles.areaFunction} ></div>
         </div>
         
         <div className={styles.borderedBox}>
           <div className={styles.areaLabel}>{intl.formatMessage(messages.areaOptional)}</div>
-          <div className={styles.optionalContainer}> 
-            <div className={styles.gasLimit}>
-              <div className={styles.optionalLabel}> {intl.formatMessage(messages.inputGasLimit)} </div>
-              <input value={gasLimit} type="number" min="1000000" max="1000000000" onChange={event => this.setState({gasLimit: event.target.value.replace(/\D/,'')})}/>
-            </div>
-            <div className={styles.gasPrice}> 
-              <div className={styles.optionalLabel}> {intl.formatMessage(messages.inputGasPrice)} </div>
-              <input value={gasPrice} type="number" min="0.00000001" max="0.00001" step="0.00000001" onChange={event => this.setState({gasPrice: event.target.value})}/> LUX
-            </div>
-          </div>
           <div className={styles.addressContainer}> 
             <div className={styles.optionalLabel}>{intl.formatMessage(messages.inputSenderAddress)} </div>
             <input className={styles.addressInput} value={senderAddress} type="text" onChange={event => this.setState({senderAddress: event.target.value})}/>
@@ -150,7 +129,7 @@ export default class CreateSmartContract extends Component<State> {
         <div className={styles.buttonContainer}>
           <Button
             className={buttonClasses}
-            label="Create Contract"
+            label="Call Contract"
             skin={<SimpleButtonSkin/>}
           />
           <Button

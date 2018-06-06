@@ -33,7 +33,7 @@
 }
 
 .abi,
-.bytecode,
+.contractAddress,
 .areaLabel {
   margin-bottom: 3px;
 }
@@ -41,7 +41,7 @@
   margin-top: 20px;
 }
 
-.areaConstructor {
+.areaFunction {
   height: 100px;
   background-color: #efefef;
 }
@@ -55,7 +55,7 @@
     outline: 0;
     border: var(--theme-bordered-box-border) !important;
     padding-left: 10px !important;
-    padding-right: 2px;
+    padding-right: 2px ;
 	}
 
 	input[type=number]:hover::-webkit-inner-spin-button {  
