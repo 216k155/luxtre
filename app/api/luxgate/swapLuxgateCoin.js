@@ -7,11 +7,12 @@ export type SwapLuxgateCoinParams = {
   buy_coin: string,
   sell_coin: string,
   amount: number,
-  value: number
+  value: number,
+  password: string
 };
 
 export const swapLuxgateCoin = (
-  { buy_coin, sell_coin, amount, value }: SwapLuxgateCoinParams
+  { buy_coin, sell_coin, amount, value, password }: SwapLuxgateCoinParams
 ): Promise<LuxgateSwapOutput> => (
   request({
     hostname: LUXGATE_API_HOST,
@@ -21,7 +22,7 @@ export const swapLuxgateCoin = (
     method: 'swap',
     base: buy_coin,
     rel: sell_coin,
-    relvolume: amount,
+    relvolume: amount * value,
     price: value,
     password: password
   })
