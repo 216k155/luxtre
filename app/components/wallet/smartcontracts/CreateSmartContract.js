@@ -57,6 +57,7 @@ export const messages = defineMessages({
 type State = {
   bytecode: string,
   abi: string,
+  arrInputs : Array<Object>,
   gasLimit: number,
   gasPrice: number,
   senderAddress: string
@@ -67,6 +68,7 @@ export default class CreateSmartContract extends Component<State> {
   state = {
     bytecode: '',
     abi: '',
+    arrInputs:[],
     gasLimit: 2500000,
     gasPrice: 0.0000004,
     senderAddress: ''
@@ -77,19 +79,36 @@ export default class CreateSmartContract extends Component<State> {
   };
 
   onChangeBytecode(value) {
-    if(value != this.state.Coin2)
+    if(value != this.state.bytecode)
       this.setState( {bytecode: value});
   }
 
   onChangeABI(value) {
-    if(value != this.state.Coin2)
+    if(value != this.state.abi) {
       this.setState( {abi: value});
+      if(value == "") {
+        this.setState( {arrInputs: []} );
+      } else {
+        try {
+          let arrABI = JSON.parse(value);
+          let element = arrABI.find((data) => { return data.type == "constructor" });
+          if(element !== undefined) {
+            this.setState( {arrInputs: element.inputs});
+          } else {
+            this.setState( {arrInputs: []} );
+          }
+        } catch (error) {
+          
+        }
+      }
+    }
   }
 
   render() {
     const {
       bytecode, 
       abi, 
+      arrInputs,
       gasLimit,
       gasPrice,
       senderAddress
@@ -126,7 +145,18 @@ export default class CreateSmartContract extends Component<State> {
         
         <div className={styles.borderedBox}>
           <div className={styles.bytecode}>{intl.formatMessage(messages.areaConstructor)}</div>
-          <div className={styles.areaConstructor} ></div>
+          <div className={styles.areaConstructor} >
+          {
+            arrInputs.map((data, index) => {
+              return (
+                <div key={`con-${index}`} className={styles.tokenElement}>
+                  <div className={styles.tokenArg}>{data.type} {data.name}</div>
+                  <input className={styles.tokenInputBox} type="text"/>
+                </div>
+              )
+            })
+          }
+          </div>
         </div>
         
         <div className={styles.borderedBox}>

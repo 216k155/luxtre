@@ -42,8 +42,10 @@
 }
 
 .areaConstructor {
+  font-size: 12px;
   height: 100px;
   background-color: #efefef;
+  padding: 10px 10px;
 }
 
 .optionalContainer {
@@ -61,6 +63,15 @@
 	input[type=number]:hover::-webkit-inner-spin-button {  
 	  height: 30px;
 	}
+}
+
+.tokenArg {
+  width: 160px;
+  display: inline-block;
+}
+
+.tokenElement {
+  margin: 5px 0px;
 }
 
 .optionalLabel {
@@ -93,6 +104,11 @@
 .addressInput {
   width: calc(100% - 100px);
 }
+
+.tokenInputBox {
+  width: calc(100% - 160px);
+}
+
 
 .buttonContainer {
   margin-top: 30px;
