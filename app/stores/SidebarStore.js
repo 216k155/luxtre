@@ -18,8 +18,8 @@ export default class SidebarStore extends Store {
 
   setup() {
     const actions = this.actions.sidebar;
-    actions.toggleSubMenus.listen(this._toggleSubMenus);
-    actions.switchLuxgate.listen(this._onSwitchLuxgate);
+    actions.switchLuxgate.listen(this._switchLuxgate);
+    actions.activateCategory.listen(this._onActivateCategory);
     actions.walletSelected.listen(this._onWalletSelected);
     this.registerReactions([
       this._syncSidebarRouteWithRouter,
@@ -38,11 +38,11 @@ export default class SidebarStore extends Store {
     }));
   }
 
-  @action _toggleSubMenus = () => {
+  @action _switchLuxgate = () => {
     this.isShowingLuxtre = !this.isShowingLuxtre;
   };
 
-  @action _onSwitchLuxgate = (params: { category: string, showSubMenu?: boolean }) => {
+  @action _onActivateCategory = (params: { category: string, showSubMenu?: boolean }) => {
     const { category, showSubMenu } = params;
     if (category !== this.activeSidebarCategory) {
       this.activeSidebarCategory = category;
@@ -50,7 +50,7 @@ export default class SidebarStore extends Store {
       this.actions.router.goToRoute.trigger({ route: category });
     } else if (showSubMenu == null || this.isShowingLuxtre !== showSubMenu) {
       // If no explicit preferred state is given -> toggle sub menus
-      this._toggleSubMenus();
+      this._switchLuxgate();
     } else {
       this.isShowingLuxtre = showSubMenu;
     }
@@ -60,7 +60,7 @@ export default class SidebarStore extends Store {
     this.stores[environment.API].wallets.goToWalletRoute(walletId);
   };
 
-  @action _setSwitchLuxgate = (category: string) => {
+  @action _setActivateCategory = (category: string) => {
     this.activeSidebarCategory = category;
   };
 
@@ -72,7 +72,7 @@ export default class SidebarStore extends Store {
     const route = this.stores.app.currentRoute;
     this.CATEGORIES.forEach((category) => {
       // If the current route starts with the root of the category
-      if (route.indexOf(category.route) === 0) this._setSwitchLuxgate(category.route);
+      if (route.indexOf(category.route) === 0) this._setActivateCategory(category.route);
     });
   };
 

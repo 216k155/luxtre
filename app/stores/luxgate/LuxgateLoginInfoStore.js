@@ -2,10 +2,7 @@
 import { observable, computed, action, runInAction } from 'mobx';
 import BigNumber from 'bignumber.js';
 import Store from '../lib/Store';
-import { matchRoute, buildRoute } from '../../utils/routing';
 import Request from '.././lib/LocalizedRequest';
-import CachedRequest from '../lib/LocalizedCachedRequest';
-import { ROUTES } from '../../routes-config';
 
 import type {
   GetAccountNewPhraseResponse, 
@@ -70,6 +67,12 @@ export default class LuxgateLoginInfoStore extends Store {
           coin_num: 0,
         };
         this.actions.luxgate.coinInfo.getCoinInfo.trigger(coinData);
+        
+        const logData = {
+          content: "Successfully Logged in ",
+          type: "info"
+        };
+        this.actions.luxgate.logger.addLog.trigger(logData);
       }
     }
   };
@@ -93,6 +96,12 @@ export default class LuxgateLoginInfoStore extends Store {
     }
     this.myPhrase = '';
     this.actions.luxgate.coinInfo.clearCoinInfo.trigger();
+
+    const logData = {
+      content: "Logged out ",
+      type: "info"
+    };
+    this.actions.luxgate.logger.addLog.trigger(logData);
   };
 
 }

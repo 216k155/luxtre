@@ -146,7 +146,7 @@ export default class LuxApi {
             const response = await getLuxgateOrders({password, base, rel});
             if (response !== undefined)
             {
-                return stringifyData(response);
+                return response;
             }
             else
                 return "";
@@ -159,7 +159,7 @@ export default class LuxApi {
     async getLGTransactions(password:string, coin: string, address: string): Promise<GetLGTransactionsResponse> {
         Logger.debug('LuxgateApi::getLGTransactions called');
         try {
-            const response = await getLuxgateTransactions({coin, password, address});
+            const response = await getLuxgateTransactions({password, coin, address});
             if (response !== undefined && !response.error)
             {
                 return stringifyData(response);
@@ -273,7 +273,7 @@ export default class LuxApi {
                     await setLuxgateRemoteWallet({password, coin, ipaddr, port});
                 } else {
                     await setLuxgateLocalWallet({password, coin});
-            }
+                }
                 coin = rel;
                 if(coin == "BTC") {
                     await setLuxgateRemoteWallet({password, coin, ipaddr, port});

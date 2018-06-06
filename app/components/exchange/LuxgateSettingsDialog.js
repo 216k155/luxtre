@@ -213,16 +213,17 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
         
                 <table className={styles.coinTable}>
                     <thead>
-                        <tr>
+                        <tr key="header">
                             <th className={styles.coinNameHeadCell}>{intl.formatMessage(messages.tableHeadLabelCoin)}</th>
                             <th className={styles.coinTypeCell}>{intl.formatMessage(messages.tableHeadLabelType)}</th>
                             <th className={styles.coinStateCell}>{intl.formatMessage(messages.tableHeadLabelState)}</th>
                         </tr>
                     </thead>
+                    <tbody>
                 {
                     coins.map((coin, index) => {
                         return (
-                            <tr>
+                            <tr key={`tr-${index}`}>
                                 <td className={styles.coinNameCell}>
                                     <img src={require('../../assets/crypto/' + coin.value + '.png')} className={styles.coinImageStyle}/>
                                     <span>{coin.label}</span>
@@ -248,6 +249,7 @@ export default class LuxgateSettingsDialog extends Component<Props, State> {
                         )
                     })
                 }
+                    </tbody>
                 </table>
             </Dialog>
         );

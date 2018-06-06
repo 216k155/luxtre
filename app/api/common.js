@@ -23,8 +23,8 @@ const messages = defineMessages({
   },
 });
 
-export const ELECTRUM_PORT = 10000;
-export const ELECTRUM_ADDRESS = "electrum2.cipig.net";
+export const ELECTRUM_PORT = 50001;
+export const ELECTRUM_ADDRESS = "45.76.144.46";
 
 export class GenericApiError extends LocalizableError {
   constructor() {
@@ -145,7 +145,7 @@ export type GetCoinInfoResponse = CoinInfo
 export type GetCoinBalanceResponse = number;
 export type SendCoinResponse = boolean;
 export type SwapCoinResponse = boolean;
-export type GetLGOrdersResponse = string;
+export type GetLGOrdersResponse = Array;
 export type GetLGTransactionsResponse = string;
 export type GetLGTradeArrayResponse = string;
 export type GetLGPriceArrayResponse = string;

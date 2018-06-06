@@ -31,7 +31,7 @@ export default class TopBarContainer extends Component<Props> {
 
     return (
       <TopBar
-        onToggleSwitchLuxgate={actions.sidebar.toggleSubMenus.trigger}
+        onSwitchLuxgate={actions.sidebar.switchLuxgate.trigger}
         activeWallet={activeWallet}
         currentRoute={app.currentRoute}
         showSubMenus={isShowingLuxtre}
@@ -58,6 +58,13 @@ export default class TopBarContainer extends Component<Props> {
         {!isShowingLuxtre ?
           <LuxgateToopbarIcons
             isLogined={isLogined}
+            addLog={(content:string, type:string) =>{
+              const logData = {
+                content: content,
+                type: type
+              };
+              actions.luxgate.logger.addLog.trigger(logData);
+            }}
             onLogout={() => {
               actions.luxgate.loginInfo.logoutAccount.trigger();
             }}

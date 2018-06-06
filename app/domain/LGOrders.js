@@ -9,10 +9,10 @@ export default class LGOrders {
   @observable buyerCount: number;
 
   constructor(data: {
-    sellers: string,
-    sellerCount: number,
-    buyers: string,
-    buyerCount: number,
+    bids: Array,
+    numbids: number,
+    asks: Array,
+    numasks: number,
   }) {
     Object.assign(this, data);
   }

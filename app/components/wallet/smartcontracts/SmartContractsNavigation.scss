@@ -1,0 +1,10 @@
+.component {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.navItem {
+  height: 100%;
+  width: percentage(1/5); // Update when adding new nav items!
+  display: inline-block;
+}

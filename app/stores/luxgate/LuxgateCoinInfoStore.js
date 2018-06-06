@@ -3,10 +3,7 @@ import { observable, computed, action, runInAction } from 'mobx';
 import BigNumber from 'bignumber.js';
 import Store from '../lib/Store';
 import CoinInfo from '../../domain/CoinInfo';
-import { matchRoute, buildRoute } from '../../utils/routing';
 import Request from '.././lib/LocalizedRequest';
-import CachedRequest from '../lib/LocalizedCachedRequest';
-import { ROUTES } from '../../routes-config';
 
 import type {
   GetCoinInfoResponse, 
@@ -25,12 +22,12 @@ export default class LuxgateCoinInfoStore extends Store {
   @observable getCoinBalanceRequest: Request<GetCoinBalanceResponse> = new Request(this.api.luxgate.getCoinBalanace);
   @observable sendCoinRequest: Request<SendCoinResponse> = new Request(this.api.luxgate.sendCoin);
   @observable swapCoinRequest: Request<SwapCoinResponse> = new Request(this.api.luxgate.swapCoin);
-  @observable getCoinPriceRequest: Request<GetCoinPriceResponse> = new Request(this.api.luxgate.getCoinPrice);
+  //@observable getCoinPriceRequest: Request<GetCoinPriceResponse> = new Request(this.api.luxgate.getCoinPrice);
   
   @observable lstCoinInfo: Array<CoinInfo> = [];
   @observable swap_coin1: string = 'BTC';
   @observable swap_coin2: string = 'LUX';
-  @observable coinPrice: number = 0;
+  //@observable coinPrice: number = 0;
 
   setup() {
     super.setup();
@@ -42,7 +39,7 @@ export default class LuxgateCoinInfoStore extends Store {
     coinInfo.getCoinInfo.listen(this._getCoinInfo);
     coinInfo.swapCoin.listen(this._swapCoin);
     coinInfo.sendCoin.listen(this._sendCoin);
-    coinInfo.getCoinPrice.listen(this._getCoinPrice);
+    //coinInfo.getCoinPrice.listen(this._getCoinPrice);
     coinInfo.clearCoinInfo.listen(this._clearCoinInfo);
     //router.goToRoute.listen(this._onRouteChange);
   }
@@ -61,7 +58,7 @@ export default class LuxgateCoinInfoStore extends Store {
       this.getCoinInfoData(coin);
     }
 
-    this._getCoinPrice();
+    //this._getCoinPrice();
   };
 
   _sendCoin = async ( transactionDetails: {
@@ -90,6 +87,17 @@ export default class LuxgateCoinInfoStore extends Store {
     value: number
   }) => {
     const { buy_coin, sell_coin, amount, value} = swapDetails;
+
+    const isLogined = this.stores.luxgate.loginInfo.isLogined;  
+    if(!isLogined) {
+      const logData = {
+        content: "First, need to login",
+        type: "info"
+      };
+      this.actions.luxgate.logger.addLog.trigger(logData);
+      return;
+    } 
+
     const password = this.stores.luxgate.loginInfo.password; 
     if (password == "") return;
     
@@ -102,7 +110,7 @@ export default class LuxgateCoinInfoStore extends Store {
     this.actions.dialogs.closeActiveDialog.trigger();
     this.swapCoinRequest.reset();
   };
-  
+  /*
   @action _getCoinPrice = async () => {
     const password = this.stores.luxgate.loginInfo.password; 
     if (password == "") return;
@@ -116,7 +124,7 @@ export default class LuxgateCoinInfoStore extends Store {
   @action setCoinPrice(price){
     this.coinPrice = price;
   }
-
+  */
   @action getCoinInfoData = async (coin: string) => {
     const isLogined = this.stores.luxgate.loginInfo.isLogined;
     if(!isLogined) return;

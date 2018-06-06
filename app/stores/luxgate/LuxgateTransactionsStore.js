@@ -3,10 +3,7 @@ import { observable, computed, action, runInAction } from 'mobx';
 import BigNumber from 'bignumber.js';
 import Store from '../lib/Store';
 import LGTransactions from '../../domain/LGTransactions';
-import { matchRoute, buildRoute } from '../../utils/routing';
 import Request from '.././lib/LocalizedRequest';
-import CachedRequest from '../lib/LocalizedCachedRequest';
-import { ROUTES } from '../../routes-config';
 
 import type {
   GetLGTransactionsResponse, 
@@ -35,7 +32,10 @@ export default class LuxgateTransactionsStore extends Store {
   }
 
   _getLGTransactions = async ( coin: string ) => {
-    const info: GetLGTransactionsResponse = await this.getLGTransactionsRequest.execute(coin).promise;
+    const password = this.stores.luxgate.loginInfo.password; 
+    if (password == "") return;
+
+    const info: GetLGTransactionsResponse = await this.getLGTransactionsRequest.execute(password, coin).promise;
     if(info !== "")
     {
       const objInfo = JSON.parse(info);

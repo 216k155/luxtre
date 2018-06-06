@@ -37,7 +37,6 @@ export default class MasternodeNavigation extends Component<Props> {
       <div className={styles.component}>
         <div className={styles.navItem}>
           <WalletNavButton
-            className="summary"
             label={intl.formatMessage(messages.masternodesnet)}
             isActive={isActiveNavItem('masternodesnet')}
             onClick={() => onNavItemClick('masternodesnet')}
@@ -46,7 +45,6 @@ export default class MasternodeNavigation extends Component<Props> {
 
         <div className={styles.navItem}>
           <WalletNavButton
-            className="send"
             label={intl.formatMessage(messages.mymasternode)}
             isActive={isActiveNavItem('mymasternode')}
             onClick={() => onNavItemClick('mymasternode')}

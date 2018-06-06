@@ -19,12 +19,13 @@ import ReceiveAddressDialogContainer from '../../containers/wallet/dialogs/Recei
 import SendCoinDialog from './SendCoinDialog';
 import SendCoinDialogContainer from '../../containers/wallet/dialogs/SendCoinDialogContainer'
 import styles from "./ExchangeSettingPage.scss"
-import { CoinInfo } from '../../domain/CoinInfo';
+import { CoinInfo, LGOrders } from '../../domain/CoinInfo';
 import COINS from "./coins";
 import sendImage from "../../assets/images/wallet-nav/send.png";
 import recvImage from "../../assets/images/wallet-nav/receive.png";
 import switchCoinImage from "../../assets/images/wallet-nav/switch-coin.png";
 import { formattedAmountToBigNumber, formattedAmountToNaturalUnits } from '../../utils/formatters';
+import {LuxgateLog} from '../../types/LuxgateLogType';
 
 import ReactTable from "react-table";
 import "react-table/react-table.css";
@@ -32,7 +33,9 @@ import ExchangeChartPage from "./ExchangeChartPage";
 
 type Props = {
     coinPrice: number,
+    ordersData: LGOrders,
     coinInfoList: Array<CoinInfo>,
+    logbuff: Array<LuxgateLog>,
     openDialogAction: Function,
     isDialogOpen: Function,
     onChangeCoin: Function,
@@ -46,7 +49,8 @@ type State = {
     Coin1: string,
     Coin2: string,
     recvCoin: string,
-    recvAddress: string
+    recvAddress: string,
+    isShowLog: boolean,
 }
 
 @observer
@@ -61,15 +65,16 @@ export default class ExchangeSettingPage extends Component<Props, State>{
         recvCoin: '',
         sendCoin: '',
         recvAddress: '',
-        balance: ''
+        balance: '',
+        isShowLog: true
     };
 
     componentDidMount() {
         this.props.onChangeCoin('all', 0);
     }
 
-    toggleBuySell() {
-        this.setState({ isBuy: !this.state.isBuy });
+    toggleLogAndHistory() {
+        this.setState({ isShowLog: !this.state.isShowLog });
     }
 
     changeAmountInput(value) {
@@ -167,11 +172,14 @@ export default class ExchangeSettingPage extends Component<Props, State>{
             recvCoin, 
             sendCoin, 
             recvAddress, 
-            balance } = this.state;
+            balance,
+            isShowLog } = this.state;
             
         const {
             coinPrice,
+            ordersData,
             coinInfoList,
+            logbuff,
             openDialogAction, 
             isDialogOpen,
             onChangeCoin
@@ -191,18 +199,43 @@ export default class ExchangeSettingPage extends Component<Props, State>{
             total: 0.06222473,
           }]
     
-        const columns = [{
+        const orderColumns = [{
             Header: 'Value',
-            accessor: 'value' // String-based value accessors!
+            accessor: 'price' // String-based value accessors!
           }, {
             Header: 'Amount',
-            accessor: 'amount',
-            Cell: props => <span className='number'>{props.value}</span> // Custom cell components!
+            accessor: 'volumn',
           }, {
             id: 'Total', // Required because our accessor is not a string
             Header: 'Total',
             accessor: 'total' // Custom value accessors!
           }]
+
+        const loggerColumns = [{
+            Header: 'Time',
+            width: 70,
+            accessor: 'time' // String-based value accessors!
+          }, {
+            Header: 'Type',
+            width: 50,
+            accessor: 'type' // String-based value accessors!
+          }, {
+            Header: 'Description',
+            accessor: 'content',
+          }]
+
+        const historyColumns = [{
+            Header: 'Value',
+            accessor: 'value' // String-based value accessors!
+          }, {
+            Header: 'Amount',
+            accessor: 'amount',
+          }, {
+            id: 'Total', // Required because our accessor is not a string
+            Header: 'Total',
+            accessor: 'total' // Custom value accessors!
+          }]
+
 
         let coinStyle = {
 			width : 20 ,
@@ -303,7 +336,7 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                     </div>
                     <div className={styles.setting}>
                         <div className={styles.card}>
-                            <h5 className={styles.cardTitle}>Coupled Asset Swap</h5>
+                            <div className={styles.cardTitle}>Coupled Asset Swap</div>
                             <h6 className={styles.cardSubtitle}>Please swap your currency from here</h6>
                         </div>
                         <div className={styles.component}>
@@ -365,41 +398,62 @@ export default class ExchangeSettingPage extends Component<Props, State>{
                         </div>
                     </div>
                 </div>
-                <div className={styles.margetTable}>
-                    <div className={styles.orderTable}>
-                        <div className={styles.tableCaption}>
+                <div>
+                    <div className={styles.orderTable1}>
+                        <div className={styles.orderTableCaptionBar}>
              				<span className={styles.order}> Orders </span>
-			            	<div className={styles.tableCaptionPos}>{Coin1} &rArr; {Coin2} </div>
+			            	<div className={styles.tableCaptionPos}>{Coin2} &rArr; {Coin1} </div>
                         </div>
                         <ReactTable
-                            data={data}
-                            columns={columns}
+                            data={ordersData.bids}
+                            columns={orderColumns}
                             defaultPageSize={10}
                             className="-striped -highlight"
                         />
                     </div>
-                    <div className={styles.orderTable}>
-                        <div className={styles.tableCaption}> 
+                    <div className={styles.orderTable2}>
+                        <div className={styles.orderTableCaptionBar}> 
                             <span className={styles.order}> Orders </span>
-			            	<div className={styles.tableCaptionPos}> {Coin2} &rArr; {Coin1} </div>
+			            	<div className={styles.tableCaptionPos}> {Coin1} &rArr; {Coin2} </div>
                         </div>
                         <ReactTable
-                            data={data}
-                            columns={columns}
+                            data={ordersData.asks}
+                            columns={orderColumns}
                             defaultPageSize={10}
                             className="-striped -highlight"
                         />
                     </div>
-                    <div className={styles.historyTable}>
-                        <div className={styles.tableCaption}>
-                            <div className={styles.tableCaptionPos}> HISTORY </div>
+                    <div className={styles.dataTable}>
+                        <div className={styles.LogListCaptionBar}>
+                            <Checkbox
+                                className={styles.checkboxTab}
+                                labelLeft="Status"
+                                labelRight="History"
+                                onChange={this.toggleLogAndHistory.bind(this)}
+                                checked={isShowLog}
+                                skin={<TogglerSkin/>}
+                            />
                         </div>    
-                        <ReactTable
-                            data={data}
-                            columns={columns}
-                            defaultPageSize={10}
-                            className="-striped -highlight"
-                        />
+                        { isShowLog ? (
+                            <div className={styles.logTable}>
+                                <ReactTable
+                                    data={logbuff.slice()}
+                                    columns={loggerColumns}
+                                    sortable={false}
+                                    defaultPageSize={10}
+                                    className="-striped -highlight"
+                                />
+                            </div>
+                        ) : (
+                            <div className={styles.historyTable}>
+                                <ReactTable
+                                    data={data}
+                                    columns={historyColumns}
+                                    defaultPageSize={10}
+                                    className="-striped -highlight"
+                                />
+                            </div>
+                        )}
                     </div>
                 </div>  
                 {isDialogOpen(ReceiveAddressDialog) ? (

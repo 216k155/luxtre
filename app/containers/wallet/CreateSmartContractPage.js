@@ -2,13 +2,13 @@
 import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import { defineMessages, intlShape } from 'react-intl';
-import PosCalculator from '../../components/wallet/utilities/PosCalculator';
+import CreateSmartContract from '../../components/wallet/smartcontracts/CreateSmartContract';
 import type { InjectedProps } from '../../types/injectedPropsType';
 
 type Props = InjectedProps
 
 @inject('stores', 'actions') @observer
-export default class UtilityPosCalcPage extends Component<Props> {
+export default class CreateSmartContractPage extends Component<Props> {
 
   static defaultProps = { actions: null, stores: null };
 
@@ -16,16 +16,8 @@ export default class UtilityPosCalcPage extends Component<Props> {
     const { intl } = this.context;
     const actions = this.props.actions;
 
-    const coinCount = 100;
-    const txAge = 20;
-    const posDifficulty = 4;
-
     return (
-      <PosCalculator
-        numberOfCoinsStart = {coinCount}
-        ageOfTransaction = {txAge} 
-        posDifficulty = {posDifficulty} 
-      />
+      <CreateSmartContract/>
     );
   }
 
