@@ -10,6 +10,8 @@ import TextAreaSkin from 'react-polymorph/lib/skins/simple/TextAreaSkin';
 import Input from 'react-polymorph/lib/components/Input';
 import SimpleInputSkin from 'react-polymorph/lib/skins/simple/raw/InputSkin';
 import styles from './SendtoSmartContract.scss';
+import Select from 'react-polymorph/lib/components/Select';
+import SelectSkin from 'react-polymorph/lib/skins/simple/SelectSkin';
 
 export const messages = defineMessages({
   title: {
@@ -62,6 +64,9 @@ export const messages = defineMessages({
 type State = {
   contractAddress: string,
   abi: string,
+  arrFunctions: Array<Object>,
+  arrInputs : Array<Object>,
+  selFunc: string,
   amount: number,
   gasLimit: number,
   gasPrice: number,
@@ -73,6 +78,9 @@ export default class SendtoSmartContract extends Component<State> {
   state = {
     contractAddress: '',
     abi: '',
+    arrFunctions: [],
+    arrInputs:[],
+    selFunc: '',
     amount: 0,
     gasLimit: 2500000,
     gasPrice: 0.0000004,
@@ -84,19 +92,47 @@ export default class SendtoSmartContract extends Component<State> {
   };
 
   onChangeContractAddress(value) {
-    if(value != this.state.Coin2)
+    if(value != this.state.contractAddress)
       this.setState( {contractAddress: value});
   }
 
   onChangeABI(value) {
-    if(value != this.state.Coin2)
+    if(value != this.state.abi) {
       this.setState( {abi: value});
+      if(value == "") {
+        this.setState( {arrFunctions: []} );
+      } else {
+        try {
+          let arrFuncs = [];
+          let arrABI = JSON.parse(value);
+          arrABI.map((data, index) => {
+            if(data.type == "function" && !data.constant) {
+              data.value = data.name;
+              data.label = data.name;
+              arrFuncs.push(data);
+            }
+          })
+          this.setState( {arrFunctions: arrFuncs} );
+        } catch (error) {
+        }
+      }
+    }
   }
 
+  onChangeFunction(value, event) {
+    this.setState({selFunc: value});
+    let element = this.state.arrFunctions.find((data) => { return data.value == value })
+    if(element !== undefined) {
+      this.setState( {arrInputs: element.inputs});
+    }
+  }
   render() {
     const {
       contractAddress, 
       abi, 
+      arrFunctions,
+      arrInputs,
+      selFunc,
       amount,
       gasLimit,
       gasPrice,
@@ -109,6 +145,16 @@ export default class SendtoSmartContract extends Component<State> {
       'primary',
       //styles.button
     ]);
+    
+    let showSelectControl = !this.state.arrFunctions.length ? null : (
+      <Select
+        skin= {<SelectSkin/>} 
+        className={styles.selectFuncs}
+        options={this.state.arrFunctions} 
+        value={this.state.selFunc}
+        onChange={this.onChangeFunction.bind(this)}
+      />
+    );
 
     return (
       <div className={styles.component}>
@@ -133,9 +179,25 @@ export default class SendtoSmartContract extends Component<State> {
         
         <div className={styles.borderedBox}>
           <div className={styles.contractAddress}>{intl.formatMessage(messages.areaFunction)}</div>
-          <div className={styles.areaFunction} ></div>
+          <div className={styles.areaFunction} >
+	          <div className={styles.comboField}> { showSelectControl } </div>
+            <div className={styles.inputField}>
+            {
+              arrInputs.map((data, index) => {
+                return (
+                  <div key={`con-${index}`} className={styles.tokenElement}>
+                    <div className={styles.solVariable}>
+                      <span className={styles.solTypeColor}>{data.type}</span>
+                      <span className={styles.solVariableLabel}>{data.name}</span>
+                    </div>
+                    <input className={styles.tokenInputBox} type="text"/>
+                  </div>
+                )
+              })
+            }
+	          </div>
+          </div>
         </div>
-        
         <div className={styles.borderedBox}>
           <div className={styles.areaLabel}>{intl.formatMessage(messages.areaOptional)}</div>
           <div className={styles.ammountContainer}> 

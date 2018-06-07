@@ -47,6 +47,10 @@
   height: 120px;
   background-color: #efefef;
   padding: 10px 10px;
+
+  :global .SimpleFormField_root > .SimpleFormField_inputWrapper > .SimpleInput_input{
+    padding: 8px 20;
+  }
 }
 
 .comboField {
@@ -124,7 +128,7 @@
 }
 
 .solVariable {
-  width: 160px;
+  width: 150px;
   display: inline-block;
 }
 
