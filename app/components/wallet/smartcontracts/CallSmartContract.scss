@@ -25,6 +25,7 @@
 }
 
 .borderedBox {
+  font-size: 14px;
   background: var(--theme-bordered-box-background-color);
   border: var(--theme-bordered-box-border);
   border-radius: 4px;
@@ -35,6 +36,7 @@
 .abi,
 .contractAddress,
 .areaLabel {
+  font-size: 16px;
   margin-bottom: 3px;
 }
 .abi {
@@ -42,12 +44,22 @@
 }
 
 .areaFunction {
-  height: 100px;
+  height: 120px;
   background-color: #efefef;
+  padding: 10px 10px;
+}
+
+.comboField {
+  width: 30%;
+}
+
+.inputField {
+  left: 35%;
+  width: 66%;
+  position: relative;
 }
 
 .optionalContainer {
-  font-size: 12px;
   input {
     width: 200px;
 	  height: 30px;
@@ -64,22 +76,15 @@
 }
 
 .optionalLabel {
-  width: 100px;
+  width: 120px;
   display: inline-block;
 }
 
-.gasLimit,
-.gasPrice {
-  width: 50%;
-  display: inline-block;
-}
-
-.gasPrice {
-//  text-align: right;
+.selectFuncs {
+  height: 10px;
 }
 
 .addressContainer {
-  font-size: 12px;
   margin-top: 10px;
   input {
 	  height: 30px;
@@ -91,7 +96,7 @@
 }
 
 .addressInput {
-  width: calc(100% - 100px);
+  width: calc(100% - 120px);
 }
 
 .buttonContainer {
@@ -109,4 +114,28 @@
 .button {
   margin: 0 10px;
   width: 35%;
+}
+
+//////////////////////////////////////////////////////////////
+
+.solTypeColor {
+  color: navy;
+  margin-right: 5px;
+}
+
+.solVariable {
+  width: 160px;
+  display: inline-block;
+}
+
+.solVariableLabel {
+//  font-family: var(--font-semibold);
+}
+
+.tokenElement {
+  margin: 5px 0px;
+}
+
+.tokenInputBox {
+  width: calc(100% - 170px);
 }

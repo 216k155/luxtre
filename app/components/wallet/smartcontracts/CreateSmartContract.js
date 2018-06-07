@@ -150,7 +150,10 @@ export default class CreateSmartContract extends Component<State> {
             arrInputs.map((data, index) => {
               return (
                 <div key={`con-${index}`} className={styles.tokenElement}>
-                  <div className={styles.tokenArg}>{data.type} {data.name}</div>
+                  <div className={styles.solVariable}>
+                    <span className={styles.solTypeColor}>{data.type}</span>
+                    <span className={styles.solVariableLabel}>{data.name}</span>
+                  </div>
                   <input className={styles.tokenInputBox} type="text"/>
                 </div>
               )
