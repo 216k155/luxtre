@@ -10,7 +10,9 @@ export type SendLuxTransactionParams = {
   value: BigNumber
 };
 
-export const sendLuxTransaction = ({ from, to, value }: SendLuxTransactionParams): Promise<LuxTxHash> =>
+export const sendLuxTransaction = (
+  { from, to, value }: SendLuxTransactionParams
+): Promise<LuxTxHash> =>
   request(
     {
     hostname: LUX_API_HOST,
