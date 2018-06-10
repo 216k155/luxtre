@@ -9,8 +9,6 @@ export default class ContractsActions {
     gasLimit: number, 
     gasPrice: number, 
     senderaddress: string, 
-    broadcast: boolean, 
-    changeToSender: boolean 
   }> = new Action();
   
   callContract: Action<{ 
@@ -27,7 +25,5 @@ export default class ContractsActions {
     gasLimit: number,
     gasPrice: number,
     senderaddress: string,
-    broadcast: boolean,
-    changeToSender: boolean
   }> = new Action();
 }
