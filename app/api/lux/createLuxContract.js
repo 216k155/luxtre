@@ -8,13 +8,11 @@ export type CreateLuxContractParams = {
   bytecode: string,
   gasLimit: number,
   gasPrice: number,
-  senderaddress: string,
-  broadcast: boolean,
-  changeToSender: boolean
+  senderaddress: string
 };
 
 export const createLuxContract = (
-  { bytecode, gasLimit, gasPrice, senderaddress, broadcast, changeToSender }: CreateLuxContractParams
+  { bytecode, gasLimit, gasPrice, senderaddress }: CreateLuxContractParams
 ): Promise<LuxContractInfo> =>
   request(
     {
@@ -26,6 +24,6 @@ export const createLuxContract = (
     {
       jsonrpc: '2.0',
       method: 'createcontract',
-      params: [bytecode, gasLimit, gasPrice, senderaddress, broadcast, changeToSender]
+      params: [bytecode, gasLimit, gasPrice, senderaddress]
     }
   );

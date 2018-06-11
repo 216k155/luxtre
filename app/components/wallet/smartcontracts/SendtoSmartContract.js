@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import { observer } from 'mobx-react';
+import LocalizableError from '../../../i18n/LocalizableError';
 import { defineMessages, intlShape, FormattedHTMLMessage } from 'react-intl';
 import Button from 'react-polymorph/lib/components/Button';
 import SimpleButtonSkin from 'react-polymorph/lib/skins/simple/raw/ButtonSkin';
@@ -12,6 +13,9 @@ import SimpleInputSkin from 'react-polymorph/lib/skins/simple/raw/InputSkin';
 import styles from './SendtoSmartContract.scss';
 import Select from 'react-polymorph/lib/components/Select';
 import SelectSkin from 'react-polymorph/lib/skins/simple/SelectSkin';
+import SendToContractDialog from './SendToContractDialog';
+import SendToContractDialogContainer from '../../../containers/wallet/dialogs/SendToContractDialogContainer';
+import Web3EthAbi from 'web3-eth-abi';
 
 export const messages = defineMessages({
   title: {
@@ -61,6 +65,13 @@ export const messages = defineMessages({
   },
 });
 
+type Props = {
+  sendToContract: Function,
+  openDialogAction: Function,
+  isDialogOpen: Function,
+  error: ?LocalizableError
+};
+
 type State = {
   contractAddress: string,
   abi: string,
@@ -107,8 +118,8 @@ export default class SendtoSmartContract extends Component<State> {
           let arrABI = JSON.parse(value);
           arrABI.map((data, index) => {
             if(data.type == "function" && !data.constant) {
-              data.value = data.name;
-              data.label = data.name;
+              data.value = Web3EthAbi.encodeFunctionSignature(data);
+              data.label = data.name + '(' + Web3EthAbi.encodeFunctionSignature(data) + ')';
               arrFuncs.push(data);
             }
           })
@@ -126,6 +137,43 @@ export default class SendtoSmartContract extends Component<State> {
       this.setState( {arrInputs: element.inputs});
     }
   }
+
+  async _sendToContract() {
+    try {
+      let data = this.state.selFunc;
+      for(var i = 0; i < this.state.arrInputs.length(); i++)
+      {
+        var parameter = this.refs['function_parameter' + i];
+        if(parameter == null || parameter == '')
+          return;
+
+        var encoded = Web3EthAbi.encodeParameter(this.state.arrInputs[i].data.type, parameter);
+        data += encoded;
+      }
+      let contractaddress = this.state.contractAddress;
+      if(contractaddress !== '')
+      {
+        let senderaddress = this.state.senderAddress !== '' ? this.state.senderAddress : null;
+        let gasLimit = this.state.gasLimit !== '' ? this.state.gasLimit : 2500000;
+        let gasPrice = this.state.gasPrice !== '' ? this.state.gasPrice : 0.0000004;
+        let amount = this.state.amount !== '' ? this.state.amount : 0;
+        const outputs = await this.props.sendToContract(this.state.contractAddress, data, amount, gasLimit, gasPrice, senderaddress);
+        if (this._isMounted) {
+          this.setState({
+            outputs: outputs,
+            outputsError: null,
+          });
+        }
+      }
+    } catch (error) {
+      if (this._isMounted) {
+        this.setState({
+          outputsError: this.context.intl.formatMessage(error)
+        });
+      }
+    }
+  }
+
   render() {
     const {
       contractAddress, 
@@ -141,6 +189,13 @@ export default class SendtoSmartContract extends Component<State> {
     
     const { intl } = this.context;
     
+    const {
+      openDialogAction, 
+      isDialogOpen,
+      sendToContract,
+      error
+    } = this.props;
+
     const buttonClasses = classnames([
       'primary',
       //styles.button
@@ -190,7 +245,7 @@ export default class SendtoSmartContract extends Component<State> {
                       <span className={styles.solTypeColor}>{data.type}</span>
                       <span className={styles.solVariableLabel}>{data.name}</span>
                     </div>
-                    <input className={styles.tokenInputBox} type="text"/>
+                    <input ref={'function_parameter'+index} className={styles.tokenInputBox} type="text"/>
                   </div>
                 )
               })
@@ -223,6 +278,10 @@ export default class SendtoSmartContract extends Component<State> {
         <div className={styles.buttonContainer}>
           <Button
             className={buttonClasses}
+            onClick={() => {
+              this._sendToContract();
+              openDialogAction({dialog: SendToContractDialog});
+            }}
             label="Send To Contract"
             skin={<SimpleButtonSkin/>}
           />
@@ -232,6 +291,12 @@ export default class SendtoSmartContract extends Component<State> {
             skin={<SimpleButtonSkin/>}
           />
         </div>
+        {isDialogOpen(SendToContractDialog) ? (
+          <SendToContractDialogContainer 
+            outputs = {this.state.outputs}
+            error = {this.state.outputsError}
+          />
+        ) : null}
       </div>
     );
   }

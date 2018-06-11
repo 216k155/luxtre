@@ -8,13 +8,13 @@ import DialogCloseButton from '../../widgets/DialogCloseButton';
 import Dialog from '../../widgets/Dialog';
 import globalMessages from '../../../i18n/global-messages';
 import LocalizableError from '../../../i18n/LocalizableError';
-import styles from './ContractSummaryDialog.scss';
+import styles from './SendToContractDialog.scss';
 
 const messages = defineMessages({
-  ContractSummaryTitle: {
-    id: 'smartcontract.summary.dialog.title',
-    defaultMessage: '!!!Contract Summary',
-    description: 'Title for the "smart contract summary" dialog.',
+  SendToContractTitle: {
+    id: 'smartcontract.sendto.dialog.title',
+    defaultMessage: '!!!Send to Smart Contract',
+    description: 'Title for the "send to smart contract" dialog.',
   },
 });
 
@@ -25,7 +25,7 @@ type Props = {
 };
 
 @observer
-export default class ContractSummaryDialog extends Component<Props> {
+export default class SendToContractDialog extends Component<Props> {
 
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -53,7 +53,7 @@ export default class ContractSummaryDialog extends Component<Props> {
 
     return (
       <Dialog
-        title={intl.formatMessage(messages.ContractSummaryTitle)}
+        title={intl.formatMessage(messages.SendToContractTitle)}
         actions={actions}
         closeOnOverlayClick
         onClose={onCancel}
@@ -65,7 +65,6 @@ export default class ContractSummaryDialog extends Component<Props> {
           <div> txid: {outputs.txid}</div>
           <div> sender: {outputs.sender}</div>
           <div> hash160: {outputs.hash160}</div>
-          <div> address: {outputs.address}</div>
         </div>
       }
       </Dialog>

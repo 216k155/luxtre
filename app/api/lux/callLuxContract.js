@@ -6,12 +6,11 @@ import { LUX_API_HOST, LUX_API_PORT, LUX_API_USER, LUX_API_PWD } from './index';
 export type CallLuxContractParams = {
   address: string,
   data: string,
-  senderaddress: string,
-  gasLimit: string
+  senderaddress: string
 };
 
 export const callLuxContract = (
-  { address, data, senderaddress, gasLimit }: CallLuxContractParams
+  { address, data, senderaddress }: CallLuxContractParams
 ): Promise<void> =>
   request(
     {
@@ -23,6 +22,6 @@ export const callLuxContract = (
     {
       jsonrpc: '2.0',
       method: 'callcontract',
-      params: [address, data, senderaddress, gasLimit]
+      params: [address, data, senderaddress]
     }
   );

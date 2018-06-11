@@ -12,7 +12,7 @@ export default class LuxContractsStore extends Store {
   // REQUESTS
   @observable createLuxContractRequest: Request<CreateLuxContractResponse> = new Request(this.api.lux.createContract);
   @observable callLuxContractRequest: Request<CallLuxContractResponse> = new Request(this.api.lux.callContract);
-  @observable sendLuxContractRequest: Request<SendLuxContractResponse> = new Request(this.api.lux.sendContract);
+  @observable sendToLuxContractRequest: Request<SendToLuxContractResponse> = new Request(this.api.lux.sendToContract);
 
   setup() {
     super.setup();
@@ -22,7 +22,7 @@ export default class LuxContractsStore extends Store {
     //router.goToRoute.listen(this._onRouteChange);
   }
 
-  _callContract = async ( params: {address: string, data: string, senderaddress: string, gasLimit: string }) => {
+  _callContract = async ( params: {address: string, data: string, senderaddress: string }) => {
     const response: CallLuxContractResponse = await this.callLuxContractRequest.execute(params).promise;
     this.callLuxContractRequest.reset();
   };
@@ -34,8 +34,8 @@ export default class LuxContractsStore extends Store {
   }
 
   sendToContract = async (params: {contractaddress: string, datahex: string, amount: number, gasLimit: number, gasPrice: number, senderaddress: string, broadcast: boolean, changeToSender: boolean}) => {
-    const response: SendLuxContractResponse = await this.sendLuxContractRequest.execute(params).promise;
-    this.sendLuxContractRequest.reset();
+    const response: SendToLuxContractResponse = await this.sendToLuxContractRequest.execute(params).promise;
+    this.sendToLuxContractRequest.reset();
     return response;
   }
 

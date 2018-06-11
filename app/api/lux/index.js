@@ -1100,8 +1100,8 @@ export default class LuxApi {
   async createContract(request: CreateLuxContractRequest): Promise<CreateLuxContractResponse> {
     Logger.debug('LuxApi::createContract called');
     try {
-      const {bytecode, gasLimit, gasPrice, senderaddress, broadcast, changeToSender} = request;
-      const result = await createLuxContract({bytecode, gasLimit, gasPrice, senderaddress, broadcast, changeToSender});
+      const {bytecode, gasLimit, gasPrice, senderaddress} = request;
+      const result = await createLuxContract({bytecode, gasLimit, gasPrice, senderaddress});
       return new Promise((resolve) => resolve({
         txid: result.txid,
         sender: result.sender,
@@ -1117,8 +1117,8 @@ export default class LuxApi {
   async callContract(request: CallLuxContractRequest): Promise<CallLuxContractResponse> {
     Logger.debug('LuxApi::callContract called');
     try {
-      const {address, data, senderaddress, gasLimit} = request;
-      const response = await callLuxContract({address, data, senderaddress, gasLimit});
+      const {address, data, senderaddress } = request;
+      const response = await callLuxContract({address, data, senderaddress});
       return true;
     } catch (error) {
       Logger.error('LuxApi::callContract error: ' + stringifyError(error));
@@ -1129,8 +1129,8 @@ export default class LuxApi {
   async sendToContract(request: SendToLuxContractRequest): Promise<SendToLuxContractResponse> {
     Logger.debug('LuxApi::sendToContract called');
     try {
-      const {contractaddress, datahex, amount, gasLimit, gasPrice, senderaddress, broadcast, changeToSender} = request;
-      const result = await sendToLuxContract({contractaddress, datahex, amount, gasLimit, gasPrice, senderaddress, broadcast, changeToSender});
+      const {contractaddress, datahex, amount, gasLimit, gasPrice, senderaddress} = request;
+      const result = await sendToLuxContract({contractaddress, datahex, amount, gasLimit, gasPrice, senderaddress});
       return new Promise((resolve) => resolve({
         txid: result.txid,
         sender: result.sender,

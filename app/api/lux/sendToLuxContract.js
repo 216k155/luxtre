@@ -10,13 +10,11 @@ export type SendToLuxContractParams = {
   amount: number,
   gasLimit: number,
   gasPrice: number,
-  senderaddress: string,
-  broadcast: boolean,
-  changeToSender: boolean
+  senderaddress: string
 };
 
 export const sendToLuxContract = (
-  { contractaddress, datahex, amount, gasLimit, gasPrice, senderaddress, broadcast, changeToSender }: SendToLuxContractParams
+  { contractaddress, datahex, amount, gasLimit, gasPrice, senderaddress }: SendToLuxContractParams
 ): Promise<SendToLuxContractOutput> =>
   request(
     {
@@ -28,6 +26,6 @@ export const sendToLuxContract = (
     {
       jsonrpc: '2.0',
       method: 'sendtocontract',
-      params: [contractaddress, datahex, amount, gasLimit, gasPrice, senderaddress, broadcast, changeToSender]
+      params: [contractaddress, datahex, amount, gasLimit, gasPrice, senderaddress]
     }
   );

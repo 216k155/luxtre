@@ -16,7 +16,7 @@ export default class CreateSmartContractPage extends Component<Props> {
     const { uiDialogs } = this.props.stores;
     const { intl } = this.context;
     const actions = this.props.actions;
-    const { contracts, } = this.props.stores.lux;
+    const { contracts } = this.props.stores.lux;
     const { createContract, createLuxContractRequest } = contracts;
 
     return (

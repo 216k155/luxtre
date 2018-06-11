@@ -118,17 +118,20 @@ export default class CreateSmartContract extends Component<State> {
   async _createContract() {
     try {
       let bytecode = this.state.bytecode;
-      for(var i = 0; i < arrInputs.length(); i++)
+      for(var i = 0; i < this.state.arrInputs.length(); i++)
       {
         var parameter = this.refs['contructor_parameter' + i];
         if(parameter == null || parameter == '')
           return;
 
-        var encoded = Web3EthAbi.encodeParameter(arrInputs.data.type, parameter);
+        var encoded = Web3EthAbi.encodeParameter(this.state.arrInputs[i].data.type, parameter);
         bytecode += encoded;
       }
 
-      const outputs = await this.props.createContract(bytecode, gasLimit, gasPrice, senderaddress);
+      let senderaddress = this.state.senderAddress !== '' ? this.state.senderAddress : null;
+      let gasLimit = this.state.gasLimit !== '' ? this.state.gasLimit : 2500000;
+      let gasPrice = this.state.gasPrice !== '' ? this.state.gasPrice : 0.0000004;
+      const outputs = await this.props.createContract(bytecode, this.state.gasLimit, this.state.gasPrice, senderaddress);
       if (this._isMounted) {
         this.setState({
           outputs: outputs,

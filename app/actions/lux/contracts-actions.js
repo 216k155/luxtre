@@ -14,8 +14,7 @@ export default class ContractsActions {
   callContract: Action<{ 
     address: string,
     data: string,
-    senderaddress: string,
-    gasLimit: string
+    senderaddress: string
   }> = new Action();
   
   sendToContract: Action<{
