@@ -26,8 +26,8 @@ import           Turtle (ExitCode (..), echo, proc, procs)
 import           Turtle.Line (unsafeTextToLine)
 
 
-luxcoreShortcut :: [Attrib]
-luxcoreShortcut =
+luxtreShortcut :: [Attrib]
+luxtreShortcut =
         [ Target "$INSTDIR\\launcher.cmd"
         , IconFile "$INSTDIR\\Luxcore.exe"
         , StartOptions "SW_SHOWMINIMIZED"
@@ -40,7 +40,7 @@ writeUninstallerNSIS fullVersion = do
     tempDir <- fmap fromJust $ lookupEnv "TEMP"
     writeFile "uninstaller.nsi" $ nsis $ do
         _ <- constantStr "Version" (str fullVersion)
-        name "Luxcore Uninstaller $Version"
+        name "Luxtre Uninstaller $Version"
         outFile . str $ tempDir <> "\\tempinstaller.exe"
         unsafeInjectGlobal "!addplugindir \"nsis_plugins\\liteFirewall\\bin\""
         unsafeInjectGlobal "SetCompress off"
@@ -49,11 +49,11 @@ writeUninstallerNSIS fullVersion = do
 
         uninstall $ do
             -- Remove registry keys
-            deleteRegKey HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore"
-            deleteRegKey HKLM "Software/Luxcore"
+            deleteRegKey HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxtre"
+            deleteRegKey HKLM "Software/Luxtre"
             rmdir [Recursive,RebootOK] "$INSTDIR"
-            delete [] "$SMPROGRAMS/Luxcore/*.*"
-            delete [] "$DESKTOP\\Luxcore.lnk"
+            delete [] "$SMPROGRAMS/Luxtre/*.*"
+            delete [] "$DESKTOP\\Luxtre.lnk"
             mapM_ unsafeInject
                 [ "liteFirewall::RemoveRule \"$INSTDIR\\luxd.exe\" \"Luxcoin Daemon\""
                 , "Pop $0"
@@ -102,10 +102,10 @@ writeInstallerNSIS fullVersion = do
     let viProductVersion = L.intercalate "." $ parseVersion fullVersion
     echo $ unsafeTextToLine $ toText $ "VIProductVersion: " <> viProductVersion
 
-    writeFile "luxcore.nsi" $ nsis $ do
+    writeFile "luxtre.nsi" $ nsis $ do
         _ <- constantStr "Version" (str fullVersion)
-        name "Luxcore ($Version)"                  -- The name of the installer
-        outFile "luxcore-win64-$Version-installer.exe"           -- Where to produce the installer
+        name "Luxtre ($Version)"                  -- The name of the installer
+        outFile "luxtre-win64-$Version-installer.exe"           -- Where to produce the installer
         unsafeInjectGlobal $ "!define MUI_ICON \"icons\\64x64.ico\""
         unsafeInjectGlobal $ "!define MUI_HEADERIMAGE"
         unsafeInjectGlobal $ "!define MUI_HEADERIMAGE_BITMAP \"icons\\installBanner.bmp\""
@@ -116,22 +116,22 @@ writeInstallerNSIS fullVersion = do
         requestExecutionLevel Highest
         unsafeInjectGlobal "!addplugindir \"nsis_plugins\\liteFirewall\\bin\""
 
-        installDir "$PROGRAMFILES64\\Luxcore"                   -- Default installation directory...
-        installDirRegKey HKLM "Software/Luxcore" "Install_Dir"  -- ...except when already installed.
+        installDir "$PROGRAMFILES64\\Luxtre"                   -- Default installation directory...
+        installDirRegKey HKLM "Software/Luxtre" "Install_Dir"  -- ...except when already installed.
 
         page Directory                   -- Pick where to install
-        _ <- constant "INSTALLEDAT" $ readRegStr HKLM "Software/Luxcore" "Install_Dir"
+        _ <- constant "INSTALLEDAT" $ readRegStr HKLM "Software/Luxtre" "Install_Dir"
         onPagePre Directory (iff_ (strLength "$INSTALLEDAT" %/= 0) $ abort "")
 
         page InstFiles                   -- Give a progress bar while installing
 
         _ <- section "" [Required] $ do
                 setOutPath "$INSTDIR"        -- Where to install files in this section
-                writeRegStr HKLM "Software/Luxcore" "Install_Dir" "$INSTDIR" -- Used by launcher batch script
-                createDirectory "$APPDATA\\Luxcore\\Secrets-1.0"
-                createDirectory "$APPDATA\\Luxcore\\Logs"
-                createDirectory "$APPDATA\\Luxcore\\Logs\\pub"
-                createShortcut "$DESKTOP\\Luxcore.lnk" luxcoreShortcut
+                writeRegStr HKLM "Software/Luxtre" "Install_Dir" "$INSTDIR" -- Used by launcher batch script
+                createDirectory "$APPDATA\\Luxtre\\Secrets-1.0"
+                createDirectory "$APPDATA\\Luxtre\\Logs"
+                createDirectory "$APPDATA\\Luxtre\\Logs\\pub"
+                createShortcut "$DESKTOP\\Luxtre.lnk" luxtreShortcut
                 file [] "luxd.exe"
                 file [] "launcher.cmd"
                 file [] "version.txt"
@@ -144,27 +144,27 @@ writeInstallerNSIS fullVersion = do
                     , "DetailPrint \"liteFirewall::AddRule: $0\""
                     ]
 
-                execWait "build-certificates-win64.bat \"$INSTDIR\" >\"%APPDATA%\\Luxcore\\Logs\\build-certificates.log\" 2>&1"
+                execWait "build-certificates-win64.bat \"$INSTDIR\" >\"%APPDATA%\\Luxtre\\Logs\\build-certificates.log\" 2>&1"
 
                 -- Uninstaller
-                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "InstallLocation" "$INSTDIR\\Luxcore"
-                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "Publisher" "216K"
-                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "ProductVersion" (str fullVersion)
-                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "VersionMajor" (str . (!! 0). parseVersion $ fullVersion)
-                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "VersionMinor" (str . (!! 1). parseVersion $ fullVersion)
-                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "DisplayName" "Luxcore"
-                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "DisplayVersion" (str fullVersion)
-                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "UninstallString" "\"$INSTDIR/uninstall.exe\""
-                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "QuietUninstallString" "\"$INSTDIR/uninstall.exe\" /S"
-                writeRegDWORD HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "NoModify" 1
-                writeRegDWORD HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxcore" "NoRepair" 1
+                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxtre" "InstallLocation" "$INSTDIR\\Luxtre"
+                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxtre" "Publisher" "216K"
+                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxtre" "ProductVersion" (str fullVersion)
+                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxtre" "VersionMajor" (str . (!! 0). parseVersion $ fullVersion)
+                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxtre" "VersionMinor" (str . (!! 1). parseVersion $ fullVersion)
+                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxtre" "DisplayName" "Luxtre"
+                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxtre" "DisplayVersion" (str fullVersion)
+                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxtre" "UninstallString" "\"$INSTDIR/uninstall.exe\""
+                writeRegStr HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxtre" "QuietUninstallString" "\"$INSTDIR/uninstall.exe\" /S"
+                writeRegDWORD HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxtre" "NoModify" 1
+                writeRegDWORD HKLM "Software/Microsoft/Windows/CurrentVersion/Uninstall/Luxtre" "NoRepair" 1
                 file [] $ (str $ tempDir <> "\\uninstall.exe")
 
         _ <- section "Start Menu Shortcuts" [] $ do
-                createDirectory "$SMPROGRAMS/Luxcore"
-                createShortcut "$SMPROGRAMS/Luxcore/Uninstall Luxcore.lnk"
+                createDirectory "$SMPROGRAMS/Luxtre"
+                createShortcut "$SMPROGRAMS/Luxtre/Uninstall Luxtre.lnk"
                     [Target "$INSTDIR/uninstall.exe", IconFile "$INSTDIR/uninstall.exe", IconIndex 0]
-                createShortcut "$SMPROGRAMS/Luxcore/Luxcore.lnk" luxcoreShortcut
+                createShortcut "$SMPROGRAMS/Luxtre/Luxtre.lnk" luxtreShortcut
         return ()
 
 main :: IO ()
@@ -174,7 +174,7 @@ main = do
     let fullVersion = version <> ".0"
     writeFile "version.txt" fullVersion
 
-    echo "sign Files launcher.cmd and luxd.exe"
+    echo "sign Files launcher.cmd, luxd.exe"
     signFile "launcher.cmd"
     signFile "luxd.exe"
 
@@ -182,9 +182,9 @@ main = do
     writeUninstallerNSIS fullVersion
     signUninstaller
 
-    echo "Writing luxcore.nsi"
+    echo "Writing luxtre.nsi"
     writeInstallerNSIS fullVersion
 
-    echo "Generating NSIS installer luxcore-win64-installer.exe"
-    procs "C:\\Program Files (x86)\\NSIS\\makensis" ["luxcore.nsi"] mempty
-    signFile ("luxcore-win64-" <> fullVersion <> "-installer.exe")
+    echo "Generating NSIS installer luxtre-win64-installer.exe"
+    procs "C:\\Program Files (x86)\\NSIS\\makensis" ["luxtre.nsi"] mempty
+    signFile ("luxtre-win64-" <> fullVersion <> "-installer.exe")

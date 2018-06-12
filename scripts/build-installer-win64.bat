@@ -2,26 +2,25 @@ rem DEPENDENCIES:
 rem   1. Node.js ('npm' binary in PATH)
 rem
 rem   installer dev mode:  set SKIP_TO_FRONTEND/SKIP_TO_INSTALLER
-
 set MIN_LUXCOIN_BYTES=50000000
 set LIBRESSL_VERSION=2.5.3
 set CURL_VERSION=7.54.0
 set LUXCOIN_BRANCH_DEFAULT=1.0.0
-set LUXCORE_VERSION_DEFAULT=local-dev-build-%LUXCOIN_BRANCH_DEFAULT%
+set LUXTRE_VERSION_DEFAULT=local-dev-build-%LUXCOIN_BRANCH_DEFAULT%
 
-set LUXCORE_VERSION=%1
-@if [%LUXCORE_VERSION%]==[] (@echo WARNING: LUXCORE_VERSION [argument #1] was not provided, defaulting to %LUXCORE_VERSION_DEFAULT%
-    set LUXCORE_VERSION=%LUXCORE_VERSION_DEFAULT%);
+set LUXTRE_VERSION=%1
+@if [%LUXTRE_VERSION%]==[] (@echo WARNING: LUXTRE_VERSION [argument #1] was not provided, defaulting to %LUXTRE_VERSION_DEFAULT%
+    set LUXTRE_VERSION=%LUXTRE_VERSION_DEFAULT%);
 set LUXCOIN_BRANCH=%2
 @if [%LUXCOIN_BRANCH%]==[]   (@echo WARNING: LUXCOIN_BRANCH [argument #2] was not provided, defaulting to %LUXCOIN_BRANCH_DEFAULT%
     set LUXCOIN_BRANCH=%LUXCOIN_BRANCH_DEFAULT%);
 
 set CURL_URL=https://bintray.com/artifact/download/vszakats/generic/curl-%CURL_VERSION%-win64-mingw.7z
 set CURL_BIN=curl-%CURL_VERSION%-win64-mingw\bin
-set LUXD_URL=https://github.com/216k155/luxcore/releases/download/v%LUXCOIN_BRANCH%/luxd-wins.zip
+set LUXD_URL=https://github.com/216k155/luxtre/releases/download/v%LUXCOIN_BRANCH%/luxd-wins.zip
 set LIBRESSL_URL=https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-%LIBRESSL_VERSION%-windows.zip
 
-@echo Building Luxcore version:  %LUXCORE_VERSION%
+@echo Building luxtre version:  %LUXTRE_VERSION%
 @echo ..with Luxcoin branch:      %LUXCOIN_BRANCH%
 @echo ..with LibreSSL version:    %LIBRESSL_VERSION%
 @echo .
@@ -104,4 +103,4 @@ pushd installers
 @echo SUCCESS: call stack --no-terminal build -j 2 --exec make-installer
 popd
 
-@dir /b/s installers\luxcore*
+@dir /b/s installers\luxtre*
