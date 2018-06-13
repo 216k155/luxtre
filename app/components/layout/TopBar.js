@@ -15,7 +15,7 @@ import { ROUTES } from '../../routes-config';
 const { formattedWalletAmount } = resolver('utils/formatters');
 
 type Props = {
-  onToggleSidebar?: ?Function,
+  onSwitchLuxgate?: ?Function,
   children?: ?Node,
   activeWallet?: ?Wallet,
   currentRoute: string,
@@ -26,7 +26,7 @@ type Props = {
 export default class TopBar extends Component<Props> {
 
   render() {
-    const { onToggleSidebar, activeWallet, currentRoute, showSubMenus } = this.props;
+    const { onSwitchLuxgate, activeWallet, currentRoute, showSubMenus } = this.props;
     const walletRoutesMatch = matchRoute(`${ROUTES.WALLETS.ROOT}/:id(*page)`, currentRoute);
     const showWalletInfo = walletRoutesMatch && activeWallet != null;
     const topBarStyles = classNames([
@@ -35,7 +35,7 @@ export default class TopBar extends Component<Props> {
     ]);
 
 
-    const sidebarToggleIcon = (
+    const switchToggleIcon = (
       <SvgInline
         svg={showSubMenus ? menuIconOpened : menuIconClosed}
         className={styles.sidebarIcon}
@@ -44,9 +44,9 @@ export default class TopBar extends Component<Props> {
 
     return (
       <header className={topBarStyles}>
-        <button className={styles.leftIcon} onClick={onToggleSidebar}>
-          {sidebarToggleIcon}
-        </button>
+        {/*<button className={styles.leftIcon} onClick={onSwitchLuxgate}>
+          {switchToggleIcon}
+        </button>*/}
         {this.props.children}
       </header>
     );

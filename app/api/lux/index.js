@@ -11,6 +11,7 @@ import { getLuxPeerInfo } from './getLuxPeerInfo';
 import { LOVELACES_PER_LUX } from '../../config/numbersConfig';
 import Wallet from '../../domain/Wallet';
 import Masternode from '../../domain/Masternode';
+import getLuxPath from './lib/getLuxPath';
 
 import { getLuxAccounts } from './getLuxAccounts';
 import { getLuxAccountBalance } from './getLuxAccountBalance';
@@ -52,6 +53,8 @@ import {getLuxMasternodeOutputs} from './getLuxMasternodeOutputs';
 import {isLuxWalletEncrypted} from './isLuxWalletEncrypted';
 import {isLuxWalletLocked} from './isLuxWalletLocked';
 import {getLuxStakingStatus} from './getLuxStakingStatus';
+
+const fs = require('fs');
 
 //masternode
 import {encryptLuxWallet} from './encryptLuxWallet';
@@ -161,7 +164,7 @@ const ca = remote.getGlobal('ca');
 export const LUX_API_HOST = 'localhost';
 export const LUX_API_PORT = 9888;
 export const LUX_API_USER = 'rpcuser';
-export const LUX_API_PWD = 'rpcpwd';
+export let LUX_API_PWD = 'rpcpwd';
 
 // LUX specific Request / Response params
 
@@ -261,8 +264,32 @@ export default class LuxApi {
 
   constructor() {
     if (environment.isTest()) {
-      patchLuxApi(this);
+    //  patchLuxApi(this);
     }
+    
+	  let luxpath = getLuxPath(environment.PLATFORM, environment.ENV);
+    luxpath = luxpath + '/lux.conf';
+    
+    let contents = fs.readFileSync(luxpath, 'utf8');
+    const settings = contents.split("\n");
+    settings.forEach((setting) => {
+      if(setting.indexOf("rpcpassword") != -1)
+      {
+        setting = setting.split(' ').join('');
+        setting = setting.replace(/(\r?\n|\r)/gm, '');
+        LUX_API_PWD = setting.substring(12);
+        return;
+      }
+    });
+
+    /*const rpc = require(rpcjson);
+    fetch('/home/.lux/rpc.json')
+	  .then((res) => res.json())
+	  .then((data) => {
+	    console.log('data:', data);
+	  })
+    if(rpc.pid) LUX_API_PWD = rpc.id;
+  	console.log(LUX_API_PWD);*/
   }
 
   async getSyncProgress(): Promise<GetSyncProgressResponse> {

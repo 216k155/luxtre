@@ -1,0 +1,90 @@
+.component {
+  height: 90%;
+  align-items: center;
+  justify-content: center;
+  color: var(--theme-main-body-messages-color);
+
+  :global .SimpleFormField_root > .SimpleFormField_inputWrapper > .SimpleTextArea_textarea{
+    max-height: 70px;
+  }
+}
+
+.categoryTitle {
+  font-size: 26px;
+  letter-spacing: 0.5px;
+  color: var(--theme-bordered-box-text-color);
+  margin-bottom: 30px;
+}
+
+.subTitle {
+  font-family: var(--font-semibold);
+  font-size: 16px;
+  line-height: 1.38;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+}
+
+.borderedBox {
+  background: var(--theme-bordered-box-background-color);
+  border: var(--theme-bordered-box-border);
+  border-radius: 4px;
+  padding: 20px 30px;
+  margin-bottom: 10px;
+}
+
+.areaConstructor {
+  height: 100px;
+  background-color: #efefef;
+}
+
+.optionalContainer {
+  font-size: 12px;
+  input {
+    width: 200px;
+	  height: 30px;
+	  font-size: 14px;
+	  outline: 0;
+    padding-left: 10px;
+    padding-right: 2px;
+	}
+
+	input[type=number]:hover::-webkit-inner-spin-button {  
+	  height: 30px;
+	}
+}
+
+.optionalLabel {
+  width: 100px;
+  display: inline-block;
+}
+
+.gasLimit,
+.gasPrice {
+  width: 50%;
+  display: inline-block;
+}
+
+.gasPrice {
+//  text-align: right;
+}
+
+.addressInput {
+  width: calc(100% - 100px);
+}
+
+.buttonContainer {
+  margin-top: 30px;
+  padding: 0 30px;
+  text-align: center;
+  :global .SimpleButton_root {
+    width: 32%;
+    height: 34px;
+    padding: 2px;
+    margin: 0 10px;
+  }
+}
+
+.button {
+  margin: 0 10px;
+  width: 35%;
+}

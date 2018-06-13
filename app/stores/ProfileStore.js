@@ -85,7 +85,7 @@ export default class SettingsStore extends Store {
   }
 
   @computed get currentTheme(): string {
-    return THEMES.DARK_BLUE;
+    return THEMES.LUXCOIN;
 //    const { result } = this.getThemeRequest.execute();
 //    if (this.isCurrentThemeSet) return result;
 //    return environment.isMainnet() ? THEMES.DARK_BLUE : THEMES.LIGHT_BLUE; // default
@@ -198,8 +198,8 @@ export default class SettingsStore extends Store {
   };
 
   _redirectToTermsOfUseForLuxgateScreenIfTermsNotAccepted = () => {
-    const { isShowingSubMenus } = this.stores.sidebar;
-    if (!isShowingSubMenus &&
+    const { isShowingLuxtre } = this.stores.sidebar;
+    if (!isShowingLuxtre &&
       this.hasLoadedTermsOfUseForLuxgateAcceptance && !this.areTermsOfUseForLuxgateAccepted) {
       this.actions.router.goToRoute.trigger({ route: ROUTES.PROFILE.TERMS_OF_USE_FOR_LUXGATE });
     }

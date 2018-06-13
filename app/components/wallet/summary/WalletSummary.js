@@ -54,7 +54,7 @@ export default class WalletSummary extends Component<Props> {
     const { intl } = this.context;
     return (
       <div className={styles.component}>
-	<div className={styles.categoryTitle}>
+	      <div className={styles.categoryTitle}>
           Summary
         </div>
         <BorderedBox>

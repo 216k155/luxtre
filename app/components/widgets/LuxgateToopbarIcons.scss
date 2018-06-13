@@ -1,0 +1,50 @@
+.component {
+  overflow: visible;
+  position: absolute;
+  right: 28px;
+  &:hover {
+    .info {
+      opacity: 1;
+    }
+  }
+}
+
+.icon {
+  height: 22px;
+  width: 21px;
+}
+
+.info {
+  opacity: 0;
+  transition: opacity, 200ms;
+  white-space: nowrap;
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  text-align: right;
+  font-family: var(--font-light);
+  font-size: 14px;
+  background-color: var(--theme-node-sync-info-message-background-color);
+  padding: 10px;
+  border-radius: 4px;
+  color: var(--theme-node-sync-info-message-text-color);
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.25);
+}
+
+.loginIcon {
+  align-items: center;
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: center;
+  margin: 5px;
+  .sidebarIcon {
+    & > svg {
+      height: 30px;
+    }
+
+    path:nth-child(2) {
+      fill: var(--theme-icon-toggle-menu-color);
+    }
+  }
+}
+

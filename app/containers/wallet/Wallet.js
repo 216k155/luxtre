@@ -3,12 +3,13 @@ import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react';
 import MainLayout from '../MainLayout';
 import WalletWithNavigation from '../../components/wallet/layouts/WalletWithNavigation';
+import ExchangePage from '../../components/exchange/ExchangePage';
 import LoadingSpinner from '../../components/widgets/LoadingSpinner';
 import LuxRedemptionSuccessOverlay from '../../components/wallet/lux-redemption/LuxRedemptionSuccessOverlay';
 import { buildRoute } from '../../utils/routing';
 import { ROUTES } from '../../routes-config';
 import type { InjectedContainerProps } from '../../types/injectedPropsType';
-import { DECIMAL_PLACES_IN_LUX } from '../../config/numbersConfig';
+import { DECIMAL_SPLACES_IN_LUX } from '../../config/numbersConfig';
 
 type Props = InjectedContainerProps;
 
@@ -22,7 +23,7 @@ export default class Wallet extends Component<Props> {
     const { wallets } = this.props.stores.lux;
     if (!wallets.active) return false;
     const screenRoute = buildRoute(ROUTES.WALLETS.PAGE, { id: wallets.active.id, page });
-    return app.currentRoute === screenRoute;
+    return app.currentRoute.indexOf(screenRoute) > -1 ? true : false;
   };
 
   handleWalletNavItemClick = (page: string) => {
@@ -37,25 +38,55 @@ export default class Wallet extends Component<Props> {
   render() {
     const { sidebar } = this.props.stores;
     const { wallets, luxRedemption } = this.props.stores.lux;
+    const luxgate = this.props.stores.luxgate;
+    const { coinInfo, marketInfo, loggerInfo } = luxgate;
+    const { coinInfoList } = coinInfo;
+    const { coinPrice, ordersData } = marketInfo;
+    const { logbuff } = loggerInfo;
+    const { uiDialogs, uiNotifications } = this.props.stores;
     const { actions } = this.props;
     const { showLuxRedemptionSuccessMessage, amountRedeemed } = luxRedemption;
-    const {isShowingSubMenus} = sidebar;
+    const {isShowingLuxtre} = sidebar;
     if (!wallets.active) return <MainLayout><LoadingSpinner /></MainLayout>;
 
     return (
       <MainLayout>
-        {isShowingSubMenus ?
+        {isShowingLuxtre ?
           <WalletWithNavigation
             isActiveScreen={this.isActiveScreen}
             onWalletNavItemClick={this.handleWalletNavItemClick}
-            amount={wallets.active.amount.toFormat(DECIMAL_PLACES_IN_LUX)}
+            amount={wallets.active.amount.toFormat(DECIMAL_SPLACES_IN_LUX)}
           >
             {this.props.children}
           </WalletWithNavigation>
           :
-          <div>
+          <ExchangePage 
+            coinPrice={coinPrice}
+            ordersData={ordersData}
+            coinInfoList={coinInfoList}
+            logbuff={logbuff}
+            openDialogAction={actions.dialogs.open.trigger}  
+            isDialogOpen={uiDialogs.isOpen}
+            onChangeCoin={(coin: string, coin_num: number) => {
+              const coinData = {
+                coin: coin,
+                coin_num: coin_num,
+              };
+              actions.luxgate.coinInfo.getCoinInfo.trigger(coinData);
+            }}
+            onSwapCoin={(buy_coin: string, sell_coin: string, amount: number, value: number) => {
+              const swapData = {
+                buy_coin: buy_coin,
+                sell_coin: sell_coin,
+                amount: amount,
+                value: value,
+              };
+              actions.luxgate.coinInfo.swapCoin.trigger(swapData);
+            }}
+            >
+
             {/*code Exchange UI here */}
-          </div>  
+          </ExchangePage>  
         }
       </MainLayout>
     );

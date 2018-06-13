@@ -40,11 +40,11 @@ export default class MainLayout extends Component<Props> {
     const sidebarComponent = (
       <Sidebar
         menus={sidebarMenus}
-        isShowingSubMenus={sidebar.isShowingSubMenus}
+        isShowingLuxtre={sidebar.isShowingLuxtre}
         categories={sidebar.CATEGORIES}
         activeSidebarCategory={sidebar.activeSidebarCategory}
         onCategoryClicked={category => {
-          actions.sidebar.activateSidebarCategory.trigger({ category });
+          actions.sidebar.activateCategory.trigger({ category });
         }}
         isSynced
         openDialogAction={actions.dialogs.open.trigger}

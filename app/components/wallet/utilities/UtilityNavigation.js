@@ -32,7 +32,6 @@ export default class UtilityNavigation extends Component<Props> {
       <div className={styles.component}>
         <div className={styles.navItem}>
           <WalletNavButton
-            className="summary"
             label={intl.formatMessage(messages.utilityposcalc)}
             isActive={isActiveNavItem('poscalculator')}
             onClick={() => onNavItemClick('poscalculator')}

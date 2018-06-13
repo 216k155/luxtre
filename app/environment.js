@@ -4,6 +4,8 @@ const environment = Object.assign({
   TEST: 'test',
   PRODUCTION: 'production',
   NETWORK: process.env.NETWORK,
+  PLATFORM: process.platform,
+  ENV: process.env,
   API: process.env.API || 'lux',
   MOBX_DEV_TOOLS: process.env.MOBX_DEV_TOOLS,
   current: process.env.NODE_ENV,

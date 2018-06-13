@@ -1,0 +1,103 @@
+@import '../../themes/mixins/loading-spinner';
+@import '../../themes/mixins/error-message';
+
+.dialog {
+  font-family: var(--font-light);
+  text-align: center;
+  width: 560px;
+  :global .Dialog_actions{
+    padding-left: 20px;
+    padding-right: 20px;
+    .SimpleButton_root {
+      background: var(--theme-button-primary-background-color);
+    }
+  }
+}
+
+.copyIconBig,
+.copyIcon {
+  margin-left: 5px;
+  cursor: pointer;
+  object-fit: contain;
+}
+
+.copyIconBigger {
+  margin-left: 6px;
+  cursor: pointer;
+  & > svg {
+    height: 27px;
+    width: 22px;
+    path {
+      fill: var(--theme-icon-copy-address-color);
+    }
+  }
+}
+
+.copyIconBig {
+  margin-left: 6px;
+  & > svg {
+    height: 14.5px;
+    width: 11.5px;
+    path {
+      fill: var(--theme-icon-copy-address-color);
+    }
+  }
+}
+
+.copyIcon {
+  margin-left: 4px;
+  & > svg {
+    height: 12px;
+    width: 10px;
+    path {
+      fill: var(--theme-icon-copy-address-color);
+    }
+  }
+}
+
+
+.icon {
+  margin-bottom: 20px;
+  width: 62px;
+  height: 64px;
+}
+
+.title {
+  font-family: var(--font-semibold);
+  font-size: 20px;
+}
+
+.password {
+  margin-top: 50px;
+  margin-bottom: 20px;
+}
+
+.zeroMargin {
+  margin: 0px;
+}
+
+.instruction {
+  margin-top: 40px;
+}
+
+.phrase {
+  margin:20px 20px;
+  padding: 14px;
+  border-radius: 2px;
+  text-align: center;
+  background-color: var(--theme-backup-mnemonic-background-color);
+  font-family: var(--font-medium);
+  font-size: 16px;
+  line-height: 1.38;
+  color: var(--theme-instructions-text-color);
+  min-height: 50px;
+//  -webkit-user-select: none;
+}
+
+.login {
+  float: right;
+  :global .SimpleButton_root {
+    background: #f5954a;
+  }
+}
+

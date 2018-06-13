@@ -1,0 +1,111 @@
+@import '../../themes/mixins/loading-spinner';
+@import '../../themes/mixins/error-message';
+
+.component {
+  :global .SimpleModal_modal {
+    background-color: #ddd !important;
+  }
+}
+
+.dialog {
+  font-family: var(--font-light);
+  text-align: center;
+  width: 560px;
+
+  :global .Dialog_actions{
+    padding-left: 20px;
+    padding-right: 20px;
+    .SimpleButton_root {
+      background: var(--theme-button-primary-background-color);
+    }
+  }
+}
+
+.coinTable { 
+  font-family: var(--font-semibold);
+  color: var(--theme-luxgate-tablecell-fontcolor);;
+  border-collapse: separate;
+  border-spacing: 3px;
+  width: 100%;
+}
+
+
+.coinNameHeadCell {
+  background-color: var(--theme-luxgate-tablecell-color);
+  width: 200px;
+  height: 50px;
+  vertical-align: middle;
+}
+
+.coinNameCell {
+  background-color: var(--theme-luxgate-tablecell-color);
+  width: 200px;
+  height: 50px;
+  vertical-align: middle;
+  text-align: left;
+  padding-left: 30px;
+}
+
+.coinStateCell {
+  background-color: var(--theme-luxgate-tablecell-color);//#001c62;
+  width: 80px;
+  vertical-align: middle;
+}
+
+.coinTypeCell {
+  background-color: var(--theme-luxgate-tablecell-color);
+  vertical-align: middle;
+}
+
+.coinImageStyle {
+  width : 30px;
+  height: 30px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.zeroMargin {
+  margin: 0px;
+}
+
+.icon {
+  width : 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.checkboxTab{
+  width: 80%;
+  :global .SimpleToggler_toggler {
+    background-color: transparent;
+    height: 32px;
+    .SimpleToggler_label {
+      padding: 4px 8px;
+      width: 80px;
+    }
+    .SimpleToggler_checked {
+      border: solid 1px var(--theme-luxgate-checkbox-checked-color);
+      color: var(--theme-luxgate-checkbox-checked-color) !important;
+      margin: 0px 3px;
+      position:relative;
+    }
+    
+    .SimpleToggler_label:not(.SimpleToggler_checked) {
+      background-color: var(--theme-luxgate-checkbox-checked-color) !important;
+      color:#fff !important;
+      margin: 0px 3px;
+    }
+  }
+  
+  :global .SimpleToggler_toggler > .SimpleToggler_checked:after {
+    color: #fafbfc !important;
+    content: "...";
+    background: url('../../assets/images/icons/checkbox-icon.png') no-repeat;
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    background-position: bottom right;
+  }
+}
+
+

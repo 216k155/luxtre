@@ -15,8 +15,6 @@ export default class UtilityPosCalcPage extends Component<Props> {
   render() {
     const { intl } = this.context;
     const actions = this.props.actions;
-    const { masternodes} = this.props.stores.lux;
-    const { totalActivated, masternodeslist } = masternodes;
 
     const coinCount = 100;
     const txAge = 20;
