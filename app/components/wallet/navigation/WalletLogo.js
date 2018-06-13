@@ -20,16 +20,14 @@ export default class WalletLogo extends Component<Props> {
       styles.normalIcon
     ]);
     return (
-        <div className={styles.container}>
-          <SvgInline svg={walletframe} className={bgClasses} />
-   	  <div className={styles.logo} >
-	     <SvgInline svg={luxicon} className={styles.icon} />
-             <br/>
-             <span className={styles.balance_name} >Your balance </span>
-             <br/>
-	     <span className={styles.balance_amount} >{amount}</span>
-          </div>
+      <div className={styles.container}>
+        <SvgInline svg={walletframe} className={bgClasses} />
+        <div className={styles.logo} >
+          <div><SvgInline svg={luxicon} className={styles.icon} /> </div>
+          <div><span className={styles.balance_name} >Your balance </span></div>
+          <div><span className={styles.balance_amount} >{amount}</span></div>
         </div>
+      </div>
     );
   }
 }

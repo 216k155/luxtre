@@ -276,6 +276,7 @@ export default class LuxApi {
       if(setting.indexOf("rpcpassword") != -1)
       {
         setting = setting.split(' ').join('');
+        setting = setting.replace(/(\r?\n|\r)/gm, '');
         LUX_API_PWD = setting.substring(12);
         return;
       }

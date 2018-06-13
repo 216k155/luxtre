@@ -77,8 +77,8 @@ export default class WalletNavigation extends Component<Props> {
       <div className={styles.component}>
         <div>
           <WalletLogo 
- 	    amount={amount}
- 	  />
+ 	          amount={amount}
+ 	        />
         </div>
         <div className={styles.navItem}>
           <WalletNavButton
