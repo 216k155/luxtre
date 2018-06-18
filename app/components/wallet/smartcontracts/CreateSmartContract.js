@@ -85,6 +85,16 @@ export default class CreateSmartContract extends Component<State> {
     senderAddress: ''
   };
 
+  _isMounted = false;
+  
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   static contextTypes = {
     intl: intlShape.isRequired,
   };
@@ -118,20 +128,20 @@ export default class CreateSmartContract extends Component<State> {
   async _createContract() {
     try {
       let bytecode = this.state.bytecode;
-      for(var i = 0; i < this.state.arrInputs.length(); i++)
+      for(var i = 0; i < this.state.arrInputs.length; i++)
       {
-        var parameter = this.refs['contructor_parameter' + i];
+        var parameter = this.refs['constructor_parameter' + i].value;
         if(parameter == null || parameter == '')
           return;
 
-        var encoded = Web3EthAbi.encodeParameter(this.state.arrInputs[i].data.type, parameter);
+        var encoded = Web3EthAbi.encodeParameter(this.state.arrInputs[i].type, parameter);
         bytecode += encoded;
       }
 
       let senderaddress = this.state.senderAddress !== '' ? this.state.senderAddress : null;
       let gasLimit = this.state.gasLimit !== '' ? this.state.gasLimit : 2500000;
       let gasPrice = this.state.gasPrice !== '' ? this.state.gasPrice : 0.0000004;
-      const outputs = await this.props.createContract(bytecode, this.state.gasLimit, this.state.gasPrice, senderaddress);
+      const outputs = await this.props.createContract(bytecode, gasLimit, gasPrice, senderaddress);
       if (this._isMounted) {
         this.setState({
           outputs: outputs,
@@ -230,6 +240,8 @@ export default class CreateSmartContract extends Component<State> {
           </div>
         </div>
 
+        {error ? <p className={styles.error}>{intl.formatMessage(error)}</p> : null}
+        
         <div className={styles.buttonContainer}>
           <Button
             className={buttonClasses}

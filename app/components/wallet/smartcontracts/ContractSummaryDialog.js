@@ -19,7 +19,7 @@ const messages = defineMessages({
 });
 
 type Props = {
-  outputs: string,
+  outputs: object,
   error: ?LocalizableError,
   onCancel: Function
 };
@@ -62,10 +62,15 @@ export default class ContractSummaryDialog extends Component<Props> {
       >
       {error ? <p className={styles.error}>{intl.formatMessage(error)}</p> : 
         <div className={styles.info}>
-          <div> txid: {outputs.txid}</div>
-          <div> sender: {outputs.sender}</div>
-          <div> hash160: {outputs.hash160}</div>
-          <div> address: {outputs.address}</div>
+          <br/>
+          <div> <strong>txid:</strong> {outputs.txid}</div>
+          <br/>
+          <div> <strong>sender:</strong> {outputs.sender}</div>
+          <br/>
+          <div> <strong>hash160:</strong> {outputs.hash160}</div>
+          <br/>
+          <div> <strong>address:</strong> {outputs.address}</div>
+          <br/>
         </div>
       }
       </Dialog>

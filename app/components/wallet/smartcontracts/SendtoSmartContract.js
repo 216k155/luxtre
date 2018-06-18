@@ -98,6 +98,16 @@ export default class SendtoSmartContract extends Component<State> {
     senderAddress: ''
   };
 
+  _isMounted = false;
+  
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+  
   static contextTypes = {
     intl: intlShape.isRequired,
   };
@@ -141,13 +151,13 @@ export default class SendtoSmartContract extends Component<State> {
   async _sendToContract() {
     try {
       let data = this.state.selFunc;
-      for(var i = 0; i < this.state.arrInputs.length(); i++)
+      for(var i = 0; i < this.state.arrInputs.length; i++)
       {
         var parameter = this.refs['function_parameter' + i];
         if(parameter == null || parameter == '')
           return;
 
-        var encoded = Web3EthAbi.encodeParameter(this.state.arrInputs[i].data.type, parameter);
+        var encoded = Web3EthAbi.encodeParameter(this.state.arrInputs[i].type, parameter);
         data += encoded;
       }
       let contractaddress = this.state.contractAddress;
@@ -275,6 +285,8 @@ export default class SendtoSmartContract extends Component<State> {
           </div>
         </div>
 
+        {error ? <p className={styles.error}>{intl.formatMessage(error)}</p> : null}
+        
         <div className={styles.buttonContainer}>
           <Button
             className={buttonClasses}

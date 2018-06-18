@@ -121,13 +121,13 @@ export default class CallSmartContract extends Component<State> {
   _callContract() {
 
     let data = this.state.selFunc;
-    for(var i = 0; i < this.state.arrInputs.length(); i++)
+    for(var i = 0; i < this.state.arrInputs.length; i++)
     {
       var parameter = this.refs['function_parameter' + i];
       if(parameter == null || parameter == '')
         return;
 
-      var encoded = Web3EthAbi.encodeParameter(this.state.arrInputs[i].data.type, parameter);
+      var encoded = Web3EthAbi.encodeParameter(this.state.arrInputs[i].type, parameter);
       data += encoded;
     }
     let contractaddress = this.state.contractAddress;
@@ -223,6 +223,8 @@ export default class CallSmartContract extends Component<State> {
           </div>
         </div>
 
+        {error ? <p className={styles.error}>{intl.formatMessage(error)}</p> : null}
+        
         <div className={styles.buttonContainer}>
           <Button
             className={buttonClasses}
