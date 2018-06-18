@@ -135,16 +135,3 @@ export type LuxPeerInfo = {
 
 export type LuxPeerInfos = Array<LuxPeerInfo>;
 
-export type LuxContractInfo = {
-  txid: string,
-  sender: string,
-  hash160: string,
-  address: string
-};
-
-export type SendToLuxContractOutput = {
-  txid: string,
-  sender: string,
-  hash160: string
-};
-

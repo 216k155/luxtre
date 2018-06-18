@@ -7,7 +7,6 @@ import NodeUpdateStore from './NodeUpdateStore';
 import LuxWalletSettingsStore from './LuxWalletSettingsStore';
 import AddressesStore from './AddressesStore';
 import MasternodesStore from './LuxMasternodesStore';
-import ContractsStore from './LuxContractsStore';
 
 export const luxStoreClasses = {
   wallets: LuxWalletsStore,
@@ -16,8 +15,7 @@ export const luxStoreClasses = {
   nodeUpdate: NodeUpdateStore,
   walletSettings: LuxWalletSettingsStore,
   addresses: AddressesStore,
-  masternodes: MasternodesStore,
-  contracts: ContractsStore
+  masternodes: MasternodesStore
 };
 
 export type LuxStoresMap = {
@@ -27,8 +25,7 @@ export type LuxStoresMap = {
   nodeUpdate: NodeUpdateStore,
   walletSettings: LuxWalletSettingsStore,
   addresses: AddressesStore,
-  masternodes: MasternodesStore,
-  contracts: ContractsStore
+  masternodes: MasternodesStore
 };
 
 const luxStores = observable({
@@ -38,8 +35,7 @@ const luxStores = observable({
   nodeUpdate: null,
   walletSettings: null,
   addresses: null,
-  masternodes: null,
-  contracts: null
+  masternodes: null
 });
 
 // Set up and return the stores and reset all stores to defaults
