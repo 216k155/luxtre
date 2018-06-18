@@ -32,15 +32,6 @@
   margin-bottom: 10px;
 }
 
-.abi,
-.bytecode,
-.areaLabel {
-  margin-bottom: 3px;
-}
-.abi {
-  margin-top: 20px;
-}
-
 .areaConstructor {
   height: 100px;
   background-color: #efefef;
@@ -75,17 +66,6 @@
 
 .gasPrice {
 //  text-align: right;
-}
-
-.addressContainer {
-  font-size: 12px;
-  margin-top: 10px;
-  input {
-	  height: 30px;
-	  font-size: 14px;
-	  outline: 0;
-    padding-left: 10px;
-	}
 }
 
 .addressInput {

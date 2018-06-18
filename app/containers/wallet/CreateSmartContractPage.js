@@ -13,21 +13,11 @@ export default class CreateSmartContractPage extends Component<Props> {
   static defaultProps = { actions: null, stores: null };
 
   render() {
-    const { uiDialogs } = this.props.stores;
     const { intl } = this.context;
     const actions = this.props.actions;
-    const { contracts } = this.props.stores.lux;
-    const { createContract, createLuxContractRequest } = contracts;
 
     return (
-      <CreateSmartContract
-        createContract={(bytecode, gasLimit, gasPrice, senderaddress) => (
-          createContract({bytecode: bytecode, gasLimit: gasLimit, gasPrice: gasPrice, senderaddress: senderaddress})
-        )}
-        error={createLuxContractRequest.error}
-        openDialogAction={actions.dialogs.open.trigger}  
-        isDialogOpen={uiDialogs.isOpen}
-      />
+      <CreateSmartContract/>
     );
   }
 
