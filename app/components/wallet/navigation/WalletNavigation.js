@@ -77,8 +77,8 @@ export default class WalletNavigation extends Component<Props> {
       <div className={styles.component}>
         <div>
           <WalletLogo 
- 	    amount={amount}
- 	  />
+ 	          amount={amount}
+ 	        />
         </div>
         <div className={styles.navItem}>
           <WalletNavButton
@@ -145,6 +145,7 @@ export default class WalletNavigation extends Component<Props> {
             onClick={() => onNavItemClick('masternodes')}
           />
         </div>
+        {/*
         <div className={styles.navItem}>
           <WalletNavButton
             label={intl.formatMessage(messages.smartcontracts)}
@@ -152,7 +153,7 @@ export default class WalletNavigation extends Component<Props> {
             isActive={isActiveNavItem('smartcontracts')}
             onClick={() => onNavItemClick('smartcontracts')}
           />
-        </div>
+        </div>*/}
       </div>
     );
   }
