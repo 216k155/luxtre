@@ -79,6 +79,12 @@
   display: inline-block;
 }
 
+.gasLimit,
+.gasPrice {
+  width: 50%;
+  display: inline-block;
+}
+
 .selectFuncs {
   height: 10px;
 }

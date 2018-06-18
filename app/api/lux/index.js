@@ -53,6 +53,9 @@ import {getLuxMasternodeOutputs} from './getLuxMasternodeOutputs';
 import {isLuxWalletEncrypted} from './isLuxWalletEncrypted';
 import {isLuxWalletLocked} from './isLuxWalletLocked';
 import {getLuxStakingStatus} from './getLuxStakingStatus';
+import {createLuxContract} from './createLuxContract';
+import {callLuxContract} from './callLuxContract';
+import {sendToLuxContract} from './sendToLuxContract';
 
 const fs = require('fs');
 
@@ -120,7 +123,13 @@ import type {
   StopMasternodeRequest,
   StopMasternodeResponse,
   StopManyMasternodeResponse,
-  GetMasternodeOutputsResponse
+  GetMasternodeOutputsResponse,
+  CreateLuxContractRequest,
+  CreateLuxContractResponse,
+  CallLuxContractRequest,
+  CallLuxContractResponse,
+  SendToLuxContractRequest,
+  SendToLuxContractResponse
 } from '../common';
 
 import {
@@ -1084,6 +1093,51 @@ export default class LuxApi {
       return stringifyData(response);
     } catch (error) {
       Logger.error('LuxApi::getMasternodeOutputs error: ' + stringifyError(error));
+      throw new GenericApiError();
+    }
+  }
+
+  async createContract(request: CreateLuxContractRequest): Promise<CreateLuxContractResponse> {
+    Logger.debug('LuxApi::createContract called');
+    try {
+      const {bytecode, gasLimit, gasPrice, senderaddress} = request;
+      const result = await createLuxContract({bytecode, gasLimit, gasPrice, senderaddress});
+      return new Promise((resolve) => resolve({
+        txid: result.txid,
+        sender: result.sender,
+        hash160: result.hash160,
+        address: result.address
+      }));
+    } catch (error) {
+      Logger.error('LuxApi::createContract error: ' + stringifyError(error));
+      throw new GenericApiError();
+    }
+  }
+
+  async callContract(request: CallLuxContractRequest): Promise<CallLuxContractResponse> {
+    Logger.debug('LuxApi::callContract called');
+    try {
+      const {address, data, senderaddress } = request;
+      const response = await callLuxContract({address, data, senderaddress});
+      return true;
+    } catch (error) {
+      Logger.error('LuxApi::callContract error: ' + stringifyError(error));
+      throw new GenericApiError();
+    }
+  }
+
+  async sendToContract(request: SendToLuxContractRequest): Promise<SendToLuxContractResponse> {
+    Logger.debug('LuxApi::sendToContract called');
+    try {
+      const {contractaddress, datahex, amount, gasLimit, gasPrice, senderaddress} = request;
+      const result = await sendToLuxContract({contractaddress, datahex, amount, gasLimit, gasPrice, senderaddress});
+      return new Promise((resolve) => resolve({
+        txid: result.txid,
+        sender: result.sender,
+        hash160: result.hash160
+      }));
+    } catch (error) {
+      Logger.error('LuxApi::sendToContract error: ' + stringifyError(error));
       throw new GenericApiError();
     }
   }

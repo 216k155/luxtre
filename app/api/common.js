@@ -70,6 +70,7 @@ export type CreateMasternodeResponse = string;
 export type GetMasternodeGenkeyResponse = string;
 export type GetMasternodeListResponse = Array<Masternode>;
 export type GetMasternodeOutputsResponse = string;
+export type CallLuxContractResponse = boolean;
 
 export type CreateWalletRequest = {
   name: string,
@@ -112,6 +113,46 @@ export type GetTransactionsRequest = {
 export type GetTransactionsResponse = {
   transactions: Array<WalletTransaction>,
   total: number
+};
+
+export type CreateLuxContractRequest = {
+  bytecode: string,
+  gasLimit: number,
+  gasPrice: number,
+  senderaddress: string,
+  broadcast: boolean,
+  changeToSender: boolean
+};
+
+export type CreateLuxContractResponse = {
+  txid: string,
+  sender: string,
+  hash160: string,
+  address: string
+};
+
+export type CallLuxContractRequest = {
+  address: string,
+  data: string,
+  senderaddress: string,
+  gasLimit: string
+};
+
+export type SendToLuxContractRequest = {
+  contractaddress: string,
+  datahex: string,
+  amount: number,
+  gasLimit: number,
+  gasPrice: number,
+  senderaddress: string,
+  broadcast: boolean,
+  changeToSender: boolean
+};
+
+export type SendToLuxContractResponse = {
+  txid: string,
+  sender: string,
+  hash160: string
 };
 
 export type StartMasternodeRequest = {
