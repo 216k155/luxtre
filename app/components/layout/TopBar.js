@@ -44,9 +44,9 @@ export default class TopBar extends Component<Props> {
 
     return (
       <header className={topBarStyles}>
-        {/*<button className={styles.leftIcon} onClick={onSwitchLuxgate}>
+        <button className={styles.leftIcon} onClick={onSwitchLuxgate}>
           {switchToggleIcon}
-        </button>*/}
+        </button>
         {this.props.children}
       </header>
     );

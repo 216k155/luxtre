@@ -15,9 +15,19 @@ export default class CallSmartContractPage extends Component<Props> {
   render() {
     const { intl } = this.context;
     const actions = this.props.actions;
+    const { contracts, } = this.props.stores.lux;
+    const { callLuxContractRequest } = contracts;
 
     return (
       <CallSmartContract
+        callContract={(address, data, senderaddress, gasLimit) => (
+          actions.contracts.callContracts.trigger({
+            address: address,
+            data: data,
+            senderaddress: senderaddress
+          })
+        )}
+        error={callLuxContractRequest.error}
       />
     );
   }
