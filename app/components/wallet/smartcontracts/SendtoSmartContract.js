@@ -107,7 +107,7 @@ export default class SendtoSmartContract extends Component<State> {
   componentWillUnmount() {
     this._isMounted = false;
   }
-  
+
   static contextTypes = {
     intl: intlShape.isRequired,
   };
@@ -153,7 +153,7 @@ export default class SendtoSmartContract extends Component<State> {
       let data = this.state.selFunc;
       for(var i = 0; i < this.state.arrInputs.length; i++)
       {
-        var parameter = this.refs['function_parameter' + i];
+        var parameter = this.refs['function_parameter' + i].value;
         if(parameter == null || parameter == '')
           return;
 
