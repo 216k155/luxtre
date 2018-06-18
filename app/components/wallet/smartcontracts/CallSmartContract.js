@@ -111,6 +111,25 @@ export default class CallSmartContract extends Component<State> {
     }
   }
 
+  _callContract() {
+
+    let data = this.state.selFunc;
+    for(var i = 0; i < this.state.arrInputs.length; i++)
+    {
+      var parameter = this.refs['function_parameter' + i].value;
+      if(parameter == null || parameter == '')
+        return;
+
+      var encoded = Web3EthAbi.encodeParameter(this.state.arrInputs[i].type, parameter);
+      data += encoded;
+    }
+    let contractaddress = this.state.contractAddress;
+    if(contractaddress !== '')
+    {
+      let senderaddress = this.state.senderAddress !== '' ? this.state.senderAddress : null;
+      this.props.callContract(this.state.contractAddress, data, senderaddress);
+    }
+  }
 
   render() {
     const {

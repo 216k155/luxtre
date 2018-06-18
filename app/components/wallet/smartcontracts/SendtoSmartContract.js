@@ -87,6 +87,16 @@ export default class SendtoSmartContract extends Component<State> {
     senderAddress: ''
   };
 
+  _isMounted = false;
+  
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+
   static contextTypes = {
     intl: intlShape.isRequired,
   };
@@ -126,6 +136,43 @@ export default class SendtoSmartContract extends Component<State> {
       this.setState( {arrInputs: element.inputs});
     }
   }
+
+  async _sendToContract() {
+    try {
+      let data = this.state.selFunc;
+      for(var i = 0; i < this.state.arrInputs.length; i++)
+      {
+        var parameter = this.refs['function_parameter' + i].value;
+        if(parameter == null || parameter == '')
+          return;
+
+        var encoded = Web3EthAbi.encodeParameter(this.state.arrInputs[i].type, parameter);
+        data += encoded;
+      }
+      let contractaddress = this.state.contractAddress;
+      if(contractaddress !== '')
+      {
+        let senderaddress = this.state.senderAddress !== '' ? this.state.senderAddress : null;
+        let gasLimit = this.state.gasLimit !== '' ? this.state.gasLimit : 2500000;
+        let gasPrice = this.state.gasPrice !== '' ? this.state.gasPrice : 0.0000004;
+        let amount = this.state.amount !== '' ? this.state.amount : 0;
+        const outputs = await this.props.sendToContract(this.state.contractAddress, data, amount, gasLimit, gasPrice, senderaddress);
+        if (this._isMounted) {
+          this.setState({
+            outputs: outputs,
+            outputsError: null,
+          });
+        }
+      }
+    } catch (error) {
+      if (this._isMounted) {
+        this.setState({
+          outputsError: this.context.intl.formatMessage(error)
+        });
+      }
+    }
+  }
+
   render() {
     const {
       contractAddress, 
