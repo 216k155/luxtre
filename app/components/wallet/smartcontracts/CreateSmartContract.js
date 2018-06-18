@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import { observer } from 'mobx-react';
+import LocalizableError from '../../../i18n/LocalizableError';
 import { defineMessages, intlShape, FormattedHTMLMessage } from 'react-intl';
 import Button from 'react-polymorph/lib/components/Button';
 import SimpleButtonSkin from 'react-polymorph/lib/skins/simple/raw/ButtonSkin';
@@ -10,6 +11,9 @@ import TextAreaSkin from 'react-polymorph/lib/skins/simple/TextAreaSkin';
 import Input from 'react-polymorph/lib/components/Input';
 import SimpleInputSkin from 'react-polymorph/lib/skins/simple/raw/InputSkin';
 import styles from './CreateSmartContract.scss';
+import ContractSummaryDialog from './ContractSummaryDialog';
+import ContractSummaryDialogContainer from '../../../containers/wallet/dialogs/ContractSummaryDialogContainer';
+import Web3EthAbi from 'web3-eth-abi';
 
 export const messages = defineMessages({
   title: {
@@ -54,6 +58,13 @@ export const messages = defineMessages({
   },
 });
 
+type Props = {
+  createContract: Function,
+  openDialogAction: Function,
+  isDialogOpen: Function,
+  error: ?LocalizableError
+};
+
 type State = {
   bytecode: string,
   abi: string,
@@ -73,6 +84,16 @@ export default class CreateSmartContract extends Component<State> {
     gasPrice: 0.0000004,
     senderAddress: ''
   };
+
+  _isMounted = false;
+  
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -104,6 +125,38 @@ export default class CreateSmartContract extends Component<State> {
     }
   }
 
+  async _createContract() {
+    try {
+      let bytecode = this.state.bytecode;
+      for(var i = 0; i < this.state.arrInputs.length; i++)
+      {
+        var parameter = this.refs['constructor_parameter' + i].value;
+        if(parameter == null || parameter == '')
+          return;
+
+        var encoded = Web3EthAbi.encodeParameter(this.state.arrInputs[i].type, parameter);
+        bytecode += encoded;
+      }
+
+      let senderaddress = this.state.senderAddress !== '' ? this.state.senderAddress : null;
+      let gasLimit = this.state.gasLimit !== '' ? this.state.gasLimit : 2500000;
+      let gasPrice = this.state.gasPrice !== '' ? this.state.gasPrice : 0.0000004;
+      const outputs = await this.props.createContract(bytecode, gasLimit, gasPrice, senderaddress);
+      if (this._isMounted) {
+        this.setState({
+          outputs: outputs,
+          outputsError: null,
+        });
+      }
+    } catch (error) {
+      if (this._isMounted) {
+        this.setState({
+          outputsError: this.context.intl.formatMessage(error)
+        });
+      }
+    }
+  }
+
   render() {
     const {
       bytecode, 
@@ -116,6 +169,13 @@ export default class CreateSmartContract extends Component<State> {
     
     const { intl } = this.context;
     
+    const {
+      openDialogAction, 
+      isDialogOpen,
+      createContract,
+      error
+    } = this.props;
+
     const buttonClasses = classnames([
       'primary',
       //styles.button
@@ -154,7 +214,7 @@ export default class CreateSmartContract extends Component<State> {
                     <span className={styles.solTypeColor}>{data.type}</span>
                     <span className={styles.solVariableLabel}>{data.name}</span>
                   </div>
-                  <input className={styles.tokenInputBox} type="text"/>
+                  <input  ref={'constructor_parameter'+index} className={styles.tokenInputBox} type="text"/>
                 </div>
               )
             })
@@ -180,9 +240,15 @@ export default class CreateSmartContract extends Component<State> {
           </div>
         </div>
 
+        {error ? <p className={styles.error}>{intl.formatMessage(error)}</p> : null}
+        
         <div className={styles.buttonContainer}>
           <Button
             className={buttonClasses}
+            onClick={() => {
+              this._createContract();
+              openDialogAction({dialog: ContractSummaryDialog});
+            }}
             label="Create Contract"
             skin={<SimpleButtonSkin/>}
           />
@@ -192,6 +258,12 @@ export default class CreateSmartContract extends Component<State> {
             skin={<SimpleButtonSkin/>}
           />
         </div>
+        {isDialogOpen(ContractSummaryDialog) ? (
+          <ContractSummaryDialogContainer 
+            outputs = {this.state.outputs}
+            error = {this.state.outputsError}
+          />
+        ) : null}
       </div>
     );
   }
