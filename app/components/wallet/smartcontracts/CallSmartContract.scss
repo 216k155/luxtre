@@ -1,3 +1,5 @@
+@import '../../../themes/mixins/error-message';
+
 .component {
   height: 90%;
   align-items: center;
@@ -142,4 +144,10 @@
 
 .tokenInputBox {
   width: calc(100% - 170px);
+}
+
+.error {
+  @include error-message;
+  text-align: center;
+  margin-top: 27px;
 }
