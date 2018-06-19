@@ -284,8 +284,6 @@ export default class SendtoSmartContract extends Component<State> {
             <input className={styles.addressInput} value={senderAddress} type="text" onChange={event => this.setState({senderAddress: event.target.value})}/>
           </div>
         </div>
-
-        {error ? <p className={styles.error}>{intl.formatMessage(error)}</p> : null}
         
         <div className={styles.buttonContainer}>
           <Button
@@ -306,7 +304,7 @@ export default class SendtoSmartContract extends Component<State> {
         {isDialogOpen(SendToContractDialog) ? (
           <SendToContractDialogContainer 
             outputs = {this.state.outputs}
-            error = {this.state.outputsError}
+            error = {error}
           />
         ) : null}
       </div>
