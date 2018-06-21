@@ -10,6 +10,7 @@ import TextAreaSkin from 'react-polymorph/lib/skins/simple/TextAreaSkin';
 import Input from 'react-polymorph/lib/components/Input';
 import SimpleInputSkin from 'react-polymorph/lib/skins/simple/raw/InputSkin';
 import styles from './SolidityCompiler.scss';
+import path from 'path';
 
 export const messages = defineMessages({
   title: {
@@ -45,11 +46,13 @@ export default class SolidityCompiler extends Component<State> {
       //styles.button
     ]);
 
+	const solpage = path.resolve('app/components/wallet/smartcontracts/solc/index.html');
+	var solcUrl = 'file://' + solpage;
     return (
       <div className={styles.component}>
         <div className={styles.subTitle}> {intl.formatMessage(messages.title)} </div>
         <div className={styles.borderedBox}>
-          
+          <webview src={solcUrl} className={styles.solcViewRegion}> </webview>
         </div>
       </div>
     );
