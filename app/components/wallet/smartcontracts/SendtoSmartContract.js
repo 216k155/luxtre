@@ -69,6 +69,13 @@ type Props = {
   sendToContract: Function,
   openDialogAction: Function,
   isDialogOpen: Function,
+  contractaddress: string,
+  abi: string,
+  gaslimit: number,
+  gasprice: number,
+  amount: number,
+  senderaddress: string,
+  isDialogOpen: Function,
   error: ?LocalizableError
 };
 
@@ -85,17 +92,18 @@ type State = {
 };
 
 @observer
-export default class SendtoSmartContract extends Component<State> {
+export default class SendtoSmartContract extends Component<Props, State> {
   state = {
-    contractAddress: '',
-    abi: '',
+    contractAddress: this.props.contractaddress,
+    abi: this.props.abi,
+    arrInputs:[],
+    amount: this.props.amount,
+    gasLimit: this.props.gaslimit,
+    gasPrice: this.props.gasprice,
+    senderAddress: this.props.senderaddress,
     arrFunctions: [],
     arrInputs:[],
-    selFunc: '',
-    amount: 0,
-    gasLimit: 2500000,
-    gasPrice: 0.0000004,
-    senderAddress: ''
+    selFunc: ''
   };
 
   _isMounted = false;
@@ -106,6 +114,7 @@ export default class SendtoSmartContract extends Component<State> {
 
   componentWillUnmount() {
     this._isMounted = false;
+    this.props.saveContract(this.state.contractAddress, this.state.abi, this.state.amount, this.state.gasLimit, this.state.gasPrice, this.state.senderAddress);
   }
 
   static contextTypes = {

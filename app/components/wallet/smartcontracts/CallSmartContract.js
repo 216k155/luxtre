@@ -50,6 +50,10 @@ export const messages = defineMessages({
 
 type Props = {
   createContract: Function,
+  contractaddress: string,
+  abi: string,
+  senderaddress: string,
+  isDialogOpen: Function,
   error: ?LocalizableError
 };
 
@@ -59,23 +63,26 @@ type State = {
   arrFunctions: Array<Object>,
   arrInputs : Array<Object>,
   selFunc: string,
-  gasLimit: number,
-  gasPrice: number,
   senderAddress: string
 };
 
 @observer
-export default class CallSmartContract extends Component<State> {
+export default class CallSmartContract extends Component<Props, State> {
   state = {
-    contractAddress: '',
-    abi: '',
+    contractAddress: this.props.contractaddress,
+    abi: this.props.abi,
+    senderAddress: this.props.senderaddress,
+    arrInputs:[],
     arrFunctions: [],
     arrInputs:[],
-    selFunc: '',
-    gasLimit: 2500000,
-    gasPrice: 0.0000004,
-    senderAddress: ''
+    selFunc: ''
   };
+
+  componentDidMount() {  }
+
+  componentWillUnmount() {
+    this.props.saveContract(this.state.contractAddress, this.state.abi, this.state.senderAddress);
+  }
 
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -145,8 +152,6 @@ export default class CallSmartContract extends Component<State> {
       arrFunctions,
       arrInputs,
       selFunc,
-      gasLimit,
-      gasPrice,
       senderAddress
       } = this.state;
     

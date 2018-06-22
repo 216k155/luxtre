@@ -14,6 +14,14 @@ export default class LuxContractsStore extends Store {
   @observable callLuxContractRequest: Request<CallLuxContractResponse> = new Request(this.api.lux.callContract);
   @observable sendToLuxContractRequest: Request<SendToLuxContractResponse> = new Request(this.api.lux.sendToContract);
 
+  @observable bytecode: string = '';
+  @observable abi: string  = '';
+  @observable gaslimit: number = 2500000;
+  @observable gasprice: number = 0.0000004;
+  @observable senderaddress: string = '';
+  @observable contractaddress: string = '';
+  @observable amount: number = 0;
+
   setup() {
     super.setup();
     const { router, lux } = this.actions;
@@ -33,10 +41,28 @@ export default class LuxContractsStore extends Store {
     return response;
   }
 
-  sendToContract = async (params: {contractaddress: string, datahex: string, amount: number, gasLimit: number, gasPrice: number, senderaddress: string, broadcast: boolean, changeToSender: boolean}) => {
+  sendToContract = async (params: {contractaddress: string, datahex: string, amount: number, gaslimit: number, gasprice: number, senderaddress: string, broadcast: boolean, changeToSender: boolean}) => {
     const response: SendToLuxContractResponse = await this.sendToLuxContractRequest.execute(params).promise;
     this.sendToLuxContractRequest.reset();
     return response;
   }
 
+  saveContract = (
+    params: {
+      bytecode: string,
+      abi: string,
+      contractaddress: string,
+      amount: number,
+      gasLimit: number,
+      gaslimit: number,
+      senderaddress: string,
+    }) => {
+      if(params.bytecode != undefined) this.bytecode = params.bytecode;
+      if(params.abi != undefined) this.abi = params.abi;
+      if(params.contractaddress != undefined) this.contractaddress = params.contractaddress;
+      if(params.amount != undefined) this.amount = params.amount;
+      if(params.gaslimit != undefined) this.gaslimit = params.gaslimit;
+      if(params.gasprice != undefined) this.gasprice = params.gasprice;
+      if(params.senderaddress != undefined) this.senderaddress = params.senderaddress;
+    }
 }

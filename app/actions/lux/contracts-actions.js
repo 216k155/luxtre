@@ -25,4 +25,15 @@ export default class ContractsActions {
     gasPrice: number,
     senderaddress: string,
   }> = new Action();
+
+  saveContract: Action<{
+    bytecode: string,
+    abi: string,
+    contractaddress: string,
+    amount: number,
+    gaslimit: number,
+    gasprice: number,
+    senderaddress: string,
+  }> = new Action();
+
 }

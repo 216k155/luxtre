@@ -17,13 +17,21 @@ export default class CreateSmartContractPage extends Component<Props> {
     const { intl } = this.context;
     const actions = this.props.actions;
     const { contracts } = this.props.stores.lux;
-    const { createContract, createLuxContractRequest } = contracts;
+    const { createContract, createLuxContractRequest, saveContract, bytecode, abi, gaslimit, gasprice, senderaddress} = contracts;
 
     return (
       <CreateSmartContract
         createContract={(bytecode, gasLimit, gasPrice, senderaddress) => (
           createContract({bytecode: bytecode, gasLimit: gasLimit, gasPrice: gasPrice, senderaddress: senderaddress})
         )}
+        saveContract={(bytecode, abi, gaslimit, gasprice, senderaddress) => (
+          saveContract({bytecode: bytecode, abi: abi, gaslimit: gaslimit, gasprice: gasprice, senderaddress: senderaddress})
+        )}
+        bytecode={bytecode}
+        abi={abi}
+        gaslimit={gaslimit}
+        gasprice={gasprice}
+        senderaddress={senderaddress}
         error={createLuxContractRequest.error}
         openDialogAction={actions.dialogs.open.trigger}  
         isDialogOpen={uiDialogs.isOpen}

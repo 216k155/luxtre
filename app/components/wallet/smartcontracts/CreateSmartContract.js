@@ -61,6 +61,12 @@ export const messages = defineMessages({
 type Props = {
   createContract: Function,
   openDialogAction: Function,
+  saveContract: Function,
+  bytecode: string,
+  abi: string,
+  gaslimit: number,
+  gasprice: number,
+  senderaddress: string,
   isDialogOpen: Function,
   error: ?LocalizableError
 };
@@ -75,14 +81,14 @@ type State = {
 };
 
 @observer
-export default class CreateSmartContract extends Component<State> {
+export default class CreateSmartContract extends Component<Props, State> {
   state = {
-    bytecode: '',
-    abi: '',
+    bytecode: this.props.bytecode,
+    abi: this.props.abi,
     arrInputs:[],
-    gasLimit: 2500000,
-    gasPrice: 0.0000004,
-    senderAddress: ''
+    gasLimit: this.props.gaslimit,
+    gasPrice: this.props.gasprice,
+    senderAddress: this.props.senderaddress
   };
 
   _isMounted = false;
@@ -93,6 +99,7 @@ export default class CreateSmartContract extends Component<State> {
 
   componentWillUnmount() {
     this._isMounted = false;
+    this.props.saveContract(this.state.bytecode, this.state.abi, this.state.gasLimit, this.state.gasPrice, this.state.senderAddress);
   }
 
   static contextTypes = {

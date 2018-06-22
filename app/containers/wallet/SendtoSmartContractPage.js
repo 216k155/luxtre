@@ -17,13 +17,22 @@ export default class SendtoSmartContractPage extends Component<Props> {
     const { intl } = this.context;
     const actions = this.props.actions;
     const { contracts } = this.props.stores.lux;
-    const { sendToContract, sendToLuxContractRequest } = contracts;
+    const { sendToContract, sendToLuxContractRequest, saveContract, contractaddress, abi, amount, gaslimit, gasprice, senderaddress } = contracts;
 
     return (
       <SendtoSmartContract
         sendToContract={(contractaddress, datahex, amount, gasLimit, gasPrice, senderaddress) => (
           sendToContract({contractaddress: contractaddress, datahex: datahex, amount: amount, gasLimit: gasLimit, gasPrice: gasPrice, senderaddress: senderaddress})
         )}
+        saveContract={(contractaddress, abi, amount, gaslimit, gasprice, senderaddress) => (
+          saveContract({contractaddress: contractaddress, abi: abi, amount: amount, gaslimit: gaslimit, gasprice: gasprice, senderaddress: senderaddress})
+        )}
+        contractaddress={contractaddress}
+        abi={abi}
+        amount={amount}
+        gaslimit={gaslimit}
+        gasprice={gasprice}
+        senderaddress={senderaddress}
         error={sendToLuxContractRequest.error}
         openDialogAction={actions.dialogs.open.trigger}  
         isDialogOpen={uiDialogs.isOpen}
