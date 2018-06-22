@@ -132,6 +132,17 @@ export default class CreateSmartContract extends Component<Props, State> {
     }
   }
 
+  onClickClearAll() {
+    this.setState({
+      bytecode: '',
+      abi: '',
+      arrInputs:[],
+      gasLimit: 2500000,
+      gasPrice: 0.0000004,
+      senderAddress: ''
+    })
+  }
+
   async _createContract() {
     try {
       let bytecode = this.state.bytecode;
@@ -261,6 +272,7 @@ export default class CreateSmartContract extends Component<Props, State> {
             className={buttonClasses}
             label="Clear All"
             skin={<SimpleButtonSkin/>}
+            onClick={this.onClickClearAll.bind(this)}
           />
         </div>
         {isDialogOpen(ContractSummaryDialog) ? (

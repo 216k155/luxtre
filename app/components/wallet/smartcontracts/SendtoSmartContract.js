@@ -157,6 +157,18 @@ export default class SendtoSmartContract extends Component<Props, State> {
     }
   }
 
+  onClickClearAll() {
+    this.setState({
+      contractAddress: '',
+      abi: '',
+      arrInputs:[],
+      amount: 0,
+      gasLimit: 2500000,
+      gasPrice: 0.0000004,
+      senderAddress: ''
+    })
+  }
+
   async _sendToContract() {
     try {
       let data = this.state.selFunc;
@@ -307,6 +319,7 @@ export default class SendtoSmartContract extends Component<Props, State> {
           <Button
             className={buttonClasses}
             label="Clear All"
+            onClick={this.onClickClearAll.bind(this)}
             skin={<SimpleButtonSkin/>}
           />
         </div>

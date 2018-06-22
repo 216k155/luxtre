@@ -145,6 +145,15 @@ export default class CallSmartContract extends Component<Props, State> {
     }
   }
 
+  onClickClearAll() {
+    this.setState({
+      contractAddress: '',
+      abi: '',
+      arrInputs:[],
+      senderAddress: ''
+    })
+  }
+
   render() {
     const {
       contractAddress, 
@@ -242,6 +251,7 @@ export default class CallSmartContract extends Component<Props, State> {
           <Button
             className={buttonClasses}
             label="Clear All"
+            onClick={this.onClickClearAll.bind(this)}
             skin={<SimpleButtonSkin/>}
           />
         </div>
