@@ -21,6 +21,11 @@ export default class LuxContractsStore extends Store {
   @observable senderaddress: string = '';
   @observable contractaddress: string = '';
   @observable amount: number = 0;
+  
+  @observable soljsonSources: Array<string> = [];
+  @observable solc_bytecode: string = '';
+  @observable solc_abi: string  = '';
+  @observable solc_version: string  = '';
 
   setup() {
     super.setup();
@@ -54,7 +59,7 @@ export default class LuxContractsStore extends Store {
       contractaddress: string,
       amount: number,
       gasLimit: number,
-      gaslimit: number,
+      gasprice: number,
       senderaddress: string,
     }) => {
       if(params.bytecode != undefined) this.bytecode = params.bytecode;
@@ -65,4 +70,20 @@ export default class LuxContractsStore extends Store {
       if(params.gasprice != undefined) this.gasprice = params.gasprice;
       if(params.senderaddress != undefined) this.senderaddress = params.senderaddress;
     }
+
+
+  @action saveSolc = (
+    params: {
+      compileVersion: string,
+      bytecode: string,
+      abi: string,
+    }) => {
+      if(params.compileVersion != undefined) this.solc_version = params.compileVersion;
+      if(params.bytecode != undefined) this.solc_bytecode = params.bytecode;
+      if(params.abi != undefined) this.solc_abi = params.abi;
+    }
+
+  @action saveSoljsonSources = (sources: Array<string>) => {
+    this.soljsonSources = sources.slice();
+  }
 }

@@ -36,4 +36,12 @@ export default class ContractsActions {
     senderaddress: string,
   }> = new Action();
 
+  saveSolc: Action<{
+    sompileVersion: string,
+    bytecode: string,
+    abi: string,
+  }> = new Action();
+
+  saveSoljsonSources:Action<any> = new Action();
+
 }

@@ -87,11 +87,12 @@ export default class CreateSmartContract extends Component<Props, State> {
     abi: this.props.abi,
     arrInputs:[],
     gasLimit: this.props.gaslimit,
-    gasPrice: this.props.gasprice,
+    gasPrice: this.props.gasprice.toFixed(8),
     senderAddress: this.props.senderaddress
   };
 
   _isMounted = false;
+  defaultPrice = 0.0000004;
   
   componentDidMount() {
     this._isMounted = true;
@@ -99,7 +100,7 @@ export default class CreateSmartContract extends Component<Props, State> {
 
   componentWillUnmount() {
     this._isMounted = false;
-    this.props.saveContract(this.state.bytecode, this.state.abi, this.state.gasLimit, this.state.gasPrice, this.state.senderAddress);
+    this.props.saveContract(this.state.bytecode, this.state.abi, this.state.gasLimit, Number(this.state.gasPrice), this.state.senderAddress);
   }
 
   static contextTypes = {
@@ -138,9 +139,13 @@ export default class CreateSmartContract extends Component<Props, State> {
       abi: '',
       arrInputs:[],
       gasLimit: 2500000,
-      gasPrice: 0.0000004,
+      gasPrice: this.defaultPrice.toFixed(8),
       senderAddress: ''
     })
+  }
+
+  precise(event) {
+    event.target.value = Number(event.target.value).toFixed(8);
   }
 
   async _createContract() {
@@ -158,7 +163,7 @@ export default class CreateSmartContract extends Component<Props, State> {
 
       let senderaddress = this.state.senderAddress !== '' ? this.state.senderAddress : null;
       let gasLimit = this.state.gasLimit !== '' ? this.state.gasLimit : 2500000;
-      let gasPrice = this.state.gasPrice !== '' ? this.state.gasPrice : 0.0000004;
+      let gasPrice = this.state.gasPrice !== '' ? this.state.gasPrice : this.defaultPrice.toFixed(8);
       const outputs = await this.props.createContract(bytecode, gasLimit, gasPrice, senderaddress);
       if (this._isMounted) {
         this.setState({
@@ -249,7 +254,7 @@ export default class CreateSmartContract extends Component<Props, State> {
             </div>
             <div className={styles.gasPrice}> 
               <div className={styles.optionalLabel}> {intl.formatMessage(messages.inputGasPrice)} </div>
-              <input value={gasPrice} type="number" min="0.00000001" max="0.00001" step="0.00000001" onChange={event => this.setState({gasPrice: event.target.value})}/> LUX
+              <input value={gasPrice} type="number" min="0.00000001" max="0.00001" step="0.00000001" onChange={event => this.setState({gasPrice: event.target.value})} onInput={this.precise.bind(this)}/> LUX
             </div>
           </div>
           <div className={styles.addressContainer}> 
