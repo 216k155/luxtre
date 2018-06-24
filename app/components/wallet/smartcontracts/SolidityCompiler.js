@@ -22,9 +22,10 @@ export const messages = defineMessages({
 
 type Props = {
   soljsonSources: Array<string>,
+  compileVersion: string,
+  source: string,
   bytecode: string,
   abi: string,
-  compileVersion: string,
   saveSoljsonSources: Function,
   saveSolc: Function
 };
@@ -33,9 +34,9 @@ type State = {
   status: string,
   selVersion: string,
   compileVersion: string,
+  source: string,
   bytecode:string,
-  abi:string,
-  source:string
+  abi:string
 };
 
 var compiler;
@@ -46,9 +47,9 @@ export default class SolidityCompiler extends Component<Props, State> {
     status: '',
     selVersion: this.props.compileVersion,
     compileVersion: this.props.compileVersion,
+    source: this.props.source,
     bytecode: this.props.bytecode,
     abi: this.props.abi,
-    source: ''
   };
 
   componentDidMount() {
@@ -59,18 +60,26 @@ export default class SolidityCompiler extends Component<Props, State> {
     if(this.props.soljsonSources.length == 0) {
       this.setStatus("Loading Soljsons ...");
       SolCompiler.getVersions(this.getSoljsonVersion.bind(this));
+    } else {
+      if(this.props.compileVersion == '')
+        this.setState({ selVersion: soljsonSources[0] });
+      else {
+        this.setState({ selVersion: this.props.compileVersion });
+        
+      }
     }
   }
 
   componentWillUnmount() {
-    this.props.saveSolc(this.state.compileVersion, this.state.bytecode, this.state.abi);
+    this.props.saveSolc(this.state.compileVersion, this.state.source, this.state.bytecode, this.state.abi);
   }
   
   getSoljsonVersion(soljsonSources, soljsonReleases) {
     this.props.saveSoljsonSources(soljsonSources);
 
     this.setStatus("Loaded Soljsons");
-    this.setState({ selVersion: soljsonSources[0] });
+    this.setState({ selVersion: 'soljson-v0.4.25-nightly.2018.6.22+commit.9b67bdb3.js' });
+    //this.setState({ selVersion: soljsonSources[0] });
   }
 
   static contextTypes = {
@@ -78,18 +87,30 @@ export default class SolidityCompiler extends Component<Props, State> {
   };
 
   async compileWithLoadingCompiler(c) {
+
     compiler = Object.assign({}, c);
     this.compile();
   }
 
   async compile() {
     var optimize = 1;
+
+    this.setStatus("Compiling ...");
     var result = compiler.compile(this.state.source, optimize);
 
-    for (let ch in result.contracts) {
+    if(result.contracts != undefined) {
+      for (let ch in result.contracts) {
         this.setState({bytecode : result.contracts[ch].bytecode});
         this.setState({abi : result.contracts[ch].interface});
-        break;
+        this.setStatus("Compile Success");
+      }
+    } else if(result.errors != undefined) {
+      
+      let pos = result.errors[0].indexOf("Error");
+      if(pos != -1)
+        this.setStatus(result.errors[0].substring(pos));
+      else
+        this.setStatus("Compile Error");
     }
   }
 
@@ -102,11 +123,13 @@ export default class SolidityCompiler extends Component<Props, State> {
   }
 
   onClickCompile() {
-    if(this.state.compileVersion != this.state.selVersion) {
+    if(compiler == undefined || this.state.compileVersion != this.state.selVersion) {
       this.setState( {compileVersion: this.state.selVersion} );
+
+      this.setStatus("Loading Compiler ...");
       SolCompiler.loadVersion(this.state.selVersion, this.compileWithLoadingCompiler.bind(this));
     } else {
-      SolCompiler.loadVersion(this.state.selVersion, this.compile.bind(this));
+      this.compile();
     }
   }
 
@@ -114,9 +137,20 @@ export default class SolidityCompiler extends Component<Props, State> {
     this.setState( {source: value});
   }
 
+  onKeydownSourceEditor(event) {
+    if (event.keyCode === 9) { // tab was pressed
+      event.preventDefault();
+      var val = this.state.source,
+      start = event.target.selectionStart,
+      end = event.target.selectionEnd;
+      this.setState({"source": val.substring(0, start) + '\t' + val.substring(end)});
+    }
+  }
+
   render() {
     const { 
       status,
+      selVersion,
       bytecode,
       abi, 
       source
@@ -135,7 +169,7 @@ export default class SolidityCompiler extends Component<Props, State> {
         <div className={styles.borderedBox}>
           <div className={styles.setting}>
             <label>Solidity version</label>
-            <select className={styles.selector} onChange={this.onChangeSolidityVersions.bind(this)}>
+            <select className={styles.selector} onChange={this.onChangeSolidityVersions.bind(this)} value={selVersion}>
             {
               this.props.soljsonSources.map((source, index) => {
                 return (
@@ -157,12 +191,13 @@ export default class SolidityCompiler extends Component<Props, State> {
             <TextArea
               className={styles.solEditor}
               skin={<TextAreaSkin />}
-              rows={24}
+              rows={30}
               value={source}
               onChange={this.onChangeSource.bind(this)}
+              onKeyDown={this.onKeydownSourceEditor.bind(this)}
             />
           </div>
-          <div className={styles.interface}>
+          <div className={styles.bytecode}>
             <div>Bytecode: </div>
             <textarea className={styles.output} value={bytecode} />
           </div>

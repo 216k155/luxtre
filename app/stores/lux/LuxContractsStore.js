@@ -23,6 +23,7 @@ export default class LuxContractsStore extends Store {
   @observable amount: number = 0;
   
   @observable soljsonSources: Array<string> = [];
+  @observable solc_source: string = "pragma solidity ^0.4.2;\n\ncontract Ballot {\n\n    address owner;\n\n    constructor() public { owner = msg.sender; }\n\n}";
   @observable solc_bytecode: string = '';
   @observable solc_abi: string  = '';
   @observable solc_version: string  = '';
@@ -75,10 +76,12 @@ export default class LuxContractsStore extends Store {
   @action saveSolc = (
     params: {
       compileVersion: string,
+      source: string,
       bytecode: string,
       abi: string,
     }) => {
       if(params.compileVersion != undefined) this.solc_version = params.compileVersion;
+      if(params.source != undefined) this.solc_source = params.source;
       if(params.bytecode != undefined) this.solc_bytecode = params.bytecode;
       if(params.abi != undefined) this.solc_abi = params.abi;
     }

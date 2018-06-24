@@ -38,6 +38,7 @@ export default class ContractsActions {
 
   saveSolc: Action<{
     sompileVersion: string,
+    source: string,
     bytecode: string,
     abi: string,
   }> = new Action();

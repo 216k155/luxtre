@@ -5,7 +5,8 @@
   color: var(--theme-main-body-messages-color);
 
   :global .SimpleFormField_root > .SimpleFormField_inputWrapper > .SimpleTextArea_textarea{
-    max-height: 70px;
+    max-height: 200px;
+    font-size: 14px;
   }
 }
 
@@ -30,7 +31,7 @@
   border: var(--theme-bordered-box-border);
   border-radius: 4px;
   padding: 20px 30px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 .abi,
@@ -38,24 +39,33 @@
 .areaLabel {
   font-size: 16px;
   margin-bottom: 3px;
+  width:45%; 
+  display: inline-block;
 }
-.abi {
+
+.functionContainer {
+  float: right;
+  width: 52%; 
+  height: 300px;
+  display: inline-block;
+}
+
+.abi,
+.functionContainer {
   margin-top: 20px;
 }
 
 .areaFunction {
-  height: 120px;
+  height: 200px;
   background-color: #efefef;
   padding: 10px 10px;
 }
 
 .comboField {
-  width: 30%;
+  width: 100%;
 }
 .inputField {
-  left: 35%;
-  width: 66%;
-  position: relative;
+  padding: 50px 10px 10px 10px;
 }
 .optionalContainer {
   margin-top: 10px;
@@ -107,7 +117,6 @@
 }
 
 .buttonContainer {
-  margin-top: 30px;
   padding: 0 30px;
   text-align: center;
   :global .SimpleButton_root {
@@ -138,5 +147,5 @@
   margin: 5px 0px;
 }
 .tokenInputBox {
-  width: calc(100% - 170px);
+  width: calc(100% - 150px);
 }

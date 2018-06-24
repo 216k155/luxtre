@@ -3,6 +3,11 @@
   align-items: center;
   justify-content: center;
   color: var(--theme-main-body-messages-color);
+
+  :global .SimpleFormField_root > .SimpleFormField_inputWrapper > .SimpleTextArea_textarea{
+    max-height: 480px;
+    font-size: 14px;
+  }
 }
 
 .subTitle {
@@ -84,9 +89,13 @@
 }
 
 .status {
+  text-align:right;
   float:right;
   margin-top:20px;
   font-size: 12px;
+  max-width: 35%;
+  height: 12px;
+  overflow: hidden;
 }
 
 .output {
@@ -94,7 +103,7 @@
   height:300px;
 }
 
-.interface,
+.bytecode,
 .abi {
   width:49%; 
   height:360px;
