@@ -8,6 +8,11 @@ tasklist /FI "IMAGENAME eq %LuxDaemon%" 2>NUL | find /I /N "%LuxDaemon%">NUL
 if "%ERRORLEVEL%"=="0" goto :launch_wallet
 
 set conf=%APPDATA%\Lux\lux.conf
+set LuxDir=%APPDATA%\Lux
+
+if not exist %LuxDir% (
+	md %LuxDir%
+)
 
 @findstr "daemon=" %conf% > nul
 @if %errorlevel% neq 0 (echo.>> %conf%
