@@ -16,7 +16,7 @@ export default class CallSmartContractPage extends Component<Props> {
     const { intl } = this.context;
     const actions = this.props.actions;
     const { contracts, } = this.props.stores.lux;
-    const { callLuxContractRequest } = contracts;
+    const { callLuxContractRequest, saveContract, contractaddress, abi, senderaddress } = contracts;
 
     return (
       <CallSmartContract
@@ -27,6 +27,12 @@ export default class CallSmartContractPage extends Component<Props> {
             senderaddress: senderaddress
           })
         )}
+        saveContract={(contractaddress, abi, senderaddress) => (
+          saveContract({contractaddress: contractaddress, abi: abi, senderaddress: senderaddress})
+        )}
+        contractaddress={contractaddress}
+        abi={abi}
+        senderaddress={senderaddress}
         error={callLuxContractRequest.error}
       />
     );

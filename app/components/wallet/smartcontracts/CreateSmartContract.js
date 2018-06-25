@@ -61,6 +61,12 @@ export const messages = defineMessages({
 type Props = {
   createContract: Function,
   openDialogAction: Function,
+  saveContract: Function,
+  bytecode: string,
+  abi: string,
+  gaslimit: number,
+  gasprice: number,
+  senderaddress: string,
   isDialogOpen: Function,
   error: ?LocalizableError
 };
@@ -75,24 +81,27 @@ type State = {
 };
 
 @observer
-export default class CreateSmartContract extends Component<State> {
+export default class CreateSmartContract extends Component<Props, State> {
   state = {
-    bytecode: '',
-    abi: '',
+    bytecode: this.props.bytecode,
+    abi: this.props.abi,
     arrInputs:[],
-    gasLimit: 2500000,
-    gasPrice: 0.0000004,
-    senderAddress: ''
+    gasLimit: this.props.gaslimit,
+    gasPrice: this.props.gasprice.toFixed(8),
+    senderAddress: this.props.senderaddress
   };
 
   _isMounted = false;
+  defaultPrice = 0.0000004;
   
   componentDidMount() {
     this._isMounted = true;
+    this.onChangeABI(this.props.abi);
   }
 
   componentWillUnmount() {
     this._isMounted = false;
+    this.props.saveContract(this.state.bytecode, this.state.abi, this.state.gasLimit, Number(this.state.gasPrice), this.state.senderAddress);
   }
 
   static contextTypes = {
@@ -105,24 +114,37 @@ export default class CreateSmartContract extends Component<State> {
   }
 
   onChangeABI(value) {
-    if(value != this.state.abi) {
-      this.setState( {abi: value});
-      if(value == "") {
-        this.setState( {arrInputs: []} );
-      } else {
-        try {
-          let arrABI = JSON.parse(value);
-          let element = arrABI.find((data) => { return data.type == "constructor" });
-          if(element !== undefined) {
-            this.setState( {arrInputs: element.inputs});
-          } else {
-            this.setState( {arrInputs: []} );
-          }
-        } catch (error) {
-          
+    this.setState( {abi: value});
+    if(value == "") {
+      this.setState( {arrInputs: []} );
+    } else {
+      try {
+        let arrABI = JSON.parse(value);
+        let element = arrABI.find((data) => { return data.type == "constructor" });
+        if(element !== undefined) {
+          this.setState( {arrInputs: element.inputs});
+        } else {
+          this.setState( {arrInputs: []} );
         }
+      } catch (error) {
+        
       }
     }
+  }
+
+  onClickClearAll() {
+    this.setState({
+      bytecode: '',
+      abi: '',
+      arrInputs:[],
+      gasLimit: 2500000,
+      gasPrice: this.defaultPrice.toFixed(8),
+      senderAddress: ''
+    })
+  }
+
+  precise(event) {
+    event.target.value = Number(event.target.value).toFixed(8);
   }
 
   async _createContract() {
@@ -140,7 +162,7 @@ export default class CreateSmartContract extends Component<State> {
 
       let senderaddress = this.state.senderAddress !== '' ? this.state.senderAddress : null;
       let gasLimit = this.state.gasLimit !== '' ? this.state.gasLimit : 2500000;
-      let gasPrice = this.state.gasPrice !== '' ? this.state.gasPrice : 0.0000004;
+      let gasPrice = this.state.gasPrice !== '' ? this.state.gasPrice : this.defaultPrice.toFixed(8);
       const outputs = await this.props.createContract(bytecode, gasLimit, gasPrice, senderaddress);
       if (this._isMounted) {
         this.setState({
@@ -185,61 +207,67 @@ export default class CreateSmartContract extends Component<State> {
       <div className={styles.component}>
         <div className={styles.subTitle}> {intl.formatMessage(messages.title)} </div>
         <div className={styles.borderedBox}>
-          <div className={styles.bytecode}>{intl.formatMessage(messages.textareaBytecode)}</div>
-          <TextArea
-            skin={<TextAreaSkin />}
-            placeholder="Please Input Bytecode"
-            rows={3}
-            value={bytecode}
-            onChange={this.onChangeBytecode.bind(this)}
-          />
-          <div className={styles.abi}>{intl.formatMessage(messages.textareaABI)}</div>
-          <TextArea
-            skin={<TextAreaSkin />}
-            placeholder="Please Input Interface"
-            rows={3}
-            value={abi}
-            onChange={this.onChangeABI.bind(this)}
-          />
+          <div className={styles.bytecode}>
+            <div>{intl.formatMessage(messages.textareaBytecode)}</div>
+            <TextArea
+              skin={<TextAreaSkin />}
+              placeholder="Please Input Bytecode"
+              rows={12}
+              value={bytecode}
+              onChange={this.onChangeBytecode.bind(this)}
+            />
+          </div>
+          <div className={styles.abi}>
+            <div>{intl.formatMessage(messages.textareaABI)}</div>
+            <TextArea
+              skin={<TextAreaSkin />}
+              placeholder="Please Input Interface"
+              rows={12}
+              value={abi}
+              onChange={this.onChangeABI.bind(this)}
+            />
+          </div>
         </div>
-        
-        <div className={styles.borderedBox}>
-          <div className={styles.bytecode}>{intl.formatMessage(messages.areaConstructor)}</div>
-          <div className={styles.areaConstructor} >
-          {
-            arrInputs.map((data, index) => {
-              return (
-                <div key={`con-${index}`} className={styles.tokenElement}>
-                  <div className={styles.solVariable}>
-                    <span className={styles.solTypeColor}>{data.type}</span>
-                    <span className={styles.solVariableLabel}>{data.name}</span>
+        <div className={styles.constructContrainer}>
+          <div className={styles.borderedBox}>
+            <div className={styles.areaLabel}>{intl.formatMessage(messages.areaConstructor)}</div>
+            <div className={styles.areaConstructor} >
+            {
+              arrInputs.map((data, index) => {
+                return (
+                  <div key={`con-${index}`} className={styles.tokenElement}>
+                    <div className={styles.solVariable}>
+                      <span className={styles.solTypeColor}>{data.type}</span>
+                      <span className={styles.solVariableLabel}>{data.name}</span>
+                    </div>
+                    <input  ref={'constructor_parameter'+index} className={styles.tokenInputBox} type="text"/>
                   </div>
-                  <input  ref={'constructor_parameter'+index} className={styles.tokenInputBox} type="text"/>
-                </div>
-              )
-            })
-          }
-          </div>
-        </div>
-        
-        <div className={styles.borderedBox}>
-          <div className={styles.areaLabel}>{intl.formatMessage(messages.areaOptional)}</div>
-          <div className={styles.optionalContainer}> 
-            <div className={styles.gasLimit}>
-              <div className={styles.optionalLabel}> {intl.formatMessage(messages.inputGasLimit)} </div>
-              <input value={gasLimit} type="number" min="1000000" max="1000000000" onChange={event => this.setState({gasLimit: event.target.value.replace(/\D/,'')})}/>
-            </div>
-            <div className={styles.gasPrice}> 
-              <div className={styles.optionalLabel}> {intl.formatMessage(messages.inputGasPrice)} </div>
-              <input value={gasPrice} type="number" min="0.00000001" max="0.00001" step="0.00000001" onChange={event => this.setState({gasPrice: event.target.value})}/> LUX
+                )
+              })
+            }
             </div>
           </div>
-          <div className={styles.addressContainer}> 
-            <div className={styles.optionalLabel}>{intl.formatMessage(messages.inputSenderAddress)} </div>
-            <input className={styles.addressInput} value={senderAddress} type="text" onChange={event => this.setState({senderAddress: event.target.value})}/>
+        </div>
+        <div className={styles.optionalContainer}>
+          <div className={styles.borderedBox}>
+            <div className={styles.areaLabel}>{intl.formatMessage(messages.areaOptional)}</div>
+            <div className={styles.gasContainer}> 
+              <div>
+                <div className={styles.optionalLabel}> {intl.formatMessage(messages.inputGasLimit)} </div>
+                <input value={gasLimit} type="number" min="1000000" max="1000000000" onChange={event => this.setState({gasLimit: event.target.value.replace(/\D/,'')})}/>
+              </div>
+              <div> 
+                <div className={styles.optionalLabel}> {intl.formatMessage(messages.inputGasPrice)} </div>
+                <input value={gasPrice} type="number" min="0.00000001" max="0.00001" step="0.00000001" onChange={event => this.setState({gasPrice: event.target.value})} onInput={this.precise.bind(this)}/>
+                <span className={styles.luxFont}> LUX </span>
+              </div>
+              <div className={styles.addressContainer}> 
+                <div>{intl.formatMessage(messages.inputSenderAddress)} </div>
+                <div><input value={senderAddress} type="text" onChange={event => this.setState({senderAddress: event.target.value})}/></div>
+              </div>
+            </div>
           </div>
         </div>
-        
         <div className={styles.buttonContainer}>
           <Button
             className={buttonClasses}
@@ -254,6 +282,7 @@ export default class CreateSmartContract extends Component<State> {
             className={buttonClasses}
             label="Clear All"
             skin={<SimpleButtonSkin/>}
+            onClick={this.onClickClearAll.bind(this)}
           />
         </div>
         {isDialogOpen(ContractSummaryDialog) ? (

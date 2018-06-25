@@ -69,6 +69,13 @@ type Props = {
   sendToContract: Function,
   openDialogAction: Function,
   isDialogOpen: Function,
+  contractaddress: string,
+  abi: string,
+  gaslimit: number,
+  gasprice: number,
+  amount: number,
+  senderaddress: string,
+  isDialogOpen: Function,
   error: ?LocalizableError
 };
 
@@ -85,27 +92,31 @@ type State = {
 };
 
 @observer
-export default class SendtoSmartContract extends Component<State> {
+export default class SendtoSmartContract extends Component<Props, State> {
   state = {
-    contractAddress: '',
-    abi: '',
+    contractAddress: this.props.contractaddress,
+    abi: this.props.abi,
+    arrInputs:[],
+    amount: this.props.amount,
+    gasLimit: this.props.gaslimit,
+    gasPrice: this.props.gasprice.toFixed(8),
+    senderAddress: this.props.senderaddress,
     arrFunctions: [],
     arrInputs:[],
-    selFunc: '',
-    amount: 0,
-    gasLimit: 2500000,
-    gasPrice: 0.0000004,
-    senderAddress: ''
+    selFunc: ''
   };
 
   _isMounted = false;
-  
+  defaultPrice = 0.0000004;
+
   componentDidMount() {
     this._isMounted = true;
+    this.onChangeABI(this.props.abi);
   }
 
   componentWillUnmount() {
     this._isMounted = false;
+    this.props.saveContract(this.state.contractAddress, this.state.abi, this.state.amount, this.state.gasLimit, Number(this.state.gasPrice), this.state.senderAddress);
   }
 
   static contextTypes = {
@@ -118,24 +129,23 @@ export default class SendtoSmartContract extends Component<State> {
   }
 
   onChangeABI(value) {
-    if(value != this.state.abi) {
-      this.setState( {abi: value});
-      if(value == "") {
-        this.setState( {arrFunctions: []} );
-      } else {
-        try {
-          let arrFuncs = [];
-          let arrABI = JSON.parse(value);
-          arrABI.map((data, index) => {
-            if(data.type == "function" && !data.constant) {
-              data.value = Web3EthAbi.encodeFunctionSignature(data);
-              data.label = data.name + '(' + Web3EthAbi.encodeFunctionSignature(data) + ')';
-              arrFuncs.push(data);
-            }
-          })
-          this.setState( {arrFunctions: arrFuncs} );
-        } catch (error) {
-        }
+    this.setState( {abi: value});
+    if(value == "") {
+      this.setState( {arrFunctions: []} );
+    } else {
+      try {
+        let arrFuncs = [];
+        let arrABI = JSON.parse(value);
+        arrABI.map((data, index) => {
+          if(data.type == "function" && !data.constant) {
+            data.value = Web3EthAbi.encodeFunctionSignature(data);
+            data.label = data.name + '(' + Web3EthAbi.encodeFunctionSignature(data) + ')';
+            arrFuncs.push(data);
+          }
+        })
+        this.setState( {arrFunctions: arrFuncs} );
+        if(arrFuncs.length > 0) this.onChangeFunction(arrFuncs[0].value);
+      } catch (error) {
       }
     }
   }
@@ -146,6 +156,22 @@ export default class SendtoSmartContract extends Component<State> {
     if(element !== undefined) {
       this.setState( {arrInputs: element.inputs});
     }
+  }
+
+  onClickClearAll() {
+    this.setState({
+      contractAddress: '',
+      abi: '',
+      arrInputs:[],
+      amount: 0,
+      gasLimit: 2500000,
+      gasPrice: this.defaultPrice.toFixed(8),
+      senderAddress: ''
+    })
+  }
+
+  precise(event) {
+    event.target.value = Number(event.target.value).toFixed(8);
   }
 
   async _sendToContract() {
@@ -165,7 +191,7 @@ export default class SendtoSmartContract extends Component<State> {
       {
         let senderaddress = this.state.senderAddress !== '' ? this.state.senderAddress : null;
         let gasLimit = this.state.gasLimit !== '' ? this.state.gasLimit : 2500000;
-        let gasPrice = this.state.gasPrice !== '' ? this.state.gasPrice : 0.0000004;
+        let gasPrice = this.state.gasPrice !== '' ? this.state.gasPrice : this.defaultPrice.toFixed(8);
         let amount = this.state.amount !== '' ? this.state.amount : 0;
         const outputs = await this.props.sendToContract(this.state.contractAddress, data, amount, gasLimit, gasPrice, senderaddress);
         if (this._isMounted) {
@@ -232,37 +258,40 @@ export default class SendtoSmartContract extends Component<State> {
             value={contractAddress}
             onChange={this.onChangeContractAddress.bind(this)}
           />
-          <div className={styles.abi}>{intl.formatMessage(messages.textareaABI)}</div>
-          <TextArea
-            skin={<TextAreaSkin />}
-            placeholder="Please Input Interface"
-            rows={3}
-            value={abi}
-            onChange={this.onChangeABI.bind(this)}
-          />
-        </div>
-        
-        <div className={styles.borderedBox}>
-          <div className={styles.contractAddress}>{intl.formatMessage(messages.areaFunction)}</div>
-          <div className={styles.areaFunction} >
-	          <div className={styles.comboField}> { showSelectControl } </div>
-            <div className={styles.inputField}>
-            {
-              arrInputs.map((data, index) => {
-                return (
-                  <div key={`con-${index}`} className={styles.tokenElement}>
-                    <div className={styles.solVariable}>
-                      <span className={styles.solTypeColor}>{data.type}</span>
-                      <span className={styles.solVariableLabel}>{data.name}</span>
+          <div className={styles.abi}>
+            <div>{intl.formatMessage(messages.textareaABI)}</div>
+            <TextArea
+              skin={<TextAreaSkin />}
+              placeholder="Please Input Interface"
+              rows={18}
+              value={abi}
+              onChange={this.onChangeABI.bind(this)}
+            />
+          </div>
+          <div className={styles.functionContainer}>
+            <div className={styles.contractAddress}>{intl.formatMessage(messages.areaFunction)}</div>
+            <div className={styles.areaFunction} >
+              <div className={styles.comboField}> { showSelectControl } </div>
+              <div className={styles.inputField}>
+              {
+                arrInputs.map((data, index) => {
+                  return (
+                    <div key={`con-${index}`} className={styles.tokenElement}>
+                      <div className={styles.solVariable}>
+                        <span className={styles.solTypeColor}>{data.type}</span>
+                        <span className={styles.solVariableLabel}>{data.name}</span>
+                      </div>
+                      <input  ref={'function_parameter'+index} className={styles.tokenInputBox} type="text"/>
                     </div>
-                    <input  ref={'function_parameter'+index} className={styles.tokenInputBox} type="text"/>
-                  </div>
-                )
-              })
-            }
-	          </div>
+                  )
+                })
+              }
+              </div>
+            </div>
           </div>
         </div>
+        
+        
         <div className={styles.borderedBox}>
           <div className={styles.areaLabel}>{intl.formatMessage(messages.areaOptional)}</div>
           <div className={styles.ammountContainer}> 
@@ -276,7 +305,7 @@ export default class SendtoSmartContract extends Component<State> {
             </div>
             <div className={styles.gasPrice}> 
               <div className={styles.optionalLabel}> {intl.formatMessage(messages.inputGasPrice)} </div>
-              <input value={gasPrice} type="number" min="0.00000001" max="0.00001" step="0.00000001" onChange={event => this.setState({gasPrice: event.target.value})}/> LUX
+              <input value={gasPrice} type="number" min="0.00000001" max="0.00001" step="0.00000001" onChange={event => this.setState({gasPrice: event.target.value})} onInput={this.precise.bind(this)}/> LUX
             </div>
           </div>
           <div className={styles.addressContainer}> 
@@ -298,6 +327,7 @@ export default class SendtoSmartContract extends Component<State> {
           <Button
             className={buttonClasses}
             label="Clear All"
+            onClick={this.onClickClearAll.bind(this)}
             skin={<SimpleButtonSkin/>}
           />
         </div>
