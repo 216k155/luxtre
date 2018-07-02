@@ -1161,7 +1161,7 @@ const _createWalletTransactionFromServerData = async (
     type,
     title: '',
     description: '',
-    amount: type === transactionTypes.GENERATE ? quantityToBigNumber(0.6) : quantityToBigNumber(amount),
+    amount: type === transactionTypes.GENERATE ? quantityToBigNumber(0.8) : quantityToBigNumber(amount),
     date: unixTimestampToDate(time),
     numberOfConfirmations: confirmations,
     address,
