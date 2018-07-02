@@ -56,7 +56,7 @@ export default class SettingsStore extends Store {
       this._redirectToLanguageSelectionIfNoLocaleSet,
       this._redirectToTermsOfUseScreenIfTermsNotAccepted,
       this._redirectToTermsOfUseForLuxgateScreenIfTermsNotAccepted,
-      this._redirectToSendLogsChoiceScreenIfSendLogsChoiceNotSet,
+    //  this._redirectToSendLogsChoiceScreenIfSendLogsChoiceNotSet,
       this._redirectToMainUi,
     ]);
     this._getTermsOfUseAcceptance();
@@ -213,12 +213,12 @@ export default class SettingsStore extends Store {
     }
   };
 
+  _isOnTermsOfUseAccepted = () => this.stores.app.currentRoute === ROUTES.PROFILE.TERMS_OF_USE;
   _isOnSendLogsChoicePage = () => this.stores.app.currentRoute === ROUTES.PROFILE.SEND_LOGS;
-
   _isOnTermsOfUseForLuxgatePage = () => this.stores.app.currentRoute === ROUTES.PROFILE.TERMS_OF_USE_FOR_LUXGATE;
 
   _redirectToMainUi = () => {
-    if (this.isSendLogsChoiceSet && this._isOnSendLogsChoicePage()) {
+    if (this.areTermsOfUseAccepted && this._isOnTermsOfUseAccepted()) {
       this._redirectToRoot();
     }
 

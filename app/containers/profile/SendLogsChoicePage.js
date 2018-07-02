@@ -19,7 +19,7 @@ export default class SendLogsChoicePage extends Component<InjectedProps> {
     const { currentRoute } = this.props.stores.app;
     const { setSendLogsChoiceRequest } = this.props.stores.profile;
     const isSubmitting = setSendLogsChoiceRequest.isExecuting;
-    const topbar = <TopBar currentRoute={currentRoute} />;
+    const topbar = <TopBar/>;
     return (
       <TopBarLayout
         topbar={topbar}
