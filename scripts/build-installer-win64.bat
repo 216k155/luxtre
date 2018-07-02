@@ -30,13 +30,9 @@ set LIBRESSL_URL=https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-%LIBRESSL
 @if not [%SKIP_TO_FRONTEND%]==[]   (@echo WARNING: SKIP_TO_FRONTEND set, skipping directly to installer rebuild
     pushd installers & goto :build_frontend)
 
-@echo Obtaining curl
-powershell -Command "try { Import-Module BitsTransfer; Start-BitsTransfer -Source '%CURL_URL%' -Destination 'curl.7z'; } catch { exit 1; }"
-@if %errorlevel% neq 0 (@echo FAILED: couldn't obtain curl from %CURL_URL% using BITS
-	popd & exit /b 1)
-del /f curl.exe curl-ca-bundle.crt libcurl.dll
-7z\7z e curl.7z %CURL_BIN%\curl.exe %CURL_BIN%\curl-ca-bundle.crt %CURL_BIN%\libcurl.dll
-@if %errorlevel% neq 0 (@echo FAILED: couldn't extract curl from downloaded archive
+@echo Extracting curl
+7z\7z x 7z\curl.7z -y
+@if %errorlevel% neq 0 (@echo FAILED: couldn't extract curl
 	popd & exit /b 1)
 
 @echo Obtaining Luxcoin v%LUXCOIN_BRANCH%

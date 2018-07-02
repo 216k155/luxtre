@@ -17,36 +17,39 @@ const { formattedWalletAmount } = resolver('utils/formatters');
 type Props = {
   onSwitchLuxgate?: ?Function,
   children?: ?Node,
-  activeWallet?: ?Wallet,
-  currentRoute: string,
-  showSubMenus?: ?boolean,
+  isShowingLuxtre?: ?boolean,
 };
 
 @observer
 export default class TopBar extends Component<Props> {
 
   render() {
-    const { onSwitchLuxgate, activeWallet, currentRoute, showSubMenus } = this.props;
-    const walletRoutesMatch = matchRoute(`${ROUTES.WALLETS.ROOT}/:id(*page)`, currentRoute);
-    const showWalletInfo = walletRoutesMatch && activeWallet != null;
+    const { onSwitchLuxgate, isShowingLuxtre } = this.props;
+
     const topBarStyles = classNames([
       styles.topBar,
-      showSubMenus ? styles.withoutExchange : styles.withExchange
+      (isShowingLuxtre == undefined || isShowingLuxtre == true) ? styles.withoutExchange : styles.withExchange
     ]);
 
 
     const switchToggleIcon = (
       <SvgInline
-        svg={showSubMenus ? menuIconOpened : menuIconClosed}
+        svg={isShowingLuxtre ? menuIconOpened : menuIconClosed}
         className={styles.sidebarIcon}
       />
     );
 
     return (
       <header className={topBarStyles}>
-        <button className={styles.leftIcon} onClick={onSwitchLuxgate}>
+        {/*isShowingLuxtre != undefined ? (
+          <button className={styles.leftIcon} onClick={onSwitchLuxgate}>
+            {switchToggleIcon}
+          </button>
+        ) : (null)*/}
+
+        {/*<button className={styles.leftIcon} onClick={onSwitchLuxgate}>
           {switchToggleIcon}
-        </button>
+        </button>*/}
         {this.props.children}
       </header>
     );

@@ -5,15 +5,9 @@
   color: var(--theme-main-body-messages-color);
 
   :global .SimpleFormField_root > .SimpleFormField_inputWrapper > .SimpleTextArea_textarea{
-    max-height: 70px;
+    max-height: 480px;
+    font-size: 14px;
   }
-}
-
-.categoryTitle {
-  font-size: 26px;
-  letter-spacing: 0.5px;
-  color: var(--theme-bordered-box-text-color);
-  margin-bottom: 30px;
 }
 
 .subTitle {
@@ -28,10 +22,109 @@
   background: var(--theme-bordered-box-background-color);
   border: var(--theme-bordered-box-border);
   border-radius: 4px;
-  padding: 20px 30px;
-  margin-bottom: 10px;
+  width: 100%;
+  height: auto;
+  padding: 20px 20px;
+  :global .SimpleButton_root {
+    width: 10%;
+    height: 30px;
+    padding: 2px;
+  }
 }
 
+.container {
+  margin:20px 20px;
+}
+
+.setting {
+  padding: 10px 0px;
+}
+
+.selector {
+  padding: 4px;
+  text-align: center;
+  width: 250px;
+  margin: 0px 10px;
+}
+
+
+.btn {
+  margin-left: 10px;
+  background-color: #061532;
+  color: #f1f1f1;
+  font-size: 16px;
+  padding: 6px 30px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.btn:hover {
+  background-color: #40c2dc;
+  color: white;
+}
+
+.loader {
+  display: none;
+  border: 3px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 3px solid #40c2dc;
+  border-right: 3px solid #40c2dc;
+  width: 30px;
+  height: 30px;
+  animation: spin 2s linear infinite;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.solEditor {
+  height:500px; 
+  width: 100%; 
+  display:block;
+}
+
+.status {
+  text-align:right;
+  float:right;
+  margin-top:20px;
+  font-size: 12px;
+  max-width: 35%;
+  height: 12px;
+  overflow: hidden;
+}
+
+.output {
+  width:100%; 
+  height:300px;
+}
+
+.bytecode,
+.abi {
+  width:49%; 
+  height:360px;
+  display: inline-block;
+}
+
+.abi {
+  float: right;
+}
+
+.categoryTitle {
+  font-size: 26px;
+  letter-spacing: 0.5px;
+  color: var(--theme-bordered-box-text-color);
+  margin-bottom: 30px;
+}
+
+.solcViewRegion {
+  width: 100%;
+  height: 100%;
+}
 
 .areaConstructor {
   height: 100px;
@@ -58,17 +151,6 @@
   width: 100px;
   display: inline-block;
 }
-
-.gasLimit,
-.gasPrice {
-  width: 50%;
-  display: inline-block;
-}
-
-.gasPrice {
-//  text-align: right;
-}
-
 
 .addressInput {
   width: calc(100% - 100px);

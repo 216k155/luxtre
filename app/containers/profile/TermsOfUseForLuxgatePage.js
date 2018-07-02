@@ -19,7 +19,7 @@ export default class TermsOfUseForLuxgatePage extends Component<InjectedProps> {
     const { setTermsOfUseForLuxgateAcceptanceRequest, termsOfUseForLuxgate } = this.props.stores.profile;
     const { currentRoute } = this.props.stores.app;
     const isSubmitting = setTermsOfUseForLuxgateAcceptanceRequest.isExecuting;
-    const topbar = <TopBar currentRoute={currentRoute} />;
+    const topbar = <TopBar isShowingLuxtre={this.props.stores.sidebar.isShowingLuxtre} />;
     return (
       <TopBarLayout
         topbar={topbar}

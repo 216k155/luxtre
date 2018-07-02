@@ -5,7 +5,8 @@
   color: var(--theme-main-body-messages-color);
 
   :global .SimpleFormField_root > .SimpleFormField_inputWrapper > .SimpleTextArea_textarea{
-    max-height: 70px;
+    max-height: 180px;
+    font-size: 14px;
   }
 }
 
@@ -30,36 +31,57 @@
   border: var(--theme-bordered-box-border);
   border-radius: 4px;
   padding: 20px 30px;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 }
+
+.bytecode,
+.abi,
+.constructContrainer,
+.optionalContainer {
+  width:49%; 
+  display: inline-block;
+}
+
+.bytecode,
+.abi,
+.areaConstructor,
+.gasContainer {
+  height:200px;
+}
+
 
 .abi,
 .bytecode,
-.areaLabel {
-  margin-bottom: 3px;
+.areaLabel,
+.constructContrainer,
+.optionalContainer {
+  margin-bottom: 5px;
   font-size: 16px;
 }
-.abi {
-  margin-top: 20px;
+
+.abi,
+.optionalContainer {
+  float: right;
 }
 
-.areaConstructor {
+.areaConstructor,
+.gasContainer {
   font-size: 14px;
-  height: 120px;
   background-color: #efefef;
   padding: 10px 20px;
 }
 
-.optionalContainer {
+.gasContainer {
   //font-size: 12px;
   input {
-    width: 200px;
+    width: 60%;
 	  height: 30px;
 	  font-size: 14px;
     outline: 0;
     border: var(--theme-bordered-box-border) !important;
     padding-left: 10px !important;
     padding-right: 2px;
+    margin: 5px 0;
 	}
 
 	input[type=number]:hover::-webkit-inner-spin-button {  
@@ -68,42 +90,33 @@
 }
 
 .optionalLabel {
-  width: 120px;
-  display: inline-block;
-}
-
-.gasLimit,
-.gasPrice {
-  width: 50%;
+  width: 80px;
   display: inline-block;
 }
 
 .addressContainer {
   //font-size: 12px;
-  margin-top: 10px;
+  margin-top: 30px;
   input {
 	  height: 30px;
 	  font-size: 14px;
 	  outline: 0;
     padding-left: 10px;
     border: var(--theme-bordered-box-border) !important;
+    width: 100%;
 	}
-}
-
-.addressInput {
-  width: calc(100% - 120px);
 }
 
 .tokenElement {
   margin: 5px 0px;
 }
 
+
 .tokenInputBox {
   width: calc(100% - 160px);
 }
 
 .buttonContainer {
-  margin-top: 30px;
   padding: 0 30px;
   text-align: center;
   :global .SimpleButton_root {

@@ -50,6 +50,10 @@ export const messages = defineMessages({
 
 type Props = {
   createContract: Function,
+  contractaddress: string,
+  abi: string,
+  senderaddress: string,
+  isDialogOpen: Function,
   error: ?LocalizableError
 };
 
@@ -59,23 +63,28 @@ type State = {
   arrFunctions: Array<Object>,
   arrInputs : Array<Object>,
   selFunc: string,
-  gasLimit: number,
-  gasPrice: number,
   senderAddress: string
 };
 
 @observer
-export default class CallSmartContract extends Component<State> {
+export default class CallSmartContract extends Component<Props, State> {
   state = {
-    contractAddress: '',
-    abi: '',
+    contractAddress: this.props.contractaddress,
+    abi: this.props.abi,
+    senderAddress: this.props.senderaddress,
+    arrInputs:[],
     arrFunctions: [],
     arrInputs:[],
-    selFunc: '',
-    gasLimit: 2500000,
-    gasPrice: 0.0000004,
-    senderAddress: ''
+    selFunc: ''
   };
+
+  componentDidMount() { 
+    this.onChangeABI(this.props.abi);
+  }
+
+  componentWillUnmount() {
+    this.props.saveContract(this.state.contractAddress, this.state.abi, this.state.senderAddress);
+  }
 
   static contextTypes = {
     intl: intlShape.isRequired,
@@ -87,30 +96,30 @@ export default class CallSmartContract extends Component<State> {
   }
 
   onChangeABI(value) {
-    if(value != this.state.abi) {
-      this.setState( {abi: value});
-      if(value == "") {
-        this.setState( {arrFunctions: []} );
-      } else {
-        try {
-          let arrFuncs = [];
-          let arrABI = JSON.parse(value);
-          arrABI.map((data, index) => {
-            if(data.type == "function" && data.constant) {
-              data.value = Web3EthAbi.encodeFunctionSignature(data);
-              data.label = data.name + '(' + Web3EthAbi.encodeFunctionSignature(data) + ')';
-              arrFuncs.push(data);
-            }
-          })
-          this.setState( {arrFunctions: arrFuncs} );
-        } catch (error) {
-          
-        }
+    this.setState( {abi: value});
+    if(value == "") {
+      this.setState( {arrFunctions: []} );
+    } else {
+      try {
+        let arrFuncs = [];
+        let arrABI = JSON.parse(value);
+        arrABI.map((data, index) => {
+          if(data.type == "function" && data.constant) {
+            data.value = Web3EthAbi.encodeFunctionSignature(data);
+            data.label = data.name + '(' + Web3EthAbi.encodeFunctionSignature(data) + ')';
+            arrFuncs.push(data);
+          }
+        })
+        this.setState( {arrFunctions: arrFuncs} );
+        if(arrFuncs.length > 0) this.onChangeFunction(arrFuncs[0].value);
+
+      } catch (error) {
+        
       }
     }
   }
 
-  onChangeFunction(value, event) {
+  onChangeFunction(value) {
     this.setState({selFunc: value});
     let element = this.state.arrFunctions.find((data) => { return data.value == value })
     if(element !== undefined) {
@@ -138,6 +147,15 @@ export default class CallSmartContract extends Component<State> {
     }
   }
 
+  onClickClearAll() {
+    this.setState({
+      contractAddress: '',
+      abi: '',
+      arrInputs:[],
+      senderAddress: ''
+    })
+  }
+
   render() {
     const {
       contractAddress, 
@@ -145,8 +163,6 @@ export default class CallSmartContract extends Component<State> {
       arrFunctions,
       arrInputs,
       selFunc,
-      gasLimit,
-      gasPrice,
       senderAddress
       } = this.state;
     
@@ -183,43 +199,44 @@ export default class CallSmartContract extends Component<State> {
             value={contractAddress}
             onChange={this.onChangeContractAddress.bind(this)}
           />
-          <div className={styles.abi}>{intl.formatMessage(messages.textareaABI)}</div>
-          <TextArea
-            skin={<TextAreaSkin />}
-            placeholder="Please Input Interface"
-            rows={3}
-            value={abi}
-            onChange={this.onChangeABI.bind(this)}
-          />
-        </div>
-        
-        <div className={styles.borderedBox}>
-          <div className={styles.contractAddress}>{intl.formatMessage(messages.areaFunction)}</div>
-          <div className={styles.areaFunction}>
-            <div className={styles.comboField}> { showSelectControl } </div>
-            <div className={styles.inputField}>
-            {
-              arrInputs.map((data, index) => {
-                return (
-                  <div key={`con-${index}`} className={styles.tokenElement}>
-                    <div className={styles.solVariable}>
-                      <span className={styles.solTypeColor}>{data.type}</span>
-                      <span className={styles.solVariableLabel}>{data.name}</span>
+          <div className={styles.abi}> 
+            <div>{intl.formatMessage(messages.textareaABI)}</div>
+            <TextArea
+              skin={<TextAreaSkin />}
+              placeholder="Please Input Interface"
+              rows={18}
+              value={abi}
+              onChange={this.onChangeABI.bind(this)}
+            />
+          </div>
+          <div className={styles.functionContainer}>
+            <div className={styles.contractAddress}>{intl.formatMessage(messages.areaFunction)}</div>
+            <div className={styles.areaFunction}>
+              <div className={styles.comboField}> { showSelectControl } </div>
+              <div className={styles.inputField}>
+              {
+                arrInputs.map((data, index) => {
+                  return (
+                    <div key={`con-${index}`} className={styles.tokenElement}>
+                      <div className={styles.solVariable}>
+                        <span className={styles.solTypeColor}>{data.type}</span>
+                        <span className={styles.solVariableLabel}>{data.name}</span>
+                      </div>
+                      <input  ref={'function_parameter'+index} className={styles.tokenInputBox} type="text"/>
                     </div>
-                    <input  ref={'function_parameter'+index} className={styles.tokenInputBox} type="text"/>
-                  </div>
-                )
-              })
-            }
+                  )
+                })
+              }
+              </div>
             </div>
           </div>
         </div>
-        
+
         <div className={styles.borderedBox}>
           <div className={styles.areaLabel}>{intl.formatMessage(messages.areaOptional)}</div>
           <div className={styles.addressContainer}> 
             <div className={styles.optionalLabel}>{intl.formatMessage(messages.inputSenderAddress)} </div>
-            <input className={styles.addressInput} value={senderAddress} type="text" onChange={event => this.setState({senderAddress: event.target.value})}/>
+            <input value={senderAddress} type="text" onChange={event => this.setState({senderAddress: event.target.value})}/>
           </div>
         </div>
 
@@ -237,6 +254,7 @@ export default class CallSmartContract extends Component<State> {
           <Button
             className={buttonClasses}
             label="Clear All"
+            onClick={this.onClickClearAll.bind(this)}
             skin={<SimpleButtonSkin/>}
           />
         </div>

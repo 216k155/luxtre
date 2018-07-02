@@ -32,9 +32,7 @@ export default class TopBarContainer extends Component<Props> {
     return (
       <TopBar
         onSwitchLuxgate={actions.sidebar.switchLuxgate.trigger}
-        activeWallet={activeWallet}
-        currentRoute={app.currentRoute}
-        showSubMenus={isShowingLuxtre}
+        isShowingLuxtre={isShowingLuxtre}
       >
         {isShowingLuxtre && activeWallet && activeWallet.hasPassword == true ? 
           <WalletLockStatusIcon
