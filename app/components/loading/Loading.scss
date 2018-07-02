@@ -8,7 +8,9 @@
     background-color: transparent;
   }
   &.is-connecting {
-    background-color: var(--theme-connecting-background-color);
+    background-image: url("../../assets/images/splash.png");
+    background-repeat:no-repeat;
+    background-size:100% 100%;
   }
 }
 

@@ -5,8 +5,6 @@ import { defineMessages } from 'react-intl';
 import CenteredLayout from '../components/layout/CenteredLayout';
 import Loading from '../components/loading/Loading';
 import type { StoresMap } from '../stores/index';
-import luxcoinLogo from '../assets/images/luxcoin-logo.inline.svg';
-import luxcoinLogoWhite from '../assets/images/luxcoin-logo-white.inline.svg';
 
 export const messages = defineMessages({
   loadingWalletData: {
@@ -31,8 +29,6 @@ export default class LoadingPage extends Component<Props> {
     return (
       <CenteredLayout>
         <Loading
-          currencyIcon={luxcoinLogo}
-          currencyIconWhite={luxcoinLogoWhite}
           isSyncing={isSyncing}
           isConnecting={isConnecting}
           syncPercentage={syncPercentage}
