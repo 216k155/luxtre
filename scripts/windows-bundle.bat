@@ -9,9 +9,9 @@ rem   1. LUXTRE_BRANCH (ex: master)
 rem   2. INSTALL_UTILS (ex: true)
 
 rem Commandline Template
-rem   ex1. luxtre-installer-windows.bat
-rem   ex2. luxtre-installer-windows.bat develop
-rem   ex2. luxtre-installer-windows.bat develop true
+rem   ex1. windows-bundle.bat
+rem   ex2. windows-bundle.bat develop
+rem   ex2. windows-bundle.bat develop true
 
 @set DEFAULT_LUXTRE_BRANCH=master
 
