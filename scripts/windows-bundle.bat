@@ -47,8 +47,8 @@ git clone %URL%
     @for /f %%a in ('git show-ref --hash HEAD') do set version=%%a
     @call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\VsDevCmd.bat"
 
-    @rem NOTE: we're setting the LUXCOIN_BRANCH to DEFAULT_LUXTRE_BRANCH:
+    @rem NOTE: we're setting the LUXTRE_BRANCH to DEFAULT_LUXTRE_BRANCH:
     @rem       1. there's no obvious better choice
     @rem       2. this is intended as a workflow script sitting outside the repository, anyway
-    call scripts\build-installer-win64 %LUXTRE_BRANCH%-%version%
+    call scripts\build-installer\win64 %LUXTRE_BRANCH%-%version%
 @popd

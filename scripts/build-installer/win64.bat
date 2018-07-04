@@ -48,7 +48,7 @@ rmdir /s/q luxd-wins 2>nul
 del luxd-wins.zip
 
 @echo Launcher.cmd
-copy /y scripts\launcher-win.cmd installers\launcher.cmd
+copy /y scripts\launcher\win.cmd installers\launcher.cmd
 
 @echo Installing NPM
 call npm install
@@ -90,7 +90,7 @@ pushd installers
 	exit /b 1)
 
 :build_installer
-    call ..\scripts\appveyor-retry call stack --no-terminal build -j 2 --exec make-installer
+    call ..\scripts\build-installer\retry call stack --no-terminal build -j 2 --exec make-installer
     @if %errorlevel% equ 0 goto :built
 
     @echo FATAL: persistent failure while building installer with:  call stack --no-terminal build -j 2 --exec make-installer
