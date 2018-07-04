@@ -20,6 +20,7 @@ import translations from './i18n/translations';
 import './themes/index.global.scss';
 import { getUrlParameterByName } from './utils/routing';
 import { setupApi } from './api/index';
+import { closeLocalNetwork } from './api/lux/closeLocalNetwork';
 
 // run MobX in strict mode
 useStrict(true);
@@ -59,6 +60,11 @@ const initializeLuxcore = () => {
   }
 };
 
+function unloadLuxcore() {
+	const ret = closeLocalNetwork();
+}
 window.addEventListener('load', initializeLuxcore);
+window.addEventListener('unload', unloadLuxcore);
+//window.addEventListener('beforeunload', beforeunloadLuxcore);
 window.addEventListener('dragover', (event) => event.preventDefault());
 window.addEventListener('drop', (event) => event.preventDefault());

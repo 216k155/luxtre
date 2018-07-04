@@ -57,6 +57,8 @@ import {createLuxContract} from './createLuxContract';
 import {callLuxContract} from './callLuxContract';
 import {sendToLuxContract} from './sendToLuxContract';
 
+import {closeLocalNetwork} from './closeLocalNetwork';
+
 const fs = require('fs');
 
 //masternode
@@ -168,7 +170,7 @@ import {
  * luxcoin backend when working with the LUX coin.
  */
 
-const ca = remote.getGlobal('ca');
+//const ca = remote.getGlobal('ca');
 
 export const LUX_API_HOST = 'localhost';
 export const LUX_API_PORT = 9888;
@@ -304,6 +306,7 @@ export default class LuxApi {
   async getSyncProgress(): Promise<GetSyncProgressResponse> {
     Logger.debug('LuxApi::getSyncProgress called');
     try {
+
       const response: LuxInfo = await getLuxInfo();
       //console.log('LuxApi::getLuxInfo success: ' + stringifyData(response));
       const peerInfos: LuxPeerInfos = await getLuxPeerInfo();
@@ -321,7 +324,21 @@ export default class LuxApi {
       throw new GenericApiError();
     }
   }
-  
+
+ async closeConnection(): Promise<string> {
+    console.log("closeConnection");
+    try {
+	const resc  = await closeLocalNetwork();
+	console.log(resc);
+      return resc;
+
+    } catch (error) {
+      console.log("closeConnection Error");
+      throw new GenericApiError();
+    }
+  }  
+
+
   getWallets = async (): Promise<GetWalletsResponse> => {
     Logger.debug('LuxApi::getWallets called');
     try {
@@ -696,7 +713,7 @@ export default class LuxApi {
     }
     return false;
   }
-
+/*
   async renameWallet(request: RenameWalletRequest): Promise<RenameWalletResponse> {
     Logger.debug('LuxApi::renameWallet called: ' + stringifyData(request));
     const { walletId } = request;
@@ -710,7 +727,7 @@ export default class LuxApi {
       throw new GenericApiError();
     }
   }
-
+*/
   restoreWallet = async (request: RestoreWalletRequest): Promise<RestoreWalletResponse> => {
     Logger.debug('LuxApi::restoreWallet called');
     const { recoveryPhrase: mnemonic, walletName: name, walletPassword: password } = request;
@@ -760,7 +777,7 @@ export default class LuxApi {
     }
     return balance.reduce((a, b) => a + b, 0);
   }
-
+/*
   async getAddresses(request: GetAddressesRequest): Promise<GetAddressesResponse> {
     Logger.debug('LuxApi::getAddresses called: ' + stringifyData(request));
     const { walletId } = request;
@@ -784,7 +801,7 @@ export default class LuxApi {
       throw new GenericApiError();
     }
   }
-
+*/
   async calculateTransactionFee(request: TransactionFeeRequest): Promise<TransactionFeeResponse> {
     Logger.debug('LuxApi::calculateTransactionFee called');
     const { sender, receiver, amount } = request;
@@ -829,7 +846,7 @@ export default class LuxApi {
   isValidAddress(address: string): Promise<boolean> {
     return Promise.resolve(isValidLuxAddress({ address }));
   }
-
+/*
   async importWalletFromKey(
     request: ImportWalletFromKeyRequest
   ): Promise<ImportWalletFromKeyResponse> {
@@ -872,7 +889,7 @@ export default class LuxApi {
       throw new WalletFileImportError();
     }
   }
-
+*/
   async importPrivateKey(privateKey: string): Promise<ImportPrivateKeyResponse> {
     Logger.debug('LuxApi::importPrivateKey called');
     try {
@@ -918,7 +935,7 @@ export default class LuxApi {
     let nextUpdate = null;
     return nextUpdate;
   }
-
+/*
   async exportWalletToFile(
     request: ExportWalletToFileRequest
   ): Promise<ExportWalletToFileResponse> {
@@ -945,7 +962,7 @@ export default class LuxApi {
       throw new GenericApiError();
     }
   }
-
+*/
   /////////////////////////////// MASTERNODE API ///////////////////////////////////
 
   async createMasternode(alias: string): Promise<CreateMasternodeResponse> {
