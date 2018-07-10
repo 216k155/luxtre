@@ -99,15 +99,13 @@ export LUXTRE_VERSION=${luxtre_version}.${build_id}
 if [ -n "${NIX_SSL_CERT_FILE-}" ]; then export SSL_CERT_FILE=$NIX_SSL_CERT_FILE; fi
 
 LUXCOIN_BUILD_UID="${OS_NAME}-${luxcoin_branch//\//-}"
-ARTIFACT_BUCKET=ci-output-sink        # ex- luxcoin-sl-travis
-LUXCOIN_ARTIFACT=luxd               # ex- luxtre-daemon
-LUXCOIN_ARTIFACT_FULL_NAME=${LUXCOIN_ARTIFACT}-${LUXCOIN_BUILD_UID}
+LUXCORE_DEAMON=luxd               # ex- luxtre-daemon
 
-retry 5 curl -o ${LUXCOIN_ARTIFACT_FULL_NAME}.zip \
+retry 5 curl -o ${LUXCORE_DEAMON}.zip \
         --location "https://github.com/216k155/luxtre/releases/download/v${luxcoin_branch}/${luxd_zip}"
-du -sh   ${LUXCOIN_ARTIFACT_FULL_NAME}.zip
-unzip -o ${LUXCOIN_ARTIFACT_FULL_NAME}.zip
-rm       ${LUXCOIN_ARTIFACT_FULL_NAME}.zip
+du -sh   ${LUXCORE_DEAMON}.zip
+unzip -o ${LUXCORE_DEAMON}.zip
+rm       ${LUXCORE_DEAMON}.zip
 
 mv luxd installers/
 rm -rf luxd-mac
@@ -126,16 +124,8 @@ test -n "$(which stack)"     -a -n "${fast_impure}" ||
                          tar xz --strip-components=1 -C ~/.local/bin"
 
 cd installers
-    if test "${travis_pr}" = "false" -a "${os}" != "linux" # No Linux keys yet.
-    then retry 5 nix-shell -p awscli --run "aws s3 cp --region eu-central-1 s3://iohk-private/${key} macos.p12"
-    fi
     retry 5 $(nix-build -j 2)/bin/make-installer
     mkdir -p dist
-    if test -n "${upload_s3}"
-    then
-            echo "$0: --upload-s3 passed, will upload the installer to S3";
-            retry 5 nix-shell -p awscli --run "aws s3 cp 'dist/Luxcore-installer-${LUXTRE_VERSION}.pkg' s3://luxtre-internal/ --acl public-read"
-    fi
     if test -n "${test_install}"
     then echo "$0:  --test-install passed, will test the installer for installability";
          case ${os} in

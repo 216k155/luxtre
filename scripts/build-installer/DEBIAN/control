@@ -1,0 +1,10 @@
+Package: luxtre
+Version: 5.1.0
+License: MIT
+Architecture: amd64
+Vendor: 216k155@luxcore.io
+Maintainer: 216k155
+Section: default
+Priority: extra
+Homepage: luxcore.io
+Description: LUXtre (a take on the latin word, Lustre, meaning – to brighten)
