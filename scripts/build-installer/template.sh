@@ -126,7 +126,7 @@ test -n "$(which stack)"     -a -n "${fast_impure}" ||
 cd installers
     retry 5 $(nix-build -j 2)/bin/make-installer
     mkdir -p dist
-    if test -n "${test_install}"
+    if test -z "${test_install}"
     then echo "$0:  --test-install passed, will test the installer for installability";
          case ${os} in
                  osx )   sudo installer -dumplog -verbose -target / -pkg "dist/Luxcore-installer-${LUXTRE_VERSION}.pkg";;

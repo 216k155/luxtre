@@ -43,7 +43,7 @@ retry() {
 ###
 skip_install=
 skip_release=
-test_install=
+test_install=true
 
 luxtre_version="$1"; arg2nz "luxtre version" $1; shift
 luxd_version="$(printf '%s' "$1" | tr '/' '-')"; arg2nz "Luxcoin Daemon to build Luxtre with" $1; shift
@@ -99,7 +99,7 @@ if test -n "${test_install}"
                 cp -rf icons/64x64.png Luxtre/usr/share/icons/hicolor/64x64/apps/Luxtre.png
 
                 dpkg-deb --build Luxtre
-                echo "Successfully "
+                echo "Successfully finished"
         cd ..
 fi
 exit 0

@@ -1,4 +1,8 @@
 #!/bin/bash
 
 # Delete the link to the binary
-rm -f '/usr/local/bin/luxcore'
+rm -f '/usr/local/bin/Luxcore'
+for user in /home/*
+do
+    rm -f ${user}'/Desktop/Luxtre.desktop'
+done
