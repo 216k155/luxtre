@@ -11,9 +11,9 @@ usage() {
     test -z "$1" || { echo "ERROR: $*" >&2; echo >&2; }
     cat >&2 <<EOF
   Usage:
-    $0 LUXCORE-VERSION LUXCOIN-BRANCH*
+    $0 LUXCORE-VERSION LUXD-VERSION*
 
-  Build a Luxcore installer.
+  Build a Luxtre installer.
     
 EOF
     test -z "$1" || exit 1
@@ -34,46 +34,12 @@ retry() {
 }
 
 luxcore_version="$1"; arg2nz "luxcore version" $1; shift
-luxcoin_branch="$(printf '%s' "$1" | tr '/' '-')"; arg2nz "Luxcoin Daemon to build Luxcore with" $1; shift
+luxd_version="$(printf '%s' "$1" | tr '/' '-')"; arg2nz "Luxcoin Daemon to build Luxcore with" $1; shift
 luxd_zip=luxd-linux.zip;
-
-set -u ## Undefined variable firewall enabled
-while test $# -ge 1
-do case "$1" in
-           --fast-impure )                               fast_impure=true;;
-           --build-id )       arg2nz "build identifier" $2;    build_id="$2"; shift;;
-           --travis-pr )      arg2nz "Travis pull request id" $2;
-                                                           travis_pr="$2"; shift;;
-           --nix-path )       arg2nz "NIX_PATH value" $2;
-                                                     export NIX_PATH="$2"; shift;;
-           --upload-s3 )                                   upload_s3=t;;
-           --test-install )                             test_install=t;;
-
-           ###
-           --verbose )        echo "$0: --verbose passed, enabling verbose operation"
-                                                             verbose=t;;
-           --quiet )          echo "$0: --quiet passed, disabling verbose operation"
-                                                             verbose=;;
-           --help )           usage;;
-           "--"* )            usage "unknown option: '$1'";;
-           * )                break;; esac
-   shift; done
-
-set -e
-if test -n "${verbose}"
-then set -x
-fi
-
-mkdir -p ~/.local/bin
-
-export PATH=$HOME/.local/bin:$PATH
-export LUXCORE_VERSION=${luxcore_version}.${build_id}
-if [ -n "${NIX_SSL_CERT_FILE-}" ]; then export SSL_CERT_FILE=$NIX_SSL_CERT_FILE; fi
-
 LUXCORE_DEAMON=luxd               # ex- luxcore-daemon
 
 retry 5 curl -o ${LUXCORE_DEAMON}.zip \
-        --location "https://github.com/216k155/luxcore/releases/download/v${luxcoin_branch}/${luxd_zip}"
+        --location "https://github.com/216k155/luxcore/releases/download/v${luxd_version}/${luxd_zip}"
 du -sh   ${LUXCORE_DEAMON}.zip
 unzip -o ${LUXCORE_DEAMON}.zip
 rm       ${LUXCORE_DEAMON}.zip

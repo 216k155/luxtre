@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Link to the binary
-ln -sf '/opt/Luxtre/luxcore' '/usr/local/bin/luxcore'
+ln -sf '/opt/Luxtre/Luxcore' '/usr/local/bin/Luxcore'
 for user in /home/*
 do
     cp /usr/share/applications/Luxtre.desktop ${user}/Desktop/

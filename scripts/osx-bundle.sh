@@ -5,11 +5,11 @@
 #   3. 'stack'
 
 DEFAULT_LUXTRE_BRANCH=master
-DEFAULT_LUXDAEMON_VERSION=1.0.0
+DEFAULT_LUXD_VERSION=1.0.0
 
 LUXTRE_BRANCH=${1:-${DEFAULT_LUXTRE_BRANCH}}
 GITHUB_USER=${2:-216k155}
-LUX_DAEMON=${3:-${DEFAULT_LUXDAEMON_VERSION}}
+LUXD_VERSION=${3:-${DEFAULT_LUXD_VERSION}}
 shift 2
 
 URL=https://github.com/${GITHUB_USER}/luxtre.git
@@ -56,6 +56,6 @@ pushd luxtre
 
     bash scripts/build-installer/osx.sh \
         "${GITHUB_USER}-${LUXTRE_BRANCH}-$(git show-ref --hash HEAD)" \
-        "${LUX_DAEMON}" \
+        "${LUXD_VERSION}" \
         "$@"
 popd
