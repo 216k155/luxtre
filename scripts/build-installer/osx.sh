@@ -11,10 +11,22 @@ usage() {
     test -z "$1" || { echo "ERROR: $*" >&2; echo >&2; }
     cat >&2 <<EOF
   Usage:
-    $0 LUXTRE-VERSION LUXD-VERSION*
+    $0 LUXTRE-VERSION LUXD-VERSION OPTIONS*
 
-  Build a luxtre installer.
-  
+  Build a Luxcore installer.
+
+  Options:
+    --fast-impure             Fast, impure, incremental build
+    --build-id BUILD-NO       Identifier of the build; defaults to '0'
+
+    --travis-pr PR-ID         Travis pull request id we're building
+    --nix-path NIX-PATH       NIX_PATH value
+
+    --test-install            Test the installer for installability
+
+    --verbose                 Verbose operation
+    --quiet                   Disable verbose operation
+    
 EOF
     test -z "$1" || exit 1
     test -z "nix-shell" || { echo "ERROR: Please curl https://nixos.org/nix/install | sh"; }
@@ -39,12 +51,10 @@ retry() {
 fast_impure=
 verbose=true
 build_id=0
-travis_pr=true
-upload_s3=
 test_install=
 
 luxtre_version="$1"; arg2nz "luxtre version" $1; shift
-luxd_version="$(printf '%s' "$1" | tr '/' '-')"; arg2nz "Luxcoin Daemon to build Luxcore with" $1; shift
+luxcoin_branch="$(printf '%s' "$1" | tr '/' '-')"; arg2nz "Luxcoin Daemon to build Luxcore with" $1; shift
 
 case "$(uname -s)" in
         Darwin ) OS_NAME=darwin; os=osx;   luxd_zip=luxd-mac.zip;   key=macos-3.p12;;
@@ -52,16 +62,41 @@ case "$(uname -s)" in
         * )     usage "Unsupported OS: $(uname -s)";;
 esac
 
+set -u ## Undefined variable firewall enabled
+while test $# -ge 1
+do case "$1" in
+           --fast-impure )                               fast_impure=true;;
+           --build-id )       arg2nz "build identifier" $2;    build_id="$2"; shift;;
+           --nix-path )       arg2nz "NIX_PATH value" $2;
+                                                     export NIX_PATH="$2"; shift;;
+           --test-install )                             test_install=true;;
+
+           ###
+           --verbose )        echo "$0: --verbose passed, enabling verbose operation"
+                                                             verbose=true;;
+           --quiet )          echo "$0: --quiet passed, disabling verbose operation"
+                                                             verbose=;;
+           --help )           usage;;
+           "--"* )            usage "unknown option: '$1'";;
+           * )                break;; esac
+   shift; done
+
+set -e
+if test -n "${verbose}"
+then set -x
+fi
+
 mkdir -p ~/.local/bin
 
 export PATH=$HOME/.local/bin:$PATH
 export LUXTRE_VERSION=${luxtre_version}.${build_id}
 if [ -n "${NIX_SSL_CERT_FILE-}" ]; then export SSL_CERT_FILE=$NIX_SSL_CERT_FILE; fi
 
+LUXCOIN_BUILD_UID="${OS_NAME}-${luxcoin_branch//\//-}"
 LUXCORE_DEAMON=luxd               # ex- luxtre-daemon
 
 retry 5 curl -o ${LUXCORE_DEAMON}.zip \
-        --location "https://github.com/216k155/luxtre/releases/download/v${luxd_version}/${luxd_zip}"
+        --location "https://github.com/216k155/luxtre/releases/download/v${luxcoin_branch}/${luxd_zip}"
 du -sh   ${LUXCORE_DEAMON}.zip
 unzip -o ${LUXCORE_DEAMON}.zip
 rm       ${LUXCORE_DEAMON}.zip

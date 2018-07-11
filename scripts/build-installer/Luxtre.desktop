@@ -1,8 +1,8 @@
 [Desktop Entry]
 Name=Luxtre
-Exec=/opt/Luxtre/Launcher
+Exec=/opt/Luxtre/launcher
 Terminal=false
 Type=Application
-Icon=luxtre
+Icon=Luxtre
 Categories=Application;
 Name[en_US]=Luxtre
