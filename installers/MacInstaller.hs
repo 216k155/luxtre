@@ -111,6 +111,7 @@ makeInstaller cfg = do
   echo "Preparing files ..."
   case icApi cfg of
     "luxcoin" -> do
+      copyFile "launcher.sh" (dir </> "launcher.sh")
       copyFile "luxd" (dir </> "luxd")
 
       let launcherConfigFileName = "launcher-config.yaml"
@@ -161,7 +162,12 @@ writeLauncherFile dir _ = do
       , "cd \"$(dirname $0)\""
       , "mkdir -p \"$HOME/Library/Application Support/Luxcore/Secrets-1.0\""
       , "mkdir -p \"$HOME/Library/Application Support/Luxcore/Logs/pub\""
-      , "(ps aux | grep \"[l]uxd\") || ./luxd -daemon -rpcuser=rpcuser -rpcpassword=rpcpwd"
+      , "mkdir -p \"$HOME/Library/Application Support/LUX\""
+      , "grep daemon= ~/Library/Application\" \"Support/LUX/lux.conf || echo daemon=1>>~/Library/Application\" \"Support/LUX/lux.conf"
+      , "grep server= ~/Library/Application\" \"Support/LUX/lux.conf || echo server=1>>~/Library/Application\" \"Support/LUX/lux.conf"
+      , "grep rpcuser= ~/Library/Application\" \"Support/LUX/lux.conf || echo rpcuser=rpcuser>>~/Library/Application\" \"Support/LUX/lux.conf"
+      , "grep rpcpassword= ~/Library/Application\" \"Support/LUX/lux.conf || echo rpcpassword=$RANDOM$RANDOM>>~/Library/Application\" \"Support/LUX/lux.conf"
+      , "./luxd"
       , "./Frontend"
       ]
 

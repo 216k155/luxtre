@@ -8,11 +8,10 @@ DEFAULT_LUXTRE_BRANCH=master
 DEFAULT_LUXD_VERSION=1.0.0
 
 LUXTRE_BRANCH=${1:-${DEFAULT_LUXTRE_BRANCH}}
-GITHUB_USER=${2:-216k155}
-LUXD_VERSION=${3:-${DEFAULT_LUXD_VERSION}}
+LUXD_VERSION=${2:-${DEFAULT_LUXD_VERSION}}
 shift 2
 
-URL=https://github.com/${GITHUB_USER}/luxtre.git
+URL=https://github.com/216k155/luxtre.git
 
 test ! -e luxtre.old ||
         rm -rf luxtre.old
@@ -55,7 +54,6 @@ pushd luxtre
     git reset --hard origin/${LUXTRE_BRANCH}
 
     bash scripts/build-installer/osx.sh \
-        "${GITHUB_USER}-${LUXTRE_BRANCH}-$(git show-ref --hash HEAD)" \
-        "${LUXD_VERSION}" \
-        "$@"
+        "${LUXTRE_BRANCH}-$(git show-ref --hash HEAD)" \
+        "${LUXD_VERSION}"
 popd

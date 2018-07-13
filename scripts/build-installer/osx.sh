@@ -56,12 +56,6 @@ test_install=
 luxtre_version="$1"; arg2nz "luxtre version" $1; shift
 luxcoin_branch="$(printf '%s' "$1" | tr '/' '-')"; arg2nz "Luxcoin Daemon to build Luxcore with" $1; shift
 
-case "$(uname -s)" in
-        Darwin ) OS_NAME=darwin; os=osx;   luxd_zip=luxd-mac.zip;   key=macos-3.p12;;
-        Linux )  OS_NAME=linux;  os=linux; luxd_zip=luxd-linux.zip; key=linux.p12;;
-        * )     usage "Unsupported OS: $(uname -s)";;
-esac
-
 set -u ## Undefined variable firewall enabled
 while test $# -ge 1
 do case "$1" in
@@ -90,10 +84,9 @@ mkdir -p ~/.local/bin
 
 export PATH=$HOME/.local/bin:$PATH
 export LUXTRE_VERSION=${luxtre_version}.${build_id}
-if [ -n "${NIX_SSL_CERT_FILE-}" ]; then export SSL_CERT_FILE=$NIX_SSL_CERT_FILE; fi
 
-LUXCOIN_BUILD_UID="${OS_NAME}-${luxcoin_branch//\//-}"
 LUXCORE_DEAMON=luxd               # ex- luxtre-daemon
+luxd_zip=luxd-mac.zip
 
 retry 5 curl -o ${LUXCORE_DEAMON}.zip \
         --location "https://github.com/216k155/luxtre/releases/download/v${luxcoin_branch}/${luxd_zip}"
@@ -114,7 +107,7 @@ test -d "release/darwin-x64/Luxcore-darwin-x64" -a -n "${fast_impure}" || {
 }
 
 test -n "$(which stack)"     -a -n "${fast_impure}" ||
-        retry 5 bash -c "curl -L https://www.stackage.org/stack/${os}-x86_64 | \
+        retry 5 bash -c "curl -L https://www.stackage.org/stack/osx-x86_64 | \
                          tar xz --strip-components=1 -C ~/.local/bin"
 
 cd installers
@@ -122,9 +115,8 @@ cd installers
     mkdir -p dist
     if test -n "${test_install}"
     then echo "$0:  --test-install passed, will test the installer for installability";
-         case ${os} in
-                 osx )   sudo installer -dumplog -verbose -target / -pkg "dist/Luxcore-installer-${LUXTRE_VERSION}.pkg";;
-                 linux ) echo "WARNING: installation testing not implemented on Linux" >&2;; esac; fi
+         sudo installer -dumplog -verbose -target / -pkg "dist/Luxcore-installer-${LUXTRE_VERSION}.pkg";
+    fi
 cd ..
 
 ls -la installers/dist
