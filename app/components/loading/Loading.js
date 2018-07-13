@@ -58,7 +58,7 @@ export default class Loading extends Component<Props> {
   render() {
     const { intl } = this.context;
     const {
-      currencyIcon, currencyIconWhite, isConnecting, isSyncing, syncPercentage,
+      isConnecting, isSyncing, syncPercentage,
       isLoadingDataForNextScreen, loadingDataForNextScreenMessage, hasBeenConnected,
       hasBlockSyncingStarted, hasLoadedCurrentLocale, hasLoadedCurrentTheme,
     } = this.props;
@@ -72,18 +72,12 @@ export default class Loading extends Component<Props> {
       styles.luxcoreLogo,
       isConnecting ? styles.connectingLogo : styles.syncingLogo,
     ]);
-    const currencyLogoStyles = classNames([
-      styles[`${environment.API}-logo`],
-      isConnecting ? styles.connectingLogo : styles.syncingLogo,
-    ]);
 
-    const luxcoreLoadingLogo = isConnecting ? luxcoreLogoWhite : luxcoreLogo;
-    const currencyLoadingLogo = isConnecting ? currencyIconWhite : currencyIcon;
     const connectingMessage = hasBeenConnected ? messages.reconnecting : messages.connecting;
 
     return (
       <div className={componentStyles}>
-        <SvgInline svg={luxcoreLoadingLogo} className={luxcoreLogoStyles} />
+        { isConnecting ? (null) : ( <SvgInline svg={luxcoreLogo} className={luxcoreLogoStyles} /> )}
         {hasLoadedCurrentLocale && (
           <div>
             {isConnecting && !hasBlockSyncingStarted && (

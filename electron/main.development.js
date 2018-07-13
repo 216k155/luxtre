@@ -8,6 +8,7 @@ import winLinuxMenu from './menus/win-linux';
 import ipcApi from './ipc-api';
 import getRuntimeFolderPath from './lib/getRuntimeFolderPath';
 import { luxcoreLogger } from './lib/remoteLog';
+import killLux from './lib/killd'
 
 const APP_NAME = 'Luxcore';
 // Configure default logger levels for console and file outputs
@@ -67,6 +68,7 @@ if (isDev) {
 }
 
 app.on('window-all-closed', () => {
+  //killLux(true, false);
   app.quit();
 });
 
@@ -208,6 +210,7 @@ app.on('ready', async () => {
   });
 
   mainWindow.on('closed', () => {
+  	//killLux(true, false);
     app.quit();
   });
 
