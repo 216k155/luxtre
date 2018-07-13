@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Luxtre
+Exec=/opt/Luxtre/launcher
+Terminal=false
+Type=Application
+Icon=Luxtre
+Categories=Application;
+Name[en_US]=Luxtre

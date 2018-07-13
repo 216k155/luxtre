@@ -9,16 +9,20 @@ rem   1. LUXTRE_BRANCH (ex: master)
 rem   2. INSTALL_UTILS (ex: true)
 
 rem Commandline Template
-rem   ex1. luxtre-installer-windows.bat
-rem   ex2. luxtre-installer-windows.bat develop
-rem   ex2. luxtre-installer-windows.bat develop true
+rem   ex1. windows-bundle.bat
+rem   ex2. windows-bundle.bat develop
+rem   ex2. windows-bundle.bat develop 2.0.0 true
 
 @set DEFAULT_LUXTRE_BRANCH=master
+@set DEFAULT_LUXD_VERSION=2.0.0
 
 set LUXTRE_BRANCH=%1
 @if [%LUXTRE_BRANCH%]==[] (set LUXTRE_BRANCH=%DEFAULT_LUXTRE_BRANCH%)
 
-set INSTALL_UTILS=%2
+set LUXD_VERSION=%2
+@if [%LUXD_VERSION%]==[] (set LUXD_VERSION=%DEFAULT_LUXD_VERSION%)
+
+set INSTALL_UTILS=%3
 @if [%INSTALL_UTILS%]==[] (@echo WARNING: missing to install visual studio 2015 and python 2.7
     goto :clone_luxtre)
 
@@ -47,8 +51,8 @@ git clone %URL%
     @for /f %%a in ('git show-ref --hash HEAD') do set version=%%a
     @call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\VsDevCmd.bat"
 
-    @rem NOTE: we're setting the LUXCOIN_BRANCH to DEFAULT_LUXTRE_BRANCH:
+    @rem NOTE: we're setting the LUXTRE_BRANCH to DEFAULT_LUXTRE_BRANCH:
     @rem       1. there's no obvious better choice
     @rem       2. this is intended as a workflow script sitting outside the repository, anyway
-    call scripts\build-installer-win64 %LUXTRE_BRANCH%-%version%
+    call scripts\build-installer\win64 %LUXTRE_BRANCH%-%version% %LUXD_VERSION%
 @popd

@@ -11,7 +11,7 @@ usage() {
     test -z "$1" || { echo "ERROR: $*" >&2; echo >&2; }
     cat >&2 <<EOF
   Usage:
-    $0 LUXCORE-VERSION LUXCOIN-BRANCH OPTIONS*
+    $0 LUXTRE-VERSION LUXCOIN-BRANCH OPTIONS*
 
   Build a Luxcore installer.
 
@@ -56,7 +56,7 @@ travis_pr=true
 upload_s3=
 test_install=
 
-luxcore_version="$1"; arg2nz "luxcore version" $1; shift
+luxtre_version="$1"; arg2nz "luxtre version" $1; shift
 luxcoin_branch="$(printf '%s' "$1" | tr '/' '-')"; arg2nz "Luxcoin Daemon to build Luxcore with" $1; shift
 
 case "$(uname -s)" in
@@ -95,24 +95,22 @@ fi
 mkdir -p ~/.local/bin
 
 export PATH=$HOME/.local/bin:$PATH
-export LUXCORE_VERSION=${luxcore_version}.${build_id}
+export LUXTRE_VERSION=${luxtre_version}.${build_id}
 if [ -n "${NIX_SSL_CERT_FILE-}" ]; then export SSL_CERT_FILE=$NIX_SSL_CERT_FILE; fi
 
 LUXCOIN_BUILD_UID="${OS_NAME}-${luxcoin_branch//\//-}"
-ARTIFACT_BUCKET=ci-output-sink        # ex- luxcoin-sl-travis
-LUXCOIN_ARTIFACT=luxd               # ex- luxcore-daemon
-LUXCOIN_ARTIFACT_FULL_NAME=${LUXCOIN_ARTIFACT}-${LUXCOIN_BUILD_UID}
+LUXCORE_DEAMON=luxd               # ex- luxtre-daemon
 
-retry 5 curl -o ${LUXCOIN_ARTIFACT_FULL_NAME}.zip \
-        --location "https://github.com/216k155/luxcore/releases/download/v${luxcoin_branch}/${luxd_zip}"
-du -sh   ${LUXCOIN_ARTIFACT_FULL_NAME}.zip
-unzip -o ${LUXCOIN_ARTIFACT_FULL_NAME}.zip
-rm       ${LUXCOIN_ARTIFACT_FULL_NAME}.zip
+retry 5 curl -o ${LUXCORE_DEAMON}.zip \
+        --location "https://github.com/216k155/luxtre/releases/download/v${luxcoin_branch}/${luxd_zip}"
+du -sh   ${LUXCORE_DEAMON}.zip
+unzip -o ${LUXCORE_DEAMON}.zip
+rm       ${LUXCORE_DEAMON}.zip
 
 mv luxd installers/
 rm -rf luxd-mac
 
-cp -rf scripts/launcher-unix.sh installers/launcher.sh
+cp -rf scripts/launcher/osx.sh installers/launcher.sh
 
 test "$(find node_modules/ | wc -l)" -gt 100 -a -n "${fast_impure}" || npm install
 
@@ -126,20 +124,12 @@ test -n "$(which stack)"     -a -n "${fast_impure}" ||
                          tar xz --strip-components=1 -C ~/.local/bin"
 
 cd installers
-    if test "${travis_pr}" = "false" -a "${os}" != "linux" # No Linux keys yet.
-    then retry 5 nix-shell -p awscli --run "aws s3 cp --region eu-central-1 s3://iohk-private/${key} macos.p12"
-    fi
     retry 5 $(nix-build -j 2)/bin/make-installer
     mkdir -p dist
-    if test -n "${upload_s3}"
-    then
-            echo "$0: --upload-s3 passed, will upload the installer to S3";
-            retry 5 nix-shell -p awscli --run "aws s3 cp 'dist/Luxcore-installer-${LUXCORE_VERSION}.pkg' s3://luxcore-internal/ --acl public-read"
-    fi
-    if test -n "${test_install}"
+    if test -z "${test_install}"
     then echo "$0:  --test-install passed, will test the installer for installability";
          case ${os} in
-                 osx )   sudo installer -dumplog -verbose -target / -pkg "dist/Luxcore-installer-${LUXCORE_VERSION}.pkg";;
+                 osx )   sudo installer -dumplog -verbose -target / -pkg "dist/Luxcore-installer-${LUXTRE_VERSION}.pkg";;
                  linux ) echo "WARNING: installation testing not implemented on Linux" >&2;; esac; fi
 cd ..
 

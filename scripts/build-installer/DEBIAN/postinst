@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Link to the binary
+ln -sf '/opt/Luxtre/Luxcore' '/usr/local/bin/Luxcore'
+for user in /home/*
+do
+    cp /usr/share/applications/Luxtre.desktop ${user}/Desktop/
+    chmod 755 ${user}//Desktop/Luxtre.desktop
+done

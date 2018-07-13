@@ -4,19 +4,18 @@
 #   2. 'nix-shell'
 #   3. 'stack'
 
-DEFAULT_LUXCORE_BRANCH=master
-DEFAULT_LUXDAEMON_VERSION=1.0.0
+DEFAULT_LUXTRE_BRANCH=master
+DEFAULT_LUXD_VERSION=1.0.0
 
-LUXCORE_BRANCH=${1:-${DEFAULT_LUXCORE_BRANCH}}
-GITHUB_USER=${2:-216k155}
-LUX_DAEMON=${3:-${DEFAULT_LUXDAEMON_VERSION}}
+LUXTRE_BRANCH=${1:-${DEFAULT_LUXTRE_BRANCH}}
+LUXD_VERSION=${2:-${DEFAULT_LUXD_VERSION}}
 shift 2
 
-URL=https://github.com/${GITHUB_USER}/luxcore.git
+URL=https://github.com/216k155/luxtre.git
 
-test ! -e luxcore.old ||
-        rm -rf luxcore.old
-mv luxcore luxcore.old 2>/dev/null
+test ! -e luxtre.old ||
+        rm -rf luxtre.old
+mv luxtre luxtre.old 2>/dev/null
 
 set -e -u
 
@@ -48,14 +47,13 @@ EOF
         . ~/.profile
 }
 
-echo "Building Luxcore branch ${LUXCORE_BRANCH} from ${URL}"
+echo "Building Luxcore branch ${LUXTRE_BRANCH} from ${URL}"
 git clone ${URL}
 
-pushd luxcore
-    git reset --hard origin/${LUXCORE_BRANCH}
+pushd luxtre
+    git reset --hard origin/${LUXTRE_BRANCH}
 
-    bash scripts/build-installer-unix.sh \
-            "${GITHUB_USER}-${LUXCORE_BRANCH}-$(git show-ref --hash HEAD)" \
-        "${LUX_DAEMON}" \
-            "$@"
+    bash scripts/build-installer/osx.sh \
+        "${LUXTRE_BRANCH}-$(git show-ref --hash HEAD)" \
+        "${LUXD_VERSION}"
 popd

@@ -4,24 +4,21 @@ rem
 rem   installer dev mode:  set SKIP_TO_FRONTEND/SKIP_TO_INSTALLER
 set MIN_LUXCOIN_BYTES=50000000
 set LIBRESSL_VERSION=2.5.3
-set CURL_VERSION=7.54.0
-set LUXCOIN_BRANCH_DEFAULT=1.0.0
-set LUXTRE_VERSION_DEFAULT=local-dev-build-%LUXCOIN_BRANCH_DEFAULT%
+set DEFAULT_LUXD_VERSION=1.0.0
+set LUXTRE_VERSION_DEFAULT=master-build
 
 set LUXTRE_VERSION=%1
 @if [%LUXTRE_VERSION%]==[] (@echo WARNING: LUXTRE_VERSION [argument #1] was not provided, defaulting to %LUXTRE_VERSION_DEFAULT%
     set LUXTRE_VERSION=%LUXTRE_VERSION_DEFAULT%);
-set LUXCOIN_BRANCH=%2
-@if [%LUXCOIN_BRANCH%]==[]   (@echo WARNING: LUXCOIN_BRANCH [argument #2] was not provided, defaulting to %LUXCOIN_BRANCH_DEFAULT%
-    set LUXCOIN_BRANCH=%LUXCOIN_BRANCH_DEFAULT%);
+set LUXD_VERSION=%2
+@if [%LUXD_VERSION%]==[]   (@echo WARNING: LUXD_VERSION [argument #2] was not provided, defaulting to %DEFAULT_LUXD_VERSION%
+    set LUXD_VERSION=%DEFAULT_LUXD_VERSION%);
 
-set CURL_URL=https://bintray.com/artifact/download/vszakats/generic/curl-%CURL_VERSION%-win64-mingw.7z
-set CURL_BIN=curl-%CURL_VERSION%-win64-mingw\bin
-set LUXD_URL=https://github.com/216k155/luxtre/releases/download/v%LUXCOIN_BRANCH%/luxd-wins.zip
+set LUXD_URL=https://github.com/216k155/luxtre/releases/download/v%LUXD_VERSION%/luxd-wins.zip
 set LIBRESSL_URL=https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-%LIBRESSL_VERSION%-windows.zip
 
 @echo Building luxtre version:  %LUXTRE_VERSION%
-@echo ..with Luxcoin branch:      %LUXCOIN_BRANCH%
+@echo ..with Luxcoin version:      %LUXD_VERSION%
 @echo ..with LibreSSL version:    %LIBRESSL_VERSION%
 @echo .
 
@@ -35,10 +32,10 @@ set LIBRESSL_URL=https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-%LIBRESSL
 @if %errorlevel% neq 0 (@echo FAILED: couldn't extract curl
 	popd & exit /b 1)
 
-@echo Obtaining Luxcoin v%LUXCOIN_BRANCH%
+@echo Obtaining Luxcoin v%LUXD_VERSION%
 del /f luxd-wins.zip 2>nul
 .\curl --location %LUXD_URL% -o luxd-wins.zip
-@if %errorlevel% neq 0 (@echo FAILED: couldn't obtain the Luxcoin v%LUXCOIN_BRANCH%
+@if %errorlevel% neq 0 (@echo FAILED: couldn't obtain the Luxcoin v%LUXD_VERSION%
 popd & exit /b 1)
 7z\7z x luxd-wins.zip -y
 @if %errorlevel% neq 0 (@echo FAILED: 7z x luxd-wins.zip -y
@@ -48,7 +45,7 @@ rmdir /s/q luxd-wins 2>nul
 del luxd-wins.zip
 
 @echo Launcher.cmd
-copy /y scripts\launcher-win.cmd installers\launcher.cmd
+copy /y scripts\launcher\win.cmd installers\launcher.cmd
 
 @echo Installing NPM
 call npm install
@@ -90,7 +87,7 @@ pushd installers
 	exit /b 1)
 
 :build_installer
-    call ..\scripts\appveyor-retry call stack --no-terminal build -j 2 --exec make-installer
+    call ..\scripts\build-installer\retry call stack --no-terminal build -j 2 --exec make-installer
     @if %errorlevel% equ 0 goto :built
 
     @echo FATAL: persistent failure while building installer with:  call stack --no-terminal build -j 2 --exec make-installer
