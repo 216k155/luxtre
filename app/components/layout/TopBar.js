@@ -41,11 +41,11 @@ export default class TopBar extends Component<Props> {
 
     return (
       <header className={topBarStyles}>
-        {/*isShowingLuxtre != undefined ? (
+        {isShowingLuxtre != undefined ? (
           <button className={styles.leftIcon} onClick={onSwitchLuxgate}>
             {switchToggleIcon}
           </button>
-        ) : (null)*/}
+        ) : (null)}
 
         {/*<button className={styles.leftIcon} onClick={onSwitchLuxgate}>
           {switchToggleIcon}
