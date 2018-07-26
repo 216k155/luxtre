@@ -15,33 +15,35 @@ type Props = {
       items: Array<SidebarWalletType>,
       activeWalletId: ?string,
       actions: {
-        onWalletItemClick: Function,
+        onWalletItemClick: Function
       }
     }
   },
   categories: Array<{
     name: string,
     route: string,
-    icon: string,
+    icon: string
   }>,
   activeSidebarCategory: string,
   onCategoryClicked: Function,
   isShowingLuxtre: boolean,
-  openDialogAction: Function,
+  openDialogAction: Function
 };
 
 @observer
 export default class Sidebar extends Component<Props> {
-
   static defaultProps = {
-    isShowingLuxtre: false,
+    isShowingLuxtre: false
   };
 
   render() {
     const {
-      menus, categories, activeSidebarCategory,
-      isShowingLuxtre, onCategoryClicked,
-      openDialogAction,
+      menus,
+      categories,
+      activeSidebarCategory,
+      isShowingLuxtre,
+      onCategoryClicked,
+      openDialogAction
     } = this.props;
     let subMenu = null;
 
@@ -50,9 +52,11 @@ export default class Sidebar extends Component<Props> {
       subMenu = (
         <SidebarWalletsMenu
           wallets={menus.wallets.items}
-          onAddWallet={() => openDialogAction({
-            dialog: WalletAddDialog,
-          })}
+          onAddWallet={() =>
+            openDialogAction({
+              dialog: WalletAddDialog
+            })
+          }
           onWalletItemClick={menus.wallets.actions.onWalletItemClick}
           isActiveWallet={id => id === menus.wallets.activeWalletId}
           visible={isShowingLuxtre}
@@ -85,5 +89,4 @@ export default class Sidebar extends Component<Props> {
       </div>
     );
   }
-
 }
