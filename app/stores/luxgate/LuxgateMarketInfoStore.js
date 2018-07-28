@@ -90,8 +90,19 @@ export default class LuxgateMarketInfoStore extends Store {
         ).promise;
         if (info !== '') {
           const objInfo = JSON.parse(info);
-          // Assumption response comes in a string, { trades: Array<LGPrice> }
-          this._addLGPriceArray(new LGPriceArray({ prices: objInfo.trades }));
+          // Assumption response comes in a string so convert to { prices: Array<LGPrice> }
+          // objInfo = [[timestamp, high, low, open, close, relvolume, basevolume, aveprice, numtrades], ...]
+          const prices = objInfo.map(priceArray => ({
+            timestamp: priceArray[0],
+            high: priceArray[1],
+            low: priceArray[2],
+            open: priceArray[3],
+            close: priceArray[4],
+            relvolume: priceArray[5],
+            basevolume: priceArray[6],
+            numtrades: priceArray[7]
+          }));
+          this._addLGPriceArray(new LGPriceArray({ prices }));
         }
 
         this.getLGPriceArrayRequest.reset();
