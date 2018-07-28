@@ -165,7 +165,7 @@ class CandleStickChartWithMACDIndicator extends React.Component {
           yExtents={[d => d.volume, smaVolume50.accessor()]}
           origin={(w, h) => [0, h - 300]}
         >
-          <YAxis axisAt="left" orient="left" ticks={5} tickFormat={format('.2s')} />
+          <YAxis axisAt="left" orient="left" ticks={5} tickFormat={format('.3f')} />
 
           <MouseCoordinateY
             at="left"
@@ -233,6 +233,6 @@ CandleStickChartWithMACDIndicator.defaultProps = {
   type: 'svg'
 };
 
-const CandleStickChartWithMACDIndicatorFitted = fitWidth(CandleStickChartWithMACDIndicator);
+CandleStickChartWithMACDIndicator = fitWidth(CandleStickChartWithMACDIndicator);
 
-export default CandleStickChartWithMACDIndicatorFitted;
+export default CandleStickChartWithMACDIndicator;

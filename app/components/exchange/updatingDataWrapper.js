@@ -27,7 +27,6 @@ export default function updatingDataWrapper(ChartComponent) {
     }
     onKeyPress(e) {
       const keyCode = e.which;
-      console.log(keyCode);
       switch (keyCode) {
         case 50: {
           // 2 (50) - Start alter data
