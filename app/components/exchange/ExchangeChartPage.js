@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import data from './chartdata';
 import { timeParse } from 'd3-time-format';
+import Chart from './Chart';
 
 import type { LGPrice } from '../../domain/LGPriceArray';
 
@@ -299,17 +300,30 @@ export default class ExchangeChartPage extends Component<Props> {
         1
       ],
       [1511482680, 1.77777461, 1.77777461, 1.77777461, 1.77777461, 0.0499, 0.0280688, 1.77777461, 1]
-    ].map(lgPrice => ({
-      date: parseDate(String(lgPrice.timestamp)),
-      open: lgPrice.open,
-      high: lgPrice.high,
-      low: lgPrice.low,
-      close: lgPrice.close,
-      volume: lgPrice.basevolume // I guess? or ( sum base rel / 2 )?
-    }));
+    ]
+      .map(priceArray => ({
+        timestamp: priceArray[0],
+        high: priceArray[1],
+        low: priceArray[2],
+        open: priceArray[3],
+        close: priceArray[4],
+        relvolume: priceArray[5],
+        basevolume: priceArray[6],
+        numtrades: priceArray[7]
+      }))
+      .map(lgPrice => ({
+        date: parseDate(String(lgPrice.timestamp)),
+        open: lgPrice.open,
+        high: lgPrice.high,
+        low: lgPrice.low,
+        close: lgPrice.close,
+        volume: lgPrice.basevolume // I guess? or ( sum base rel / 2 )?
+      }));
 
-    // return this.props.data ? <ReactStockChart data={chartData}> : <p>Loading...</p>
+    return <Chart data={chartData} />;
 
-    return <ReactHighstock ref="chart" config={config} />;
+    // {
+    //   /* return <ReactHighstock ref="chart" config={config} />; */
+    // }
   }
 }
