@@ -9,18 +9,23 @@ export type GetLuxgatePriceArrayParams = {
   scale: number
 };
 
-export const getLuxgatePriceArray = (
-  { password, base, rel, scale }: GetLuxgatePriceArrayParams
-): Promise<string> => (
-  request({
-    hostname: LUXGATE_API_HOST,
-    method: 'POST',
-    port: LUXGATE_API_PORT,
-  }, {
-    method: 'listtrades',
-    password: password,
-    base: base,
-    rel: rel,
-    scale: scale
-  })
-);
+export const getLuxgatePriceArray = ({
+  password,
+  base,
+  rel,
+  scale
+}: GetLuxgatePriceArrayParams): Promise<string> =>
+  request(
+    {
+      hostname: LUXGATE_API_HOST,
+      method: 'POST',
+      port: LUXGATE_API_PORT
+    },
+    {
+      method: 'listtrades',
+      password,
+      base,
+      rel,
+      scale
+    }
+  );

@@ -20,17 +20,17 @@ const messages = defineMessages({
     id: 'api.errors.WalletAlreadyRestoredError',
     defaultMessage: '!!!Wallet you are trying to restore already exists.',
     description: '"Wallet you are trying to restore already exists." error message.'
-  },
+  }
 });
 
 export const ELECTRUM_PORT = 50001;
-export const ELECTRUM_ADDRESS = "45.76.144.46";
+export const ELECTRUM_ADDRESS = '45.76.144.46';
 
 export class GenericApiError extends LocalizableError {
   constructor() {
     super({
       id: messages.genericApiError.id,
-      defaultMessage: messages.genericApiError.defaultMessage,
+      defaultMessage: messages.genericApiError.defaultMessage
     });
   }
 }
@@ -39,7 +39,7 @@ export class IncorrectWalletPasswordError extends LocalizableError {
   constructor() {
     super({
       id: messages.incorrectWalletPasswordError.id,
-      defaultMessage: messages.incorrectWalletPasswordError.defaultMessage,
+      defaultMessage: messages.incorrectWalletPasswordError.defaultMessage
     });
   }
 }
@@ -48,7 +48,7 @@ export class WalletAlreadyRestoredError extends LocalizableError {
   constructor() {
     super({
       id: messages.walletAlreadyRestoredError.id,
-      defaultMessage: messages.walletAlreadyRestoredError.defaultMessage,
+      defaultMessage: messages.walletAlreadyRestoredError.defaultMessage
     });
   }
 }
@@ -179,10 +179,10 @@ export type StopMasternodeResponse = {
 
 export type StopManyMasternodeResponse = Array<StopMasternodeResponse>;
 
-//////////////////////////////////////////////////////////////////////////////
-//Luxgate type
+// ////////////////////////////////////////////////////////////////////////////
+// Luxgate type
 
-export type GetCoinInfoResponse = CoinInfo
+export type GetCoinInfoResponse = CoinInfo;
 export type GetCoinBalanceResponse = number;
 export type SendCoinResponse = boolean;
 export type SwapCoinResponse = boolean;
@@ -194,7 +194,3 @@ export type GetAccountNewPhraseResponse = Array<string>;
 export type GetPasswordInfoResponse = string;
 export type SetCoinSettingResponse = string;
 export type GetCoinPriceResponse = number;
-
-
-
-

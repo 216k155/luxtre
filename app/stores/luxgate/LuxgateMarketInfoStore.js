@@ -3,6 +3,7 @@ import { observable, computed, action, runInAction } from 'mobx';
 import BigNumber from 'bignumber.js';
 import Store from '../lib/Store';
 import LGOrders from '../../domain/LGOrders';
+import LGPriceArray, { LGPrice } from '../../domain/LGPriceArray';
 import Request from '.././lib/LocalizedRequest';
 
 import type {
@@ -14,27 +15,36 @@ import type {
 
 export default class LuxgateMarketInfoStore extends Store {
   LGORDERS_REFRESH_INTERVAL = 10000;
+  LGPRICEARRAY_REFRESH_INTERVAL = 10000;
 
   // REQUESTS
   @observable
   getLGOrdersRequest: Request<GetLGOrdersResponse> = new Request(this.api.luxgate.getLGOrders);
   @observable
   getCoinPriceRequest: Request<GetCoinPriceResponse> = new Request(this.api.luxgate.getCoinPrice);
+  @observable
+  getLGPriceArrayRequest: Request<GetLGPriceArrayResponse> = new Request(
+    this.api.luxgate.getLGPriceArray
+  );
 
   @observable LGOrdersData: Array<LGOrders> = [];
   @observable lstLGTransactions: Array<LGTransactions> = [];
   @observable lstLGTradeArray: Array<LGTradeArray> = [];
-  @observable lstLGPriceArray: Array<LGPriceArray> = [];
+  @observable lstLGPriceArray: Array<LGPrice> = [];
   @observable coinPrice: number = 0;
 
   setup() {
     super.setup();
 
+    // TODO: Uncomment out polling actions
     // setInterval(this._pollRefresh, this.LGORDERS_REFRESH_INTERVAL);
+    // setInterval(this._pollRefresh, this.LGPRICEARRAY_REFRESH_INTERVAL);
 
     const { router, luxgate } = this.actions;
     const { marketInfo } = luxgate;
+    // TODO: Uncomment out listeners
     //  marketInfo.getLGOrders.listen(this._getLGOrders);
+    //  marketInfo.getLGPriceArray.listen(this._getLGPriceArray);
   }
 
   @action
@@ -61,6 +71,33 @@ export default class LuxgateMarketInfoStore extends Store {
   };
 
   @action
+  refreshLGPriceArrayData = async () => {
+    if (this.stores.networkStatus.isConnected && this.stores.networkStatus.isSynced) {
+      const password = this.stores.luxgate.loginInfo.password;
+      if (password == '') return;
+
+      const swap_coin1 = this.stores.luxgate.coinInfo.swap_coin1;
+      const swap_coin2 = this.stores.luxgate.coinInfo.swap_coin2;
+
+      if (swap_coin1 != '' && swap_coin2 !== '') {
+        const info: GetLGPriceArrayResponse = await this.getLGPriceArrayRequest.execute(
+          password,
+          swap_coin1, // base revs / revenue?
+          swap_coin2, // rel
+          120 // timescale 120?
+        ).promise;
+        if (info !== '') {
+          const objInfo = JSON.parse(info);
+          // Assumption response comes in a string, { trades: Array<LGPrice> }
+          this._addLGPriceArray(new LGPriceArray({ prices: objInfo.trades }));
+        }
+
+        this.getLGPriceArrayRequest.reset();
+      }
+    }
+  };
+
+  @action
   replaceOrderData(info) {
     this.LGOrdersData.bids = info.bids;
     this.LGOrdersData.numbids = info.numbids;
@@ -77,6 +114,7 @@ export default class LuxgateMarketInfoStore extends Store {
     if (!this.stores.sidebar.isShowingLuxtre) {
       await this.refreshCoinPrice();
       await this.refreshLGOrdersData();
+      await this.refreshLGPriceArrayData();
     }
   };
 
@@ -134,12 +172,12 @@ export default class LuxgateMarketInfoStore extends Store {
   @action
   _addLGPriceArray = (info: LGPriceArray) => {
     for (let i = 0; i < this.lstLGPriceArray.length; i++) {
-      if (this.lstLGPriceArray[i].coin === info.coin) {
-        this.lstLGPriceArray[i] = info;
+      if (this.lstLGPriceArray[i] === info.prices[i]) {
+        this.lstLGPriceArray[i] = info.prices[i];
         return;
       }
     }
-    this.lstLGPriceArray.push(info);
+    this.lstLGPriceArray.concat(info.prices);
   };
 
   @action
@@ -148,7 +186,7 @@ export default class LuxgateMarketInfoStore extends Store {
   };
 
   @computed
-  get lgPriceArrayList(): Array<LGPriceArray> {
+  get lgPriceArrayList(): Array<LGPrice> {
     return this.lstLGPriceArray;
   }
 
