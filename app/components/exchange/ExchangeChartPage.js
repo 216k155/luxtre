@@ -1,7 +1,11 @@
 // @flow
+
+// https://codesandbox.io/s/github/rrag/react-stockcharts-examples2/tree/master/examples/CandleStickChartWithUpdatingData
+
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import data from './chartdata';
+import { timeParse } from 'd3-time-format';
 
 import type { LGPrice } from '../../domain/LGPriceArray';
 
@@ -230,6 +234,23 @@ export default class ExchangeChartPage extends Component<Props> {
         }
       }
     };
+    // d.date = parse(d.date);
+    // d.open = +d.open;
+    // d.high = +d.high;
+    // d.low = +d.low;
+    // d.close = +d.close;
+    // d.volume = +d.volume;
+    const parseDate = timeParse('%Y-%m-%d');
+    const chartData = this.props.data.map(lgPrice => ({
+      date: parseDate(String(lgPrice.timestamp)),
+      open: lgPrice.open,
+      high: lgPrice.high,
+      low: lgPrice.low,
+      close: lgPrice.close,
+      volume: lgPrice.basevolume // I guess? or ( sum base rel / 2 )?
+    }));
+
+    // return this.props.data ? <ReactStockChart data={chartData}> : <p>Loading...</p>
 
     return <ReactHighstock ref="chart" config={config} />;
   }
