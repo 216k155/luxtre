@@ -3,7 +3,7 @@ import { observable, computed, action, runInAction } from 'mobx';
 import BigNumber from 'bignumber.js';
 import Store from '../lib/Store';
 import LGOrders from '../../domain/LGOrders';
-import LGPriceArray, { LGPrice } from '../../domain/LGPriceArray';
+import LGPriceArray from '../../domain/LGPriceArray';
 import Request from '.././lib/LocalizedRequest';
 
 import type {
@@ -12,6 +12,8 @@ import type {
   GetCoinPriceResponse,
   GetLGPriceArrayResponse
 } from '../../api/common';
+
+import type { LGPrice } from '../../domain/LGPriceArray';
 
 export default class LuxgateMarketInfoStore extends Store {
   LGORDERS_REFRESH_INTERVAL = 10000;
